@@ -2,7 +2,7 @@
 
 namespace Aptacode.Geometry.Collision
 {
-    public class CoarseCollisionDetector : ICollisionDetector
+    public class CoarseCollisionDetector : CollisionDetector
     {
         public static bool CoarseCollision(Primitive p1, Primitive p2)
         {
@@ -16,37 +16,37 @@ namespace Aptacode.Geometry.Collision
 
         #region Point
 
-        public bool CollidesWith(Point p1, Point p2) => p1 == p2;
-        public bool CollidesWith(Point p1, PolyLine p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(Point p1, Polygon p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(Point p1, Circle p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Point p1, Point p2) => p1 == p2;
+        public override bool CollidesWith(Point p1, PolyLine p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Point p1, Polygon p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Point p1, Circle p2) => CoarseCollision(p1, p2);
 
         #endregion
 
         #region PolyLine
 
-        public bool CollidesWith(PolyLine p1, Point p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(PolyLine p1, PolyLine p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(PolyLine p1, Polygon p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(PolyLine p1, Circle p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(PolyLine p1, Point p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(PolyLine p1, PolyLine p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(PolyLine p1, Polygon p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(PolyLine p1, Circle p2) => CoarseCollision(p1, p2);
 
         #endregion
 
         #region Polygon
 
-        public bool CollidesWith(Polygon p1, Point p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(Polygon p1, PolyLine p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(Polygon p1, Polygon p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(Polygon p1, Circle p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Polygon p1, Point p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Polygon p1, PolyLine p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Polygon p1, Polygon p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Polygon p1, Circle p2) => CoarseCollision(p1, p2);
 
         #endregion
 
         #region Circle
 
-        public bool CollidesWith(Circle p1, Point p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(Circle p1, PolyLine p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(Circle p1, Polygon p2) => CoarseCollision(p1, p2);
-        public bool CollidesWith(Circle p1, Circle p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Circle p1, Point p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Circle p1, PolyLine p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Circle p1, Polygon p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Circle p1, Circle p2) => CoarseCollision(p1, p2);
 
         #endregion
     }

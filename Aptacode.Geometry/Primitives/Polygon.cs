@@ -38,11 +38,14 @@ namespace Aptacode.Geometry.Primitives
         #endregion
 
         #region Collision Detection
-
-        public override bool CollidesWith(Point p, ICollisionDetector detector) => detector.CollidesWith(p, this);
-        public override bool CollidesWith(Polygon p, ICollisionDetector detector) => detector.CollidesWith(p, this);
-        public override bool CollidesWith(PolyLine p, ICollisionDetector detector) => detector.CollidesWith(p, this);
-        public override bool CollidesWith(Circle p, ICollisionDetector detector) => detector.CollidesWith(p, this);
+        public override bool CollidesWith(Primitive p, CollisionDetector detector)
+        {
+            return detector.CollidesWith(this, p);
+        }
+        public override bool CollidesWith(Point p, CollisionDetector detector) => detector.CollidesWith(p, this);
+        public override bool CollidesWith(Polygon p, CollisionDetector detector) => detector.CollidesWith(p, this);
+        public override bool CollidesWith(PolyLine p, CollisionDetector detector) => detector.CollidesWith(p, this);
+        public override bool CollidesWith(Circle p, CollisionDetector detector) => detector.CollidesWith(p, this);
 
 
         public (Vector2 p1, Vector2 p2) FurthestPoints()
