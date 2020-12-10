@@ -59,12 +59,14 @@ namespace Aptacode.Geometry.Primitives
                     var p = Vertices[i];
                     var q = Vertices[i];
                     var length = (p - q).Length();
-                    if (length > maxDistance)
+                    if (!(length > maxDistance))
                     {
-                        maxDistance = length;
-                        p1 = p;
-                        p2 = q;
+                        continue;
                     }
+
+                    maxDistance = length;
+                    p1 = p;
+                    p2 = q;
                 }
             }
 
