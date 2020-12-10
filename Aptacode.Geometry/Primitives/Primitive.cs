@@ -7,7 +7,7 @@ namespace Aptacode.Geometry.Primitives
     {
         #region Properties
 
-        public readonly Vector2[] Vertices;
+        public Vector2[] Vertices;
 
         #endregion
 
