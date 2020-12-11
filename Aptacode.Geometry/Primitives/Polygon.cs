@@ -57,10 +57,10 @@ namespace Aptacode.Geometry.Primitives
             var p2 = Vector2.Zero;
             for (var i = 0; i < Vertices.Length - 1; i++)
             {
-                for (var j = i + 1; j < Vertices.Length - 1; j++)
+                for (var j = i + 1; j < Vertices.Length; j++)
                 {
                     var p = Vertices[i];
-                    var q = Vertices[i];
+                    var q = Vertices[j];
                     var length = (p - q).Length();
                     if (length > maxDistance)
                     {
