@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
+using Aptacode.Geometry.Primitives.Polygons;
 using Xunit;
 
 namespace Aptacode.Geometry.Tests
@@ -11,7 +12,7 @@ namespace Aptacode.Geometry.Tests
     public class UnitTests
     {
 
-        private readonly CollisionDetector collisionDetector = new CoarseCollisionDetector();
+        private readonly CollisionDetector _collisionDetector = new CoarseCollisionDetector();
 
         [Fact]
         public void PointAndPoint_CoarseCollision_Test()
@@ -20,7 +21,7 @@ namespace Aptacode.Geometry.Tests
             var p1 = new Point(new Vector2(1, 1));
             var p2 = new Point(new Vector2(1, 1));
             //Act
-            var sut = p1.CollidesWith(p2, collisionDetector);
+            var sut = p1.CollidesWith(p2, _collisionDetector);
             //Assert
             Assert.True(sut);
         }
@@ -32,7 +33,7 @@ namespace Aptacode.Geometry.Tests
             var point = new Point(new Vector2(2, 2));
             var polyLine = PolyLine.Create(new Vector2(0, 2), new Vector2(4, 2));
             //Act
-            var sut = point.CollidesWith(polyLine, collisionDetector);
+            var sut = point.CollidesWith(polyLine, _collisionDetector);
             //Assert
             Assert.True(sut);
         }
@@ -42,9 +43,9 @@ namespace Aptacode.Geometry.Tests
         {
             //Arrange
             var point = new Point(new Vector2(2, 2));
-            var poly = Polygon.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(0, 4));
+            var poly = new Triangle(new Vector2(0, 0), new Vector2(2, 4), new Vector2(0, 4));
             //Act
-            var sut = point.CollidesWith(poly, collisionDetector);
+            var sut = point.CollidesWith(poly, _collisionDetector);
             //Assert
             Assert.True(sut);
         }
@@ -56,7 +57,7 @@ namespace Aptacode.Geometry.Tests
             var point = new Point(new Vector2(4, 4));
             var circle = new Circle(new Vector2(5, 5), 3);
             //Act
-            var sut = point.CollidesWith(circle, collisionDetector);
+            var sut = point.CollidesWith(circle, _collisionDetector);
             //Assert
             Assert.True(sut);
         }
@@ -68,7 +69,7 @@ namespace Aptacode.Geometry.Tests
             var polyLine = PolyLine.Create(new Vector2(0, 2), new Vector2(4, 2));
             var point = new Point(new Vector2(2, 1));
             //Act
-            var sut = polyLine.CollidesWith(point, collisionDetector); //These primitives do not actually collide, just their bounding circles
+            var sut = polyLine.CollidesWith(point, _collisionDetector); //These primitives do not actually collide, just their bounding circles
             //Assert
             Assert.True(sut);
         }        
@@ -80,7 +81,7 @@ namespace Aptacode.Geometry.Tests
             var polyLine1 = PolyLine.Create(new Vector2(0, 2), new Vector2(4, 2));
             var polyLine2 = PolyLine.Create(new Vector2(0, 3), new Vector2(4, 3));
             //Act
-            var sut = polyLine1.CollidesWith(polyLine2, collisionDetector); //These primitives do not actually collide, just their bounding circles
+            var sut = polyLine1.CollidesWith(polyLine2, _collisionDetector); //These primitives do not actually collide, just their bounding circles
             //Assert
             Assert.True(sut);
         }
@@ -90,9 +91,9 @@ namespace Aptacode.Geometry.Tests
         {
             //Arrange
             var polyLine = PolyLine.Create(new Vector2(0, 5), new Vector2(4, 5));
-            var polygon = Polygon.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(0, 4));
+            var polygon = Triangle.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(0, 4));
             //Act
-            var sut = polyLine.CollidesWith(polygon, collisionDetector); //These primitives do not actually collide, just their bounding circles
+            var sut = polyLine.CollidesWith(polygon, _collisionDetector); //These primitives do not actually collide, just their bounding circles
             //Assert
             Assert.True(sut);
         }
@@ -104,7 +105,7 @@ namespace Aptacode.Geometry.Tests
             var polyLine = PolyLine.Create(new Vector2(0, 5), new Vector2(4, 5));
             var circle = new Circle(new Vector2(2, 2), 2);
             //Act
-            var sut = polyLine.CollidesWith(circle, collisionDetector); //These primitives do not actually collide, just their bounding circles
+            var sut = polyLine.CollidesWith(circle, _collisionDetector); //These primitives do not actually collide, just their bounding circles
             //Assert
             Assert.True(sut);
         }
@@ -113,10 +114,10 @@ namespace Aptacode.Geometry.Tests
         public void PolygonAndPoint_CoarseCollision_Test()
         {
             //Arrange
-            var polygon = Polygon.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(4, 0));
+            var polygon = Triangle.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(4, 0));
             var point = new Point(new Vector2(4, 0));
             //Act
-            var sut = polygon.CollidesWith(point, collisionDetector);
+            var sut = polygon.CollidesWith(point, _collisionDetector);
             //Assert
             Assert.True(sut);
         }

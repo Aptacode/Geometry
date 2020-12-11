@@ -5,7 +5,7 @@ using Aptacode.Geometry.Collision;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public class Polygon : Primitive
+    public abstract class Polygon : Primitive
     {
         #region Properties
 
@@ -20,19 +20,6 @@ namespace Aptacode.Geometry.Primitives
 
         #region Construction
 
-        public static Polygon Create(Vector2 p1, Vector2 p2, Vector2 p3, params Vector2[] points)
-        {
-            var allPoints = new List<Vector2>
-            {
-                p1, p2, p3
-            };
-
-            allPoints.AddRange(points);
-
-            return new Polygon(allPoints.ToArray());
-        }
-
-
         protected Polygon(params Vector2[] points) : base(points) { }
 
         #endregion
@@ -42,6 +29,7 @@ namespace Aptacode.Geometry.Primitives
         {
             return detector.CollidesWith(this, p);
         }
+
         public override bool CollidesWith(Point p, CollisionDetector detector) => detector.CollidesWith(p, this);
         public override bool CollidesWith(Polygon p, CollisionDetector detector) => detector.CollidesWith(p, this);
         public override bool CollidesWith(PolyLine p, CollisionDetector detector) => detector.CollidesWith(p, this);
@@ -72,19 +60,6 @@ namespace Aptacode.Geometry.Primitives
             }
 
             return (p1, p2);
-        }
-
-        public override Vector2 GetCenter()
-        {
-            var (p1, p2) = FurthestPoints();
-            return (p1 + p2) * 0.5f;
-        }
-
-        public override float GetRadius()
-        {
-            var (p1, p2) = FurthestPoints();
-
-            return (p1 - p2).Length() / 2.0f;
         }
 
         #endregion

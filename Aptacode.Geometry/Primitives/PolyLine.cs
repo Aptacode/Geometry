@@ -31,11 +31,22 @@ namespace Aptacode.Geometry.Primitives
         }
 
 
-        protected PolyLine(params Vector2[] points) : base(points) { }
+        protected PolyLine(params Vector2[] points) : base(points)
+        {
+            UpdateBoundingCircle();
+        }
 
         #endregion
 
         #region Collision Detection
+
+        public sealed override void UpdateBoundingCircle()
+        {
+            var (p1, p2) = FurthestPoints();
+            Center = (p1 + p2) * 0.5f;
+            Radius =  (p1 - p2).Length() / 2.0f;
+        }
+
         public override bool CollidesWith(Primitive p, CollisionDetector detector)
         {
             return detector.CollidesWith(this, p);
@@ -71,19 +82,6 @@ namespace Aptacode.Geometry.Primitives
             }
 
             return (p1, p2);
-        }
-
-        public override Vector2 GetCenter()
-        {
-            var (p1, p2) = FurthestPoints();
-            return (p1 + p2) * 0.5f;
-        }
-
-        public override float GetRadius()
-        {
-            var (p1, p2) = FurthestPoints();
-
-            return (p1 - p2).Length() / 2.0f;
         }
 
         #endregion

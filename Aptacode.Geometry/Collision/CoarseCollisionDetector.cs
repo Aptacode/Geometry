@@ -6,10 +6,10 @@ namespace Aptacode.Geometry.Collision
     {
         public static bool CoarseCollision(Primitive p1, Primitive p2)
         {
-            var p1Center = p1.GetCenter();
-            var p1Radius = p1.GetRadius();
-            var p2Center = p2.GetCenter();
-            var p2Radius = p2.GetRadius();
+            var p1Center = p1.Center;
+            var p1Radius = p1.Radius;
+            var p2Center = p2.Center;
+            var p2Radius = p2.Radius;
 
             return (p1Center - p2Center).Length() <= p1Radius + p2Radius;
         }

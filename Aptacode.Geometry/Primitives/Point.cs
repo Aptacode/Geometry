@@ -22,6 +22,13 @@ namespace Aptacode.Geometry.Primitives
         #endregion
 
         #region Collision Detection
+
+        public override void UpdateBoundingCircle()
+        {
+            Center = Position;
+            Radius = 0.0f;
+        }
+
         public override bool CollidesWith(Primitive p, CollisionDetector detector)
         {
             return detector.CollidesWith(this, p);
@@ -30,10 +37,6 @@ namespace Aptacode.Geometry.Primitives
         public override bool CollidesWith(Polygon p, CollisionDetector detector) => detector.CollidesWith(p, this);
         public override bool CollidesWith(PolyLine p, CollisionDetector detector) => detector.CollidesWith(p, this);
         public override bool CollidesWith(Circle p, CollisionDetector detector) => detector.CollidesWith(p, this);
-
-        public override Vector2 GetCenter() => Position;
-
-        public override float GetRadius() => 0.0f;
 
         #endregion
 

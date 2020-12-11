@@ -9,7 +9,8 @@ namespace Aptacode.Geometry.Primitives
 
         public Circle(Vector2 position, float radius) : base(position)
         {
-            Radius = radius;
+            _radius = radius;
+            UpdateBoundingCircle();
         }
 
         #endregion
@@ -22,7 +23,13 @@ namespace Aptacode.Geometry.Primitives
             set => Vertices[0] = value;
         }
 
-        public float Radius { get; set; }
+
+        public sealed override void UpdateBoundingCircle()
+        {
+            Radius = _radius;
+        }
+
+        private float _radius;
 
         #endregion
 
@@ -36,8 +43,7 @@ namespace Aptacode.Geometry.Primitives
         public override bool CollidesWith(PolyLine p, CollisionDetector detector) => detector.CollidesWith(p, this);
         public override bool CollidesWith(Circle p, CollisionDetector detector) => detector.CollidesWith(p, this);
 
-        public override Vector2 GetCenter() => Position;
-        public override float GetRadius() => Radius;
+
 
         #endregion
 
