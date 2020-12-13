@@ -42,9 +42,9 @@ namespace Aptacode.Geometry.Primitives
 
         public sealed override void UpdateBoundingCircle()
         {
-            var (p1, p2) = FurthestPoints();
-            Center = (p1 + p2) * 0.5f;
-            Radius =  (p1 - p2).Length() / 2.0f;
+            var boundingCircle = BoundingCircleAlgorithm.MinimumBoundingCircle(this);
+            Center = boundingCircle.Position;
+            Radius = boundingCircle.Radius;
         }
 
         public override bool CollidesWith(Primitive p, CollisionDetector detector)
