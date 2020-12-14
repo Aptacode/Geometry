@@ -9,7 +9,7 @@ namespace Aptacode.Geometry.Primitives
 
         public Circle(Vector2 position, float radius) : base(position)
         {
-            _radius = radius;
+            Radius = radius;
             UpdateBoundingCircle();
         }
 
@@ -23,14 +23,7 @@ namespace Aptacode.Geometry.Primitives
             set => Vertices[0] = value;
         }
 
-
-        public sealed override void UpdateBoundingCircle()
-        {
-            Center = Position;
-            Radius = _radius;
-        }
-
-        private readonly float _radius;
+        public float Radius { get; set; }
 
         #endregion
 

@@ -15,7 +15,7 @@ namespace Aptacode.Geometry.Tests
             //Act
             var sut = BoundingCircleAlgorithm.MinimumBoundingCircle(poly);
             //Assert
-            Assert.Equal(new Vector2(3, 3), sut.Position);
+            Assert.Equal(new Vector2(3, 3), sut.Center);
         }
 
         [Fact]
@@ -27,20 +27,34 @@ namespace Aptacode.Geometry.Tests
             //Act
             var sut = BoundingCircleAlgorithm.MinimumBoundingCircle(poly);
             //Assert
-            Assert.Equal(new Vector2(2, 2), sut.Position);
+            Assert.Equal(new Vector2(2, 2), sut.Center);
         }
 
         [Fact]
         public void CircleFromThreePoints_Test()
         {
             //Arrange
-            var point1 = new Vector2(3, 9);
-            var point2 = new Vector2(15, 9);
+            var point1 = new Vector2(0, 0);
+            var point2 = new Vector2(3, 0);
+            var point3 = new Vector2(3, 3);
+            //Act
+            var sut = BoundingCircle.FromThreePoints(point1, point2, point3);
+            //Assert
+            Assert.Equal(new Vector2(1.5f, 1.5f), sut.Center);
+            //Assert.Equal(9.03f, sut.Radius);
+        }
+
+        [Fact]
+        public void CircleFromThreePoints_Test2()
+        {
+            //Arrange
+            var point1 = new Vector2(-6, 3);
+            var point2 = new Vector2(-3, 2);
             var point3 = new Vector2(0, 3);
             //Act
-            var sut = BoundingCircleAlgorithm.CreateCircleFromThreePoints(point1, point2, point3);
+            var sut = BoundingCircle.FromThreePoints(point1, point2, point3);
             //Assert
-            Assert.Equal(new Vector2(9, 2.25f), sut.Position);
+            Assert.Equal(new Vector2(-3f, 3f), sut.Center);
             //Assert.Equal(9.03f, sut.Radius);
         }
     }

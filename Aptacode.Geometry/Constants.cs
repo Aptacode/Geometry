@@ -2,6 +2,6 @@
 {
     public static class Constants
     {
-        public static readonly float Tolerance = float.MinValue;
+        public static readonly float Tolerance = 0.00001f;
     }
 }

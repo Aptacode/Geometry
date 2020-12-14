@@ -1,4 +1,5 @@
-﻿using Aptacode.Geometry.Primitives;
+﻿using System;
+using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
 {
@@ -6,10 +7,10 @@ namespace Aptacode.Geometry.Collision
     {
         public static bool CoarseCollision(Primitive p1, Primitive p2)
         {
-            var p1Center = p1.Center;
-            var p1Radius = p1.Radius;
-            var p2Center = p2.Center;
-            var p2Radius = p2.Radius;
+            var p1Center = p1.BoundingCircle.Center;
+            var p1Radius = p1.BoundingCircle.Radius;
+            var p2Center = p2.BoundingCircle.Center;
+            var p2Radius = p2.BoundingCircle.Radius;
 
             return (p1Center - p2Center).Length() <= p1Radius + p2Radius;
         }
@@ -17,7 +18,7 @@ namespace Aptacode.Geometry.Collision
         #region Point
 
         public override bool CollidesWith(Point p1, Point p2) =>
-            p1.Position.X == p2.Position.X && p1.Position.Y == p2.Position.Y;
+            Math.Abs(p1.Position.X - p2.Position.X) < Constants.Tolerance && Math.Abs(p1.Position.Y - p2.Position.Y) < Constants.Tolerance;
 
         public override bool CollidesWith(Point p1, PolyLine p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(Point p1, Polygon p2) => CoarseCollision(p1, p2);

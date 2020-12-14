@@ -15,7 +15,7 @@ namespace Aptacode.Geometry.Primitives.Polygons
         public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomLeft, Vector2 bottomRight) : base(topLeft,
             topRight, bottomLeft, bottomRight)
         {
-            UpdateBoundingCircle();
+
         }
 
         #endregion
@@ -29,10 +29,6 @@ namespace Aptacode.Geometry.Primitives.Polygons
 
         public Vector2 Position => Vertices[0];
         public Vector2 Size => Vertices[2] - Vertices[0];
-
-        #endregion
-
-        #region Collision Detection
 
         #endregion
     }

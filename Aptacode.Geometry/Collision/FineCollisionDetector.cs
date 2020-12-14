@@ -13,10 +13,12 @@ namespace Aptacode.Geometry.Collision
         {
             foreach (var (v1, v2) in p2.LineSegments())
             {
-                if (Helpers.OnLineSegment((v1, v2), p1.Position))
+                if (!Helpers.OnLineSegment((v1, v2), p1.Position))
                 {
-                    return true;
+                    continue;
                 }
+
+                return true;
             }
 
             return false;
@@ -40,7 +42,7 @@ namespace Aptacode.Geometry.Collision
             return collision;
         }
 
-        public override bool CollidesWith(Point p1, Circle p2) => BoundingCircleAlgorithm.IsInside(p2, p1.Position);
+        public override bool CollidesWith(Point p1, Circle p2) =>  p2.BoundingCircle.Contains(p1.Position);
 
         #endregion
 
@@ -70,13 +72,13 @@ namespace Aptacode.Geometry.Collision
 
         #region Circle
 
-        public override bool CollidesWith(Circle p1, Point p2) => BoundingCircleAlgorithm.IsInside(p1, p2.Position);
+        public override bool CollidesWith(Circle p1, Point p2) => p1.BoundingCircle.Contains(p2.Position);
 
         public override bool CollidesWith(Circle p1, PolyLine p2)
         {
             foreach (var (v1, v2) in p2.LineSegments())
             {
-                if (BoundingCircleAlgorithm.IsInside(p1, v1) || BoundingCircleAlgorithm.IsInside(p1, v2))
+                if (p1.BoundingCircle.Contains(v1) || p1.BoundingCircle.Contains(v2))
                 {
                     return true;
                 }
@@ -94,7 +96,7 @@ namespace Aptacode.Geometry.Collision
                     return false;
                 }
 
-                if (BoundingCircleAlgorithm.IsInside(p1, closestPoint)
+                if (p1.BoundingCircle.Contains(closestPoint)
                 ) //Closest intersection point is inside the circle means circle intersects the line.
                 {
                     return true;
@@ -108,7 +110,7 @@ namespace Aptacode.Geometry.Collision
         {
             foreach (var (v1, v2) in p2.Edges())
             {
-                if (BoundingCircleAlgorithm.IsInside(p1, v1) || BoundingCircleAlgorithm.IsInside(p1, v2))
+                if (p1.BoundingCircle.Contains(v1) || p1.BoundingCircle.Contains(v2))
                 {
                     return true;
                 }
@@ -126,7 +128,7 @@ namespace Aptacode.Geometry.Collision
                     return false;
                 }
 
-                if (BoundingCircleAlgorithm.IsInside(p1, closestPoint)
+                if (p1.BoundingCircle.Contains(closestPoint)
                 ) //Closest intersection point is inside the circle means circle intersects the edge.
                 {
                     return true;
@@ -138,13 +140,8 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Circle p1, Circle p2)
         {
-            var d = (p2.Center - p1.Center).Length();
-            if (d < p1.Radius + p2.Radius)
-            {
-                return true;
-            }
-
-            return false;
+            var d = (p2.Position - p1.Position).Length();
+            return d < p1.Radius + p2.Radius;
         }
 
         #endregion

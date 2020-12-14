@@ -16,16 +16,19 @@ namespace Aptacode.Geometry.Primitives
         protected Primitive(params Vector2[] vertices)
         {
             Vertices = vertices;
+            UpdateBoundingCircle();
         }
 
         #endregion
 
         #region Collision Detection
 
-        public abstract void UpdateBoundingCircle();
+        public virtual void UpdateBoundingCircle()
+        {
+            BoundingCircle = this.MinimumBoundingCircle();
+        }
 
-        public Vector2 Center { get; protected set; }
-        public float Radius { get; protected set; }
+        public BoundingCircle BoundingCircle { get; protected set; }
 
         public virtual bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
 
@@ -45,7 +48,7 @@ namespace Aptacode.Geometry.Primitives
                 Vertices[i] += delta;
             }
 
-            UpdateBoundingCircle();
+            BoundingCircle = BoundingCircle.Translate(delta);
         }
 
         public abstract void Rotate(Vector2 delta);
