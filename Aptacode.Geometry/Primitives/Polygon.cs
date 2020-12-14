@@ -12,9 +12,7 @@ namespace Aptacode.Geometry.Primitives
         protected Polygon(Vector2 p1, Vector2 p2, Vector2 p3, params Vector2[] points) : base(new Vector2[3]
         {
             p1, p2, p3
-        }.Concat(points).ToArray()) {
-
-        }
+        }.Concat(points).ToArray()) { }
 
         #endregion
 

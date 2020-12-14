@@ -31,9 +31,7 @@ namespace Aptacode.Geometry.Primitives
         }
 
 
-        protected PolyLine(params Vector2[] points) : base(points)
-        {
-        }
+        protected PolyLine(params Vector2[] points) : base(points) { }
 
         #endregion
 

@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Collision
+namespace Aptacode.Geometry.Collision.Circles
 {
-
     public static class BoundingCircleAlgorithm
     {
         public static BoundingCircle Welzl_Helper(Vector2[] points, List<Vector2> boundarySet, int n)
@@ -17,7 +15,7 @@ namespace Aptacode.Geometry.Collision
                     0 => BoundingCircle.Zero,
                     1 => BoundingCircle.FromOnePoint(boundarySet[0]),
                     2 => BoundingCircle.FromTwoPoints(boundarySet[0], boundarySet[1]),
-                    _ => BoundingCircle.FromThreePoints(boundarySet[0], boundarySet[1], boundarySet[2]),
+                    _ => BoundingCircle.FromThreePoints(boundarySet[0], boundarySet[1], boundarySet[2])
                 };
             }
 
@@ -45,7 +43,7 @@ namespace Aptacode.Geometry.Collision
 
         public static BoundingCircle MinimumBoundingCircle(this Primitive p)
         {
-            if(p is Circle circle)
+            if (p is Circle circle)
             {
                 return new BoundingCircle(circle.Position, circle.Radius);
             }

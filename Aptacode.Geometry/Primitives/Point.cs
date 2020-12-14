@@ -7,10 +7,7 @@ namespace Aptacode.Geometry.Primitives
     {
         #region Construction
 
-        public Point(Vector2 position) : base(position)
-        {
-
-        }
+        public Point(Vector2 position) : base(position) { }
 
         #endregion
 

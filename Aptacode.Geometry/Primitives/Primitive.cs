@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
+using Aptacode.Geometry.Collision.Circles;
 
 namespace Aptacode.Geometry.Primitives
 {

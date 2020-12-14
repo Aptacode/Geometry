@@ -13,10 +13,7 @@ namespace Aptacode.Geometry.Primitives.Polygons
                 new Vector2(position.X, position.Y + size.Y));
 
         public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomLeft, Vector2 bottomRight) : base(topLeft,
-            topRight, bottomLeft, bottomRight)
-        {
-
-        }
+            topRight, bottomLeft, bottomRight) { }
 
         #endregion
 

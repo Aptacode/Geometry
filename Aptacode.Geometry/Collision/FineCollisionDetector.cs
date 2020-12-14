@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
@@ -42,7 +43,7 @@ namespace Aptacode.Geometry.Collision
             return collision;
         }
 
-        public override bool CollidesWith(Point p1, Circle p2) =>  p2.BoundingCircle.Contains(p1.Position);
+        public override bool CollidesWith(Point p1, Circle p2) => p2.BoundingCircle.Contains(p1.Position);
 
         #endregion
 

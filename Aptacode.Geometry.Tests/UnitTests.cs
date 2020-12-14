@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using Aptacode.Geometry.Collision;
+using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Primitives;
 using Xunit;
 
@@ -13,7 +13,7 @@ namespace Aptacode.Geometry.Tests
             //Arrange
             var poly = PolyLine.Create(new Vector2(0, 0), new Vector2(6, 0), new Vector2(6, 6));
             //Act
-            var sut = BoundingCircleAlgorithm.MinimumBoundingCircle(poly);
+            var sut = poly.MinimumBoundingCircle();
             //Assert
             Assert.Equal(new Vector2(3, 3), sut.Center);
         }
@@ -25,7 +25,7 @@ namespace Aptacode.Geometry.Tests
             var poly = PolyLine.Create(new Vector2(3, 0), new Vector2(1, 0), new Vector2(0, 2), new Vector2(1, 4),
                 new Vector2(3, 4), new Vector2(4, 2));
             //Act
-            var sut = BoundingCircleAlgorithm.MinimumBoundingCircle(poly);
+            var sut = poly.MinimumBoundingCircle();
             //Assert
             Assert.Equal(new Vector2(2, 2), sut.Center);
         }
