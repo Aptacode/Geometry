@@ -23,18 +23,18 @@ namespace Aptacode.Geometry.Collision
             {
                 return CreateCircleFromTwoPoints(points[0].Position, points[1].Position);
             }
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    for (int j = 0; j < 3; j++)
-            //    {
-            //        var c = CreateCircleFromTwoPoints(points[i].Position, points[j].Position);
-            //        var pointsOutside = points.Where(p => IsInside(c, p) == false);
-            //        if(!pointsOutside.Any())
-            //        {
-            //            return c;
-            //        }
-            //    }
-            //}
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    var c = CreateCircleFromTwoPoints(points[i].Position, points[j].Position);
+                    var pointsOutside = points.Where(p => IsInside(c, p.Position) == false);
+                    if (!pointsOutside.Any())
+                    {
+                        return c;
+                    }
+                }
+            }
             return CreateCircleFromThreePoints(points[0].Position, points[1].Position, points[2].Position);
         }
 
@@ -52,7 +52,7 @@ namespace Aptacode.Geometry.Collision
 
             var d = Welzl_Helper(points.Take(n-1).ToList(), boundarySet, n - 1);
 
-            if (IsInside(d, p))
+            if (IsInside(d, p.Position))
             {
                 return d;
             }
@@ -80,9 +80,9 @@ namespace Aptacode.Geometry.Collision
             return Welzl_Helper(verticesAsPoints, new List<Point>(), verticesAsPoints.Count);
         }
 
-        public static bool IsInside(Circle circle, Point point)
+        public static bool IsInside(Circle circle, Vector2 point)
         {
-            return (point.Position - circle.Position).Length() <= circle.Radius;
+            return (point - circle.Position).Length() <= circle.Radius;
         }
         
         public static Circle CreateCircleFromTwoPoints(Vector2 p1, Vector2 p2)
