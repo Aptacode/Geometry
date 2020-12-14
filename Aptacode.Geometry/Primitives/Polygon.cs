@@ -7,6 +7,12 @@ namespace Aptacode.Geometry.Primitives
 {
     public class Polygon : Primitive
     {
+        #region Construction
+
+        protected Polygon(params Vector2[] points) : base(points) { }
+
+        #endregion
+
         #region Properties
 
         public IEnumerable<(Vector2 p1, Vector2 p2)> Edges()
@@ -15,12 +21,6 @@ namespace Aptacode.Geometry.Primitives
             edges.Add((Vertices.Last(), Vertices[0]));
             return edges;
         }
-
-        #endregion
-
-        #region Construction
-
-        protected Polygon(params Vector2[] points) : base(points) { }
 
         #endregion
 
@@ -33,10 +33,7 @@ namespace Aptacode.Geometry.Primitives
             Radius = boundingCircle.Radius;
         }
 
-        public override bool CollidesWith(Primitive p, CollisionDetector detector)
-        {
-            return detector.CollidesWith(this, p);
-        }
+        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
 
         public override bool CollidesWith(Point p, CollisionDetector detector) => detector.CollidesWith(p, this);
         public override bool CollidesWith(Polygon p, CollisionDetector detector) => detector.CollidesWith(p, this);
