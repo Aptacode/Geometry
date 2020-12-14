@@ -7,7 +7,8 @@ namespace Aptacode.Geometry.Primitives
     {
         #region Construction
 
-        public Point(Vector2 position) : base(position) {
+        public Point(Vector2 position) : base(position)
+        {
             UpdateBoundingCircle();
         }
 
@@ -31,10 +32,8 @@ namespace Aptacode.Geometry.Primitives
             Radius = 0.0f;
         }
 
-        public override bool CollidesWith(Primitive p, CollisionDetector detector)
-        {
-            return detector.CollidesWith(this, p);
-        }
+        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
+
         public override bool CollidesWith(Point p, CollisionDetector detector) => detector.CollidesWith(p, this);
         public override bool CollidesWith(Polygon p, CollisionDetector detector) => detector.CollidesWith(p, this);
         public override bool CollidesWith(PolyLine p, CollisionDetector detector) => detector.CollidesWith(p, this);

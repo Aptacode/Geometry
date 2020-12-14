@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
 namespace Aptacode.Geometry.Collision
 {
     public static class Helpers
     {
-        public static bool OnLineSegment( (Vector2, Vector2) line, Vector2 point)
+        public static bool OnLineSegment((Vector2, Vector2) line, Vector2 point)
         {
             var d1 = (line.Item1 - point).Length();
             var d2 = (line.Item2 - point).Length();
@@ -17,6 +14,7 @@ namespace Aptacode.Geometry.Collision
             {
                 return true;
             }
+
             return false;
         }
     }

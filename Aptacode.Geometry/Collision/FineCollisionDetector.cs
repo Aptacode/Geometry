@@ -1,5 +1,5 @@
-﻿using Aptacode.Geometry.Primitives;
-using System.Numerics;
+﻿using System.Numerics;
+using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
 {
@@ -13,7 +13,7 @@ namespace Aptacode.Geometry.Collision
         {
             foreach (var (v1, v2) in p2.LineSegments())
             {
-                if(Helpers.OnLineSegment((v1, v2), p1.Position))
+                if (Helpers.OnLineSegment((v1, v2), p1.Position))
                 {
                     return true;
                 }
@@ -40,10 +40,7 @@ namespace Aptacode.Geometry.Collision
             return collision;
         }
 
-        public override bool CollidesWith(Point p1, Circle p2)
-        {
-            return BoundingCircleAlgorithm.IsInside(p2, p1.Position);
-        }
+        public override bool CollidesWith(Point p1, Circle p2) => BoundingCircleAlgorithm.IsInside(p2, p1.Position);
 
         #endregion
 
@@ -79,24 +76,31 @@ namespace Aptacode.Geometry.Collision
         {
             foreach (var (v1, v2) in p2.LineSegments())
             {
-                if(BoundingCircleAlgorithm.IsInside(p1, v1) || BoundingCircleAlgorithm.IsInside(p1, v2))
+                if (BoundingCircleAlgorithm.IsInside(p1, v1) || BoundingCircleAlgorithm.IsInside(p1, v2))
                 {
                     return true;
                 }
 
-                var dot = ((p1.Position.X - v1.X) * (v2.X - v1.X) + (p1.Position.Y - v1.Y) * (v2.Y - v1.Y)) / (v2 - v1).LengthSquared();
+                var dot = ((p1.Position.X - v1.X) * (v2.X - v1.X) + (p1.Position.Y - v1.Y) * (v2.Y - v1.Y)) /
+                          (v2 - v1).LengthSquared();
                 var closestX = v1.X + dot * (v2.X - v1.X);
                 var closestY = v1.Y + dot * (v2.Y - v1.Y);
-                var closestPoint = new Vector2(closestX, closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
-                if (!Helpers.OnLineSegment((v1, v2), closestPoint)) //Closest intersection point may be beyond the ends of the line segment.
+                var closestPoint =
+                    new Vector2(closestX,
+                        closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
+                if (!Helpers.OnLineSegment((v1, v2), closestPoint)
+                ) //Closest intersection point may be beyond the ends of the line segment.
                 {
                     return false;
                 }
-                if(BoundingCircleAlgorithm.IsInside(p1, closestPoint)) //Closest intersection point is inside the circle means circle intersects the line.
+
+                if (BoundingCircleAlgorithm.IsInside(p1, closestPoint)
+                ) //Closest intersection point is inside the circle means circle intersects the line.
                 {
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -109,19 +113,26 @@ namespace Aptacode.Geometry.Collision
                     return true;
                 }
 
-                var dot = ((p1.Position.X - v1.X) * (v2.X - v1.X) + (p1.Position.Y - v1.Y) * (v2.Y - v1.Y)) / (v2 - v1).LengthSquared();
+                var dot = ((p1.Position.X - v1.X) * (v2.X - v1.X) + (p1.Position.Y - v1.Y) * (v2.Y - v1.Y)) /
+                          (v2 - v1).LengthSquared();
                 var closestX = v1.X + dot * (v2.X - v1.X);
                 var closestY = v1.Y + dot * (v2.Y - v1.Y);
-                var closestPoint = new Vector2(closestX, closestY); //The point of intersection of a line from the center of the circle perpendicular to the edge (possibly the ray) with the line segment (or ray).
-                if (!Helpers.OnLineSegment((v1, v2), closestPoint)) //Closest intersection point may be beyond the ends of the edge.
+                var closestPoint =
+                    new Vector2(closestX,
+                        closestY); //The point of intersection of a line from the center of the circle perpendicular to the edge (possibly the ray) with the line segment (or ray).
+                if (!Helpers.OnLineSegment((v1, v2), closestPoint)
+                ) //Closest intersection point may be beyond the ends of the edge.
                 {
                     return false;
                 }
-                if (BoundingCircleAlgorithm.IsInside(p1, closestPoint)) //Closest intersection point is inside the circle means circle intersects the edge.
+
+                if (BoundingCircleAlgorithm.IsInside(p1, closestPoint)
+                ) //Closest intersection point is inside the circle means circle intersects the edge.
                 {
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -132,6 +143,7 @@ namespace Aptacode.Geometry.Collision
             {
                 return true;
             }
+
             return false;
         }
 

@@ -5,8 +5,14 @@ using Aptacode.Geometry.Collision;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public class Polygon : Primitive
+    public abstract class Polygon : Primitive
     {
+        #region Construction
+
+        protected Polygon(params Vector2[] points) : base(points) { }
+
+        #endregion
+
         #region Properties
 
         public IEnumerable<(Vector2 p1, Vector2 p2)> Edges()
@@ -18,25 +24,9 @@ namespace Aptacode.Geometry.Primitives
 
         #endregion
 
-        #region Construction
-
-        protected Polygon(params Vector2[] points) : base(points) { }
-
-        #endregion
-
         #region Collision Detection
 
-        public sealed override void UpdateBoundingCircle()
-        {
-            var boundingCircle = BoundingCircleAlgorithm.MinimumBoundingCircle(this);
-            Center = boundingCircle.Position;
-            Radius = boundingCircle.Radius;
-        }
-
-        public override bool CollidesWith(Primitive p, CollisionDetector detector)
-        {
-            return detector.CollidesWith(this, p);
-        }
+        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
 
         public override bool CollidesWith(Point p, CollisionDetector detector) => detector.CollidesWith(p, this);
         public override bool CollidesWith(Polygon p, CollisionDetector detector) => detector.CollidesWith(p, this);
