@@ -27,8 +27,10 @@ namespace Aptacode.Geometry.Primitives
         public Vector2 Center { get; protected set; }
         public float Radius { get; protected set; }
 
-        public virtual bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
-
+        public virtual bool CollidesWith(Primitive p, CollisionDetector detector)
+        {
+            return detector.CollidesWith(this, p);
+        }
         public abstract bool CollidesWith(Point p, CollisionDetector detector);
         public abstract bool CollidesWith(Polygon p, CollisionDetector detector);
         public abstract bool CollidesWith(PolyLine p, CollisionDetector detector);
