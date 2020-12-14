@@ -37,13 +37,6 @@ namespace Aptacode.Geometry.Primitives.Polygons
 
         #region Collision Detection
 
-        public sealed override void UpdateBoundingCircle()
-        {
-            var (p1, p2) = FurthestPoints();
-            Center = (p1 + p2) * 0.5f;
-            Radius = (p1 - p2).Length() / 2.0f;
-        }
-
         #endregion
     }
 }

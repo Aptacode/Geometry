@@ -5,7 +5,7 @@ using Aptacode.Geometry.Collision;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public abstract class Polygon : Primitive
+    public class Polygon : Primitive
     {
         #region Properties
 
@@ -25,6 +25,14 @@ namespace Aptacode.Geometry.Primitives
         #endregion
 
         #region Collision Detection
+
+        public sealed override void UpdateBoundingCircle()
+        {
+            var boundingCircle = BoundingCircleAlgorithm.MinimumBoundingCircle(this);
+            Center = boundingCircle.Position;
+            Radius = boundingCircle.Radius;
+        }
+
         public override bool CollidesWith(Primitive p, CollisionDetector detector)
         {
             return detector.CollidesWith(this, p);

@@ -201,5 +201,16 @@ namespace Aptacode.Geometry.Tests
             //Assert
             Assert.Equal(new Vector2(3, 3), sut.Position);
         }
+
+        [Fact]
+        public void BoundingCircle_Test2()
+        {
+            //Arrange
+            var poly = PolyLine.Create(new Vector2(3, 0), new Vector2(1, 0), new Vector2(0, 2), new Vector2(1, 4), new Vector2(3, 4), new Vector2(4,2));
+            //Act
+            var sut = BoundingCircleAlgorithm.MinimumBoundingCircle(poly);
+            //Assert
+            Assert.Equal(new Vector2(2, 2), sut.Position);
+        }
     }
 }

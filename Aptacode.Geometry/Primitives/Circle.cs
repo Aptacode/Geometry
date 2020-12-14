@@ -26,6 +26,7 @@ namespace Aptacode.Geometry.Primitives
 
         public sealed override void UpdateBoundingCircle()
         {
+            Center = Position;
             Radius = _radius;
         }
 

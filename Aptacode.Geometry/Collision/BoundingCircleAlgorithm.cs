@@ -23,42 +23,49 @@ namespace Aptacode.Geometry.Collision
             {
                 return CreateCircleFromTwoPoints(points[0].Position, points[1].Position);
             }
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    var c = CreateCircleFromTwoPoints(points[i].Position, points[j].Position);
-                    var pointsOutside = points.Where(p => IsInside(c, p) == false);
-                    if(!pointsOutside.Any())
-                    {
-                        return c;
-                    }
-                }
-            }
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    for (int j = 0; j < 3; j++)
+            //    {
+            //        var c = CreateCircleFromTwoPoints(points[i].Position, points[j].Position);
+            //        var pointsOutside = points.Where(p => IsInside(c, p) == false);
+            //        if(!pointsOutside.Any())
+            //        {
+            //            return c;
+            //        }
+            //    }
+            //}
             return CreateCircleFromThreePoints(points[0].Position, points[1].Position, points[2].Position);
         }
 
-        public static Circle Welzl_Helper(List<Point> points, List<Point> boundarySet)
+        public static Circle Welzl_Helper(List<Point> points, List<Point> boundarySet, int n)
         {
-            if(points.Count == 0 || boundarySet.Count == 3)
+            if(n == 0 || boundarySet.Count == 3)
             {
                 return MinimumEnclosingCircleTrivial(boundarySet);
             }
 
-            Random rng = new Random();
-            var pindex = rng.Next(0, points.Count - 1);
-            var p = points.ElementAt(pindex);
-            points.Remove(p);
+            //Random rng = new Random();
+            //var pindex = points.Count - 1;
+            var p = points[n - 1];
+            //points.Remove(p);
 
-            var d = Welzl_Helper(points, boundarySet);
+            var d = Welzl_Helper(points.Take(n-1).ToList(), boundarySet, n - 1);
 
             if (IsInside(d, p))
             {
                 return d;
             }
 
-            boundarySet.Add(p);
-            return Welzl_Helper(points, boundarySet);
+            if(boundarySet.Count < 3)
+            {
+                boundarySet.Add(p);
+            }
+            else
+            {
+                boundarySet = new List<Point>() { p };
+            }
+            return Welzl_Helper(points, boundarySet, n - 1);
 
         }
 
@@ -70,7 +77,7 @@ namespace Aptacode.Geometry.Collision
                 verticesAsPoints.Add(new Point(vertex));
             }
             //Todo Add in randomisation, not very important right now
-            return Welzl_Helper(verticesAsPoints, new List<Point>());
+            return Welzl_Helper(verticesAsPoints, new List<Point>(), verticesAsPoints.Count);
         }
 
         public static bool IsInside(Circle circle, Point point)
@@ -80,7 +87,7 @@ namespace Aptacode.Geometry.Collision
         
         public static Circle CreateCircleFromTwoPoints(Vector2 p1, Vector2 p2)
         {
-            var midpoint = (p2 - p1) / 2;
+            var midpoint = p1 + (p2 - p1) / 2;
             var position = new Vector2(midpoint.X, midpoint.Y);
             var radius = (p2 - p1).Length() / 2;
 
