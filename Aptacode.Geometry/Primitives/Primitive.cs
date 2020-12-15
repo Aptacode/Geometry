@@ -24,12 +24,7 @@ namespace Aptacode.Geometry.Primitives
         public BoundingCircle BoundingCircle { get; protected set; }
 
         public virtual bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
-
-        public abstract bool CollidesWith(Point p, CollisionDetector detector);
-        public abstract bool CollidesWith(Polygon p, CollisionDetector detector);
-        public abstract bool CollidesWith(PolyLine p, CollisionDetector detector);
-        public abstract bool CollidesWith(Circle p, CollisionDetector detector);
-
+        
         #endregion
 
         #region Transformations
