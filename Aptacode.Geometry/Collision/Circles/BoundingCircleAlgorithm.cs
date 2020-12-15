@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
+using Aptacode.Geometry.Primitives.Polygons;
 
 namespace Aptacode.Geometry.Collision.Circles
 {
@@ -44,13 +45,14 @@ namespace Aptacode.Geometry.Collision.Circles
 
         public static BoundingCircle MinimumBoundingCircle(this Primitive p)
         {
-            if (p is Circle circle)
+            return p switch
             {
-                return new BoundingCircle(circle.Position, circle.Radius);
-            }
-
-            //Todo Add in randomisation, not very important right now
-            return Welzl_Helper(p.Vertices, new List<Vector2>(), p.Vertices.Count());
+                Point point => new BoundingCircle(point.Position, 0.0f),
+                Circle circle => new BoundingCircle(circle.Position, circle.Radius),
+                Triangle triangle => BoundingCircle.FromThreePoints(triangle.P1, triangle.P2, triangle.P3),
+                Rectangle rectangle => BoundingCircle.FromTwoPoints(rectangle.TopLeft, rectangle.BottomRight),
+                _ => Welzl_Helper(p.Vertices, new List<Vector2>(), p.Vertices.Count())
+            };
         }
     }
 }

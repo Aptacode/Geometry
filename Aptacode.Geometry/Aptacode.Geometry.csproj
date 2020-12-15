@@ -5,9 +5,9 @@
     <LangVersion>9.0</LangVersion>
     <Authors>Aptacode</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1.14</Version>
-    <AssemblyVersion>1.0.1.14</AssemblyVersion>
-    <FileVersion>1.0.1.14</FileVersion>
+    <Version>1.0.1.15</Version>
+    <AssemblyVersion>1.0.1.15</AssemblyVersion>
+    <FileVersion>1.0.1.15</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
