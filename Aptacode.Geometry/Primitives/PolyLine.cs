@@ -16,9 +16,9 @@ namespace Aptacode.Geometry.Primitives
         {
             p1, p2
         }.Concat(points));
-
-        #endregion
         
+        #endregion
+
         #region Properties
 
         private IEnumerable<(Vector2 p1, Vector2 p2)> CalculateLineSegments()
