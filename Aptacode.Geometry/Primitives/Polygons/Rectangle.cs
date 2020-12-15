@@ -7,7 +7,7 @@ namespace Aptacode.Geometry.Primitives.Polygons
         #region Construction
 
         public static Rectangle Create(Vector2 position, Vector2 size) =>
-            new Rectangle(position,
+            new(position,
                 new Vector2(position.X + size.X, position.Y + size.Y),
                 position + size,
                 new Vector2(position.X, position.Y + size.Y));
