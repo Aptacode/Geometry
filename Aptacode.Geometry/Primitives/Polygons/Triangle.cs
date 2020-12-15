@@ -2,13 +2,11 @@
 
 namespace Aptacode.Geometry.Primitives.Polygons
 {
-    public class Triangle : Polygon
+    public record Triangle(Vector2 P1, Vector2 P2, Vector2 P3) : Polygon(new Vector2[]{ P1, P2, P3 })
     {
         #region Construction
 
         public static Triangle Create(Vector2 p1, Vector2 p2, Vector2 p3) => new(p1, p2, p3);
-
-        public Triangle(Vector2 p1, Vector2 p2, Vector2 p3) : base(p1, p2, p3) { }
 
         #endregion
 

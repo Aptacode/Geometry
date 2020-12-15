@@ -4,24 +4,16 @@ using Aptacode.Geometry.Collision.Circles;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public abstract class Primitive
+    public abstract record Primitive
     {
-        #region Properties
-
-        public readonly Vector2[] Vertices;
-
-        #endregion
-
-        #region Construction
-
-        protected Primitive(params Vector2[] vertices)
+        public Vector2[] Vertices { get; init; }
+        
+        protected Primitive(Vector2[] vertices)
         {
             Vertices = vertices;
             UpdateBoundingCircle();
         }
-
-        #endregion
-
+        
         #region Collision Detection
 
         public void UpdateBoundingCircle()

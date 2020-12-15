@@ -3,11 +3,11 @@ using Aptacode.Geometry.Collision;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public class Circle : Primitive
+    public record Circle : Primitive
     {
         #region Construction
 
-        public Circle(Vector2 position, float radius) : base(position)
+        public Circle(Vector2 position, float radius) : base(new[]{ position })
         {
             Radius = radius;
             UpdateBoundingCircle();

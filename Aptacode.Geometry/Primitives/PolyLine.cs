@@ -5,7 +5,7 @@ using Aptacode.Geometry.Collision;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public class PolyLine : Primitive
+    public record PolyLine(Vector2[] points) : Primitive(points)
     {
         #region Properties
 
@@ -29,10 +29,7 @@ namespace Aptacode.Geometry.Primitives
 
             return new PolyLine(allPoints.ToArray());
         }
-
-
-        protected PolyLine(params Vector2[] points) : base(points) { }
-
+        
         #endregion
 
         #region Collision Detection

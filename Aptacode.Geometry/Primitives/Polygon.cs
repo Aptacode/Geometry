@@ -5,17 +5,8 @@ using Aptacode.Geometry.Collision;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public class Polygon : Primitive
+    public record Polygon(Vector2[] points) : Primitive(points)
     {
-        #region Construction
-
-        protected Polygon(Vector2 p1, Vector2 p2, Vector2 p3, params Vector2[] points) : base(new Vector2[3]
-        {
-            p1, p2, p3
-        }.Concat(points).ToArray()) { }
-
-        #endregion
-
         #region Properties
 
         public IEnumerable<(Vector2 p1, Vector2 p2)> Edges()

@@ -3,24 +3,8 @@ using Aptacode.Geometry.Collision;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public class Point : Primitive
+    public record Point(Vector2 Position) : Primitive(new[] { Position })
     {
-        #region Construction
-
-        public Point(Vector2 position) : base(position) { }
-
-        #endregion
-
-        #region Properties
-
-        public Vector2 Position
-        {
-            get => Vertices[0];
-            set => Vertices[0] = value;
-        }
-
-        #endregion
-
         #region Collision Detection
 
         public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
