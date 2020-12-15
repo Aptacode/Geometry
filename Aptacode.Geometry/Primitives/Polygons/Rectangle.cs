@@ -24,14 +24,14 @@ namespace Aptacode.Geometry.Primitives.Polygons
 
         public Vector2 Position => TopLeft;
 
-        private Vector2? _size;
+        private readonly Vector2? _size;
 
         public Vector2 Size
         {
             get => _size ?? BottomRight - TopLeft;
             init => _size = value;
         }
-        
+
         #endregion
 
         #region Transformations

@@ -165,6 +165,7 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
+
         public override bool CollidesWith(Polygon p1, Polygon p2)
         {
             foreach (var (v1, v2) in p1.Edges)

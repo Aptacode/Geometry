@@ -11,7 +11,7 @@ namespace Aptacode.Geometry.Primitives.Extensions
             points.Add(p1);
             return new PolyLine(points);
         }
-        
+
         public static PolyLine Remove(this PolyLine polyLine, int index)
         {
             var points = polyLine.Points.ToList();
@@ -19,9 +19,6 @@ namespace Aptacode.Geometry.Primitives.Extensions
             return new PolyLine(points);
         }
 
-        public static PolyLine Join(this PolyLine p1, PolyLine p2)
-        {
-            return new PolyLine(p1.Points.Concat(p2.Points));
-        }
+        public static PolyLine Join(this PolyLine p1, PolyLine p2) => new(p1.Points.Concat(p2.Points));
     }
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry", "Aptacode.Geometry\Aptacode.Geometry.csproj", "{58F7181D-CAAB-4FA7-A142-459992E700E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aptacode.Geometry.Tests", "Aptacode.Geometry.Tests\Aptacode.Geometry.Tests.csproj", "{40711C6F-9A32-486C-8D58-C9BF09B2575C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry.Tests", "Aptacode.Geometry.Tests\Aptacode.Geometry.Tests.csproj", "{40711C6F-9A32-486C-8D58-C9BF09B2575C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
