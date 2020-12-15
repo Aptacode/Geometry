@@ -6,38 +6,28 @@ namespace Aptacode.Geometry.Collision
     {
         public bool CollidesWith(Primitive p1, Primitive p2)
         {
-            switch (p1)
+            return p1 switch
             {
-                case Point p:
-                    return CollidesWith(p, p2);
-                case PolyLine p:
-                    return CollidesWith(p, p2);
-                case Polygon p:
-                    return CollidesWith(p, p2);
-                case Circle p:
-                    return CollidesWith(p, p2);
-            }
-
-            return false;
+                Point p => CollidesWith(p, p2),
+                PolyLine p => CollidesWith(p, p2),
+                Polygon p => CollidesWith(p, p2),
+                Circle p => CollidesWith(p, p2),
+                _ => false
+            };
         }
 
         #region Point
 
         public bool CollidesWith(Point p1, Primitive p2)
         {
-            switch (p2)
+            return p2 switch
             {
-                case Point p:
-                    return CollidesWith(p1, p);
-                case PolyLine p:
-                    return CollidesWith(p1, p);
-                case Polygon p:
-                    return CollidesWith(p1, p);
-                case Circle p:
-                    return CollidesWith(p1, p);
-            }
-
-            return false;
+                Point p => CollidesWith(p1, p),
+                PolyLine p => CollidesWith(p1, p),
+                Polygon p => CollidesWith(p1, p),
+                Circle p => CollidesWith(p1, p),
+                _ => false
+            };
         }
 
         public abstract bool CollidesWith(Point p1, Point p2);
@@ -51,19 +41,14 @@ namespace Aptacode.Geometry.Collision
 
         public bool CollidesWith(PolyLine p1, Primitive p2)
         {
-            switch (p2)
+            return p2 switch
             {
-                case Point p:
-                    return CollidesWith(p1, p);
-                case PolyLine p:
-                    return CollidesWith(p1, p);
-                case Polygon p:
-                    return CollidesWith(p1, p);
-                case Circle p:
-                    return CollidesWith(p1, p);
-            }
-
-            return false;
+                Point p => CollidesWith(p1, p),
+                PolyLine p => CollidesWith(p1, p),
+                Polygon p => CollidesWith(p1, p),
+                Circle p => CollidesWith(p1, p),
+                _ => false
+            };
         }
 
         public abstract bool CollidesWith(PolyLine p1, Point p2);
@@ -77,19 +62,14 @@ namespace Aptacode.Geometry.Collision
 
         public bool CollidesWith(Polygon p1, Primitive p2)
         {
-            switch (p2)
+            return p2 switch
             {
-                case Point p:
-                    return CollidesWith(p1, p);
-                case PolyLine p:
-                    return CollidesWith(p1, p);
-                case Polygon p:
-                    return CollidesWith(p1, p);
-                case Circle p:
-                    return CollidesWith(p1, p);
-            }
-
-            return false;
+                Point p => CollidesWith(p1, p),
+                PolyLine p => CollidesWith(p1, p),
+                Polygon p => CollidesWith(p1, p),
+                Circle p => CollidesWith(p1, p),
+                _ => false
+            };
         }
 
         public abstract bool CollidesWith(Polygon p1, Point p2);
@@ -104,19 +84,14 @@ namespace Aptacode.Geometry.Collision
 
         public bool CollidesWith(Circle p1, Primitive p2)
         {
-            switch (p2)
+            return p2 switch
             {
-                case Point p:
-                    return CollidesWith(p1, p);
-                case PolyLine p:
-                    return CollidesWith(p1, p);
-                case Polygon p:
-                    return CollidesWith(p1, p);
-                case Circle p:
-                    return CollidesWith(p1, p);
-            }
-
-            return false;
+                Point p => CollidesWith(p1, p),
+                PolyLine p => CollidesWith(p1, p),
+                Polygon p => CollidesWith(p1, p),
+                Circle p => CollidesWith(p1, p),
+                _ => false
+            };
         }
 
         public abstract bool CollidesWith(Circle p1, Point p2);

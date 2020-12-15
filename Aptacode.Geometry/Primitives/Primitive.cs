@@ -24,7 +24,7 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
-        public virtual void UpdateBoundingCircle()
+        public void UpdateBoundingCircle()
         {
             BoundingCircle = this.MinimumBoundingCircle();
         }
