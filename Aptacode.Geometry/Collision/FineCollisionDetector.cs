@@ -80,7 +80,21 @@ namespace Aptacode.Geometry.Collision
             return false;
         }
 
-        public override bool CollidesWith(PolyLine p1, Polygon p2) => false;
+        public override bool CollidesWith(PolyLine p1, Polygon p2)
+        {
+            foreach (var (v1, v2) in p1.LineSegments)
+            {
+                foreach (var (v3, v4) in p2.Edges)
+                {
+                    if (Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
 
         public override bool CollidesWith(PolyLine p1, Circle p2)
         {
@@ -136,9 +150,36 @@ namespace Aptacode.Geometry.Collision
             return collision;
         }
 
-        public override bool CollidesWith(Polygon p1, PolyLine p2) => false;
+        public override bool CollidesWith(Polygon p1, PolyLine p2)
+        {
+            foreach (var (v1, v2) in p1.Edges)
+            {
+                foreach (var (v3, v4) in p2.LineSegments)
+                {
+                    if (Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
+                    {
+                        return true;
+                    }
+                }
+            }
 
-        public override bool CollidesWith(Polygon p1, Polygon p2) => false;
+            return false;
+        }
+        public override bool CollidesWith(Polygon p1, Polygon p2)
+        {
+            foreach (var (v1, v2) in p1.Edges)
+            {
+                foreach (var (v3, v4) in p2.Edges)
+                {
+                    if (Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
 
         public override bool CollidesWith(Polygon p1, Circle p2)
         {
