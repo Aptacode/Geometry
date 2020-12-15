@@ -2,10 +2,11 @@
 using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Collision;
+using Aptacode.Geometry.Collision.Circles;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public record PolyLine(Vector2[] points) : Primitive(points)
+    public record PolyLine(IEnumerable<Vector2> Points) : Primitive(Points)
     {
         #region Properties
 
@@ -29,22 +30,28 @@ namespace Aptacode.Geometry.Primitives
 
             return new PolyLine(allPoints.ToArray());
         }
-        
+
         #endregion
 
         #region Collision Detection
 
         public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
-        
+
         #endregion
 
         #region Transformations
 
-        public override void Rotate(Vector2 delta) { }
+        public override PolyLine Translate(Vector2 delta)
+        {
+            return new(Vertices.Select(v => v + delta).ToArray())
+                {BoundingCircle = BoundingCircle.Translate(delta)};
+        }
 
-        public override void Scale(Vector2 delta) { }
+        public override PolyLine Rotate(float delta) => this;
 
-        public override void Skew(Vector2 delta) { }
+        public override PolyLine Scale(Vector2 delta) => this;
+
+        public override PolyLine Skew(Vector2 delta) => this;
 
         #endregion
     }

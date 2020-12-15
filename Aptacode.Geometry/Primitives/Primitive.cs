@@ -1,47 +1,38 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public abstract record Primitive
+    public abstract record Primitive(IEnumerable<Vector2> Vertices)
     {
-        public Vector2[] Vertices { get; init; }
-        
-        protected Primitive(Vector2[] vertices)
-        {
-            Vertices = vertices;
-            UpdateBoundingCircle();
-        }
-        
         #region Collision Detection
 
-        public void UpdateBoundingCircle()
+        public BoundingCircle UpdateBoundingCircle()
         {
-            BoundingCircle = this.MinimumBoundingCircle();
+            _boundingCircle = this.MinimumBoundingCircle();
+            return _boundingCircle;
         }
 
-        public BoundingCircle BoundingCircle { get; protected set; }
+        private BoundingCircle? _boundingCircle;
+
+        public BoundingCircle BoundingCircle
+        {
+            get => _boundingCircle ?? UpdateBoundingCircle();
+            set => _boundingCircle = value;
+        }
 
         public virtual bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
-        
+
         #endregion
 
         #region Transformations
 
-        public virtual void Translate(Vector2 delta)
-        {
-            for (var i = 0; i < Vertices.Length; i++)
-            {
-                Vertices[i] += delta;
-            }
-
-            BoundingCircle = BoundingCircle.Translate(delta);
-        }
-
-        public abstract void Rotate(Vector2 delta);
-        public abstract void Scale(Vector2 delta);
-        public abstract void Skew(Vector2 delta);
+        public abstract Primitive Translate(Vector2 delta);
+        public abstract Primitive Rotate(float delta);
+        public abstract Primitive Scale(Vector2 delta);
+        public abstract Primitive Skew(Vector2 delta);
 
         #endregion
     }

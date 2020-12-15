@@ -1,45 +1,27 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
+using Aptacode.Geometry.Collision.Circles;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public record Circle : Primitive
+    public record Circle(Vector2 Position, float Radius) : Primitive(new[] {Position})
     {
-        #region Construction
-
-        public Circle(Vector2 position, float radius) : base(new[]{ position })
-        {
-            Radius = radius;
-            UpdateBoundingCircle();
-        }
-
-        #endregion
-
-        #region Properties
-
-        public Vector2 Position
-        {
-            get => Vertices[0];
-            set => Vertices[0] = value;
-        }
-
-        public float Radius { get; set; }
-
-        #endregion
-
         #region Collision Detection
 
         public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
-        
+
         #endregion
 
         #region Transformations
 
-        public override void Rotate(Vector2 delta) { }
+        public override Circle Translate(Vector2 delta) => new(Position + delta, Radius)
+            {BoundingCircle = BoundingCircle.Translate(delta)};
 
-        public override void Scale(Vector2 delta) { }
+        public override Circle Rotate(float delta) => this;
 
-        public override void Skew(Vector2 delta) { }
+        public override Circle Scale(Vector2 delta) => this;
+
+        public override Circle Skew(Vector2 delta) => this;
 
         #endregion
     }

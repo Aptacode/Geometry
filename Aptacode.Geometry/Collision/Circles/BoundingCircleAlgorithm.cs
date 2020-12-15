@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
@@ -6,7 +7,7 @@ namespace Aptacode.Geometry.Collision.Circles
 {
     public static class BoundingCircleAlgorithm
     {
-        public static BoundingCircle Welzl_Helper(Vector2[] points, List<Vector2> boundarySet, int n)
+        public static BoundingCircle Welzl_Helper(IEnumerable<Vector2> points, List<Vector2> boundarySet, int n)
         {
             if (n == 0 || boundarySet.Count == 3)
             {
@@ -20,7 +21,7 @@ namespace Aptacode.Geometry.Collision.Circles
             }
 
             var index = n - 1;
-            var p = points[index];
+            var p = points.ElementAt(index);
 
             var d = Welzl_Helper(points, boundarySet, index);
 
@@ -49,7 +50,7 @@ namespace Aptacode.Geometry.Collision.Circles
             }
 
             //Todo Add in randomisation, not very important right now
-            return Welzl_Helper(p.Vertices, new List<Vector2>(), p.Vertices.Length);
+            return Welzl_Helper(p.Vertices, new List<Vector2>(), p.Vertices.Count());
         }
     }
 }

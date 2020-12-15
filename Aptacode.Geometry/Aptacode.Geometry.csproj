@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Authors>Aptacode</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1.10</Version>
-    <AssemblyVersion>1.0.1.10</AssemblyVersion>
-    <FileVersion>1.0.1.10</FileVersion>
+    <Version>1.0.1.11</Version>
+    <AssemblyVersion>1.0.1.11</AssemblyVersion>
+    <FileVersion>1.0.1.11</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Aptacode.Geometry.Collision.Circles;
 
 namespace Aptacode.Geometry.Primitives.Polygons
 {
@@ -18,9 +19,23 @@ namespace Aptacode.Geometry.Primitives.Polygons
         #endregion
 
         #region Properties
-        
-        public Vector2 Position => Vertices[0];
-        public Vector2 Size => Vertices[2] - Vertices[0];
+
+        public Vector2 Position => TopLeft;
+        public Vector2 Size => BottomRight - TopLeft;
+
+        #endregion
+
+        #region Transformations
+
+        public override Rectangle Translate(Vector2 delta) =>
+            new(TopLeft + delta, TopRight + delta, BottomRight + delta, BottomLeft + delta)
+                {BoundingCircle = BoundingCircle.Translate(delta)};
+
+        public override Rectangle Rotate(float delta) => this;
+
+        public override Rectangle Scale(Vector2 delta) => this;
+
+        public override Rectangle Skew(Vector2 delta) => this;
 
         #endregion
     }

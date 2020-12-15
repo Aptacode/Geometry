@@ -66,16 +66,17 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(PolyLine p1, PolyLine p2)
         {
-            foreach(var (v1, v2) in p1.LineSegments())
+            foreach (var (v1, v2) in p1.LineSegments())
             {
-                foreach(var (v3, v4) in p2.LineSegments())
+                foreach (var (v3, v4) in p2.LineSegments())
                 {
-                    if(Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
+                    if (Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
                     {
                         return true;
                     }
                 }
             }
+
             return false;
         }
 
@@ -117,7 +118,7 @@ namespace Aptacode.Geometry.Collision
 
         #region Polygon
 
-        public override bool CollidesWith(Polygon p1, Point p2) 
+        public override bool CollidesWith(Polygon p1, Point p2)
         {
             var collision = false;
             var edges = p1.Edges();
@@ -134,6 +135,7 @@ namespace Aptacode.Geometry.Collision
 
             return collision;
         }
+
         public override bool CollidesWith(Polygon p1, PolyLine p2) => false;
 
         public override bool CollidesWith(Polygon p1, Polygon p2) => false;
@@ -171,6 +173,7 @@ namespace Aptacode.Geometry.Collision
                 return false;
             }
         }
+
         #endregion
 
         #region Circle
