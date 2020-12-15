@@ -1,15 +1,20 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Aptacode.Geometry.Primitives.Extensions
 {
     public static class PolyLineExtensions
     {
-        public static PolyLine Add(this PolyLine polyLine, Vector2 p1)
+        public static PolyLine Add(this PolyLine polyLine, params Vector2[] points)
         {
-            var points = polyLine.Points.ToList();
-            points.Add(p1);
-            return new PolyLine(points);
+            return new PolyLine(polyLine.Points.ToList().Concat(points));
+        }
+        
+        public static PolyLine Add(this PolyLine polyLine, IEnumerable<Vector2> points)
+        {
+            return new PolyLine(polyLine.Points.ToList().Concat(points));
         }
 
         public static PolyLine Remove(this PolyLine polyLine, int index)
