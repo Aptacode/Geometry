@@ -7,6 +7,7 @@ namespace Aptacode.Geometry.Primitives
 {
     public abstract record Primitive(IEnumerable<Vector2> Vertices)
     {
+        
         #region Collision Detection
 
         public BoundingCircle UpdateBoundingCircle()

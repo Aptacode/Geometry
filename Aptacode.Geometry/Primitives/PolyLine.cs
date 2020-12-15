@@ -8,8 +8,19 @@ namespace Aptacode.Geometry.Primitives
 {
     public record PolyLine(IEnumerable<Vector2> Points) : Primitive(Points)
     {
-        #region Properties
+        #region Construction
+
+        public static readonly PolyLine Zero = Create(Vector2.Zero, Vector2.Zero);
+
+        public static PolyLine Create(Vector2 p1, Vector2 p2, params Vector2[] points) => new(new[]
+        {
+            p1, p2
+        }.Concat(points));
+
+        #endregion
         
+        #region Properties
+
         private IEnumerable<(Vector2 p1, Vector2 p2)> CalculateLineSegments()
         {
             return _lineSegments = Vertices.Zip(Vertices.Skip(1), (a, b) => (a, b));
@@ -22,22 +33,6 @@ namespace Aptacode.Geometry.Primitives
             get => _lineSegments ?? CalculateLineSegments();
             init => _lineSegments = value;
         } 
-
-        #endregion
-
-        #region Construction
-
-        public static PolyLine Create(Vector2 p1, Vector2 p2, params Vector2[] points)
-        {
-            var allPoints = new List<Vector2>
-            {
-                p1, p2
-            };
-
-            allPoints.AddRange(points);
-
-            return new PolyLine(allPoints.ToArray());
-        }
 
         #endregion
 

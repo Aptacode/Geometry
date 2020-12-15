@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices.ComTypes;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
 
@@ -8,6 +9,17 @@ namespace Aptacode.Geometry.Primitives
 {
     public record Polygon(IEnumerable<Vector2> Points) : Primitive(Points)
     {
+        #region Construction
+
+        public static readonly Polygon Zero = Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);
+        
+        public static Polygon Create(Vector2 p1, Vector2 p2, Vector2 p3, params Vector2[] points) => new(new []
+        {
+            p1, p2, p3
+        }.Concat(points));
+        
+        #endregion
+
         #region Properties
 
         private IEnumerable<(Vector2 p1, Vector2 p2)> CalculateEdges()

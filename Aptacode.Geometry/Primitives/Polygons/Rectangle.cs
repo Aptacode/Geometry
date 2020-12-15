@@ -10,6 +10,8 @@ namespace Aptacode.Geometry.Primitives.Polygons
     {
         #region Construction
 
+        public static readonly Rectangle Zero = Create(Vector2.Zero, Vector2.Zero);
+
         public static Rectangle Create(Vector2 position, Vector2 size) =>
             new(position,
                 new Vector2(position.X + size.X, position.Y + size.Y),
