@@ -12,7 +12,7 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Point p1, PolyLine p2)
         {
-            foreach (var (v1, v2) in p2.LineSegments())
+            foreach (var (v1, v2) in p2.LineSegments)
             {
                 if (!Helpers.OnLineSegment((v1, v2), p1.Position))
                 {
@@ -28,7 +28,7 @@ namespace Aptacode.Geometry.Collision
         public override bool CollidesWith(Point p1, Polygon p2)
         {
             var collision = false;
-            var edges = p2.Edges();
+            var edges = p2.Edges;
             var point = p1.Position;
             foreach (var (a, b) in edges)
             {
@@ -51,7 +51,7 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(PolyLine p1, Point p2)
         {
-            foreach (var (v1, v2) in p1.LineSegments())
+            foreach (var (v1, v2) in p1.LineSegments)
             {
                 if (!Helpers.OnLineSegment((v1, v2), p2.Position))
                 {
@@ -66,9 +66,9 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(PolyLine p1, PolyLine p2)
         {
-            foreach (var (v1, v2) in p1.LineSegments())
+            foreach (var (v1, v2) in p1.LineSegments)
             {
-                foreach (var (v3, v4) in p2.LineSegments())
+                foreach (var (v3, v4) in p2.LineSegments)
                 {
                     if (Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
                     {
@@ -84,7 +84,7 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(PolyLine p1, Circle p2)
         {
-            foreach (var (v1, v2) in p1.LineSegments())
+            foreach (var (v1, v2) in p1.LineSegments)
             {
                 if (p2.BoundingCircle.Contains(v1) || p2.BoundingCircle.Contains(v2))
                 {
@@ -121,7 +121,7 @@ namespace Aptacode.Geometry.Collision
         public override bool CollidesWith(Polygon p1, Point p2)
         {
             var collision = false;
-            var edges = p1.Edges();
+            var edges = p1.Edges;
             var point = p2.Position;
             foreach (var (a, b) in edges)
             {
@@ -143,7 +143,7 @@ namespace Aptacode.Geometry.Collision
         public override bool CollidesWith(Polygon p1, Circle p2)
         {
             {
-                foreach (var (v1, v2) in p1.Edges())
+                foreach (var (v1, v2) in p1.Edges)
                 {
                     if (p2.BoundingCircle.Contains(v1) || p2.BoundingCircle.Contains(v2))
                     {
@@ -182,7 +182,7 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Circle p1, PolyLine p2)
         {
-            foreach (var (v1, v2) in p2.LineSegments())
+            foreach (var (v1, v2) in p2.LineSegments)
             {
                 if (p1.BoundingCircle.Contains(v1) || p1.BoundingCircle.Contains(v2))
                 {
@@ -214,7 +214,7 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Circle p1, Polygon p2)
         {
-            foreach (var (v1, v2) in p2.Edges())
+            foreach (var (v1, v2) in p2.Edges)
             {
                 if (p1.BoundingCircle.Contains(v1) || p1.BoundingCircle.Contains(v2))
                 {

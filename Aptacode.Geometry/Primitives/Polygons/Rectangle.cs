@@ -21,15 +21,25 @@ namespace Aptacode.Geometry.Primitives.Polygons
         #region Properties
 
         public Vector2 Position => TopLeft;
-        public Vector2 Size => BottomRight - TopLeft;
 
+        private Vector2? _size;
+
+        public Vector2 Size
+        {
+            get => _size ?? BottomRight - TopLeft;
+            init => _size = value;
+        }
+        
         #endregion
 
         #region Transformations
 
         public override Rectangle Translate(Vector2 delta) =>
             new(TopLeft + delta, TopRight + delta, BottomRight + delta, BottomLeft + delta)
-                {BoundingCircle = BoundingCircle.Translate(delta)};
+            {
+                BoundingCircle = BoundingCircle.Translate(delta),
+                Size = Size
+            };
 
         public override Rectangle Rotate(float delta) => this;
 

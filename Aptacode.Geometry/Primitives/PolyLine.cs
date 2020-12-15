@@ -9,11 +9,19 @@ namespace Aptacode.Geometry.Primitives
     public record PolyLine(IEnumerable<Vector2> Points) : Primitive(Points)
     {
         #region Properties
-
-        public virtual IEnumerable<(Vector2 p1, Vector2 p2)> LineSegments()
+        
+        private IEnumerable<(Vector2 p1, Vector2 p2)> CalculateLineSegments()
         {
-            return Vertices.Zip(Vertices.Skip(1), (a, b) => (a, b));
+            return _lineSegments = Vertices.Zip(Vertices.Skip(1), (a, b) => (a, b));
         }
+
+        private IEnumerable<(Vector2 p1, Vector2 p2)>? _lineSegments;
+
+        public IEnumerable<(Vector2 p1, Vector2 p2)> LineSegments
+        {
+            get => _lineSegments ?? CalculateLineSegments();
+            init => _lineSegments = value;
+        } 
 
         #endregion
 
@@ -44,7 +52,10 @@ namespace Aptacode.Geometry.Primitives
         public override PolyLine Translate(Vector2 delta)
         {
             return new(Vertices.Select(v => v + delta).ToArray())
-                {BoundingCircle = BoundingCircle.Translate(delta)};
+            {
+                BoundingCircle = BoundingCircle.Translate(delta),
+                LineSegments = LineSegments.Select(l => (l.p1 + delta, l.p2 + delta))
+            };
         }
 
         public override PolyLine Rotate(float delta) => this;

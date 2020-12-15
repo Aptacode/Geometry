@@ -20,7 +20,7 @@ namespace Aptacode.Geometry.Primitives
         public BoundingCircle BoundingCircle
         {
             get => _boundingCircle ?? UpdateBoundingCircle();
-            set => _boundingCircle = value;
+            init => _boundingCircle = value;
         }
 
         public virtual bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);

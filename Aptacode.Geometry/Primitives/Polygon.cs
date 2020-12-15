@@ -10,12 +10,21 @@ namespace Aptacode.Geometry.Primitives
     {
         #region Properties
 
-        public IEnumerable<(Vector2 p1, Vector2 p2)> Edges()
+        private IEnumerable<(Vector2 p1, Vector2 p2)> CalculateEdges()
         {
             var edges = Vertices.Zip(Vertices.Skip(1), (a, b) => (a, b)).ToList();
             edges.Add((Vertices.Last(), Vertices.First()));
+            _edges = edges;
             return edges;
         }
+
+        private IEnumerable<(Vector2 p1, Vector2 p2)>? _edges;
+
+        public IEnumerable<(Vector2 p1, Vector2 p2)> Edges
+        {
+            get => _edges ?? CalculateEdges();
+            init => _edges = value;
+        } 
 
         #endregion
 
@@ -30,7 +39,10 @@ namespace Aptacode.Geometry.Primitives
         public override Polygon Translate(Vector2 delta)
         {
             return new(Vertices.Select(v => v + delta).ToArray())
-                {BoundingCircle = BoundingCircle.Translate(delta)};
+            {
+                BoundingCircle = BoundingCircle.Translate(delta),
+                Edges = Edges.Select(l => (l.p1 + delta, l.p2 + delta))
+            };
         }
 
         public override Polygon Rotate(float delta) => this;
