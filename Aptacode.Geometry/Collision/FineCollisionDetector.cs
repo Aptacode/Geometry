@@ -33,17 +33,22 @@ namespace Aptacode.Geometry.Collision
             var point = p1.Position;
             foreach (var (a, b) in edges)
             {
-                if (Math.Abs(b.Y - a.Y) < Constants.Tolerance &&
-                    (a.X >= point.X && b.X <= point.X ||
-                     a.X <= point.X && b.X >= point.X))
+                if (Math.Abs(b.Y - a.Y) < Constants.Tolerance && //It is a horizontal line
+                    Math.Abs(point.Y - a.Y) < Constants.Tolerance && //And we are on it
+                    (point.X >= Math.Min(a.X, b.X) && point.X <= Math.Max(a.X, b.X))) //Within the line segment
                 {
-                    collision = !collision;
-                    continue;
+                    return true;
+                }
+                if (Math.Abs(b.X - a.X) < Constants.Tolerance && //It is a horizontal line
+                    Math.Abs(point.X - a.X) < Constants.Tolerance && //And we are on it
+                    (point.Y >= Math.Min(a.Y, b.Y) && point.Y <= Math.Max(a.Y, b.Y))) //Within the line segment
+                {
+                    return true;
                 }
 
                 if ((a.Y >= point.Y && b.Y <= point.Y || 
                      a.Y <= point.Y && b.Y >= point.Y) &&
-                    point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
+                    point.X <= (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
                     collision = !collision;
                 }
@@ -55,9 +60,9 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Point p1, Circle p2) => p2.BoundingCircle.Contains(p1.Position);
 
-        #endregion
+#endregion
 
-        #region PolyLine
+                #region PolyLine
 
         public override bool CollidesWith(PolyLine p1, Point p2)
         {
@@ -138,9 +143,9 @@ namespace Aptacode.Geometry.Collision
             return false;
         }
 
-        #endregion
+                #endregion
 
-        #region Polygon
+                #region Polygon
 
         public override bool CollidesWith(Polygon p1, Point p2)
         {
@@ -234,9 +239,9 @@ namespace Aptacode.Geometry.Collision
             }
         }
 
-        #endregion
+                #endregion
 
-        #region Circle
+                #region Circle
 
         public override bool CollidesWith(Circle p1, Point p2) => p1.BoundingCircle.Contains(p2.Position);
 
@@ -310,6 +315,6 @@ namespace Aptacode.Geometry.Collision
             return d < p1.Radius + p2.Radius;
         }
 
-        #endregion
+                #endregion
     }
 }
