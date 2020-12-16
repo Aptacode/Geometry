@@ -32,7 +32,12 @@ namespace Aptacode.Geometry.Collision
             var point = p1.Position;
             foreach (var (a, b) in edges)
             {
-                if ((a.Y >= point.Y && b.Y < point.Y || a.Y < point.Y && b.Y >= point.Y) &&
+                if((b.Y == a.Y) && (a.X >= point.X && b.X <= point.X || a.X <= point.X && b.X >= point.X))
+                {
+                    collision = !collision;
+                    break;
+                }
+                if ((a.Y >= point.Y && b.Y <= point.Y || a.Y <= point.Y && b.Y >= point.Y) &&
                     point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
                     collision = !collision;
@@ -139,7 +144,12 @@ namespace Aptacode.Geometry.Collision
             var point = p2.Position;
             foreach (var (a, b) in edges)
             {
-                if ((a.Y >= point.Y && b.Y < point.Y || a.Y < point.Y && b.Y >= point.Y) &&
+                if ((b.Y == a.Y) && (a.X >= point.X && b.X <= point.X || a.X <= point.X && b.X >= point.X))
+                {
+                    collision = !collision;
+                    break;
+                }
+                if ((a.Y >= point.Y && b.Y <= point.Y || a.Y <= point.Y && b.Y >= point.Y) &&
                     point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
                     collision = !collision;
@@ -149,6 +159,7 @@ namespace Aptacode.Geometry.Collision
 
             return collision;
         }
+
 
         public override bool CollidesWith(Polygon p1, PolyLine p2)
         {
