@@ -1,5 +1,4 @@
-﻿using System;
-using Aptacode.Geometry.Primitives;
+﻿using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
 {
@@ -17,9 +16,7 @@ namespace Aptacode.Geometry.Collision
 
         #region Point
 
-        public override bool CollidesWith(Point p1, Point p2) =>
-            Math.Abs(p1.Position.X - p2.Position.X) < Constants.Tolerance &&
-            Math.Abs(p1.Position.Y - p2.Position.Y) < Constants.Tolerance;
+        public override bool CollidesWith(Point p1, Point p2) => CoarseCollision(p1, p2);
 
         public override bool CollidesWith(Point p1, PolyLine p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(Point p1, Polygon p2) => CoarseCollision(p1, p2);

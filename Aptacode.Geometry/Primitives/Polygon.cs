@@ -3,10 +3,11 @@ using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public record Polygon(IEnumerable<Vector2> Points) : Primitive(Points)
+    public record Polygon : Primitive
     {
         #region Collision Detection
 
@@ -16,12 +17,19 @@ namespace Aptacode.Geometry.Primitives
 
         #region Construction
 
+        public Polygon(VertexArray vertices) : base(vertices) { }
+
+        public Polygon(VertexArray vertices, BoundingCircle boundingCircle, IEnumerable<(Vector2 p1, Vector2 p2)> edges)
+            : base(vertices, boundingCircle)
+        {
+            _edges = edges;
+        }
+
+
         public static readonly Polygon Zero = Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);
 
-        public static Polygon Create(Vector2 p1, Vector2 p2, Vector2 p3, params Vector2[] points) => new(new[]
-        {
-            p1, p2, p3
-        }.Concat(points));
+        public static Polygon Create(Vector2 p1, Vector2 p2, Vector2 p3, params Vector2[] points) =>
+            new(VertexArray.Create(p1, p2, p3, points));
 
         #endregion
 
@@ -31,17 +39,11 @@ namespace Aptacode.Geometry.Primitives
         {
             var edges = Vertices.Zip(Vertices.Skip(1), (a, b) => (a, b)).ToList();
             edges.Add((Vertices.Last(), Vertices.First()));
-            _edges = edges;
             return edges;
         }
 
-        private IEnumerable<(Vector2 p1, Vector2 p2)>? _edges;
-
-        public IEnumerable<(Vector2 p1, Vector2 p2)> Edges
-        {
-            get => _edges ?? CalculateEdges();
-            init => _edges = value;
-        }
+        private IEnumerable<(Vector2 p1, Vector2 p2)> _edges;
+        public IEnumerable<(Vector2 p1, Vector2 p2)> Edges => _edges ??= CalculateEdges();
 
         #endregion
 
@@ -49,11 +51,8 @@ namespace Aptacode.Geometry.Primitives
 
         public override Polygon Translate(Vector2 delta)
         {
-            return new(Vertices.Select(v => v + delta).ToArray())
-            {
-                BoundingCircle = BoundingCircle.Translate(delta),
-                Edges = Edges.Select(l => (l.p1 + delta, l.p2 + delta))
-            };
+            return new(Vertices.Translate(delta), BoundingCircle.Translate(delta),
+                Edges.Select(l => (l.p1 + delta, l.p2 + delta)));
         }
 
         public override Polygon Rotate(float delta) => this;

@@ -1,27 +1,38 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public abstract record Primitive(IEnumerable<Vector2> Vertices)
+    public abstract record Primitive
     {
+        public readonly VertexArray Vertices;
+
+        #region IEquatable
+
+        public virtual bool Equals(Primitive other) => Vertices.Equals(other.Vertices);
+
+        #endregion
+
         #region Collision Detection
 
-        public BoundingCircle UpdateBoundingCircle()
+        protected Primitive(VertexArray vertices)
         {
-            _boundingCircle = this.MinimumBoundingCircle();
-            return _boundingCircle;
+            Vertices = vertices;
+            _boundingCircle = null;
+        }
+
+        protected Primitive(VertexArray vertices, BoundingCircle boundingCircle)
+        {
+            Vertices = vertices;
+            _boundingCircle = boundingCircle;
         }
 
         private BoundingCircle? _boundingCircle;
 
-        public BoundingCircle BoundingCircle
-        {
-            get => _boundingCircle ?? UpdateBoundingCircle();
-            init => _boundingCircle = value;
-        }
+        public BoundingCircle BoundingCircle =>
+            _boundingCircle ?? (_boundingCircle = this.MinimumBoundingCircle()).Value;
 
         public virtual bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
 

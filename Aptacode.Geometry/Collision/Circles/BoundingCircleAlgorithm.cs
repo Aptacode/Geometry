@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Polygons;
@@ -8,11 +7,12 @@ namespace Aptacode.Geometry.Collision.Circles
 {
     public static class BoundingCircleAlgorithm
     {
-        public static BoundingCircle Welzl_Helper(IEnumerable<Vector2> points, List<Vector2> boundarySet, int n)
+        public static BoundingCircle Welzl_Helper(Span<Vector2> points, Span<Vector2> boundarySet, int n,
+            int boundarySetIndex)
         {
-            if (n == 0 || boundarySet.Count == 3)
+            if (n == 0 || boundarySetIndex == 2)
             {
-                return boundarySet.Count switch
+                return boundarySetIndex switch
                 {
                     0 => BoundingCircle.Zero,
                     1 => BoundingCircle.FromOnePoint(boundarySet[0]),
@@ -22,25 +22,24 @@ namespace Aptacode.Geometry.Collision.Circles
             }
 
             var index = n - 1;
-            var p = points.ElementAt(index);
+            var p = points[index];
 
-            var d = Welzl_Helper(points, boundarySet, index);
+            var d = Welzl_Helper(points, boundarySet, index, boundarySetIndex);
 
             if (d.Contains(p))
             {
                 return d;
             }
 
-            if (boundarySet.Count < 3)
+            if (boundarySetIndex == 3)
             {
-                boundarySet.Add(p);
-            }
-            else
-            {
-                boundarySet = new List<Vector2> {p};
+                boundarySetIndex = 0;
             }
 
-            return Welzl_Helper(points, boundarySet, index);
+            boundarySet[boundarySetIndex] = p;
+            boundarySetIndex++;
+
+            return Welzl_Helper(points, boundarySet, index, boundarySetIndex);
         }
 
         public static BoundingCircle MinimumBoundingCircle(this Primitive p)
@@ -51,7 +50,8 @@ namespace Aptacode.Geometry.Collision.Circles
                 Circle circle => new BoundingCircle(circle.Position, circle.Radius),
                 Triangle triangle => BoundingCircle.FromThreePoints(triangle.P1, triangle.P2, triangle.P3),
                 Rectangle rectangle => BoundingCircle.FromTwoPoints(rectangle.TopLeft, rectangle.BottomRight),
-                _ => Welzl_Helper(p.Vertices, new List<Vector2>(), p.Vertices.Count())
+                _ => Welzl_Helper(new Span<Vector2>(p.Vertices.Vertices),
+                    new Span<Vector2>(new[] {Vector2.Zero, Vector2.Zero, Vector2.Zero}), p.Vertices.Length, 0)
             };
         }
     }

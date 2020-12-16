@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Primitives;
 
@@ -8,7 +9,7 @@ namespace Aptacode.Geometry.Collision
     {
         #region Point
 
-        public override bool CollidesWith(Point p1, Point p2) => p1 == p2;
+        public override bool CollidesWith(Point p1, Point p2) => p1.Equals(p2);
 
         public override bool CollidesWith(Point p1, PolyLine p2)
         {
@@ -32,11 +33,13 @@ namespace Aptacode.Geometry.Collision
             var point = p1.Position;
             foreach (var (a, b) in edges)
             {
-                if((b.Y == a.Y) && (a.X >= point.X && b.X <= point.X || a.X <= point.X && b.X >= point.X))
+                if (Math.Abs(b.Y - a.Y) < Constants.Tolerance &&
+                    (a.X >= point.X && b.X <= point.X || a.X <= point.X && b.X >= point.X))
                 {
                     collision = !collision;
                     break;
                 }
+
                 if ((a.Y >= point.Y && b.Y <= point.Y || a.Y <= point.Y && b.Y >= point.Y) &&
                     point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
@@ -144,11 +147,13 @@ namespace Aptacode.Geometry.Collision
             var point = p2.Position;
             foreach (var (a, b) in edges)
             {
-                if ((b.Y == a.Y) && (a.X >= point.X && b.X <= point.X || a.X <= point.X && b.X >= point.X))
+                if (Math.Abs(b.Y - a.Y) < Constants.Tolerance &&
+                    (a.X >= point.X && b.X <= point.X || a.X <= point.X && b.X >= point.X))
                 {
                     collision = !collision;
                     break;
                 }
+
                 if ((a.Y >= point.Y && b.Y <= point.Y || a.Y <= point.Y && b.Y >= point.Y) &&
                     point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {

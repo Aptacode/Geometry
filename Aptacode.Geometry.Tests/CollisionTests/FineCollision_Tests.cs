@@ -70,33 +70,33 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             Assert.True(sut);
         }
 
-        //[Fact]
-        //public void PointAndPoint_FineCollision_Test()
-        //{
-        //    //Arrange
-        //    var p1 = new Point(new Vector2(1, 1));
-        //    var p2 = new Point(new Vector2(1, 1));
-        //    //Act
-        //    var sut = p1.CollidesWith(p2, _collisionDetector);
-        //    //Assert
-        //    Assert.True(sut);
-        //}
+        [Fact]
+        public void PointAndPoint_FineCollision_Test()
+        {
+            //Arrange
+            var p1 = new Point(new Vector2(1, 1));
+            var p2 = new Point(new Vector2(1, 1));
+            //Act
+            var sut = p1.CollidesWith(p2, _collisionDetector);
+            //Assert
+            Assert.True(sut);
+        }
 
         [Fact]
         public void PointAndPolygon_FineCollision_Test()
         {
             //Arrange
             var poly = new Rectangle(new Vector2(0, 0), new Vector2(20, 0), new Vector2(20, 10), new Vector2(0, 10));
-            var points = poly.Points;
+            var points = poly.Vertices;
             //Act
-            for(var i = 0; i <= poly.BottomRight.X; i++)
+            for (var i = 0; i <= poly.BottomRight.X; i += 2)
             {
-                for(var j = 0; j <= poly.BottomRight.Y; j++)
+                for (var j = 0; j <= poly.BottomRight.Y; j += 2)
                 {
-                    var pointAsPoint = new Point(new Vector2(i,j));
+                    var pointAsPoint = new Point(new Vector2(i, j));
                     var sut = pointAsPoint.CollidesWith(poly, _collisionDetector);
                     Assert.True(sut);
-                }   
+                }
             }
         }
 
@@ -168,7 +168,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var circle = new Circle(new Vector2(2, 2), 2);
             //Act
             var sut = polyLine.CollidesWith(circle,
-                _collisionDetector); 
+                _collisionDetector);
             //Assert
             Assert.True(sut);
         }
@@ -181,7 +181,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var point = new Point(new Vector2(2, 2));
             //Act
             var sut = polyLine.CollidesWith(point,
-                _collisionDetector); 
+                _collisionDetector);
             //Assert
             Assert.True(sut);
         }

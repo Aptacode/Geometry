@@ -1,10 +1,18 @@
-﻿using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace Aptacode.Geometry.Collision.Circles
 {
-    public record BoundingCircle(Vector2 Center, float Radius)
+    public readonly struct BoundingCircle
     {
+        public readonly Vector2 Center;
+        public readonly float Radius;
+
+        public BoundingCircle(Vector2 center, float radius)
+        {
+            Center = center;
+            Radius = radius;
+        }
+
         public static BoundingCircle Zero => new(new Vector2(0.0f, 0.0f), 0.0f);
         public static BoundingCircle FromOnePoint(Vector2 p1) => new(p1, 0.0f);
 
@@ -19,17 +27,20 @@ namespace Aptacode.Geometry.Collision.Circles
 
         public static BoundingCircle FromThreePoints(Vector2 p1, Vector2 p2, Vector2 p3)
         {
-            var points = new[] {p1, p2, p3};
-            for (var i = 0; i < 3; i++)
+            BoundingCircle tempCircle;
+            if ((tempCircle = FromTwoPoints(p1, p2)).Contains(p3))
             {
-                for (var j = 0; j < 3; j++)
-                {
-                    var tempCircle = FromTwoPoints(points[i], points[j]);
-                    if (points.All(p => tempCircle.Contains(p)))
-                    {
-                        return tempCircle;
-                    }
-                }
+                return tempCircle;
+            }
+
+            if ((tempCircle = FromTwoPoints(p1, p3)).Contains(p2))
+            {
+                return tempCircle;
+            }
+
+            if ((tempCircle = FromTwoPoints(p2, p3)).Contains(p1))
+            {
+                return tempCircle;
             }
 
             var a = p3.LengthSquared() - p2.LengthSquared();

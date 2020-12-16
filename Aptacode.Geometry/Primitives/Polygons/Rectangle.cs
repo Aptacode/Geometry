@@ -1,14 +1,26 @@
-﻿using System.Numerics;
+﻿using System.Linq;
+using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives.Polygons
 {
-    public record Rectangle(Vector2 TopLeft, Vector2 TopRight, Vector2 BottomRight, Vector2 BottomLeft) : Polygon(new[]
-    {
-        TopLeft, TopRight, BottomRight, BottomLeft
-    })
+    public record Rectangle : Polygon
     {
         #region Construction
+
+        public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft) : base(
+            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft))
+        {
+            Size = BottomRight - TopLeft;
+        }
+
+        public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft,
+            BoundingCircle boundingCircle, (Vector2 p1, Vector2 p2)[] edges) : base(
+            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft), boundingCircle, edges)
+        {
+            Size = BottomRight - TopLeft;
+        }
 
         public static readonly Rectangle Zero = Create(Vector2.Zero, Vector2.Zero);
 
@@ -23,27 +35,21 @@ namespace Aptacode.Geometry.Primitives.Polygons
         #region Properties
 
         public Vector2 Position => TopLeft;
+        public Vector2 Size { get; init; }
         public float Width => Size.X;
         public float Height => Size.Y;
-
-        private readonly Vector2? _size;
-
-        public Vector2 Size
-        {
-            get => _size ?? BottomRight - TopLeft;
-            init => _size = value;
-        }
+        public Vector2 TopLeft => Vertices[0];
+        public Vector2 TopRight => Vertices[1];
+        public Vector2 BottomRight => Vertices[2];
+        public Vector2 BottomLeft => Vertices[3];
 
         #endregion
 
         #region Transformations
 
         public override Rectangle Translate(Vector2 delta) =>
-            new(TopLeft + delta, TopRight + delta, BottomRight + delta, BottomLeft + delta)
-            {
-                BoundingCircle = BoundingCircle.Translate(delta),
-                Size = Size
-            };
+            new(TopLeft + delta, TopRight + delta, BottomRight + delta, BottomLeft + delta,
+                BoundingCircle.Translate(delta), Edges.Select(l => (l.p1 + delta, l.p2 + delta)).ToArray());
 
         public override Rectangle Rotate(float delta) => this;
 
