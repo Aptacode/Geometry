@@ -34,13 +34,15 @@ namespace Aptacode.Geometry.Collision
             foreach (var (a, b) in edges)
             {
                 if (Math.Abs(b.Y - a.Y) < Constants.Tolerance &&
-                    (a.X >= point.X && b.X <= point.X || a.X <= point.X && b.X >= point.X))
+                    (a.X >= point.X && b.X <= point.X ||
+                     a.X <= point.X && b.X >= point.X))
                 {
                     collision = !collision;
-                    break;
+                    continue;
                 }
 
-                if ((a.Y >= point.Y && b.Y <= point.Y || a.Y <= point.Y && b.Y >= point.Y) &&
+                if ((a.Y >= point.Y && b.Y <= point.Y || 
+                     a.Y <= point.Y && b.Y >= point.Y) &&
                     point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
                     collision = !collision;
