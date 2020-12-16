@@ -51,7 +51,9 @@ namespace Aptacode.Geometry.Primitives
 
         public override Polygon Translate(Vector2 delta)
         {
-            return new(Vertices.Translate(delta), BoundingCircle.Translate(delta),
+            return new(
+                Vertices.Translate(delta), 
+                BoundingCircle.Translate(delta),
                 Edges.Select(l => (l.p1 + delta, l.p2 + delta)));
         }
 

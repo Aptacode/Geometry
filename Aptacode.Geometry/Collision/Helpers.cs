@@ -4,18 +4,17 @@ namespace Aptacode.Geometry.Collision
 {
     public static class Helpers
     {
-        public static bool OnLineSegment((Vector2, Vector2) line, Vector2 point)
+        public static bool OnLineSegment(this (Vector2 A, Vector2 B) line, Vector2 point)
         {
-            var (lineA, lineB) = line;
-
-            var d1 = (lineA - point).Length();
-            var d2 = (lineB - point).Length();
-            var lineLength = (lineB - lineA).Length();
+            var d1 = (line.A - point).Length();
+            var d2 = (line.B - point).Length();
+            var lineLength = (line.B - line.A).Length();
+            var delta = d1 + d2;
             const float buffer = 0.1f; //useful so that you don't have to literally be right on the line.
-            return d1 + d2 >= lineLength - buffer && d1 + d2 <= lineLength + buffer;
+            return delta >= lineLength - buffer && delta <= lineLength + buffer;
         }
 
-        public static bool LineSegmentIntersection((Vector2, Vector2) line1, (Vector2, Vector2) line2)
+        public static bool LineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)
         {
             var (line1A, line1B) = line1;
             var (line2A, line2B) = line2;

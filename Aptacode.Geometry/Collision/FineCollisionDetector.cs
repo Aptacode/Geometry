@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Primitives;
@@ -13,17 +14,7 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Point p1, PolyLine p2)
         {
-            foreach (var (v1, v2) in p2.LineSegments)
-            {
-                if (!Helpers.OnLineSegment((v1, v2), p1.Position))
-                {
-                    continue;
-                }
-
-                return true;
-            }
-
-            return false;
+            return p2.LineSegments.Any(line => line.OnLineSegment(p1.Position));
         }
 
         public override bool CollidesWith(Point p1, Polygon p2)
@@ -33,15 +24,7 @@ namespace Aptacode.Geometry.Collision
             var point = p1.Position;
             foreach (var (a, b) in edges)
             {
-                if (Math.Abs(b.Y - a.Y) < Constants.Tolerance && //It is a horizontal line
-                    Math.Abs(point.Y - a.Y) < Constants.Tolerance && //And we are on it
-                    (point.X >= Math.Min(a.X, b.X) && point.X <= Math.Max(a.X, b.X))) //Within the line segment
-                {
-                    return true;
-                }
-                if (Math.Abs(b.X - a.X) < Constants.Tolerance && //It is a horizontal line
-                    Math.Abs(point.X - a.X) < Constants.Tolerance && //And we are on it
-                    (point.Y >= Math.Min(a.Y, b.Y) && point.Y <= Math.Max(a.Y, b.Y))) //Within the line segment
+                if ((a, b).OnLineSegment(point))
                 {
                     return true;
                 }
@@ -66,49 +49,17 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(PolyLine p1, Point p2)
         {
-            foreach (var (v1, v2) in p1.LineSegments)
-            {
-                if (!Helpers.OnLineSegment((v1, v2), p2.Position))
-                {
-                    continue;
-                }
-
-                return true;
-            }
-
-            return false;
+            return p1.LineSegments.Any(line => line.OnLineSegment(p2.Position));
         }
 
         public override bool CollidesWith(PolyLine p1, PolyLine p2)
         {
-            foreach (var (v1, v2) in p1.LineSegments)
-            {
-                foreach (var (v3, v4) in p2.LineSegments)
-                {
-                    if (Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return p1.LineSegments.Any(lineA => p2.LineSegments.Any(lineB => lineA.LineSegmentIntersection(lineB)));
         }
 
         public override bool CollidesWith(PolyLine p1, Polygon p2)
         {
-            foreach (var (v1, v2) in p1.LineSegments)
-            {
-                foreach (var (v3, v4) in p2.Edges)
-                {
-                    if (Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return p1.LineSegments.Any(lineA => p2.Edges.Any(lineB => lineA.LineSegmentIntersection(lineB)));
         }
 
         public override bool CollidesWith(PolyLine p1, Circle p2)
@@ -127,7 +78,7 @@ namespace Aptacode.Geometry.Collision
                 var closestPoint =
                     new Vector2(closestX,
                         closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
-                if (!Helpers.OnLineSegment((v1, v2), closestPoint)
+                if (!(v1, v2).OnLineSegment(closestPoint)
                 ) //Closest intersection point may be beyond the ends of the line segment.
                 {
                     return false;
@@ -154,15 +105,14 @@ namespace Aptacode.Geometry.Collision
             var point = p2.Position;
             foreach (var (a, b) in edges)
             {
-                if (Math.Abs(b.Y - a.Y) < Constants.Tolerance &&
-                    (a.X >= point.X && b.X <= point.X || a.X <= point.X && b.X >= point.X))
+                if ((a, b).OnLineSegment(point))
                 {
-                    collision = !collision;
-                    break;
+                    return true;
                 }
-
-                if ((a.Y >= point.Y && b.Y <= point.Y || a.Y <= point.Y && b.Y >= point.Y) &&
-                    point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
+                
+                if ((a.Y >= point.Y && b.Y <= point.Y ||
+                     a.Y <= point.Y && b.Y >= point.Y) &&
+                    point.X <= (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
                     collision = !collision;
                 }
@@ -175,34 +125,15 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Polygon p1, PolyLine p2)
         {
-            foreach (var (v1, v2) in p1.Edges)
-            {
-                foreach (var (v3, v4) in p2.LineSegments)
-                {
-                    if (Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return p1.Edges.Any(
+                line1 => p2.LineSegments.Any(
+                    line2 =>
+                        line1.LineSegmentIntersection(line2)));
         }
 
         public override bool CollidesWith(Polygon p1, Polygon p2)
         {
-            foreach (var (v1, v2) in p1.Edges)
-            {
-                foreach (var (v3, v4) in p2.Edges)
-                {
-                    if (Helpers.LineSegmentIntersection((v1, v2), (v3, v4)))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return p1.Edges.Any(lineA => p2.Edges.Any(lineB => lineA.LineSegmentIntersection(lineB)));
         }
 
         public override bool CollidesWith(Polygon p1, Circle p2)
@@ -222,7 +153,7 @@ namespace Aptacode.Geometry.Collision
                     var closestPoint =
                         new Vector2(closestX,
                             closestY); //The point of intersection of a line from the center of the circle perpendicular to the edge (possibly the ray) with the line segment (or ray).
-                    if (!Helpers.OnLineSegment((v1, v2), closestPoint)
+                    if (!(v1, v2).OnLineSegment(closestPoint)
                     ) //Closest intersection point may be beyond the ends of the edge.
                     {
                         return false;
@@ -261,7 +192,7 @@ namespace Aptacode.Geometry.Collision
                 var closestPoint =
                     new Vector2(closestX,
                         closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
-                if (!Helpers.OnLineSegment((v1, v2), closestPoint)
+                if (!(v1, v2).OnLineSegment(closestPoint)
                 ) //Closest intersection point may be beyond the ends of the line segment.
                 {
                     return false;
@@ -293,7 +224,7 @@ namespace Aptacode.Geometry.Collision
                 var closestPoint =
                     new Vector2(closestX,
                         closestY); //The point of intersection of a line from the center of the circle perpendicular to the edge (possibly the ray) with the line segment (or ray).
-                if (!Helpers.OnLineSegment((v1, v2), closestPoint)
+                if (!(v1, v2).OnLineSegment(closestPoint)
                 ) //Closest intersection point may be beyond the ends of the edge.
                 {
                     return false;
