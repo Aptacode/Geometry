@@ -8,6 +8,12 @@ namespace Aptacode.Geometry.Primitives
 {
     public record PolyLine(IEnumerable<Vector2> Points) : Primitive(Points)
     {
+        #region Collision Detection
+
+        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
+
+        #endregion
+
         #region Construction
 
         public static readonly PolyLine Zero = Create(Vector2.Zero, Vector2.Zero);
@@ -16,7 +22,7 @@ namespace Aptacode.Geometry.Primitives
         {
             p1, p2
         }.Concat(points));
-        
+
         #endregion
 
         #region Properties
@@ -32,13 +38,7 @@ namespace Aptacode.Geometry.Primitives
         {
             get => _lineSegments ?? CalculateLineSegments();
             init => _lineSegments = value;
-        } 
-
-        #endregion
-
-        #region Collision Detection
-
-        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
+        }
 
         #endregion
 

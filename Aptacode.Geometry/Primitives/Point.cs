@@ -6,16 +6,16 @@ namespace Aptacode.Geometry.Primitives
 {
     public record Point(Vector2 Position) : Primitive(new[] {Position})
     {
+        #region Collision Detection
+
+        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
+
+        #endregion
+
         #region Construction
 
         public static readonly Point Zero = new(Vector2.Zero);
         public static readonly Point Unit = new(Vector2.One);
-
-        #endregion
-        
-        #region Collision Detection
-
-        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
 
         #endregion
 

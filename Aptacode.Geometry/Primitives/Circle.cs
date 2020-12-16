@@ -6,16 +6,16 @@ namespace Aptacode.Geometry.Primitives
 {
     public record Circle(Vector2 Position, float Radius) : Primitive(new[] {Position})
     {
+        #region Collision Detection
+
+        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
+
+        #endregion
+
         #region Construction
 
         public static readonly Circle Zero = new(Vector2.Zero, 0.0f);
         public static readonly Circle Unit = new(Vector2.Zero, 1.0f);
-
-        #endregion
-        
-        #region Collision Detection
-
-        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
 
         #endregion
 

@@ -14,7 +14,7 @@ namespace Aptacode.Geometry.Primitives.Polygons
 
         public static Rectangle Create(Vector2 position, Vector2 size) =>
             new(position,
-                new Vector2(position.X + size.X, position.Y + size.Y),
+                new Vector2(position.X + size.X, position.Y),
                 position + size,
                 new Vector2(position.X, position.Y + size.Y));
 
@@ -23,15 +23,17 @@ namespace Aptacode.Geometry.Primitives.Polygons
         #region Properties
 
         public Vector2 Position => TopLeft;
+        public float Width => Size.X;
+        public float Height => Size.Y;
 
-        private Vector2? _size;
+        private readonly Vector2? _size;
 
         public Vector2 Size
         {
             get => _size ?? BottomRight - TopLeft;
             init => _size = value;
         }
-        
+
         #endregion
 
         #region Transformations
