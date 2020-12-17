@@ -57,7 +57,13 @@ namespace Aptacode.Geometry.Primitives
                 Edges.Select(l => (l.p1 + delta, l.p2 + delta)));
         }
 
-        public override Polygon Rotate(float delta) => this;
+        public override Polygon Rotate(float theta)
+        {
+            return new(
+                Vertices.Rotate(BoundingCircle.Center, theta),
+                BoundingCircle.Rotate(BoundingCircle.Center, theta),
+                Edges.Select(l => (Vector2.Transform(l.p1, Matrix3x2.CreateRotation(theta, BoundingCircle.Center)), Vector2.Transform(l.p2, Matrix3x2.CreateRotation(theta, BoundingCircle.Center)))));
+        }
 
         public override Polygon Scale(Vector2 delta) => this;
 

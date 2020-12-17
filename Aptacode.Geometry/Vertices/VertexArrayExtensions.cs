@@ -25,9 +25,10 @@ namespace Aptacode.Geometry.Vertices
             return VertexArray.Create(vertexArray.Select(v => v + delta));
         }
 
-        public static VertexArray Rotate(this VertexArray vertexArray, float theta) =>
-            //ToDo
-            vertexArray;
+        public static VertexArray Rotate(this VertexArray vertexArray, Vector2 rotationCenter, float theta)
+        {
+            return VertexArray.Create(vertexArray.Select(v => Vector2.Transform(v, Matrix3x2.CreateRotation(theta, rotationCenter))));
+        }
 
         public static VertexArray Scale(this VertexArray vertexArray, Vector2 delta) =>
             //ToDo
