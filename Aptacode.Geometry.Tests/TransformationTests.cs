@@ -18,10 +18,21 @@ namespace Aptacode.Geometry.Tests
             //Act
             var sut = poly.Translate(new Vector2(1, 0));
             //Assert
-            Assert.Equal(new Vector2(4, 3), sut.Vertices[0]);
-            Assert.Equal(new Vector2(8, 3), sut.Vertices[1]);
-            Assert.Equal(new Vector2(8, 5), sut.Vertices[2]);
-            Assert.Equal(new Vector2(4, 5), sut.Vertices[3]);
+            var expectedVertices = VertexArray.Create(new Vector2(4, 3), new Vector2(8, 3), new Vector2(8, 5), new Vector2(4, 5));
+            var expectedBoundingCircleCenter = poly.BoundingCircle.Center + new Vector2(1, 0);
+            var expectedBoundingCircleRadius = poly.BoundingCircle.Radius;
+            var expectedEdges = new (Vector2, Vector2)[] { (new Vector2(4, 3), new Vector2(8, 3)), (new Vector2(8, 3), new Vector2(8, 5)), (new Vector2(8, 5), new Vector2(4, 5)), (new Vector2(4, 5), new Vector2(4, 3)) };
+            //Assert
+            foreach (var vertex in expectedVertices.Vertices)
+            {
+                Assert.Contains(vertex, sut.Vertices);
+            }
+            Assert.Equal(expectedBoundingCircleCenter, sut.BoundingCircle.Center);
+            Assert.Equal(expectedBoundingCircleRadius, sut.BoundingCircle.Radius);
+            foreach (var edge in expectedEdges)
+            {
+                Assert.Contains(edge, sut.Edges);
+            }
         }
 
         [Fact]
@@ -32,11 +43,21 @@ namespace Aptacode.Geometry.Tests
             //Act
             var sut = poly.Rotate((float)Math.PI/2);
             var expectedVertices = VertexArray.Create(new Vector2(4, 2), new Vector2(6, 2), new Vector2(6, 6), new Vector2(4, 6));
+            var expectedBoundingCircleCenter = poly.BoundingCircle.Center;
+            var expectedBoundingCircleRadius = poly.BoundingCircle.Radius;
+            var expectedEdges = new (Vector2, Vector2)[] { (new Vector2(4, 2), new Vector2(6, 2)), (new Vector2(6, 2), new Vector2(6, 6)), (new Vector2(6, 6), new Vector2(4, 6)), (new Vector2(4, 6), new Vector2(4, 2)) };
             //Assert
             foreach(var vertex in expectedVertices.Vertices)
             {
                 Assert.Contains(vertex, sut.Vertices);
             }
+            Assert.Equal(expectedBoundingCircleCenter, sut.BoundingCircle.Center);
+            Assert.Equal(expectedBoundingCircleRadius, sut.BoundingCircle.Radius);
+            foreach(var edge in expectedEdges)
+            {
+                Assert.Contains(edge, sut.Edges);
+            }
+
         }
     }
 }
