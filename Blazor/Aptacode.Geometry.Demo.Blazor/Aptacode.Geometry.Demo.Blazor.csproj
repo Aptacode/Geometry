@@ -10,4 +10,9 @@
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Aptacode.Geometry.Blazor\Aptacode.Geometry.Blazor.csproj" />
+    <ProjectReference Include="..\..\Aptacode.Geometry\Aptacode.Geometry.csproj" />
+  </ItemGroup>
+
 </Project>

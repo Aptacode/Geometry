@@ -11,6 +11,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
+    <PackageReference Include="Aptacode.CSharp.Common.Utilities" Version="1.0.0.30" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aptacode.Geometry\Aptacode.Geometry.csproj" />
   </ItemGroup>
 
 </Project>
