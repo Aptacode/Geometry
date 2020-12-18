@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Aptacode.Geometry.Vertices
@@ -10,6 +11,12 @@ namespace Aptacode.Geometry.Vertices
 
         public static VertexArray Concat(this VertexArray vertexArrayA, VertexArray vertexArrayB) =>
             new(vertexArrayA.Concat(vertexArrayB).ToArray());
+
+        public static VertexArray Aggregate(this IEnumerable<VertexArray> vertexArrays)
+        {
+            var vertexArray = new VertexArray();
+            return vertexArrays.Aggregate(vertexArray, (current, v) => current.Concat(v));
+        }
 
         public static VertexArray Remove(this VertexArray vertexArray, int index)
         {

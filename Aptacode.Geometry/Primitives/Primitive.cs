@@ -23,13 +23,13 @@ namespace Aptacode.Geometry.Primitives
             _boundingCircle = null;
         }
 
-        protected Primitive(VertexArray vertices, BoundingCircle boundingCircle)
+        protected Primitive(VertexArray vertices, BoundingCircle? boundingCircle)
         {
             Vertices = vertices;
             _boundingCircle = boundingCircle;
         }
 
-        private BoundingCircle? _boundingCircle;
+        protected BoundingCircle? _boundingCircle;
 
         public BoundingCircle BoundingCircle =>
             _boundingCircle ?? (_boundingCircle = this.MinimumBoundingCircle()).Value;
@@ -42,6 +42,7 @@ namespace Aptacode.Geometry.Primitives
 
         public abstract Primitive Translate(Vector2 delta);
         public abstract Primitive Rotate(float theta);
+        public abstract Primitive Rotate(Vector2 rotationCenter, float theta);
         public abstract Primitive Scale(Vector2 delta);
         public abstract Primitive Skew(Vector2 delta);
 

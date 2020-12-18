@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Composites;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
@@ -22,6 +22,7 @@ namespace Aptacode.Geometry.Collision
             var collision = false;
             var edges = p2.Edges;
             var point = p1.Position;
+
             foreach (var (a, b) in edges)
             {
                 if ((a, b).OnLineSegment(point))
@@ -29,7 +30,7 @@ namespace Aptacode.Geometry.Collision
                     return true;
                 }
 
-                if ((a.Y >= point.Y && b.Y <= point.Y || 
+                if ((a.Y >= point.Y && b.Y <= point.Y ||
                      a.Y <= point.Y && b.Y >= point.Y) &&
                     point.X <= (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
@@ -43,9 +44,9 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Point p1, Circle p2) => p2.BoundingCircle.Contains(p1.Position);
 
-#endregion
+        #endregion
 
-                #region PolyLine
+        #region PolyLine
 
         public override bool CollidesWith(PolyLine p1, Point p2)
         {
@@ -94,9 +95,9 @@ namespace Aptacode.Geometry.Collision
             return false;
         }
 
-                #endregion
+        #endregion
 
-                #region Polygon
+        #region Polygon
 
         public override bool CollidesWith(Polygon p1, Point p2)
         {
@@ -109,7 +110,7 @@ namespace Aptacode.Geometry.Collision
                 {
                     return true;
                 }
-                
+
                 if ((a.Y >= point.Y && b.Y <= point.Y ||
                      a.Y <= point.Y && b.Y >= point.Y) &&
                     point.X <= (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
@@ -170,9 +171,9 @@ namespace Aptacode.Geometry.Collision
             }
         }
 
-                #endregion
+        #endregion
 
-                #region Circle
+        #region Circle
 
         public override bool CollidesWith(Circle p1, Point p2) => p1.BoundingCircle.Contains(p2.Position);
 
@@ -246,6 +247,33 @@ namespace Aptacode.Geometry.Collision
             return d < p1.Radius + p2.Radius;
         }
 
-                #endregion
+        public override bool CollidesWith(Point p1, PrimitiveGroup p2) =>
+            p2.Children.Any(c => c.CollidesWith(p1, this));
+
+        public override bool CollidesWith(PolyLine p1, PrimitiveGroup p2) =>
+            p2.Children.Any(c => c.CollidesWith(p1, this));
+
+        public override bool CollidesWith(Polygon p1, PrimitiveGroup p2) =>
+            p2.Children.Any(c => c.CollidesWith(p1, this));
+
+        public override bool CollidesWith(Circle p1, PrimitiveGroup p2) =>
+            p2.Children.Any(c => c.CollidesWith(p1, this));
+
+        public override bool CollidesWith(PrimitiveGroup p1, PrimitiveGroup p2) =>
+            p2.Children.Any(c => c.CollidesWith(p1, this));
+
+        public override bool CollidesWith(PrimitiveGroup p1, Point p2) =>
+            p1.Children.Any(c => c.CollidesWith(p2, this));
+
+        public override bool CollidesWith(PrimitiveGroup p1, PolyLine p2) =>
+            p1.Children.Any(c => c.CollidesWith(p2, this));
+
+        public override bool CollidesWith(PrimitiveGroup p1, Polygon p2) =>
+            p1.Children.Any(c => c.CollidesWith(p2, this));
+
+        public override bool CollidesWith(PrimitiveGroup p1, Circle p2) =>
+            p1.Children.Any(c => c.CollidesWith(p2, this));
+
+        #endregion
     }
 }

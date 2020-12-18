@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Vertices;
 
@@ -15,9 +14,12 @@ namespace Aptacode.Geometry.Primitives.Polygons
             Size = BottomRight - TopLeft;
         }
 
+        protected Rectangle(VertexArray vertices, BoundingCircle? boundingCircle)
+            : base(vertices, boundingCircle) { }
+
         public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft,
-            BoundingCircle boundingCircle, (Vector2 p1, Vector2 p2)[] edges) : base(
-            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft), boundingCircle, edges)
+            BoundingCircle? boundingCircle) : base(
+            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft), boundingCircle)
         {
             Size = BottomRight - TopLeft;
         }
@@ -47,15 +49,19 @@ namespace Aptacode.Geometry.Primitives.Polygons
 
         #region Transformations
 
-        //public override Rectangle Translate(Vector2 delta) =>
-        //    new(TopLeft + delta, TopRight + delta, BottomRight + delta, BottomLeft + delta,
-        //        BoundingCircle.Translate(delta), Edges.Select(l => (l.p1 + delta, l.p2 + delta)).ToArray());
+        public override Rectangle Translate(Vector2 delta) =>
+            new(Vertices.Translate(delta),
+                _boundingCircle?.Translate(delta));
 
-        public override Rectangle Rotate(float delta) => this;
+        public override Rectangle Rotate(Vector2 rotationCenter, float theta) =>
+            new(Vertices.Rotate(rotationCenter, theta), _boundingCircle?.Rotate(rotationCenter, theta));
 
-        public override Rectangle Scale(Vector2 delta) => this;
+        public override Rectangle Rotate(float theta) =>
+            new(Vertices.Rotate(BoundingCircle.Center, theta), _boundingCircle);
 
-        public override Rectangle Skew(Vector2 delta) => this;
+        public override Rectangle Scale(Vector2 delta) => new(Vertices.Scale(BoundingCircle.Center, delta), null);
+
+        public override Rectangle Skew(Vector2 delta) => new(Vertices.Skew(delta), null);
 
         #endregion
     }

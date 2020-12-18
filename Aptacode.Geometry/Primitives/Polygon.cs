@@ -19,11 +19,8 @@ namespace Aptacode.Geometry.Primitives
 
         public Polygon(VertexArray vertices) : base(vertices) { }
 
-        public Polygon(VertexArray vertices, BoundingCircle boundingCircle, IEnumerable<(Vector2 p1, Vector2 p2)> edges)
-            : base(vertices, boundingCircle)
-        {
-            _edges = edges;
-        }
+        public Polygon(VertexArray vertices, BoundingCircle? boundingCircle)
+            : base(vertices, boundingCircle) { }
 
 
         public static readonly Polygon Zero = Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);
@@ -49,9 +46,14 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override Polygon Translate(Vector2 delta) => new(Vertices.Translate(delta));
+        public override Polygon Translate(Vector2 delta) =>
+            new(Vertices.Translate(delta), _boundingCircle?.Translate(delta));
 
-        public override Polygon Rotate(float theta) => new(Vertices.Rotate(BoundingCircle.Center, theta));
+        public override Polygon Rotate(float theta) =>
+            new(Vertices.Rotate(BoundingCircle.Center, theta), _boundingCircle);
+
+        public override Polygon Rotate(Vector2 rotationCenter, float theta) =>
+            new(Vertices.Rotate(rotationCenter, theta), _boundingCircle?.Rotate(rotationCenter, theta));
 
         public override Polygon Scale(Vector2 delta) => new(Vertices.Scale(BoundingCircle.Center, delta));
 

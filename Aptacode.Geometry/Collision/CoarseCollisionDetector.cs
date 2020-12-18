@@ -1,4 +1,5 @@
-﻿using Aptacode.Geometry.Primitives;
+﻿using Aptacode.Geometry.Composites;
+using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
 {
@@ -17,10 +18,10 @@ namespace Aptacode.Geometry.Collision
         #region Point
 
         public override bool CollidesWith(Point p1, Point p2) => CoarseCollision(p1, p2);
-
         public override bool CollidesWith(Point p1, PolyLine p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(Point p1, Polygon p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(Point p1, Circle p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Point p1, PrimitiveGroup p2) => CoarseCollision(p1, p2);
 
         #endregion
 
@@ -30,6 +31,7 @@ namespace Aptacode.Geometry.Collision
         public override bool CollidesWith(PolyLine p1, PolyLine p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(PolyLine p1, Polygon p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(PolyLine p1, Circle p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(PolyLine p1, PrimitiveGroup p2) => CoarseCollision(p1, p2);
 
         #endregion
 
@@ -39,6 +41,7 @@ namespace Aptacode.Geometry.Collision
         public override bool CollidesWith(Polygon p1, PolyLine p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(Polygon p1, Polygon p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(Polygon p1, Circle p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Polygon p1, PrimitiveGroup p2) => CoarseCollision(p1, p2);
 
         #endregion
 
@@ -48,6 +51,17 @@ namespace Aptacode.Geometry.Collision
         public override bool CollidesWith(Circle p1, PolyLine p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(Circle p1, Polygon p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(Circle p1, Circle p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(Circle p1, PrimitiveGroup p2) => CoarseCollision(p1, p2);
+
+        #endregion
+
+        #region Circle
+
+        public override bool CollidesWith(PrimitiveGroup p1, PrimitiveGroup p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(PrimitiveGroup p1, Point p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(PrimitiveGroup p1, PolyLine p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(PrimitiveGroup p1, Polygon p2) => CoarseCollision(p1, p2);
+        public override bool CollidesWith(PrimitiveGroup p1, Circle p2) => CoarseCollision(p1, p2);
 
         #endregion
     }

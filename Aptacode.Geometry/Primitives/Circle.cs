@@ -36,7 +36,12 @@ namespace Aptacode.Geometry.Primitives
             Radius = radius;
         }
 
-        public Circle(Vector2 position, float radius, BoundingCircle boundingCircle) : base(
+        protected Circle(VertexArray vertexArray, float radius) : base(vertexArray)
+        {
+            Radius = radius;
+        }
+
+        public Circle(Vector2 position, float radius, BoundingCircle? boundingCircle) : base(
             VertexArray.Create(position), boundingCircle)
         {
             Radius = radius;
@@ -50,11 +55,14 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override Circle Translate(Vector2 delta) => new(Position + delta, Radius);
+        public override Circle Translate(Vector2 delta) => new(Position + delta, Radius, _boundingCircle);
 
         public override Circle Rotate(float theta) => this;
 
-        public override Circle Scale(Vector2 delta) => new(Position, Radius*delta.Length());
+        public override Circle Rotate(Vector2 rotationCenter, float theta) =>
+            new(Vertices.Rotate(rotationCenter, theta), Radius);
+
+        public override Circle Scale(Vector2 delta) => new(Position, Radius * delta.Length());
 
         public override Circle Skew(Vector2 delta) => this;
 

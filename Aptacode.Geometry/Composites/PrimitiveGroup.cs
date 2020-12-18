@@ -1,60 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Vertices;
 
-namespace Aptacode.Geometry.Primitives { }
-//{
-//    public record PrimitiveGroup : Primitive
-//    {
-//        private IEnumerable<Primitive> _primitives;
-//        public IEnumerable<Primitive> Primitives => _primitives;
+namespace Aptacode.Geometry.Composites
+{
+    public record PrimitiveGroup : Primitive
+    {
+        #region Properties
 
+        public IEnumerable<Primitive> Children { get; init; }
 
-//        private IEnumerable<(Vector2 p1, Vector2 p2)> CalculateEdges()
-//        {
-//            var edges = Vertices.Zip(Vertices.Skip(1), (a, b) => (a, b)).ToList();
-//            edges.Add((Vertices.Last(), Vertices.First()));
-//            return edges;
-//        }
+        #endregion
 
-//        private IEnumerable<(Vector2 p1, Vector2 p2)> _edges;
-//        public IEnumerable<(Vector2 p1, Vector2 p2)> Edges => _edges ??= CalculateEdges();
-        
-//        private IEnumerable<Vector2> _vertices;
-//        public IEnumerable<Vector2> Vertices => _vertices ??= GetVertices();
+        #region Collision Detection
 
-//        private IEnumerable<Vector2> GetVertices()
-//        {
-//            var vertices = new HashSet<Vector2>();
-//            foreach(var vertex in Primitives.SelectMany(p => p.Vertices.Vertices))
-//            {
-//                vertices.Add(vertex);
-//            }
-//            return vertices;
-//        }
+        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
 
-//        public override Primitive Translate(Vector2 delta)
-//        {
-//            throw new NotImplementedException();
-//        }
+        #endregion
 
-//        public override Primitive Rotate(float theta)
-//        {
-//            throw new NotImplementedException();
-//        }
+        #region Construction
 
-//        public override Primitive Scale(Vector2 delta)
-//        {
-//            throw new NotImplementedException();
-//        }
+        public PrimitiveGroup(IEnumerable<Primitive> children) : base(children.Select(v => v.Vertices).Aggregate())
+        {
+            Children = children;
+        }
 
-//        public override Primitive Skew(Vector2 delta)
-//        {
-//            throw new NotImplementedException();
-//        }
-//    }
-//}
+        public PrimitiveGroup(IEnumerable<Primitive> children, BoundingCircle boundingCircle)
+            : base(children.Select(v => v.Vertices).Aggregate(), boundingCircle)
+        {
+            Children = children;
+        }
+
+        #endregion
+
+        #region Transformations
+
+        public override PrimitiveGroup Translate(Vector2 delta) => new(Children.Select(c => c.Translate(delta)));
+
+        public override PrimitiveGroup Rotate(float theta) =>
+            new(Children.Select(c => c.Rotate(BoundingCircle.Center, theta)));
+
+        public override PrimitiveGroup Rotate(Vector2 rotationCenter, float theta) =>
+            new(Children.Select(c => c.Rotate(rotationCenter, theta)));
+
+        public override PrimitiveGroup Scale(Vector2 delta) => new(Children.Select(c => c.Scale(delta)));
+        public override PrimitiveGroup Skew(Vector2 delta) => new(Children.Select(c => c.Skew(delta)));
+
+        #endregion
+    }
+}

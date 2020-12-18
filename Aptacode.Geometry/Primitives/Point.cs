@@ -8,8 +8,9 @@ namespace Aptacode.Geometry.Primitives
     public record Point : Primitive
     {
         public Point(Vector2 position) : base(VertexArray.Create(position)) { }
+        protected Point(VertexArray vertexArray) : base(vertexArray) { }
 
-        public Point(Vector2 position, BoundingCircle boundingCircle) : base(VertexArray.Create(position),
+        public Point(Vector2 position, BoundingCircle? boundingCircle) : base(VertexArray.Create(position),
             boundingCircle) { }
 
         public Vector2 Position => Vertices[0];
@@ -29,9 +30,12 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override Point Translate(Vector2 delta) => new(Position + delta);
+        public override Point Translate(Vector2 delta) => new(Position + delta, _boundingCircle?.Translate(delta));
 
         public override Point Rotate(float theta) => this;
+
+        public override Point Rotate(Vector2 rotationCenter, float theta) =>
+            new(Vertices.Rotate(rotationCenter, theta));
 
         public override Point Scale(Vector2 delta) => this;
 

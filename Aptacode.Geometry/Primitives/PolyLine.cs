@@ -22,11 +22,7 @@ namespace Aptacode.Geometry.Primitives
             _lineSegments = null;
         }
 
-        public PolyLine(VertexArray vertices, BoundingCircle boundingCircle,
-            IEnumerable<(Vector2 p1, Vector2 p2)> lineSegments) : base(vertices, boundingCircle)
-        {
-            _lineSegments = lineSegments;
-        }
+        public PolyLine(VertexArray vertices, BoundingCircle? boundingCircle) : base(vertices, boundingCircle) { }
 
         public static readonly PolyLine Zero = Create(Vector2.Zero, Vector2.Zero);
 
@@ -49,9 +45,14 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override PolyLine Translate(Vector2 delta) => new(Vertices.Translate(delta));
+        public override PolyLine Translate(Vector2 delta) =>
+            new(Vertices.Translate(delta), _boundingCircle?.Translate(delta));
 
-        public override PolyLine Rotate(float theta) => new(Vertices.Rotate(BoundingCircle.Center, theta));
+        public override PolyLine Rotate(float theta) =>
+            new(Vertices.Rotate(BoundingCircle.Center, theta), _boundingCircle);
+
+        public override PolyLine Rotate(Vector2 rotationCenter, float theta) =>
+            new(Vertices.Rotate(rotationCenter, theta), _boundingCircle?.Rotate(rotationCenter, theta));
 
         public override PolyLine Scale(Vector2 delta) => new(Vertices.Scale(BoundingCircle.Center, delta));
 
