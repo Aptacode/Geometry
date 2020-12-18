@@ -6,14 +6,14 @@ using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
 {
-    public record Circle : Primitive
+    public record Ellipse : Primitive
     {
         public readonly float Radius;
         public Vector2 Position => Vertices[0];
 
         #region IEquatable
 
-        public virtual bool Equals(Circle other)
+        public virtual bool Equals(Ellipse other)
         {
             var delta = Position - other.Position;
             return Math.Abs(delta.X) < Constants.Tolerance &&
@@ -31,40 +31,40 @@ namespace Aptacode.Geometry.Primitives
 
         #region Construction
 
-        public Circle(Vector2 position, float radius) : base(VertexArray.Create(position))
+        public Ellipse(Vector2 position, float radius) : base(VertexArray.Create(position))
         {
             Radius = radius;
         }
 
-        protected Circle(VertexArray vertexArray, float radius) : base(vertexArray)
+        protected Ellipse(VertexArray vertexArray, float radius) : base(vertexArray)
         {
             Radius = radius;
         }
 
-        public Circle(Vector2 position, float radius, BoundingCircle? boundingCircle) : base(
+        public Ellipse(Vector2 position, float radius, BoundingCircle? boundingCircle) : base(
             VertexArray.Create(position), boundingCircle)
         {
             Radius = radius;
         }
 
 
-        public static readonly Circle Zero = new(Vector2.Zero, 0.0f);
-        public static readonly Circle Unit = new(Vector2.Zero, 1.0f);
+        public static readonly Ellipse Zero = new(Vector2.Zero, 0.0f);
+        public static readonly Ellipse Unit = new(Vector2.Zero, 1.0f);
 
         #endregion
 
         #region Transformations
 
-        public override Circle Translate(Vector2 delta) => new(Position + delta, Radius, _boundingCircle);
+        public override Ellipse Translate(Vector2 delta) => new(Position + delta, Radius, _boundingCircle);
 
-        public override Circle Rotate(float theta) => this;
+        public override Ellipse Rotate(float theta) => this;
 
-        public override Circle Rotate(Vector2 rotationCenter, float theta) =>
+        public override Ellipse Rotate(Vector2 rotationCenter, float theta) =>
             new(Vertices.Rotate(rotationCenter, theta), Radius);
 
-        public override Circle Scale(Vector2 delta) => new(Position, Radius * delta.Length());
+        public override Ellipse Scale(Vector2 delta) => new(Position, Radius * delta.Length());
 
-        public override Circle Skew(Vector2 delta) => this;
+        public override Ellipse Skew(Vector2 delta) => this;
 
         #endregion
     }
