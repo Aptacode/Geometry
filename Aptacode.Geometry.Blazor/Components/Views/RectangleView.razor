@@ -1,3 +1,3 @@
 ﻿@inherits RectangleViewBase
 
-<rect x="@(Position.X)" y="@(Position.Y)" width="@(Size.X)" height="@(Size.Y)" fill="white" stroke="@(ViewModel.BorderColor.ToKnownColor())" stroke-width="@(ViewModel.BorderThickness * Constants.Scale)" />
+<rect x="@(ViewModel.Position.X)" y="@(ViewModel.Position.Y)" width="@(ViewModel.Size.X)" height="@(ViewModel.Size.Y)" stroke="@(ViewModel.BorderColor.ToKnownColor())" stroke-width="@(ViewModel.BorderThickness)" fill="@(ViewModel.FillColor.ToKnownColor())" />

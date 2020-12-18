@@ -1,2 +1,27 @@
 ﻿@inherits PrimitiveGroupViewBase
 
+@for (int i = ViewModel.Children.Count() - 1; i >= 0; i--)
+{
+    switch (ViewModel.Children.ElementAt(i))
+    {
+        case RectangleViewModel rectangle:
+            <RectangleView ViewModel="rectangle" />
+            break;
+        case EllipseViewModel ellipse:
+            <EllipseView ViewModel= "ellipse" />
+            break;
+        case PointViewModel point:
+            <PointView ViewModel="point" />
+            break;
+        case PolygonViewModel polygon:
+            <PolygonView ViewModel="polygon" />
+            break;
+        case PolylineViewModel polyline:
+            <PolylineView ViewModel="polyline" />
+            break;
+        case PrimitiveGroupViewModel primitiveGroup:
+            <PrimitiveGroupView ViewModel="primitiveGroup" />
+            break;
+
+    }
+}

@@ -1,21 +1,22 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
-    public class ComponentViewModel : BindableBase
+    public abstract class ComponentViewModel : BindableBase
     {
-        public ComponentViewModel(Primitive primitive)
+        protected ComponentViewModel(Primitive primitive)
         {
             Primitive = primitive;
         }
         
         #region Properties
         
-        private readonly Color _fillColor = Color.White;
+        private readonly Color _fillColor = Color.Gray;
         private Color _borderColor = Color.Black;
-        private float _borderThickness;
+        private float _borderThickness = 1;
         private bool _isShown = true;
         private float _margin;
         
@@ -57,5 +58,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         }
 
         #endregion
+
+        public event EventHandler Redraw;
+
+        protected virtual void OnRedraw()
+        {
+            Redraw?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
