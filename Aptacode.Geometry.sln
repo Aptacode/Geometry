@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry", "Aptaco
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry.Tests", "Aptacode.Geometry.Tests\Aptacode.Geometry.Tests.csproj", "{40711C6F-9A32-486C-8D58-C9BF09B2575C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry.Demo.Blazor", "Blazor\Aptacode.Geometry.Demo.Blazor\Aptacode.Geometry.Demo.Blazor.csproj", "{C5276D7B-A40D-490F-960F-B796F6504783}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{86A05931-4305-4FAD-A047-1DA474B6DB5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aptacode.Geometry.Blazor", "Aptacode.Geometry.Blazor\Aptacode.Geometry.Blazor.csproj", "{97605757-FC8B-4B07-8004-852E0354AD9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +27,21 @@ Global
 		{40711C6F-9A32-486C-8D58-C9BF09B2575C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40711C6F-9A32-486C-8D58-C9BF09B2575C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40711C6F-9A32-486C-8D58-C9BF09B2575C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5276D7B-A40D-490F-960F-B796F6504783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5276D7B-A40D-490F-960F-B796F6504783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5276D7B-A40D-490F-960F-B796F6504783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5276D7B-A40D-490F-960F-B796F6504783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97605757-FC8B-4B07-8004-852E0354AD9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97605757-FC8B-4B07-8004-852E0354AD9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97605757-FC8B-4B07-8004-852E0354AD9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97605757-FC8B-4B07-8004-852E0354AD9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C5276D7B-A40D-490F-960F-B796F6504783} = {86A05931-4305-4FAD-A047-1DA474B6DB5A}
+		{97605757-FC8B-4B07-8004-852E0354AD9C} = {86A05931-4305-4FAD-A047-1DA474B6DB5A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {54627E93-4B2B-44E1-9997-31DDDB558358}
