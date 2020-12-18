@@ -72,7 +72,7 @@ namespace Aptacode.Geometry.Composites
             }
 
             children.RemoveAt(childIndex);
-            children.Insert(childIndex, child.Skew(delta)));
+            children.Insert(childIndex, child.Skew(delta));
             return new PrimitiveGroup(children);
         }
     }
