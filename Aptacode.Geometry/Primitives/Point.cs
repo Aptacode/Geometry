@@ -29,10 +29,9 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override Point Translate(Vector2 delta) =>
-            new(Position + delta, BoundingCircle.Translate(delta));
+        public override Point Translate(Vector2 delta) => new(Position + delta);
 
-        public override Point Rotate(float delta) => this;
+        public override Point Rotate(float theta) => this;
 
         public override Point Scale(Vector2 delta) => this;
 

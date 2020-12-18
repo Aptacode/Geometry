@@ -41,7 +41,7 @@ namespace Aptacode.Geometry.Primitives
         #region Transformations
 
         public abstract Primitive Translate(Vector2 delta);
-        public abstract Primitive Rotate(float delta);
+        public abstract Primitive Rotate(float theta);
         public abstract Primitive Scale(Vector2 delta);
         public abstract Primitive Skew(Vector2 delta);
 

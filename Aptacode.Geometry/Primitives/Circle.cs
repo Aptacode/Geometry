@@ -42,6 +42,7 @@ namespace Aptacode.Geometry.Primitives
             Radius = radius;
         }
 
+
         public static readonly Circle Zero = new(Vector2.Zero, 0.0f);
         public static readonly Circle Unit = new(Vector2.Zero, 1.0f);
 
@@ -49,12 +50,11 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override Circle Translate(Vector2 delta) =>
-            new(Position + delta, Radius, BoundingCircle.Translate(delta));
+        public override Circle Translate(Vector2 delta) => new(Position + delta, Radius);
 
-        public override Circle Rotate(float delta) => this;
+        public override Circle Rotate(float theta) => this;
 
-        public override Circle Scale(Vector2 delta) => this;
+        public override Circle Scale(Vector2 delta) => new(Position, Radius*delta.Length());
 
         public override Circle Skew(Vector2 delta) => this;
 

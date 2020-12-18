@@ -49,19 +49,13 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override PolyLine Translate(Vector2 delta)
-        {
-            return new(
-                Vertices.Translate(delta),
-                BoundingCircle.Translate(delta),
-                LineSegments.Select(l => (l.p1 + delta, l.p2 + delta)));
-        }
+        public override PolyLine Translate(Vector2 delta) => new(Vertices.Translate(delta));
 
-        public override PolyLine Rotate(float delta) => this;
+        public override PolyLine Rotate(float theta) => new(Vertices.Rotate(BoundingCircle.Center, theta));
 
-        public override PolyLine Scale(Vector2 delta) => this;
+        public override PolyLine Scale(Vector2 delta) => new(Vertices.Scale(BoundingCircle.Center, delta));
 
-        public override PolyLine Skew(Vector2 delta) => this;
+        public override PolyLine Skew(Vector2 delta) => new(Vertices.Skew(delta));
 
         #endregion
     }

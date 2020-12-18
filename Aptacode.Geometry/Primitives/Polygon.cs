@@ -49,25 +49,13 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override Polygon Translate(Vector2 delta)
-        {
-            return new(
-                Vertices.Translate(delta)); 
-                //BoundingCircle.Translate(delta),
-                //Edges.Select(l => (l.p1 + delta, l.p2 + delta)));
-        }
+        public override Polygon Translate(Vector2 delta) => new(Vertices.Translate(delta));
 
-        public override Polygon Rotate(float theta)
-        {
-            return new(
-                Vertices.Rotate(BoundingCircle.Center, theta));
-                //BoundingCircle.Rotate(BoundingCircle.Center, theta),
-                //Edges.Select(l => (Vector2.Transform(l.p1, Matrix3x2.CreateRotation(theta, BoundingCircle.Center)), Vector2.Transform(l.p2, Matrix3x2.CreateRotation(theta, BoundingCircle.Center)))));
-        }
+        public override Polygon Rotate(float theta) => new(Vertices.Rotate(BoundingCircle.Center, theta));
 
-        public override Polygon Scale(Vector2 delta) => this;
+        public override Polygon Scale(Vector2 delta) => new(Vertices.Scale(BoundingCircle.Center, delta));
 
-        public override Polygon Skew(Vector2 delta) => this;
+        public override Polygon Skew(Vector2 delta) => new(Vertices.Skew(delta));
 
         #endregion
     }

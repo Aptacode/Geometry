@@ -11,6 +11,53 @@ namespace Aptacode.Geometry.Tests
     public class TransformationTests
     {
         [Fact]
+        public void VertexArray_Translation_Test()
+        {
+            //Arrange
+            var vertexArray = VertexArray.Create(new Vector2(1, 1), new Vector2(2, 1));
+            var expectedVertexArray = VertexArray.Create(new Vector2(2, 2), new Vector2(3, 2));
+            //Act
+            var sut = vertexArray.Translate(new Vector2(1, 1));
+            //Assert
+            foreach(var vertex in expectedVertexArray.Vertices)
+            {
+                Assert.Contains(vertex, sut.Vertices);
+            }
+        }
+        
+        [Fact]
+        public void VertexArray_Rotation_Test()
+        {
+            //Arrange
+            var vertexArray = VertexArray.Create(new Vector2(1, 1), new Vector2(2, 1));
+            var expectedVertexArray = VertexArray.Create(new Vector2(1, 1), new Vector2(1, 2));
+            //Act
+            var sut = vertexArray.Rotate(new Vector2(1, 1), (float)Math.PI / 2);
+            //Assert
+            foreach(var vertex in expectedVertexArray.Vertices)
+            {
+                Assert.Contains(vertex, sut.Vertices);
+            }
+        }
+        
+        [Fact]
+        public void VertexArray_Scale_Test()
+        {
+            //Arrange
+            var vertexArray = VertexArray.Create(new Vector2(2, 2), new Vector2(4, 2));
+            var expectedVertexArray = VertexArray.Create(new Vector2(1, 2), new Vector2(5, 2));
+            //Act
+            var sut = vertexArray.Scale(new Vector2(3, 2), new Vector2(2, 1));
+            //Assert
+            foreach(var vertex in expectedVertexArray.Vertices)
+            {
+                Assert.Contains(vertex, sut.Vertices);
+            }
+        }
+
+
+
+        [Fact]
         public void PolygonTranslation_Test()
         {
             //Arrange

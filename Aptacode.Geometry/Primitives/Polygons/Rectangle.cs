@@ -47,9 +47,9 @@ namespace Aptacode.Geometry.Primitives.Polygons
 
         #region Transformations
 
-        public override Rectangle Translate(Vector2 delta) =>
-            new(TopLeft + delta, TopRight + delta, BottomRight + delta, BottomLeft + delta,
-                BoundingCircle.Translate(delta), Edges.Select(l => (l.p1 + delta, l.p2 + delta)).ToArray());
+        //public override Rectangle Translate(Vector2 delta) =>
+        //    new(TopLeft + delta, TopRight + delta, BottomRight + delta, BottomLeft + delta,
+        //        BoundingCircle.Translate(delta), Edges.Select(l => (l.p1 + delta, l.p2 + delta)).ToArray());
 
         public override Rectangle Rotate(float delta) => this;
 

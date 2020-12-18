@@ -18,25 +18,31 @@ namespace Aptacode.Geometry.Vertices
             return VertexArray.Create(vertices);
         }
 
-        #region Translation
+        #region Transformation
 
         public static VertexArray Translate(this VertexArray vertexArray, Vector2 delta)
         {
-            return VertexArray.Create(vertexArray.Select(v => v + delta));
+            var translationMatrix = Matrix3x2.CreateTranslation(delta);
+            return VertexArray.Create(vertexArray.Select(v => Vector2.Transform(v, translationMatrix)));
         }
 
         public static VertexArray Rotate(this VertexArray vertexArray, Vector2 rotationCenter, float theta)
         {
-            return VertexArray.Create(vertexArray.Select(v => Vector2.Transform(v, Matrix3x2.CreateRotation(theta, rotationCenter))));
+            var rotationMatrix = Matrix3x2.CreateRotation(theta, rotationCenter);
+            return VertexArray.Create(vertexArray.Select(v => Vector2.Transform(v, rotationMatrix)));
         }
 
-        public static VertexArray Scale(this VertexArray vertexArray, Vector2 delta) =>
-            //ToDo
-            vertexArray;
+        public static VertexArray Scale(this VertexArray vertexArray, Vector2 scaleCenter, Vector2 delta)
+        {
+            var scaleMatrix = Matrix3x2.CreateScale(delta, scaleCenter);
+            return VertexArray.Create(vertexArray.Select(v => Vector2.Transform(v, scaleMatrix)));
+        }
 
-        public static VertexArray Skew(this VertexArray vertexArray, Vector2 delta) =>
-            //ToDo
-            vertexArray;
+        public static VertexArray Skew(this VertexArray vertexArray, Vector2 delta)
+        {
+            var shearMatrix = new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0); //Not 100% on this one.
+            return VertexArray.Create(vertexArray.Select(v => Vector2.Transform(v, shearMatrix)));
+        }
 
         #endregion
     }

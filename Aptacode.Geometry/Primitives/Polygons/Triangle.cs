@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Vertices;
@@ -9,7 +10,13 @@ namespace Aptacode.Geometry.Primitives.Polygons
     {
         #region Construction
 
-        public Triangle(Vector2 p1, Vector2 p2, Vector2 p3) : base(VertexArray.Create(p1, p2, p3)) { }
+        public Triangle(Vector2 p1, Vector2 p2, Vector2 p3) : base(VertexArray.Create(p1, p2, p3)) 
+        {
+            if (p1 == p2 || p1 == p3 || p2 == p3)
+            {
+                throw new ArgumentException("A triangle must have three distinct points");
+            }
+        }
 
         public Triangle(Vector2 p1, Vector2 p2, Vector2 p3, BoundingCircle boundingCircle,
             (Vector2 p1, Vector2 p2)[] edges) : base(VertexArray.Create(p1, p2, p3), boundingCircle, edges) { }
@@ -26,9 +33,9 @@ namespace Aptacode.Geometry.Primitives.Polygons
         public Vector2 P2 => Vertices[1];
         public Vector2 P3 => Vertices[2];
 
-        public override Triangle Translate(Vector2 delta) =>
-            new(P1 + delta, P2 + delta, P3 + delta, BoundingCircle.Translate(delta),
-                Edges.Select(l => (l.p1 + delta, l.p2 + delta)).ToArray());
+        //public override Triangle Translate(Vector2 delta) =>
+        //    new(P1 + delta, P2 + delta, P3 + delta, BoundingCircle.Translate(delta),
+        //        Edges.Select(l => (l.p1 + delta, l.p2 + delta)).ToArray());
 
         public override Triangle Rotate(float delta) => this;
 
