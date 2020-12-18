@@ -11,16 +11,24 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         {
             Primitive = primitive;
         }
-        
+
+        public event EventHandler Redraw;
+
+        protected virtual void OnRedraw()
+        {
+            Redraw?.Invoke(this, EventArgs.Empty);
+        }
+
         #region Properties
-        
+
         private readonly Color _fillColor = Color.Gray;
         private Color _borderColor = Color.Black;
         private float _borderThickness = 1;
         private bool _isShown = true;
         private float _margin;
-        
+
         protected Primitive _primitive;
+
         public Primitive Primitive
         {
             get => _primitive;
@@ -58,12 +66,5 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         }
 
         #endregion
-
-        public event EventHandler Redraw;
-
-        protected virtual void OnRedraw()
-        {
-            Redraw?.Invoke(this, EventArgs.Empty);
-        }
     }
 }

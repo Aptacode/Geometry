@@ -9,8 +9,7 @@ namespace Aptacode.Geometry.Blazor.Components.Views
     {
         #region Properties
 
-        [Parameter]
-        public RectangleViewModel ViewModel { get; set; }
+        [Parameter] public RectangleViewModel ViewModel { get; set; }
 
         #endregion
 

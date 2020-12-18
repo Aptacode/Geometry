@@ -9,9 +9,7 @@ namespace Aptacode.Geometry.Blazor.Components.Views
     {
         #region Properties
 
-        [Parameter]
-        public PrimitiveGroupViewModel ViewModel { get; set; }
-
+        [Parameter] public PrimitiveGroupViewModel ViewModel { get; set; }
 
         #endregion
 

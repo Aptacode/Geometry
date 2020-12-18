@@ -9,8 +9,7 @@ namespace Aptacode.Geometry.Blazor.Components.Views
     {
         #region Properties
 
-        [Parameter]
-        public PolygonViewModel ViewModel { get; set; }
+        [Parameter] public PolygonViewModel ViewModel { get; set; }
 
         #endregion
 
@@ -25,6 +24,5 @@ namespace Aptacode.Geometry.Blazor.Components.Views
         {
             InvokeAsync(StateHasChanged);
         }
-
     }
 }

@@ -28,13 +28,14 @@ namespace Aptacode.Geometry.Composites
             {
                 return group;
             }
-            
+
             children.RemoveAt(childIndex);
             children.Insert(childIndex, child.Translate(delta));
             return new PrimitiveGroup(children);
         }
 
-        public static PrimitiveGroup Rotate(this PrimitiveGroup group, Primitive child, Vector2 rotationCenter, float theta)
+        public static PrimitiveGroup Rotate(this PrimitiveGroup group, Primitive child, Vector2 rotationCenter,
+            float theta)
         {
             var children = group.Children.ToList();
             var childIndex = children.IndexOf(child);
@@ -61,7 +62,7 @@ namespace Aptacode.Geometry.Composites
             children.Insert(childIndex, child.Scale(delta));
             return new PrimitiveGroup(children);
         }
-        
+
         public static PrimitiveGroup Skew(this PrimitiveGroup group, Primitive child, Vector2 delta)
         {
             var children = group.Children.ToList();

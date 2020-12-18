@@ -9,8 +9,7 @@ namespace Aptacode.Geometry.Blazor.Components.Views
     {
         #region Properties
 
-        [Parameter]
-        public PolylineViewModel ViewModel { get; set; }
+        [Parameter] public PolylineViewModel ViewModel { get; set; }
 
         #endregion
 

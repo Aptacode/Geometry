@@ -1,6 +1,6 @@
-using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
+using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor
 {
@@ -17,14 +17,8 @@ namespace Aptacode.Geometry.Blazor
 
         public ExampleJsInterop(IJSRuntime jsRuntime)
         {
-            moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-               "import", "./_content/Aptacode.Geometry.Blazor/exampleJsInterop.js").AsTask());
-        }
-
-        public async ValueTask<string> Prompt(string message)
-        {
-            var module = await moduleTask.Value;
-            return await module.InvokeAsync<string>("showPrompt", message);
+            moduleTask = new Lazy<Task<IJSObjectReference>>(() => jsRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Aptacode.Geometry.Blazor/exampleJsInterop.js").AsTask());
         }
 
         public async ValueTask DisposeAsync()
@@ -34,6 +28,12 @@ namespace Aptacode.Geometry.Blazor
                 var module = await moduleTask.Value;
                 await module.DisposeAsync();
             }
+        }
+
+        public async ValueTask<string> Prompt(string message)
+        {
+            var module = await moduleTask.Value;
+            return await module.InvokeAsync<string>("showPrompt", message);
         }
     }
 }

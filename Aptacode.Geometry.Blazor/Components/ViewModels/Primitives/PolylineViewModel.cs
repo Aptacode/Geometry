@@ -1,29 +1,16 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Primitives.Polygons;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 {
     public sealed class PolylineViewModel : ComponentViewModel
     {
-
         public PolylineViewModel(PolyLine polyLine) : base(polyLine)
         {
             Primitive = polyLine;
             OnRedraw();
         }
-
-        #region Properties
-
-        private new PolyLine _primitive;
-        public new PolyLine Primitive
-        {
-            get => _primitive;
-            set => SetProperty(ref _primitive, value);
-        }
-        public string Path { get; set; }
-
-        #endregion
 
 
         #region ComponentViewModel
@@ -31,7 +18,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         protected override void OnRedraw()
         {
             var stringBuilder = new StringBuilder();
-            foreach (var vertex in Primitive.Vertices)
+            foreach (var vertex in Primitive.Vertices.Select(v => v * Constants.Scale))
             {
                 stringBuilder.Append($"{vertex.X},{vertex.Y} ");
             }
@@ -39,6 +26,20 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             Path = stringBuilder.ToString();
             base.OnRedraw();
         }
+
+        #endregion
+
+        #region Properties
+
+        private new PolyLine _primitive;
+
+        public new PolyLine Primitive
+        {
+            get => _primitive;
+            set => SetProperty(ref _primitive, value);
+        }
+
+        public string Path { get; set; }
 
         #endregion
     }

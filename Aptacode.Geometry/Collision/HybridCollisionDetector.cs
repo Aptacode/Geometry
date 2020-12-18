@@ -39,7 +39,7 @@ namespace Aptacode.Geometry.Collision
                                                                       FineCollisionDetector.CollidesWith(p1, p2);
 
         public override bool CollidesWith(PolyLine p1, Ellipse p2) => CoarseCollisionDetector.CollidesWith(p1, p2) &&
-                                                                     FineCollisionDetector.CollidesWith(p1, p2);
+                                                                      FineCollisionDetector.CollidesWith(p1, p2);
 
         public override bool CollidesWith(PolyLine p1, PrimitiveGroup p2) =>
             CoarseCollisionDetector.CollidesWith(p1, p2) &&
@@ -59,7 +59,7 @@ namespace Aptacode.Geometry.Collision
                                                                      FineCollisionDetector.CollidesWith(p1, p2);
 
         public override bool CollidesWith(Polygon p1, Ellipse p2) => CoarseCollisionDetector.CollidesWith(p1, p2) &&
-                                                                    FineCollisionDetector.CollidesWith(p1, p2);
+                                                                     FineCollisionDetector.CollidesWith(p1, p2);
 
         public override bool CollidesWith(Polygon p1, PrimitiveGroup p2) =>
             CoarseCollisionDetector.CollidesWith(p1, p2) &&
@@ -72,10 +72,10 @@ namespace Aptacode.Geometry.Collision
         public override bool CollidesWith(Ellipse p1, Point p2) => p1.BoundingCircle.Contains(p2.Position);
 
         public override bool CollidesWith(Ellipse p1, PolyLine p2) => CoarseCollisionDetector.CollidesWith(p1, p2) &&
-                                                                     FineCollisionDetector.CollidesWith(p1, p2);
+                                                                      FineCollisionDetector.CollidesWith(p1, p2);
 
         public override bool CollidesWith(Ellipse p1, Polygon p2) => CoarseCollisionDetector.CollidesWith(p1, p2) &&
-                                                                    FineCollisionDetector.CollidesWith(p1, p2);
+                                                                     FineCollisionDetector.CollidesWith(p1, p2);
 
         public override bool CollidesWith(Ellipse p1, Ellipse p2)
         {

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
     public class SceneViewModel : BindableBase
     {
-
         public SceneViewModel()
         {
             Components = new List<ComponentViewModel>();

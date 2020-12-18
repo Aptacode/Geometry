@@ -9,9 +9,8 @@ namespace Aptacode.Geometry.Blazor.Components.Views
     {
         #region Properties
 
-        [Parameter]
-        public PointViewModel ViewModel { get; set; }
-        
+        [Parameter] public PointViewModel ViewModel { get; set; }
+
         #endregion
 
         protected override async Task OnInitializedAsync()

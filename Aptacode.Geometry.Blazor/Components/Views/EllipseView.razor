@@ -1,3 +1,3 @@
 ﻿@inherits EllipseViewBase
 
-<circle cx="@(ViewModel.Position.X)" cy="@(ViewModel.Position.Y)" r="3" stroke="@(ViewModel.BorderColor.ToKnownColor())" stroke-width="@(ViewModel.BorderThickness)" fill="@(ViewModel.FillColor.ToKnownColor())"/>
+<circle cx="@(ViewModel.Position.X)" cy="@(ViewModel.Position.Y)" r="@(ViewModel.Radius)" stroke="@(ViewModel.BorderColor.ToKnownColor())" stroke-width="@(ViewModel.BorderThickness)" fill="@(ViewModel.FillColor.ToKnownColor())"/>
