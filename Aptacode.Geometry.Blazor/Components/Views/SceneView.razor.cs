@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Primitives;
+using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Polygons;
 using Microsoft.AspNetCore.Components;
@@ -14,14 +15,14 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 
         protected override async Task OnInitializedAsync()
         {
-            Scene = new SceneViewModel();
-            Scene.Components.Add(new RectangleViewModel(Rectangle.Create(new Vector2(10, 10), new Vector2(10, 10))));
-            Scene.Components.Add(new PolygonViewModel(Polygon.Create(new Vector2(10, 10), new Vector2(20, 10),
-                new Vector2(40, 40), new Vector2(30, 80), new Vector2(10, 20))));
-            Scene.Components.Add(new PolylineViewModel(PolyLine.Create(new Vector2(80, 40), new Vector2(70, 80),
-                new Vector2(60, 20))));
-            Scene.Components.Add(new EllipseViewModel(new Ellipse(new Vector2(80, 40), 20.0f)));
-
+            var sceneBuilder = new SceneBuilder();
+            sceneBuilder.SetWidth(100).SetHeight(100);
+            sceneBuilder.AddPrimitive(Rectangle.Create(10, 10, 10, 10));
+            sceneBuilder.AddPrimitive(Polygon.Create(10, 10, 20, 10, 40, 40, 30, 80, 10, 20));
+            sceneBuilder.AddPrimitive(PolyLine.Create(80, 40, 70, 80, 60, 20));
+            sceneBuilder.AddPrimitive(Ellipse.Create(80, 40, 20.0f));
+            Scene = sceneBuilder.Build();
+            
             await base.OnInitializedAsync();
         }
     }

@@ -22,6 +22,21 @@ namespace Aptacode.Geometry.Primitives
             _lineSegments = null;
         }
 
+        public static PolyLine Create(params float[] points)
+        {
+            if (points.Length < 2)
+            {
+                return PolyLine.Zero;
+            }
+            
+            var vertices = new List<Vector2>();
+            for (var i = 0; i < points.Length; i += 2)
+            {
+                vertices.Add(new Vector2(points[i], points[i + 1]));
+            }
+            return new PolyLine(VertexArray.Create(vertices));
+        }
+
         public PolyLine(VertexArray vertices, BoundingCircle? boundingCircle) : base(vertices, boundingCircle) { }
 
         public static readonly PolyLine Zero = Create(Vector2.Zero, Vector2.Zero);

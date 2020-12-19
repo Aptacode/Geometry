@@ -22,6 +22,20 @@ namespace Aptacode.Geometry.Primitives
         public Polygon(VertexArray vertices, BoundingCircle? boundingCircle)
             : base(vertices, boundingCircle) { }
 
+        public static Polygon Create(params float[] points)
+        {
+            if (points.Length < 3)
+            {
+                return Polygon.Zero;
+            }
+            
+            var vertices = new List<Vector2>();
+            for (var i = 0; i < points.Length; i += 2)
+            {
+                vertices.Add(new Vector2(points[i], points[i+1]));
+            }
+            return new Polygon(VertexArray.Create(vertices));
+        }
 
         public static readonly Polygon Zero = Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);
 

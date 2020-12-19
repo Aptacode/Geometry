@@ -24,6 +24,8 @@ namespace Aptacode.Geometry.Blazor.Utilities
                     return new PolygonViewModel(polygon);
                 case PrimitiveGroup primitiveGroup:
                     return new PrimitiveGroupViewModel(primitiveGroup);
+                default:
+                    break;
             }
 
             return null;

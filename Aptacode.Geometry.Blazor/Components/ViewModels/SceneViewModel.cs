@@ -9,7 +9,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public SceneViewModel()
         {
             Components = new List<ComponentViewModel>();
-            Size = new Vector2(100, 100);
         }
 
         #region Properties

@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Vertices;
+using Microsoft.VisualBasic;
 
 namespace Aptacode.Geometry.Primitives.Polygons
 {
@@ -31,6 +32,12 @@ namespace Aptacode.Geometry.Primitives.Polygons
                 new Vector2(position.X + size.X, position.Y),
                 position + size,
                 new Vector2(position.X, position.Y + size.Y));
+
+        public static Rectangle Create(float x, float y, float width, float height) =>
+            new(new Vector2(x, y),
+                new Vector2(x+ width, y),
+                new Vector2(x + width, y + height),
+                new Vector2(x, y + height));
 
         #endregion
 

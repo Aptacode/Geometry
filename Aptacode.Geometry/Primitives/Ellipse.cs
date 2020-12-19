@@ -40,6 +40,11 @@ namespace Aptacode.Geometry.Primitives
         {
             Radius = radius;
         }
+        
+        public static Ellipse Create(float x, float y, float radius)
+        {
+            return new(new Vector2(x, y), radius);
+        }
 
         public Ellipse(Vector2 position, float radius, BoundingCircle? boundingCircle) : base(
             VertexArray.Create(position), boundingCircle)
