@@ -211,14 +211,5 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-        
-        [Fact]
-        public void Broken_case()
-        {
-            var poly = Rectangle.Create(new Vector2(6, 12), new Vector2(10, 10));
-            var line = PolyLine.Create(new Vector2(20, 2), new Vector2(30, 62), new Vector2(40, 22)); //change in x is 2 for change in 10 y
-            var sut = line.CollidesWith(poly, _collisionDetector); //fails when top point is within 10 in x direction in blazor demo
-            Assert.True(sut);
-        }
     }
 }

@@ -25,7 +25,7 @@ namespace Aptacode.Geometry.Collision
                 return true;
             }
 
-            var det = (line2B.Y - line2A.Y) * (line1B.X - line1A.X) - (line2B.X - line2A.X) * (line1B.Y - line2A.Y);
+            var det = (line2B.Y - line2A.Y) * (line1B.X - line1A.X) - (line2B.X - line2A.X) * (line1B.Y - line1A.Y);
             if (det == 0) //These lines are parallel and do not intersect
             {
                 return false;
