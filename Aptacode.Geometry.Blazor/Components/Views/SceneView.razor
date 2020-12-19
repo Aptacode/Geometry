@@ -17,22 +17,22 @@
         switch (component)
         {
             case RectangleViewModel rectangle:
-                <RectangleView ViewModel="rectangle"/>
+                <RectangleView ViewModel="rectangle" @key="rectangle.Id"/>
                 break;
             case EllipseViewModel ellipse:
-                <EllipseView ViewModel="ellipse"/>
+                <EllipseView ViewModel="ellipse" @key="ellipse.Id"/>
                 break;
             case PointViewModel point:
-                <PointView ViewModel="point"/>
+                <PointView ViewModel="point" @key="point.Id"/>
                 break;
             case PolygonViewModel polygon:
-                <PolygonView ViewModel="polygon"/>
+                <PolygonView ViewModel="polygon" @key="polygon.Id"/>
                 break;
             case PolylineViewModel polyline:
-                <PolylineView ViewModel="polyline"/>
+                <PolylineView ViewModel="polyline" @key="polyline.Id"/>
                 break;
             case PrimitiveGroupViewModel primitiveGroup:
-                <PrimitiveGroupView ViewModel="primitiveGroup"/>
+                <PrimitiveGroupView ViewModel="primitiveGroup" @key="primitiveGroup.Id"/>
                 break;
         }
     }

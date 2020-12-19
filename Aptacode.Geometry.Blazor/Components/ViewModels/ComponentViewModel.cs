@@ -12,6 +12,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
     {
         protected ComponentViewModel(Primitive primitive)
         {
+            Id = Guid.NewGuid();
             _primitive = primitive;
             CollisionDetectionEnabled = true;
         }
@@ -35,6 +36,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         private float _borderThickness = 1;
         private bool _isShown = true;
         private float _margin;
+
+        public Guid Id { get; init; }
 
         protected Primitive _primitive;
 
