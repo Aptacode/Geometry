@@ -13,7 +13,6 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 
         #endregion
 
-
         protected override async Task OnInitializedAsync()
         {
             ViewModel.OnRedraw += ViewModelOnOnRedraw;

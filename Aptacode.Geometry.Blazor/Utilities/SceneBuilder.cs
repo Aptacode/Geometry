@@ -33,12 +33,12 @@ namespace Aptacode.Geometry.Blazor.Utilities
 
         public SceneViewModel Build()
         {
-            var newScene = new SceneViewModel()
+            var newScene = new SceneViewModel
             {
                 Size = new Vector2(_width, _height).ToScale(),
                 Components = _primitives.Select(p => _viewModelFactory.ToViewModel(p)).ToList()
             };
-            
+
             Reset();
             return newScene;
         }
@@ -48,7 +48,6 @@ namespace Aptacode.Geometry.Blazor.Utilities
             _width = 0.0f;
             _height = 0.0f;
             _primitives.Clear();
-            
         }
     }
 }

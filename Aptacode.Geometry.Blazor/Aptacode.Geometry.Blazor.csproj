@@ -5,12 +5,12 @@
     <LangVersion>9.0</LangVersion>
     <Authors>Aptacode</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1.26</Version>
-    <AssemblyVersion>1.0.1.26</AssemblyVersion>
-    <FileVersion>1.0.1.26</FileVersion>
+    <Version>1.0.1.27</Version>
+    <AssemblyVersion>1.0.1.27</AssemblyVersion>
+    <FileVersion>1.0.1.27</FileVersion>
   </PropertyGroup>
 
-  
+
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
