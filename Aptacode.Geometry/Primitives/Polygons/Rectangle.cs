@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Vertices;
-using Microsoft.VisualBasic;
 
 namespace Aptacode.Geometry.Primitives.Polygons
 {
@@ -16,7 +15,10 @@ namespace Aptacode.Geometry.Primitives.Polygons
         }
 
         protected Rectangle(VertexArray vertices, BoundingCircle? boundingCircle)
-            : base(vertices, boundingCircle) { }
+            : base(vertices, boundingCircle)
+        {
+            Size = BottomRight - TopLeft;
+        }
 
         public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft,
             BoundingCircle? boundingCircle) : base(
@@ -35,7 +37,7 @@ namespace Aptacode.Geometry.Primitives.Polygons
 
         public static Rectangle Create(float x, float y, float width, float height) =>
             new(new Vector2(x, y),
-                new Vector2(x+ width, y),
+                new Vector2(x + width, y),
                 new Vector2(x + width, y + height),
                 new Vector2(x, y + height));
 

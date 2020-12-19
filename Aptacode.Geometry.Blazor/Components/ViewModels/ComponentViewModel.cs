@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Drawing;
+using System.Numerics;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
+using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Primitives;
+using Aptacode.Geometry.Primitives.Extensions;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
@@ -9,15 +12,21 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
     {
         protected ComponentViewModel(Primitive primitive)
         {
-            Primitive = primitive;
+            _primitive = primitive;
+            CollisionDetectionEnabled = true;
         }
 
-        public event EventHandler Redraw;
+        #region Events
 
-        protected virtual void OnRedraw()
+        public event EventHandler OnRedraw;
+
+        protected virtual void Redraw()
         {
-            Redraw?.Invoke(this, EventArgs.Empty);
+            OnRedraw?.Invoke(this, EventArgs.Empty);
         }
+
+        #endregion
+
 
         #region Properties
 
@@ -29,11 +38,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         protected Primitive _primitive;
 
-        public Primitive Primitive
-        {
-            get => _primitive;
-            set => SetProperty(ref _primitive, value);
-        }
+        public Primitive Primitive => _primitive;
 
         public float Margin
         {
@@ -64,6 +69,32 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             get => _borderThickness;
             set => SetProperty(ref _borderThickness, value);
         }
+
+        #endregion
+
+        #region CollisionDetection
+
+        public bool CollisionDetectionEnabled { get; set; }
+
+        public bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>
+            Primitive.CollidesWith(component.Primitive, collisionDetector);
+
+        public bool CollidesWith(Vector2 point, CollisionDetector collisionDetector) =>
+            Primitive.CollidesWith(point.ToPoint(), collisionDetector);
+
+        #endregion
+
+        #region Transformation
+
+        public abstract void Translate(Vector2 delta);
+
+        public abstract void Rotate(float theta);
+
+        public abstract void Rotate(Vector2 rotationCenter, float theta);
+
+        public abstract void Scale(Vector2 delta);
+
+        public abstract void Skew(Vector2 delta);
 
         #endregion
     }

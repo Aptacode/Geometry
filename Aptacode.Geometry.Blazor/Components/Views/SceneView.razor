@@ -1,41 +1,40 @@
-﻿@inherits SceneViewBase
-<div>
-    <svg width="@(Scene.Size.X * Constants.Scale)" height="@(Scene.Size.Y * Constants.Scale)">
-        <defs>
-            <pattern id="tenthGrid" width="@Constants.Scale" height="@Constants.Scale" patternUnits="userSpaceOnUse">
-                <path d="M @Constants.Scale 0 L 0 0 0 @Constants.Scale" fill="none" stroke="silver" stroke-width="1"/>
-            </pattern>
-            <pattern id="grid" width="@(Constants.Scale * 4)" height="@(Constants.Scale * 4)" patternUnits="userSpaceOnUse">
-                <rect width="@(Constants.Scale * 4)" height="@(Constants.Scale * 4)" fill="url(#tenthGrid)"/>
-                <path d="M @(Constants.Scale * 4) 0 L 0 0 0 @(Constants.Scale * 4)" fill="none" stroke="gray" stroke-width="1"/>
-            </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)"/>
+﻿@using Aptacode.Geometry.Blazor.Utilities
+@inherits SceneViewBase
+<svg width="@(ViewModel.Size.X)" height="@(ViewModel.Size.Y)">
+    <defs>
+        <pattern id="tenthGrid" width="@Constants.Scale" height="@Constants.Scale" patternUnits="userSpaceOnUse">
+            <path d="M @Constants.Scale 0 L 0 0 0 @Constants.Scale" fill="none" stroke="silver" stroke-width="1"/>
+        </pattern>
+        <pattern id="grid" width="@(Constants.Scale * 4)" height="@(Constants.Scale * 4)" patternUnits="userSpaceOnUse">
+            <rect width="@(Constants.Scale * 4)" height="@(Constants.Scale * 4)" fill="url(#tenthGrid)"/>
+            <path d="M @(Constants.Scale * 4) 0 L 0 0 0 @(Constants.Scale * 4)" fill="none" stroke="gray" stroke-width="1"/>
+        </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grid)"/>
 
-        @for (var i = Scene.Components.Count() - 1; i >= 0; i--)
+    @foreach (var component in ViewModel.Components)
+    {
+        switch (component)
         {
-            switch (Scene.Components.ElementAt(i))
-            {
-                case RectangleViewModel rectangle:
-                    <RectangleView ViewModel="rectangle"/>
-                    break;
-                case EllipseViewModel ellipse:
-                    <EllipseView ViewModel="ellipse"/>
-                    break;
-                case PointViewModel point:
-                    <PointView ViewModel="point"/>
-                    break;
-                case PolygonViewModel polygon:
-                    <PolygonView ViewModel="polygon"/>
-                    break;
-                case PolylineViewModel polyline:
-                    <PolylineView ViewModel="polyline"/>
-                    break;
-                case PrimitiveGroupViewModel primitiveGroup:
-                    <PrimitiveGroupView ViewModel="primitiveGroup"/>
-                    break;
-            }
+            case RectangleViewModel rectangle:
+                <RectangleView ViewModel="rectangle"/>
+                break;
+            case EllipseViewModel ellipse:
+                <EllipseView ViewModel="ellipse"/>
+                break;
+            case PointViewModel point:
+                <PointView ViewModel="point"/>
+                break;
+            case PolygonViewModel polygon:
+                <PolygonView ViewModel="polygon"/>
+                break;
+            case PolylineViewModel polyline:
+                <PolylineView ViewModel="polyline"/>
+                break;
+            case PrimitiveGroupViewModel primitiveGroup:
+                <PrimitiveGroupView ViewModel="primitiveGroup"/>
+                break;
         }
-    </svg>
+    }
 
-</div>
+</svg>

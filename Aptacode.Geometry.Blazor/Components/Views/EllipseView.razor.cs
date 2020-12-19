@@ -16,11 +16,11 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 
         protected override async Task OnInitializedAsync()
         {
-            ViewModel.Redraw += ViewModelOnRedraw;
+            ViewModel.OnRedraw += ViewModelOnOnRedraw;
             await base.OnInitializedAsync();
         }
 
-        private void ViewModelOnRedraw(object? sender, EventArgs e)
+        private void ViewModelOnOnRedraw(object? sender, EventArgs e)
         {
             InvokeAsync(StateHasChanged);
         }

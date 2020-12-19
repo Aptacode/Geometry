@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
-using Aptacode.Geometry.Blazor.Components.Views;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Blazor.Utilities
 {
     public class SceneBuilder
     {
-        private float _width;
+        private readonly List<Primitive> _primitives = new();
+        private readonly ViewModelFactory _viewModelFactory = new();
         private float _height;
-        private List<Primitive> _primitives = new List<Primitive>();
-        private ViewModelFactory _viewModelFactory = new ViewModelFactory();
-        
+        private float _width;
+
         public SceneBuilder SetWidth(float width)
         {
             _width = width;
@@ -28,7 +24,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
             _height = height;
             return this;
         }
-        
+
         public SceneBuilder AddPrimitive(Primitive primitive)
         {
             _primitives.Add(primitive);
@@ -39,16 +35,17 @@ namespace Aptacode.Geometry.Blazor.Utilities
         {
             return new()
             {
-                Size = new Vector2(_width, _height),
-                Components =  _primitives.Select(p => _viewModelFactory.ToViewModel(p)).ToList()
+                Size = new Vector2(_width, _height).ToScale(),
+                Components = _primitives.Select(p => _viewModelFactory.ToViewModel(p)).ToList()
             };
         }
-        
+
         public void Reset()
         {
             _width = 0.0f;
             _height = 0.0f;
-            _primitives.Clear();;
+            _primitives.Clear();
+            ;
         }
     }
 }

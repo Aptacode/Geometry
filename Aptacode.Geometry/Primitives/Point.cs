@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Vertices;
@@ -9,17 +8,14 @@ namespace Aptacode.Geometry.Primitives
     public record Point : Primitive
     {
         public Point(Vector2 position) : base(VertexArray.Create(position)) { }
-
-        public static Point Create(float x, float y)
-        {
-            return new(new Vector2(x, y));
-        }
         protected Point(VertexArray vertexArray) : base(vertexArray) { }
 
         public Point(Vector2 position, BoundingCircle? boundingCircle) : base(VertexArray.Create(position),
             boundingCircle) { }
 
         public Vector2 Position => Vertices[0];
+
+        public static Point Create(float x, float y) => new(new Vector2(x, y));
 
         #region Collision Detection
 

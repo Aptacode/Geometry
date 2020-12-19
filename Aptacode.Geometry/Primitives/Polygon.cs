@@ -26,14 +26,15 @@ namespace Aptacode.Geometry.Primitives
         {
             if (points.Length < 3)
             {
-                return Polygon.Zero;
+                return Zero;
             }
-            
+
             var vertices = new List<Vector2>();
             for (var i = 0; i < points.Length; i += 2)
             {
-                vertices.Add(new Vector2(points[i], points[i+1]));
+                vertices.Add(new Vector2(points[i], points[i + 1]));
             }
+
             return new Polygon(VertexArray.Create(vertices));
         }
 

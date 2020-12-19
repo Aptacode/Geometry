@@ -1,0 +1,15 @@
+﻿@inherits SceneControllerViewBase
+
+<div @ref="Container"
+      tabindex="0"
+      @onkeydown="KeyDown"
+      @onkeyup="KeyUp"
+      style="cursor: @(ViewModel.Cursor)"
+      @onmousemove="MouseMove"
+      @onmousedown="MouseDown"
+      @onmouseup="MouseUp"
+      @onmouseout="MouseOut">
+
+    <SceneView ViewModel="ViewModel.Scene"></SceneView>
+
+</div>

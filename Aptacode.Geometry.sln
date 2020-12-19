@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry.Demo.Blaz
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{86A05931-4305-4FAD-A047-1DA474B6DB5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aptacode.Geometry.Blazor", "Aptacode.Geometry.Blazor\Aptacode.Geometry.Blazor.csproj", "{97605757-FC8B-4B07-8004-852E0354AD9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry.Blazor", "Aptacode.Geometry.Blazor\Aptacode.Geometry.Blazor.csproj", "{97605757-FC8B-4B07-8004-852E0354AD9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

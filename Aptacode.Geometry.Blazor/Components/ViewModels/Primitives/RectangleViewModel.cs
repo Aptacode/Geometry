@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives.Polygons;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
@@ -8,33 +9,63 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         public RectangleViewModel(Rectangle rectangle) : base(rectangle)
         {
             Primitive = rectangle;
-            OnRedraw();
         }
 
 
         #region ComponentViewModel
 
-        protected override void OnRedraw()
+        protected override void Redraw()
         {
-            Position = Primitive.TopLeft * Constants.Scale;
-            Size = Primitive.Size * Constants.Scale;
-            base.OnRedraw();
+            Position = Primitive.TopLeft.ToScale();
+            Size = Primitive.Size.ToScale();
+            base.Redraw();
         }
 
         #endregion
 
         #region Properties
 
-        protected new Rectangle _primitive;
-
         public new Rectangle Primitive
         {
-            get => _primitive;
-            set => SetProperty(ref _primitive, value);
+            get => (Rectangle) _primitive;
+            set
+            {
+                _primitive = value;
+                Redraw();
+            }
         }
 
         public Vector2 Position { get; set; }
         public Vector2 Size { get; set; }
+
+        #endregion
+
+        #region Transformation
+
+        public override void Translate(Vector2 delta)
+        {
+            Primitive = Primitive.Translate(delta);
+        }
+
+        public override void Rotate(float theta)
+        {
+            Primitive = Primitive.Rotate(theta);
+        }
+
+        public override void Rotate(Vector2 rotationCenter, float theta)
+        {
+            Primitive = Primitive.Rotate(rotationCenter, theta);
+        }
+
+        public override void Scale(Vector2 delta)
+        {
+            Primitive = Primitive.Scale(delta);
+        }
+
+        public override void Skew(Vector2 delta)
+        {
+            Primitive = Primitive.Skew(delta);
+        }
 
         #endregion
     }
