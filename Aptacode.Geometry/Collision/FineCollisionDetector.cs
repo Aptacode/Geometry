@@ -82,7 +82,7 @@ namespace Aptacode.Geometry.Collision
                 if (!(v1, v2).OnLineSegment(closestPoint)
                 ) //Closest intersection point may be beyond the ends of the line segment.
                 {
-                    return false;
+                    continue;
                 }
 
                 if (p2.BoundingCircle.Contains(closestPoint)
@@ -157,7 +157,7 @@ namespace Aptacode.Geometry.Collision
                     if (!(v1, v2).OnLineSegment(closestPoint)
                     ) //Closest intersection point may be beyond the ends of the edge.
                     {
-                        return false;
+                        continue;
                     }
 
                     if (p2.BoundingCircle.Contains(closestPoint)
@@ -196,7 +196,7 @@ namespace Aptacode.Geometry.Collision
                 if (!(v1, v2).OnLineSegment(closestPoint)
                 ) //Closest intersection point may be beyond the ends of the line segment.
                 {
-                    return false;
+                    continue;
                 }
 
                 if (p1.BoundingCircle.Contains(closestPoint)
@@ -228,7 +228,7 @@ namespace Aptacode.Geometry.Collision
                 if (!(v1, v2).OnLineSegment(closestPoint)
                 ) //Closest intersection point may be beyond the ends of the edge.
                 {
-                    return false;
+                    continue;
                 }
 
                 if (p1.BoundingCircle.Contains(closestPoint)

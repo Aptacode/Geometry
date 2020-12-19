@@ -205,5 +205,14 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
+
+        [Fact]
+        public void Broken_case()
+        {
+            var poly = Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20);
+            var circle = Ellipse.Create(28, 32, 10.0f);
+            var sut = circle.CollidesWith(poly, _collisionDetector);
+            Assert.True(sut);
+        }
     }
 }
