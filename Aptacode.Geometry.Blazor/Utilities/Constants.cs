@@ -24,5 +24,25 @@ namespace Aptacode.Geometry.Blazor.Utilities
 
             return vertices;
         }
+
+        public static int[] ToIntScale(this Vector2[] input)
+        {
+            var vertices = new int[input.Length * 2];
+            var count = 0;
+            for (var i = 0; i < input.Length; i++)
+            {
+                var vertex = input[i].ToIntScale();
+                vertices[count++] = vertex.X;
+                vertices[count++] = vertex.Y;
+            }
+
+            return vertices;
+        }
+
+        public static (int X, int Y) ToIntScale(this Vector2 input)
+        {
+            var vertex = input * Scale;
+           return ((int)vertex.X, (int)vertex.Y);
+        }
     }
 }

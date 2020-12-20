@@ -35,7 +35,7 @@ namespace Aptacode.Geometry.Primitives
                 vertices.Add(new Vector2(points[i], points[i + 1]));
             }
 
-            return new Polygon(VertexArray.Create(vertices));
+            return new Polygon(VertexArray.Create(vertices.ToArray()));
         }
 
         public static readonly Polygon Zero = Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);

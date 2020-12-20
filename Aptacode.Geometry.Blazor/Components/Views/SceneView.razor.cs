@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
 using Excubo.Blazor.Canvas;
-using Excubo.Blazor.Canvas.Contexts;
 using Microsoft.AspNetCore.Components;
 
 namespace Aptacode.Geometry.Blazor.Components.Views

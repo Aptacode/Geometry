@@ -17,8 +17,7 @@ namespace Aptacode.Geometry.Vertices
             Vertices = vertices;
         }
 
-        public static VertexArray Create(IEnumerable<Vector2> vertices) => new(vertices.ToArray());
-        public static VertexArray Create(params Vector2[] vertices) => new(vertices);
+        public static VertexArray Create(Vector2[] vertices) => new(vertices);
 
         public static VertexArray Create(Vector2 p1, params Vector2[] vertices)
         {

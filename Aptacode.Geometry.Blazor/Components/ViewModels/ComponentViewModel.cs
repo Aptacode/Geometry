@@ -35,10 +35,32 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public float Margin { get; set; }
 
         public bool IsShown { get; set; }
+        
+        private Color _borderColor;
+        public Color BorderColor
+        {
+            get => _borderColor;
+            set
+            {
+                _borderColor = value;
+                BorderColorName = value.ToKnownColor().ToString();
+            }
+        }
+        public string BorderColorName { get; set; }
 
-        public Color BorderColor { get; set; }
+        private Color _fillColor;
 
-        public Color FillColor { get; set; }
+        public Color FillColor
+        {
+            get => _fillColor;
+            set
+            {
+                _fillColor = value;
+                FillColorName = value.ToKnownColor().ToString();
+            }
+        }
+        
+        public string FillColorName { get; set; }
 
         public float BorderThickness { get; set; }
 

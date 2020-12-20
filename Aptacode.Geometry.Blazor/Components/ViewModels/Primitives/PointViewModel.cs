@@ -19,8 +19,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         public override async Task Draw(IContext2DWithoutGetters ctx)
         {
             await ctx.BeginPathAsync();
-            await ctx.EllipseAsync(Position.X, Position.Y, Radius, Radius, 0, 0, 360);
-            await ctx.FillStyleAsync(FillColor.ToKnownColor().ToString());
+            await ctx.FillStyleAsync(FillColorName);
+            await ctx.EllipseAsync(Position.X, Position.Y, (int)Radius, (int)Radius, 0, 0, 360);
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
         }
@@ -35,12 +35,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             set
             {
                 _primitive = value;
-                Position = value.Position.ToScale();
+                Position = value.Position.ToIntScale();
                 Radius = 1.0f.ToScale();
             }
         }
 
-        public Vector2 Position { get; set; }
+        public (int X, int Y) Position { get; set; }
         public float Radius { get; set; }
 
         #endregion

@@ -29,10 +29,11 @@ namespace Aptacode.Geometry.Primitives
                 return Zero;
             }
 
-            var vertices = new List<Vector2>();
+            var vertices = new Vector2[points.Length / 2];
+            var count = 0;
             for (var i = 0; i < points.Length; i += 2)
             {
-                vertices.Add(new Vector2(points[i], points[i + 1]));
+                vertices[count++] = new Vector2(points[i], points[i + 1]);
             }
 
             return new PolyLine(VertexArray.Create(vertices));

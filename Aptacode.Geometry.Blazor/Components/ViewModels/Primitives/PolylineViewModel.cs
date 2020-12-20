@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;
@@ -18,12 +19,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         public override async Task Draw(IContext2DWithoutGetters ctx)
         {
             await ctx.BeginPathAsync();
-            var firstVertex = Vertices[0];
-            await ctx.MoveToAsync(firstVertex.X, firstVertex.Y);
-            for (var i = 1; i < Primitive.Vertices.Length; i++)
+
+            await ctx.MoveToAsync(Vertices[0], Vertices[1]);
+            for (var i = 2; i < Vertices.Length; i += 2)
             {
-                var vertex = Vertices[i];
-                await ctx.LineToAsync(vertex.X, vertex.Y);
+                await ctx.LineToAsync(Vertices[i], Vertices[i + 1]);
             }
 
             await ctx.StrokeAsync();
@@ -39,11 +39,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             set
             {
                 _primitive = value;
-                Vertices = value.Vertices.Vertices.ToScale();
+                Vertices = value.Vertices.Vertices.ToIntScale();
             }
         }
 
-        public Vector2[] Vertices { get; set; }
+        public int[] Vertices { get; set; }
 
         #endregion
 

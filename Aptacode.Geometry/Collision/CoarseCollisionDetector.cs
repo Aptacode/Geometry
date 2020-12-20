@@ -55,7 +55,7 @@ namespace Aptacode.Geometry.Collision
 
         #endregion
 
-        #region Circle
+        #region PrimitiveGroup
 
         public override bool CollidesWith(PrimitiveGroup p1, PrimitiveGroup p2) => CoarseCollision(p1, p2);
         public override bool CollidesWith(PrimitiveGroup p1, Point p2) => CoarseCollision(p1, p2);
