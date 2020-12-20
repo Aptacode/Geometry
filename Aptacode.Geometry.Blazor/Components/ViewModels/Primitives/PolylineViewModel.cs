@@ -18,6 +18,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         public override async Task Draw(IContext2DWithoutGetters ctx)
         {
             await ctx.BeginPathAsync();
+            await ctx.StrokeStyleAsync(BorderColorName);
 
             await ctx.MoveToAsync(Vertices[0], Vertices[1]);
             for (var i = 2; i < Vertices.Length; i += 2)

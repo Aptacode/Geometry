@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace Aptacode.Geometry.Collision
 {
@@ -10,8 +11,7 @@ namespace Aptacode.Geometry.Collision
             var d2 = (line.B - point).Length();
             var lineLength = (line.B - line.A).Length();
             var delta = d1 + d2;
-            const float buffer = 0.1f; //useful so that you don't have to literally be right on the line.
-            return delta >= lineLength - buffer && delta <= lineLength + buffer;
+            return Math.Abs(delta - lineLength) < Constants.Tolerance;
         }
 
         public static bool LineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)

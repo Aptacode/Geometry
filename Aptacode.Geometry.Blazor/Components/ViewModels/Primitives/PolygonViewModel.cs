@@ -20,6 +20,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         {
             await ctx.BeginPathAsync();
             await ctx.FillStyleAsync(FillColorName);
+            await ctx.StrokeStyleAsync(BorderColorName);
 
             await ctx.MoveToAsync(Vertices[0], Vertices[1]);
             for (var i = 2; i < Vertices.Length; i += 2)

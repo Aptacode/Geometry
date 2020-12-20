@@ -45,7 +45,7 @@ namespace Aptacode.Geometry.Primitives.Polygons
 
         #region Properties
 
-        public Vector2 Position => TopLeft;
+        public Vector2 Position => Vertices[0];
         public Vector2 Size { get; init; }
         public float Width => Size.X;
         public float Height => Size.Y;

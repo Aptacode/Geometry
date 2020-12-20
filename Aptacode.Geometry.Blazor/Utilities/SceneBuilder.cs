@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
-using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Blazor.Utilities
 {
     public class SceneBuilder
     {
-        private readonly List<Primitive> _primitives = new();
-        private readonly ViewModelFactory _viewModelFactory = new();
+        private readonly List<ComponentViewModel> _components = new();
         private float _height;
         private float _width;
 
@@ -25,26 +22,24 @@ namespace Aptacode.Geometry.Blazor.Utilities
             return this;
         }
 
-        public SceneBuilder AddPrimitive(Primitive primitive)
+        public SceneBuilder AddComponent(ComponentViewModel component)
         {
-            _primitives.Add(primitive);
+            _components.Add(component);
             return this;
         }
 
         public SceneViewModel Build()
         {
-            var newScene = new SceneViewModel(new Vector2(_width, _height),
-                _primitives.Select(p => _viewModelFactory.ToViewModel(p)));
-
+            var scene = new SceneViewModel(new Vector2(_width, _height), _components);
             Reset();
-            return newScene;
+            return scene;
         }
 
         public void Reset()
         {
             _width = 0.0f;
             _height = 0.0f;
-            _primitives.Clear();
+            _components.Clear();
         }
     }
 }
