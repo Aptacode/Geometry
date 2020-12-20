@@ -42,7 +42,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
         public static (int X, int Y) ToIntScale(this Vector2 input)
         {
             var vertex = input * Scale;
-           return ((int)vertex.X, (int)vertex.Y);
+            return ((int) vertex.X, (int) vertex.Y);
         }
     }
 }

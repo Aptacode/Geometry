@@ -20,7 +20,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         {
             await ctx.BeginPathAsync();
             await ctx.FillStyleAsync(FillColorName);
-            await ctx.EllipseAsync(Position.X, Position.Y, (int)Radius, (int)Radius, 0, 0, 360);
+            await ctx.EllipseAsync(Position.X, Position.Y, (int) Radius, (int) Radius, 0, 0, 360);
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
         }

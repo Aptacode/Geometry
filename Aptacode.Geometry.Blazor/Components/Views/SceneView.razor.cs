@@ -8,6 +8,11 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 {
     public class SceneViewBase : ComponentBase, IAsyncDisposable
     {
+        public async ValueTask DisposeAsync()
+        {
+            await ViewModel.DisposeAsync();
+        }
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -17,9 +22,10 @@ namespace Aptacode.Geometry.Blazor.Components.Views
         {
             if (firstRender)
             {
-                ViewModel.Ctx = await SceneCanvas.GetContext2DAsync();
+                ViewModel.Ctx = await SceneCanvas.GetContext2DAsync(false, true);
                 await ViewModel.RedrawAsync();
             }
+
             await base.OnAfterRenderAsync(firstRender);
         }
 
@@ -27,12 +33,7 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 
         [Parameter] public SceneViewModel ViewModel { get; set; }
         public Canvas SceneCanvas { get; set; }
-        
+
         #endregion
-        
-        public async ValueTask DisposeAsync()
-        {
-            await ViewModel.DisposeAsync();
-        }
     }
 }

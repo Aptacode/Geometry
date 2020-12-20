@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;

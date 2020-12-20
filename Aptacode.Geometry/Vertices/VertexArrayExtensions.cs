@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 
@@ -11,10 +10,11 @@ namespace Aptacode.Geometry.Vertices
         {
             var newVertices = new Vector2[vertexArray.Length + vertices.Length];
             var count = 0;
-            for (var i = 0; i < vertexArray.Length; i++ )
+            for (var i = 0; i < vertexArray.Length; i++)
             {
                 newVertices[count++] = vertexArray[i];
             }
+
             for (var i = 0; i < vertices.Length; i++)
             {
                 newVertices[count++] = vertices[i];
@@ -31,6 +31,7 @@ namespace Aptacode.Geometry.Vertices
             {
                 newVertices[count++] = vertexArrayA[i];
             }
+
             for (var i = 0; i < vertexArrayB.Length; i++)
             {
                 newVertices[count++] = vertexArrayB[i];
@@ -63,6 +64,7 @@ namespace Aptacode.Geometry.Vertices
         }
 
         #region Transformation
+
         public static VertexArray Translate(this VertexArray vertexArray, Vector2 delta)
         {
             var translationMatrix = Matrix3x2.CreateTranslation(delta);

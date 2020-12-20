@@ -35,8 +35,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public float Margin { get; set; }
 
         public bool IsShown { get; set; }
-        
+
         private Color _borderColor;
+
         public Color BorderColor
         {
             get => _borderColor;
@@ -46,6 +47,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 BorderColorName = value.ToKnownColor().ToString();
             }
         }
+
         public string BorderColorName { get; set; }
 
         private Color _fillColor;
@@ -59,7 +61,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 FillColorName = value.ToKnownColor().ToString();
             }
         }
-        
+
         public string FillColorName { get; set; }
 
         public float BorderThickness { get; set; }

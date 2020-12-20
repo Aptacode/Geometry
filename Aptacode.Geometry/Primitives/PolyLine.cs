@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Vertices;
@@ -52,7 +50,7 @@ namespace Aptacode.Geometry.Primitives
 
         private (Vector2 p1, Vector2 p2)[] CalculateLineSegments()
         {
-            var lineSegments = new (Vector2 p1, Vector2 p2)[Vertices.Length -1];
+            var lineSegments = new (Vector2 p1, Vector2 p2)[Vertices.Length - 1];
             for (var i = 0; i < Vertices.Length - 1; i++)
             {
                 lineSegments[i] = (Vertices[i], Vertices[i + 1]);

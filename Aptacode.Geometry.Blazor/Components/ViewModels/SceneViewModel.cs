@@ -17,12 +17,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             Size = size.ToScale();
         }
 
-        #region Properties
+        #region Disposable
 
-        public List<ComponentViewModel> Components { get; set; }
-
-        public Vector2 Size { get; set; }
-        public Context2D Ctx { get; set; }
+        public async ValueTask DisposeAsync()
+        {
+            if (Ctx != null)
+            {
+                await Ctx.DisposeAsync();
+            }
+        }
 
         #endregion
 
@@ -38,11 +41,20 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             await using var batch = await Ctx.CreateBatchAsync();
             await batch.ClearRectAsync(0, 0, Size.X, Size.Y);
 
-            for(var i = 0; i < Components.Count; i++)
+            for (var i = 0; i < Components.Count; i++)
             {
                 await Components[i].Draw(batch);
             }
         }
+
+        #endregion
+
+        #region Properties
+
+        public List<ComponentViewModel> Components { get; set; }
+
+        public Vector2 Size { get; set; }
+        public Context2D Ctx { get; set; }
 
         #endregion
 
@@ -90,18 +102,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
             Components.RemoveAt(index);
             Components.Insert(index - 1, componentViewModel);
-        }
-
-        #endregion
-
-        #region Disposable
-
-        public async ValueTask DisposeAsync()
-        {
-            if (Ctx != null)
-            {
-                await Ctx.DisposeAsync();
-            }
         }
 
         #endregion

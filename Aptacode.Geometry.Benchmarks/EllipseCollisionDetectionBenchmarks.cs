@@ -8,13 +8,12 @@ namespace Aptacode.Geometry.Benchmarks
 {
     public class EllipseCollisionDetectionBenchmarks
     {
-        private readonly CollisionDetector _collisionDetector = new FineCollisionDetector();
-        private readonly Ellipse _ellipse;
-        
         private readonly Ellipse _collidingEllipse;
         private readonly Point _collidingPoint;
         private readonly Polygon _collidingPolygon;
         private readonly PolyLine _collidingPolyline;
+        private readonly CollisionDetector _collisionDetector = new FineCollisionDetector();
+        private readonly Ellipse _ellipse;
 
         public EllipseCollisionDetectionBenchmarks()
         {
@@ -25,26 +24,16 @@ namespace Aptacode.Geometry.Benchmarks
             _collidingPolyline = PolyLine.Create(new Vector2(0, 0), new Vector2(4, 4));
         }
 
-        [Benchmark] 
-        public bool PointCollision()
-        {
-            return _ellipse.CollidesWith(_collidingPoint, _collisionDetector);
-        }
+        [Benchmark]
+        public bool PointCollision() => _ellipse.CollidesWith(_collidingPoint, _collisionDetector);
 
         [Benchmark]
-        public bool PolylineCollision()
-        {
-            return _ellipse.CollidesWith(_collidingPolyline, _collisionDetector);
-        }
+        public bool PolylineCollision() => _ellipse.CollidesWith(_collidingPolyline, _collisionDetector);
+
         [Benchmark]
-        public bool PolygonCollision()
-        {
-            return _ellipse.CollidesWith(_collidingPolygon, _collisionDetector);
-        }
+        public bool PolygonCollision() => _ellipse.CollidesWith(_collidingPolygon, _collisionDetector);
+
         [Benchmark]
-        public bool CircleCollision()
-        {
-            return _ellipse.CollidesWith(_collidingEllipse, _collisionDetector);
-        }
+        public bool CircleCollision() => _ellipse.CollidesWith(_collidingEllipse, _collisionDetector);
     }
 }

@@ -22,6 +22,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
         public ComponentViewModel SelectedComponent { get; set; }
 
         public bool Running { get; set; }
+
         public void Start()
         {
             var lastTick = DateTime.Now;
@@ -34,14 +35,14 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                     var currentTime = DateTime.Now;
                     var delta = currentTime - lastTick;
                     lastTick = currentTime;
-                    
+
                     await Scene.RedrawAsync();
                     var frameRate = 1.0f / delta.TotalSeconds;
                     Console.WriteLine($"{frameRate}fps");
                 }
             });
         }
-        
+
 
         private void UserInteractionControllerOnOnMouseMoved(object? sender, Vector2 e)
         {
