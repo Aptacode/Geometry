@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using Aptacode.Geometry.Blazor.Utilities;
+using System.Threading.Tasks;
 using Aptacode.Geometry.Composites;
+using Excubo.Blazor.Canvas.Contexts;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 {
@@ -13,32 +14,29 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             Primitive = primitiveGroup;
         }
 
-        #region ComponentViewModel
+        #region Canvas
 
-        protected override void Redraw()
+        public override async Task Draw(IContext2DWithoutGetters ctx)
         {
-            Children.Clear();
-            var viewModelFactory = new ViewModelFactory();
-            foreach (var child in Primitive.Children)
+            foreach (var child in Children)
             {
-                Children.Add(viewModelFactory.ToViewModel(child));
-            }
+                await ctx.SaveAsync();
 
-            base.Redraw();
+                await child.Draw(ctx);
+
+                await ctx.RestoreAsync();
+            }
         }
 
         #endregion
+
 
         #region Properties
 
         public new PrimitiveGroup Primitive
         {
             get => (PrimitiveGroup) _primitive;
-            set
-            {
-                SetProperty(ref _primitive, value);
-                Redraw();
-            }
+            set => _primitive = value;
         }
 
         public List<ComponentViewModel> Children { get; set; }

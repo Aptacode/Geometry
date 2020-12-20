@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
@@ -57,13 +56,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         #endregion
 
         #region Events
-
-        public event EventHandler Redraw;
-
-        protected virtual void OnRedraw()
-        {
-            Redraw?.Invoke(this, EventArgs.Empty);
-        }
 
         #endregion
     }

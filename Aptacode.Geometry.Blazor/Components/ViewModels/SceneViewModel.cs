@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
+using Aptacode.Geometry.Blazor.Utilities;
+using Excubo.Blazor.Canvas.Contexts;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
-    public class SceneViewModel : BindableBase
+    public class SceneViewModel : BindableBase, IAsyncDisposable
     {
-        public SceneViewModel()
+        public SceneViewModel(Vector2 size, IEnumerable<ComponentViewModel> components)
         {
-            Components = new List<ComponentViewModel>();
+            Components = components.ToList();
+            Size = size.ToScale();
         }
 
         #region Properties
@@ -17,16 +22,26 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public List<ComponentViewModel> Components { get; set; }
 
         public Vector2 Size { get; set; }
+        public Context2D Ctx { get; set; }
 
         #endregion
 
-        #region Events
+        #region Redraw
 
-        public event EventHandler OnRedraw;
-
-        protected virtual void Redraw()
+        public async Task RedrawAsync()
         {
-            OnRedraw?.Invoke(this, EventArgs.Empty);
+            if (Ctx == null)
+            {
+                return;
+            }
+
+            await using var batch = await Ctx.CreateBatchAsync();
+            await batch.ClearRectAsync(0, 0, Size.X, Size.Y);
+
+            for(var i = 0; i < Components.Count; i++)
+            {
+                await Components[i].Draw(batch);
+            }
         }
 
         #endregion
@@ -41,7 +56,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             }
 
             Components.Add(componentViewModel);
-            Redraw();
         }
 
         public void SendToBack(ComponentViewModel componentViewModel)
@@ -52,7 +66,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             }
 
             Components.Insert(0, componentViewModel);
-            Redraw();
         }
 
         public void BringForward(ComponentViewModel componentViewModel)
@@ -65,7 +78,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
             Components.RemoveAt(index);
             Components.Insert(index + 1, componentViewModel);
-            Redraw();
         }
 
         public void SendBackward(ComponentViewModel componentViewModel)
@@ -78,7 +90,18 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
             Components.RemoveAt(index);
             Components.Insert(index - 1, componentViewModel);
-            Redraw();
+        }
+
+        #endregion
+
+        #region Disposable
+
+        public async ValueTask DisposeAsync()
+        {
+            if (Ctx != null)
+            {
+                await Ctx.DisposeAsync();
+            }
         }
 
         #endregion

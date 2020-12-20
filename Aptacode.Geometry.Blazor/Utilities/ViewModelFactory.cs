@@ -2,7 +2,6 @@
 using Aptacode.Geometry.Blazor.Components.ViewModels.Primitives;
 using Aptacode.Geometry.Composites;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Primitives.Polygons;
 
 namespace Aptacode.Geometry.Blazor.Utilities
 {
@@ -12,8 +11,6 @@ namespace Aptacode.Geometry.Blazor.Utilities
         {
             switch (primitive)
             {
-                case Rectangle rectangle:
-                    return new RectangleViewModel(rectangle);
                 case Point point:
                     return new PointViewModel(point);
                 case Ellipse ellipse:

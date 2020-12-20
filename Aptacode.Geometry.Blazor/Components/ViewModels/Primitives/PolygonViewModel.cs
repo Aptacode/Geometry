@@ -1,8 +1,9 @@
-﻿using System.Linq;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
+using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;
+using Excubo.Blazor.Canvas;
+using Excubo.Blazor.Canvas.Contexts;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 {
@@ -13,18 +14,24 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             Primitive = polygon;
         }
 
-        #region ComponentViewModel
+        #region Canvas
 
-        protected override void Redraw()
+        public override async Task Draw(IContext2DWithoutGetters ctx)
         {
-            var stringBuilder = new StringBuilder();
-            foreach (var vertex in Primitive.Vertices.Select(v => v.ToScale()))
+            await ctx.BeginPathAsync();
+            var firstVertex = Vertices[0];
+            await ctx.MoveToAsync(firstVertex.X, firstVertex.Y);
+            for (var i = 1; i < Vertices.Length; i++)
             {
-                stringBuilder.Append($"{vertex.X},{vertex.Y} ");
+                var vertex = Vertices[i];
+                await ctx.LineToAsync(vertex.X, vertex.Y);
             }
 
-            Path = stringBuilder.ToString();
-            base.Redraw();
+            await ctx.ClosePathAsync();
+
+            await ctx.FillStyleAsync(FillColor.ToKnownColor().ToString());
+            await ctx.FillAsync(FillRule.NonZero);
+            await ctx.StrokeAsync();
         }
 
         #endregion
@@ -36,12 +43,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             get => (Polygon) _primitive;
             set
             {
-                SetProperty(ref _primitive, value);
-                Redraw();
+                _primitive = value;
+                Vertices = value.Vertices.Vertices.ToScale();
             }
         }
 
-        public string Path { get; set; }
+        public Vector2[] Vertices { get; set; }
 
         #endregion
 

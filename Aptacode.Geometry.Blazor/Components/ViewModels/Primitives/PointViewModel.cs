@@ -1,6 +1,9 @@
 ﻿using System.Numerics;
+using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;
+using Excubo.Blazor.Canvas;
+using Excubo.Blazor.Canvas.Contexts;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 {
@@ -11,13 +14,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             Primitive = point;
         }
 
-        #region ComponentViewModel
+        #region Canvas
 
-        protected override void Redraw()
+        public override async Task Draw(IContext2DWithoutGetters ctx)
         {
-            Position = Primitive.Position.ToScale();
-            Radius = Utilities.Constants.Scale;
-            base.Redraw();
+            await ctx.BeginPathAsync();
+            await ctx.EllipseAsync(Position.X, Position.Y, Radius, Radius, 0, 0, 360);
+            await ctx.FillStyleAsync(FillColor.ToKnownColor().ToString());
+            await ctx.FillAsync(FillRule.NonZero);
+            await ctx.StrokeAsync();
         }
 
         #endregion
@@ -29,8 +34,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             get => (Point) _primitive;
             set
             {
-                SetProperty(ref _primitive, value);
-                Redraw();
+                _primitive = value;
+                Position = value.Position.ToScale();
+                Radius = 1.0f.ToScale();
             }
         }
 

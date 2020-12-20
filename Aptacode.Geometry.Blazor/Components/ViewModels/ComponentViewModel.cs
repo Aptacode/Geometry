@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Drawing;
 using System.Numerics;
-using Aptacode.CSharp.Common.Utilities.Mvvm;
+using System.Threading.Tasks;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
+using Excubo.Blazor.Canvas.Contexts;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
-    public abstract class ComponentViewModel : BindableBase
+    public abstract class ComponentViewModel
     {
         protected ComponentViewModel(Primitive primitive)
         {
@@ -17,25 +18,13 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             CollisionDetectionEnabled = true;
         }
 
-        #region Events
+        #region Canvas
 
-        public event EventHandler OnRedraw;
-
-        protected virtual void Redraw()
-        {
-            OnRedraw?.Invoke(this, EventArgs.Empty);
-        }
+        public abstract Task Draw(IContext2DWithoutGetters ctx);
 
         #endregion
 
-
         #region Properties
-
-        private readonly Color _fillColor = Color.Gray;
-        private Color _borderColor = Color.Black;
-        private float _borderThickness = 1;
-        private bool _isShown = true;
-        private float _margin;
 
         public Guid Id { get; init; }
 
@@ -43,35 +32,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public Primitive Primitive => _primitive;
 
-        public float Margin
-        {
-            get => _margin;
-            set => SetProperty(ref _margin, value);
-        }
+        public float Margin { get; set; }
 
-        public bool IsShown
-        {
-            get => _isShown;
-            set => SetProperty(ref _isShown, value);
-        }
+        public bool IsShown { get; set; }
 
-        public Color BorderColor
-        {
-            get => _borderColor;
-            set => SetProperty(ref _borderColor, value);
-        }
+        public Color BorderColor { get; set; }
 
-        public Color FillColor
-        {
-            get => _fillColor;
-            set => SetProperty(ref _borderColor, value);
-        }
+        public Color FillColor { get; set; }
 
-        public float BorderThickness
-        {
-            get => _borderThickness;
-            set => SetProperty(ref _borderThickness, value);
-        }
+        public float BorderThickness { get; set; }
 
         #endregion
 
