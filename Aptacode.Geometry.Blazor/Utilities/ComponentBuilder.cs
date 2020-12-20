@@ -12,6 +12,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
         private ComponentViewModelFactory _viewModelFactory = new();
         private Color _fillColor = Color.White;
         private Color _borderColor = Color.Black;
+        private float _borderThickness = 1.0f;
         private Primitive _primitive;
 
         #region Ctor
@@ -25,9 +26,13 @@ namespace Aptacode.Geometry.Blazor.Utilities
         {
             
         }
-        
-        #endregion
 
+        #endregion
+        public ComponentBuilder SetBorderThickness(float borderThickness)
+        {
+            _borderThickness = borderThickness;
+            return this;
+        }
 
         public ComponentBuilder SetBorderColor(Color borderColor)
         {
@@ -52,6 +57,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
             var component = _viewModelFactory.ToViewModel(_primitive);
             component.BorderColor = _borderColor;
             component.FillColor = _fillColor;
+            component.BorderThickness = _borderThickness;
 
             Reset();
             return component;
@@ -61,6 +67,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
         {
             _borderColor = Color.Black;
             _fillColor = Color.White;
+            _borderThickness = 1.0f;
         }
     }
 }

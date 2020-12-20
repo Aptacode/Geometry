@@ -40,10 +40,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
             await using var batch = await Ctx.CreateBatchAsync();
             await batch.ClearRectAsync(0, 0, Size.X, Size.Y);
+            await batch.SaveAsync();
 
             for (var i = 0; i < Components.Count; i++)
             {
+                await batch.SaveAsync();
+
                 await Components[i].Draw(batch);
+                await batch.RestoreAsync();
+
             }
         }
 

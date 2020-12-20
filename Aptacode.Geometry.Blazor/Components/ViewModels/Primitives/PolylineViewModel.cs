@@ -19,13 +19,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         {
             await ctx.BeginPathAsync();
             await ctx.StrokeStyleAsync(BorderColorName);
-
+            await ctx.LineWidthAsync(BorderThickness);
+            
             await ctx.MoveToAsync(Vertices[0], Vertices[1]);
             for (var i = 2; i < Vertices.Length; i += 2)
             {
                 await ctx.LineToAsync(Vertices[i], Vertices[i + 1]);
             }
-
+            
             await ctx.StrokeAsync();
         }
 
