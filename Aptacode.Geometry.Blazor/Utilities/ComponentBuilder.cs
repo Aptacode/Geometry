@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Numerics;
+﻿using System.Drawing;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
 using Aptacode.Geometry.Primitives;
 
@@ -9,11 +6,16 @@ namespace Aptacode.Geometry.Blazor.Utilities
 {
     public class ComponentBuilder
     {
-        private ComponentViewModelFactory _viewModelFactory = new();
+        #region Properties
+
+        private readonly ComponentViewModelFactory _viewModelFactory = new();
         private Color _fillColor = Color.White;
         private Color _borderColor = Color.Black;
         private float _borderThickness = 1.0f;
         private Primitive _primitive;
+
+        #endregion
+
 
         #region Ctor
 
