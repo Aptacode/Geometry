@@ -7,7 +7,7 @@ namespace Aptacode.Geometry.Benchmarks
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<TransformationBenchmarks>();
+            var summary = BenchmarkRunner.Run<PolygonCollisionDetectionBenchmarks>();
         }
     }
 }

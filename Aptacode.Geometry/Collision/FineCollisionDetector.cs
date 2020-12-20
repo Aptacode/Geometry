@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Composites;
 using Aptacode.Geometry.Primitives;
@@ -50,17 +51,52 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(PolyLine p1, Point p2)
         {
-            return p1.LineSegments.Any(line => line.OnLineSegment(p2.Position));
+            for (int i = 0; i < p1.LineSegments.Length; i++)
+            {
+                var edge = p1.LineSegments[i];
+                if (edge.OnLineSegment(p2.Position))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public override bool CollidesWith(PolyLine p1, PolyLine p2)
         {
-            return p1.LineSegments.Any(lineA => p2.LineSegments.Any(lineB => lineA.LineSegmentIntersection(lineB)));
+            for (int i = 0; i < p1.LineSegments.Length; i++)
+            {
+                var edge = p1.LineSegments[i];
+                for (int j = 0; j < p2.LineSegments.Length; j++)
+                {
+                    var lineSegment = p2.LineSegments[j];
+                    if (lineSegment.LineSegmentIntersection(edge))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public override bool CollidesWith(PolyLine p1, Polygon p2)
         {
-            return p1.LineSegments.Any(lineA => p2.Edges.Any(lineB => lineA.LineSegmentIntersection(lineB)));
+            for (int i = 0; i < p1.LineSegments.Length; i++)
+            {
+                var edge = p1.LineSegments[i];
+                for (int j = 0; j < p2.Edges.Length; j++)
+                {
+                    var lineSegment = p2.Edges[j];
+                    if (lineSegment.LineSegmentIntersection(edge))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public override bool CollidesWith(PolyLine p1, Ellipse p2)
@@ -126,15 +162,38 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Polygon p1, PolyLine p2)
         {
-            return p1.Edges.Any(
-                line1 => p2.LineSegments.Any(
-                    line2 =>
-                        line1.LineSegmentIntersection(line2)));
+            for (int i = 0; i < p1.Edges.Length; i++)
+            {
+                var edge = p1.Edges[i];
+                for (int j = 0; j < p2.LineSegments.Length; j++)
+                {
+                    var lineSegment = p2.LineSegments[j];
+                    if (lineSegment.LineSegmentIntersection(edge))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public override bool CollidesWith(Polygon p1, Polygon p2)
         {
-            return p1.Edges.Any(lineA => p2.Edges.Any(lineB => lineA.LineSegmentIntersection(lineB)));
+            for (int i = 0; i < p1.Edges.Length; i++)
+            {
+                var edge = p1.Edges[i];
+                for (int j = 0; j < p2.Edges.Length; j++)
+                {
+                    var lineSegment = p2.Edges[j];
+                    if (lineSegment.LineSegmentIntersection(edge))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public override bool CollidesWith(Polygon p1, Ellipse p2)

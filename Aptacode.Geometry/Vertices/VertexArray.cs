@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace Aptacode.Geometry.Vertices
 {
-    public readonly struct VertexArray : IEquatable<VertexArray>, IEnumerable<Vector2>
+    public readonly struct VertexArray : IEquatable<VertexArray>
     {
         public readonly Vector2[] Vertices;
 
@@ -69,8 +69,6 @@ namespace Aptacode.Geometry.Vertices
         #region List
 
         public Vector2 this[int key] => Vertices[key];
-        public IEnumerator<Vector2> GetEnumerator() => Vertices.AsEnumerable().GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => Vertices.GetEnumerator();
         public int Length => Vertices.Length;
 
         #endregion

@@ -74,7 +74,7 @@ namespace Aptacode.Geometry.Tests
             //Assert
             foreach (var vertex in expectedVertices.Vertices)
             {
-                Assert.Contains(vertex, sut.Vertices);
+                Assert.Contains(vertex, sut.Vertices.Vertices);
             }
 
             Assert.Equal(expectedBoundingCircleCenter, sut.BoundingCircle.Center);
@@ -104,7 +104,7 @@ namespace Aptacode.Geometry.Tests
             //Assert
             foreach (var vertex in expectedVertices.Vertices)
             {
-                Assert.Contains(vertex, sut.Vertices);
+                Assert.Contains(vertex, sut.Vertices.Vertices);
             }
 
             Assert.Equal(expectedBoundingCircleCenter, sut.BoundingCircle.Center);

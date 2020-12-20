@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 
@@ -6,21 +7,57 @@ namespace Aptacode.Geometry.Vertices
 {
     public static class VertexArrayExtensions
     {
-        public static VertexArray Concat(this VertexArray vertexArray, params Vector2[] vertices) =>
-            new(vertexArray.Concat(vertices).ToArray());
+        public static VertexArray Concat(this VertexArray vertexArray, params Vector2[] vertices)
+        {
+            var newVertices = new Vector2[vertexArray.Length + vertices.Length];
+            var count = 0;
+            for (var i = 0; i < vertexArray.Length; i++ )
+            {
+                newVertices[count++] = vertexArray[i];
+            }
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                newVertices[count++] = vertices[i];
+            }
 
-        public static VertexArray Concat(this VertexArray vertexArrayA, VertexArray vertexArrayB) =>
-            new(vertexArrayA.Concat(vertexArrayB).ToArray());
+            return new VertexArray(newVertices);
+        }
+
+        public static VertexArray Concat(this VertexArray vertexArrayA, VertexArray vertexArrayB)
+        {
+            var newVertices = new Vector2[vertexArrayA.Length + vertexArrayB.Length];
+            var count = 0;
+            for (var i = 0; i < vertexArrayA.Length; i++)
+            {
+                newVertices[count++] = vertexArrayA[i];
+            }
+            for (var i = 0; i < vertexArrayB.Length; i++)
+            {
+                newVertices[count++] = vertexArrayB[i];
+            }
+
+            return new VertexArray(newVertices);
+        }
 
         public static VertexArray Aggregate(this IEnumerable<VertexArray> vertexArrays)
         {
-            var vertexArray = new VertexArray();
-            return vertexArrays.Aggregate(vertexArray, (current, v) => current.Concat(v));
+            var totalVertices = vertexArrays.Aggregate(0, (current, v) => current += v.Length);
+            var newVertices = new Vector2[totalVertices];
+            var count = 0;
+            foreach (var array in vertexArrays)
+            {
+                for (var i = 0; i < array.Length; i++)
+                {
+                    newVertices[count++] = array[i];
+                }
+            }
+
+            return new VertexArray(newVertices);
         }
 
         public static VertexArray Remove(this VertexArray vertexArray, int index)
         {
-            var vertices = vertexArray.ToList();
+            var vertices = vertexArray.Vertices.ToList();
             vertices.RemoveAt(index);
             return VertexArray.Create(vertices.ToArray());
         }

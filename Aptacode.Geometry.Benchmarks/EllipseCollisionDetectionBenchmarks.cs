@@ -6,9 +6,9 @@ using BenchmarkDotNet.Attributes;
 
 namespace Aptacode.Geometry.Benchmarks
 {
-    public class CollisionDetectionBenchmarks
+    public class EllipseCollisionDetectionBenchmarks
     {
-        private readonly CollisionDetector _collisionDetector = new CoarseCollisionDetector();
+        private readonly CollisionDetector _collisionDetector = new FineCollisionDetector();
         private readonly Ellipse _ellipse;
         
         private readonly Ellipse _collidingEllipse;
@@ -16,7 +16,7 @@ namespace Aptacode.Geometry.Benchmarks
         private readonly Polygon _collidingPolygon;
         private readonly PolyLine _collidingPolyline;
 
-        public CollisionDetectionBenchmarks()
+        public EllipseCollisionDetectionBenchmarks()
         {
             _ellipse = new Ellipse(new Vector2(2, 2), 2);
             _collidingEllipse = new Ellipse(new Vector2(2, 3), 2);

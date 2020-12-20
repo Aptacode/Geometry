@@ -29,13 +29,15 @@ namespace Aptacode.Geometry.Primitives
                 return Zero;
             }
 
-            var vertices = new List<Vector2>();
-            for (var i = 0; i < points.Length; i += 2)
+            var vertices = new Vector2[(points.Length / 2)];
+
+            var pointIndex = 0;
+            for (var i = 0; i < vertices.Length; i ++)
             {
-                vertices.Add(new Vector2(points[i], points[i + 1]));
+                vertices[i] = new Vector2(points[pointIndex++], points[pointIndex++]);
             }
 
-            return new Polygon(VertexArray.Create(vertices.ToArray()));
+            return new Polygon(VertexArray.Create(vertices));
         }
 
         public static readonly Polygon Zero = Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);
@@ -47,15 +49,21 @@ namespace Aptacode.Geometry.Primitives
 
         #region Properties
 
-        private IEnumerable<(Vector2 p1, Vector2 p2)> CalculateEdges()
+        private (Vector2 p1, Vector2 p2)[] CalculateEdges()
         {
-            var edges = Vertices.Zip(Vertices.Skip(1), (a, b) => (a, b)).ToList();
-            edges.Add((Vertices.Last(), Vertices.First()));
+            var edges = new (Vector2 p1, Vector2 p2)[Vertices.Length];
+            for(var i = 0; i < Vertices.Length - 1; i++)
+            {
+                edges[i] = (Vertices[i], Vertices[i + 1]);
+            }
+            
+            edges[Vertices.Length - 1] = (Vertices[^1], Vertices[0]);
+
             return edges;
         }
 
-        private IEnumerable<(Vector2 p1, Vector2 p2)> _edges;
-        public IEnumerable<(Vector2 p1, Vector2 p2)> Edges => _edges ??= CalculateEdges();
+        private (Vector2 p1, Vector2 p2)[] _edges;
+        public (Vector2 p1, Vector2 p2)[] Edges => _edges ??= CalculateEdges();
 
         #endregion
 

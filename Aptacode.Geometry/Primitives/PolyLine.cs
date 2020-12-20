@@ -50,13 +50,19 @@ namespace Aptacode.Geometry.Primitives
 
         #region Properties
 
-        private IEnumerable<(Vector2 p1, Vector2 p2)> CalculateLineSegments()
+        private (Vector2 p1, Vector2 p2)[] CalculateLineSegments()
         {
-            return Vertices.Zip(Vertices.Skip(1), (a, b) => (a, b));
+            var lineSegments = new (Vector2 p1, Vector2 p2)[Vertices.Length -1];
+            for (var i = 0; i < Vertices.Length - 1; i++)
+            {
+                lineSegments[i] = (Vertices[i], Vertices[i + 1]);
+            }
+
+            return lineSegments;
         }
 
-        private IEnumerable<(Vector2 p1, Vector2 p2)> _lineSegments;
-        public IEnumerable<(Vector2 p1, Vector2 p2)> LineSegments => _lineSegments ??= CalculateLineSegments();
+        private (Vector2 p1, Vector2 p2)[] _lineSegments;
+        public (Vector2 p1, Vector2 p2)[] LineSegments => _lineSegments ??= CalculateLineSegments();
 
         #endregion
 
