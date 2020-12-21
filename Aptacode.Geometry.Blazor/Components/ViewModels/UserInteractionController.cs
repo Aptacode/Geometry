@@ -61,7 +61,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public void MouseMove(Vector2 position)
         {
-            if (LastMousePosition == position)
+            if (Math.Abs(LastMousePosition.X - position.X) <= Constants.Tolerance && Math.Abs(LastMousePosition.Y - position.Y) <= Constants.Tolerance)
             {
                 return;
             }

@@ -43,8 +43,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             set
             {
                 _primitive = value;
-                Position = value.Position.ToIntScale();
-                Radius = value.Radius.ToScale();
+                Position = ((int) value.Position.X, (int) value.Position.Y);
+                Radius = value.Radius;
             }
         }
 

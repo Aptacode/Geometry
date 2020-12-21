@@ -1,3 +1,7 @@
 ﻿@inherits SceneViewBase
 
-<Canvas @ref="SceneCanvas" width="@(ViewModel.Size.X)" height="@(ViewModel.Size.Y)"/>
+<Canvas @ref="SceneCanvas" width="@(ViewModel.Size.X)" height="@(ViewModel.Size.Y)"
+        style="zoom: 2; 
+                                      -moz-transform: scale(2); 
+                                      -moz-transform-origin: 0 0;"
+         />

@@ -14,7 +14,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public SceneViewModel(Vector2 size, IEnumerable<ComponentViewModel> components)
         {
             Components = components.ToArray();
-            Size = size.ToScale();
+            Size = size;
         }
 
         #region Disposable
@@ -52,7 +52,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             await batch.LineWidthAsync(ComponentViewModel.DefaultBorderThickness);
 
             await batch.ClearRectAsync(0, 0, Size.X, Size.Y);
-
 
             for (var i = 0; i < Components.Length; i++)
             {

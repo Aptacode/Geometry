@@ -47,7 +47,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             set
             {
                 _primitive = value;
-                Vertices = value.Vertices.Vertices.ToIntScale();
+                Vertices = value.Vertices.Vertices.ToIntArray();
             }
         }
 
