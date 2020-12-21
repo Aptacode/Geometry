@@ -9,6 +9,18 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 {
     public class SceneControllerViewBase : ComponentBase
     {
+        [JSInvokable]
+        public async ValueTask GameLoop(float timeStamp)
+        {
+            await ViewModel.Tick();
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await JsRuntime.InvokeAsync<object>("initGame", DotNetObjectReference.Create(this));
+            await base.OnInitializedAsync();
+        }
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)

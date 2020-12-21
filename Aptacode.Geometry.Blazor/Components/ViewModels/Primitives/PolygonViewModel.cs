@@ -19,18 +19,20 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         public override async Task Draw(IContext2DWithoutGetters ctx)
         {
             await ctx.BeginPathAsync();
-
-            await ctx.FillStyleAsync(FillColorName);
-            await ctx.StrokeStyleAsync(BorderColorName);
-            await ctx.LineWidthAsync(BorderThickness);
-
             await ctx.MoveToAsync(Vertices[0], Vertices[1]);
             for (var i = 2; i < Vertices.Length; i += 2)
             {
                 await ctx.LineToAsync(Vertices[i], Vertices[i + 1]);
             }
-            
+
             await ctx.ClosePathAsync();
+
+
+            await ctx.FillStyleAsync(FillColorName);
+
+            await ctx.StrokeStyleAsync(BorderColorName);
+
+            await ctx.LineWidthAsync(BorderThickness);
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
         }

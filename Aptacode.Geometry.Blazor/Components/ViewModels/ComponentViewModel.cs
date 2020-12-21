@@ -16,6 +16,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             Id = Guid.NewGuid();
             _primitive = primitive;
             CollisionDetectionEnabled = true;
+            BorderColor = Color.Black;
+            FillColor = Color.Black;
+            BorderThickness = DefaultBorderThickness;
         }
 
         #region Canvas
@@ -25,6 +28,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         #endregion
 
         #region Properties
+
+        public static readonly string DefaultBorderColor = Color.Black.ToKnownColor().ToString();
+        public static readonly string DefaultFillColor = Color.Black.ToKnownColor().ToString();
+        public static readonly int DefaultBorderThickness = 1;
 
         public Guid Id { get; init; }
 
@@ -64,7 +71,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public string FillColorName { get; set; }
 
-        public float BorderThickness { get; set; }
+        public int BorderThickness { get; set; }
 
         #endregion
 

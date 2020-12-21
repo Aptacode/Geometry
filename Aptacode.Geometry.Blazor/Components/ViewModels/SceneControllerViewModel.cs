@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Numerics;
 using System.Threading;
+using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Collision;
 
@@ -45,6 +46,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         #endregion
 
+        #region Events
+
+        public virtual async Task Tick()
+        {
+            await Scene.RedrawAsync();
+        }
+
+        #endregion
+
         #region Properties
 
         public SceneViewModel Scene { get; set; }
@@ -52,10 +62,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public CollisionDetector CollisionDetector { get; set; }
 
         public string Cursor { get; set; }
-
-        #endregion
-
-        #region Events
 
         #endregion
     }

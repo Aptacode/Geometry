@@ -15,12 +15,17 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
         {
             var sceneBuilder = new SceneBuilder();
             var componentBuilder = new ComponentBuilder();
-            
+
             sceneBuilder.SetWidth(100).SetHeight(100);
-            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Rectangle.Create(10, 10, 10, 10)).SetFillColor(Color.Red).SetBorderThickness(10).Build());
-            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green).SetBorderThickness(10).Build());
-            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(PolyLine.Create(80, 40, 70, 80, 60, 20)).SetFillColor(Color.Blue).SetBorderThickness(10).Build());
-            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Ellipse.Create(80, 80, 10.0f)).SetFillColor(Color.Orange).SetBorderThickness(10).Build());
+            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Rectangle.Create(10, 10, 10, 10))
+                .SetFillColor(Color.Red).SetBorderThickness(10).Build());
+            sceneBuilder.AddComponent(componentBuilder
+                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
+                .SetBorderThickness(10).Build());
+            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(PolyLine.Create(80, 40, 70, 80, 60, 20))
+                .SetFillColor(Color.Blue).SetBorderThickness(10).Build());
+            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Ellipse.Create(80, 80, 10.0f))
+                .SetFillColor(Color.Orange).SetBorderThickness(10).Build());
             var scene = sceneBuilder.Build();
 
             SceneController = new DemoSceneController(scene);

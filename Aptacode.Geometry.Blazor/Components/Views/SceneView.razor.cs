@@ -13,16 +13,11 @@ namespace Aptacode.Geometry.Blazor.Components.Views
             await ViewModel.DisposeAsync();
         }
 
-        protected override async Task OnInitializedAsync()
-        {
-            await base.OnInitializedAsync();
-        }
-
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                ViewModel.Ctx = await SceneCanvas.GetContext2DAsync(false, true);
+                ViewModel.Ctx = await SceneCanvas.GetContext2DAsync();
                 await ViewModel.RedrawAsync();
             }
 
