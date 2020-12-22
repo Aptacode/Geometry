@@ -30,6 +30,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
+            Invalidated = false;
         }
 
         #endregion
@@ -41,9 +42,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             get => (Point) _primitive;
             set
             {
+                if (!Invalidated)
+                {
+                    _oldPrimitive = _primitive;
+                }
                 _primitive = value;
                 Position = ((int) value.Position.X, (int) value.Position.Y);
                 Radius = 1;
+                Invalidated = true;
             }
         }
 
@@ -61,7 +67,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 
         public override void Rotate(float theta)
         {
-            Primitive = Primitive.Rotate(theta);
+            Primitive = Primitive.Rotate(theta); 
         }
 
         public override void Rotate(Vector2 rotationCenter, float theta)

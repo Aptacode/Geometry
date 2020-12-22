@@ -26,6 +26,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 
                 await ctx.RestoreAsync();
             }
+            Invalidated = false;
         }
 
         #endregion
@@ -36,7 +37,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         public new PrimitiveGroup Primitive
         {
             get => (PrimitiveGroup) _primitive;
-            set => _primitive = value;
+            set
+            {
+                if (!Invalidated)
+                {
+                    _oldPrimitive = _primitive;
+                }
+                _primitive = value;
+                Invalidated = true;
+            }
         }
 
         public List<ComponentViewModel> Children { get; set; }

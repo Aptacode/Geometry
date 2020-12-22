@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -35,6 +36,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public Guid Id { get; init; }
 
+        public Primitive _oldPrimitive;
+        
         protected Primitive _primitive;
 
         public Primitive Primitive => _primitive;
@@ -78,6 +81,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         #region CollisionDetection
 
         public bool CollisionDetectionEnabled { get; set; }
+        public bool Invalidated { get; set; } = false;
 
         public bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>
             Primitive.CollidesWith(component.Primitive, collisionDetector);
