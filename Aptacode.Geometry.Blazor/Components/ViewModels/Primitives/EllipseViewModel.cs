@@ -20,7 +20,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         {
             await ctx.BeginPathAsync();
 
-            await ctx.EllipseAsync(Position.X, Position.Y, (int) Radius, (int) Radius, 0, 0, 360);
+            await ctx.EllipseAsync(Position.X, Position.Y, (int) Radii.X, (int) Radii.Y, (double)Rotation, 0, 360);
 
             await ctx.FillStyleAsync(FillColorName);
 
@@ -49,13 +49,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
                 
                 _primitive = value;
                 Position = ((int) value.Position.X, (int) value.Position.Y);
-                Radius = value.Radius;
+                Radii = (value.Radii.X, value.Radii.Y);
+                Rotation = value.Rotation;
                 Invalidated = true;
             }
         }
 
         public (int X, int Y) Position { get; set; }
-        public float Radius { get; set; }
+        public (float X, float Y) Radii { get; set; }
+        public float Rotation { get; set; }
 
         #endregion
 

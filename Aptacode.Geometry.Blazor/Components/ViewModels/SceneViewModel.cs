@@ -114,13 +114,16 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             for (var invalidItemIndex = 0; invalidItemIndex < invalidItems.Count; invalidItemIndex++)
             {
                 var invalidItem = invalidItems[invalidItemIndex];
-                var oldBoundingCircle = new Ellipse(invalidItem._oldPrimitive.BoundingCircle.Center, invalidItem._oldPrimitive.BoundingCircle.Radius + invalidItem.BorderThickness + margin);
-                var newBoundingCircle = new Ellipse(invalidItem.Primitive.BoundingCircle.Center, invalidItem.Primitive.BoundingCircle.Radius + invalidItem.BorderThickness + margin);
+                var oldradiusplusbuffer = invalidItem._oldPrimitive.BoundingCircle.Radius + invalidItem.BorderThickness + margin;
+                var newradiusplusbuffer = invalidItem.Primitive.BoundingCircle.Radius + invalidItem.BorderThickness + margin;
+                var oldBoundingCircle = new Ellipse(invalidItem._oldPrimitive.BoundingCircle.Center, new Vector2(oldradiusplusbuffer, oldradiusplusbuffer), 0.0f);
+                var newBoundingCircle = new Ellipse(invalidItem.Primitive.BoundingCircle.Center, new Vector2(newradiusplusbuffer, newradiusplusbuffer), 0.0f);
 
                 for (var validItemIndex = 0; validItemIndex < validItems.Count; validItemIndex++)
                 {
                     var validComponent = validItems[validItemIndex];
-                    var validComponentBoundingCircle = new Ellipse(validComponent.Primitive.BoundingCircle.Center, validComponent.Primitive.BoundingCircle.Radius + validComponent.BorderThickness + margin);
+                    var validradiusplusbuffer = validComponent.Primitive.BoundingCircle.Radius + validComponent.BorderThickness + margin;
+                    var validComponentBoundingCircle = new Ellipse(validComponent.Primitive.BoundingCircle.Center, new Vector2(validradiusplusbuffer, validradiusplusbuffer), 0.0f);
 
                     if (!validComponentBoundingCircle.CollidesWith(oldBoundingCircle, _collisionDetector) &&
                         !validComponentBoundingCircle.CollidesWith(newBoundingCircle, _collisionDetector))

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;
@@ -15,51 +16,13 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
         {
             var sceneBuilder = new SceneBuilder();
             var componentBuilder = new ComponentBuilder();
-
-            sceneBuilder.SetWidth(200).SetHeight(100);
-            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Rectangle.Create(10, 10, 10, 10))
-                .SetFillColor(Color.Red).SetBorderThickness(2).Build());
-            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());            sceneBuilder.AddComponent(componentBuilder
-                .SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
-                .SetBorderThickness(2).Build());
-            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(PolyLine.Create(80, 40, 70, 80, 60, 20))
-                .SetFillColor(Color.Blue).SetBorderThickness(2).Build());
-            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Ellipse.Create(80, 80, 10.0f))
-                .SetFillColor(Color.Orange).SetBorderThickness(2).Build());
+            
+            sceneBuilder.SetWidth(1000).SetHeight(1000);
+            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Rectangle.Create(10, 10, 10, 10)).SetFillColor(Color.Red).SetBorderThickness(1).Build());
+            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green).SetBorderThickness(1).Build());
+            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(PolyLine.Create(80, 40, 70, 80, 60, 20)).SetFillColor(Color.Blue).SetBorderThickness(1).Build());
+            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Ellipse.Create(80, 80, 15, 10, (float)Math.PI)).SetFillColor(Color.Orange).SetBorderThickness(1).Build());
+            sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Ellipse.Create(180, 180, 15, 10, (float)Math.PI)).SetFillColor(Color.Orange).SetBorderThickness(1).Build());
             var scene = sceneBuilder.Build();
 
             SceneController = new DemoSceneController(scene);
