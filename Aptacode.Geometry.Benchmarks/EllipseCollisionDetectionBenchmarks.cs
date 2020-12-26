@@ -17,8 +17,8 @@ namespace Aptacode.Geometry.Benchmarks
 
         public EllipseCollisionDetectionBenchmarks()
         {
-            _ellipse = new Ellipse(new Vector2(2, 2), 2);
-            _collidingEllipse = new Ellipse(new Vector2(2, 3), 2);
+            _ellipse = new Ellipse(new Vector2(2, 2), new Vector2(2, 2), 0);
+            _collidingEllipse = new Ellipse(new Vector2(2, 3), new Vector2(2, 2), 0);
             _collidingPoint = new Point(new Vector2(2, 1));
             _collidingPolygon = Triangle.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(4, 0));
             _collidingPolyline = PolyLine.Create(new Vector2(0, 0), new Vector2(4, 4));

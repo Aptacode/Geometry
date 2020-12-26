@@ -47,7 +47,7 @@ namespace Aptacode.Geometry.Collision.Circles
             return p switch
             {
                 Point point => new BoundingCircle(point.Position, 0.0f),
-                Ellipse circle => new BoundingCircle(circle.Position, circle.Radius),
+                Ellipse ellipse => ellipse.Radii.X >= ellipse.Radii.Y ? BoundingCircle.FromTwoPoints(ellipse.EllipseVertices.Item1.Item1, ellipse.EllipseVertices.Item1.Item2) : BoundingCircle.FromTwoPoints(ellipse.EllipseVertices.Item2.Item1, ellipse.EllipseVertices.Item2.Item2),
                 Triangle triangle => BoundingCircle.FromThreePoints(triangle.P1, triangle.P2, triangle.P3),
                 Rectangle rectangle => BoundingCircle.FromTwoPoints(rectangle.TopLeft, rectangle.BottomRight),
                 _ => Welzl_Helper(new Span<Vector2>(p.Vertices.Vertices),

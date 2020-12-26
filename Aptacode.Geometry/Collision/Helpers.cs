@@ -41,5 +41,17 @@ namespace Aptacode.Geometry.Collision
             //var xIntersect = l1.Item1.X + A * (l1.Item2.X - l1.Item1.X)
             //var yIntersect = l1.Item1.Y + B * (l1.Item2.Y - l1.Item1.Y)
         }
+
+        public static (float m, float c) ToLineEquation(Vector2 start, Vector2 end)
+        {
+            if (Math.Abs(end.X - start.X) < Constants.Tolerance)
+            {
+                return (float.PositiveInfinity, start.X);
+            }
+
+            var m = (end.Y - start.Y) / (end.X - start.X);
+            var c = (-m * start.X) + start.Y;
+            return (m, c);
+        }
     }
 }
