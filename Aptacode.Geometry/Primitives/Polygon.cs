@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
@@ -17,8 +18,9 @@ namespace Aptacode.Geometry.Primitives
 
         public Polygon(VertexArray vertices) : base(vertices) { }
 
-        public Polygon(VertexArray vertices, BoundingCircle? boundingCircle)
-            : base(vertices, boundingCircle) { }
+        public Polygon(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) :
+            base(vertices, boundingCircle, boundingRectangle) { }
+
 
         public static Polygon Create(params float[] points)
         {
@@ -67,18 +69,28 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override Polygon Translate(Vector2 delta) =>
-            new(Vertices.Translate(delta), _boundingCircle?.Translate(delta));
+        public override Polygon Translate(Vector2 delta)
+        {
+            if (_edges != null)
+            {
+                for (var i = 0; i < _edges.Length; i++)
+                {
+                    var (p1, p2) = _edges[i];
+                    _edges[i] = (p1 + delta, p2 + delta);
+                }
+            }
 
-        public override Polygon Rotate(float theta) =>
-            new(Vertices.Rotate(BoundingCircle.Center, theta), _boundingCircle);
+            return (Polygon) base.Translate(delta);
+        }
+
+        public override Polygon Rotate(float theta) => (Polygon) base.Rotate(theta);
 
         public override Polygon Rotate(Vector2 rotationCenter, float theta) =>
-            new(Vertices.Rotate(rotationCenter, theta), _boundingCircle?.Rotate(rotationCenter, theta));
+            (Polygon) base.Rotate(rotationCenter, theta);
 
-        public override Polygon Scale(Vector2 delta) => new(Vertices.Scale(BoundingCircle.Center, delta));
+        public override Polygon Scale(Vector2 delta) => (Polygon) base.Scale(delta);
 
-        public override Polygon Skew(Vector2 delta) => new(Vertices.Skew(delta));
+        public override Polygon Skew(Vector2 delta) => (Polygon) base.Skew(delta);
 
         #endregion
     }

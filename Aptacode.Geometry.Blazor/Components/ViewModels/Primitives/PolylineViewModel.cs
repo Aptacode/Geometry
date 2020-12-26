@@ -29,7 +29,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             await ctx.LineWidthAsync(BorderThickness);
             await ctx.StrokeAsync();
             Invalidated = false;
-            _oldPrimitive = _primitive;
+
+            _oldPrimitive = _primitive.BoundingCircle;
+            _oldBoundingRectangle = _primitive.BoundingRectangle;
         }
 
         #endregion

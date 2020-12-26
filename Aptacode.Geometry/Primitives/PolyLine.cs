@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
@@ -37,7 +38,8 @@ namespace Aptacode.Geometry.Primitives
             return new PolyLine(VertexArray.Create(vertices));
         }
 
-        public PolyLine(VertexArray vertices, BoundingCircle? boundingCircle) : base(vertices, boundingCircle) { }
+        public PolyLine(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) :
+            base(vertices, boundingCircle, boundingRectangle) { }
 
         public static readonly PolyLine Zero = Create(Vector2.Zero, Vector2.Zero);
 
@@ -66,18 +68,28 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override PolyLine Translate(Vector2 delta) =>
-            new(Vertices.Translate(delta), _boundingCircle?.Translate(delta));
+        public override PolyLine Translate(Vector2 delta)
+        {
+            if (_lineSegments != null)
+            {
+                for (var i = 0; i < _lineSegments.Length; i++)
+                {
+                    var (p1, p2) = _lineSegments[i];
+                    _lineSegments[i] = (p1 + delta, p2 + delta);
+                }
+            }
 
-        public override PolyLine Rotate(float theta) =>
-            new(Vertices.Rotate(BoundingCircle.Center, theta), _boundingCircle);
+            return (PolyLine) base.Translate(delta);
+        }
+
+        public override PolyLine Rotate(float theta) => (PolyLine) base.Rotate(theta);
 
         public override PolyLine Rotate(Vector2 rotationCenter, float theta) =>
-            new(Vertices.Rotate(rotationCenter, theta), _boundingCircle?.Rotate(rotationCenter, theta));
+            (PolyLine) base.Rotate(rotationCenter, theta);
 
-        public override PolyLine Scale(Vector2 delta) => new(Vertices.Scale(BoundingCircle.Center, delta));
+        public override PolyLine Scale(Vector2 delta) => (PolyLine) base.Scale(delta);
 
-        public override PolyLine Skew(Vector2 delta) => new(Vertices.Skew(delta));
+        public override PolyLine Skew(Vector2 delta) => (PolyLine) base.Skew(delta);
 
         #endregion
     }

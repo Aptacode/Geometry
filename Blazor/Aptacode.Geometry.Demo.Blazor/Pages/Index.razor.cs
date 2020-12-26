@@ -20,7 +20,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             sceneBuilder.SetWidth(1000).SetHeight(1000);
             sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Rectangle.Create(400, 100, 75, 75))
                 .SetFillColor(Color.Blue).SetBorderThickness(1).Build());
-            
+
             sceneBuilder.AddComponent(componentBuilder.SetPrimitive(Rectangle.Create(100, 100, 100, 100))
                 .SetFillColor(Color.Red).SetBorderThickness(1).Build());
             sceneBuilder.AddComponent(componentBuilder

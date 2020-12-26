@@ -28,7 +28,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             }
 
             Invalidated = false;
-            _oldPrimitive = _primitive;
         }
 
         #endregion

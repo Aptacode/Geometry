@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.Geometry.Collision;
+using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
 using Excubo.Blazor.Canvas.Contexts;
@@ -14,7 +16,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         protected ComponentViewModel(Primitive primitive)
         {
             Id = Guid.NewGuid();
-            _oldPrimitive = _primitive = primitive;
+            _primitive = primitive;
+            _oldPrimitive = primitive.BoundingCircle;
+            _oldBoundingRectangle = primitive.BoundingRectangle;
             CollisionDetectionEnabled = true;
             BorderColor = Color.Black;
             FillColor = Color.Black;
@@ -35,7 +39,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public Guid Id { get; init; }
 
-        public Primitive _oldPrimitive;
+        public BoundingCircle _oldPrimitive;
+        public BoundingRectangle _oldBoundingRectangle;
 
         protected Primitive _primitive;
 

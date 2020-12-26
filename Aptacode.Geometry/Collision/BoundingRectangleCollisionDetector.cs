@@ -3,16 +3,28 @@ using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
 {
-    public class CoarseCollisionDetector : CollisionDetector
+    public class BoundingRectangleCollisionDetector : CollisionDetector
     {
         public static bool CoarseCollision(Primitive p1, Primitive p2)
         {
-            var p1Center = p1.BoundingCircle.Center;
-            var p1Radius = p1.BoundingCircle.Radius;
-            var p2Center = p2.BoundingCircle.Center;
-            var p2Radius = p2.BoundingCircle.Radius;
+            var l1 = p1.BoundingRectangle.TopLeft;
+            var r1 = p1.BoundingRectangle.BottomRight;
+            var l2 = p2.BoundingRectangle.TopLeft;
+            var r2 = p2.BoundingRectangle.BottomRight;
 
-            return (p1Center - p2Center).Length() <= p1Radius + p2Radius;
+            // If one rectangle is on left side of other 
+            if (l1.X >= r2.X || l2.X >= r1.X)
+            {
+                return false;
+            }
+
+            // If one rectangle is above other 
+            if (l1.Y <= r2.Y || l2.Y <= r1.Y)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         #region Point

@@ -5,7 +5,7 @@ namespace Aptacode.Geometry.Collision
 {
     public class HybridCollisionDetector : CollisionDetector
     {
-        public static readonly CoarseCollisionDetector CoarseCollisionDetector = new();
+        public static readonly BoundingCircleCollisionDetector CoarseCollisionDetector = new();
         public static readonly FineCollisionDetector FineCollisionDetector = new();
 
         #region Point

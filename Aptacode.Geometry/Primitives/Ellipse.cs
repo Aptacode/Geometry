@@ -2,6 +2,7 @@
 using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
@@ -152,13 +153,13 @@ namespace Aptacode.Geometry.Primitives
         public static Ellipse Create(float x, float y, float a, float b, float rotation) =>
             new(new Vector2(x, y), new Vector2(a, b), rotation);
 
-        public Ellipse(Vector2 position, Vector2 radii, float rotation, BoundingCircle? boundingCircle) : base(
-            VertexArray.Create(position), boundingCircle)
+        public Ellipse(Vector2 position, Vector2 radii, float rotation, BoundingCircle? boundingCircle,
+            BoundingRectangle? boundingRectangle) : base(VertexArray.Create(position), boundingCircle,
+            boundingRectangle)
         {
             Radii = radii;
             Rotation = rotation;
         }
-
 
         public static readonly Ellipse Zero = new(Vector2.Zero, Vector2.Zero, 0.0f);
         public static readonly Ellipse Unit = new(Vector2.Zero, Vector2.One, 0.0f); //This is a circle
@@ -167,18 +168,16 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override Ellipse Translate(Vector2 delta) =>
-            new(Position + delta, Radii, Rotation, _boundingCircle?.Translate(delta));
+        public override Ellipse Translate(Vector2 delta) => (Ellipse) base.Translate(delta);
 
-        public override Ellipse Rotate(float theta) =>
-            new(Position, Radii, Rotation + theta);
+        public override Ellipse Rotate(float theta) => (Ellipse) base.Rotate(theta);
 
         public override Ellipse Rotate(Vector2 rotationCenter, float theta) =>
-            new(Vertices.Rotate(rotationCenter, theta), Radii, Rotation);
+            (Ellipse) base.Rotate(rotationCenter, theta);
 
-        public override Ellipse Scale(Vector2 delta) => this;
+        public override Ellipse Scale(Vector2 delta) => (Ellipse) base.Scale(delta);
 
-        public override Ellipse Skew(Vector2 delta) => this;
+        public override Ellipse Skew(Vector2 delta) => (Ellipse) base.Skew(delta);
 
         #endregion
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Numerics;
 
 namespace Aptacode.Geometry.Vertices
@@ -71,6 +70,7 @@ namespace Aptacode.Geometry.Vertices
             get => Vertices[key];
             set => Vertices[key] = value;
         }
+
         public int Length => Vertices.Length;
 
         #endregion

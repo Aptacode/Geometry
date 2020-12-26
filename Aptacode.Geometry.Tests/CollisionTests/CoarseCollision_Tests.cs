@@ -8,7 +8,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
 {
     public class CoarseCollision_Tests
     {
-        private readonly CollisionDetector _collisionDetector = new CoarseCollisionDetector();
+        private readonly CollisionDetector _collisionDetector = new BoundingCircleCollisionDetector();
 
         #region Ellipse
 

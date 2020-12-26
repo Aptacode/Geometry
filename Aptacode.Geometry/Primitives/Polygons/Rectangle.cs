@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives.Polygons
@@ -9,23 +10,15 @@ namespace Aptacode.Geometry.Primitives.Polygons
         #region Construction
 
         public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft) : base(
-            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft))
-        {
-            Size = BottomRight - TopLeft;
-        }
+            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft)) { }
 
-        protected Rectangle(VertexArray vertices, BoundingCircle? boundingCircle)
-            : base(vertices, boundingCircle)
-        {
-            Size = BottomRight - TopLeft;
-        }
+        protected Rectangle(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle)
+            : base(vertices, boundingCircle, boundingRectangle) { }
+
 
         public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft,
-            BoundingCircle? boundingCircle) : base(
-            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft), boundingCircle)
-        {
-            Size = BottomRight - TopLeft;
-        }
+            BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) : base(
+            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft), boundingCircle, boundingRectangle) { }
 
         public static readonly Rectangle Zero = Create(Vector2.Zero, Vector2.Zero);
 
@@ -46,7 +39,7 @@ namespace Aptacode.Geometry.Primitives.Polygons
         #region Properties
 
         public Vector2 Position => Vertices[0];
-        public Vector2 Size { get; init; }
+        public Vector2 Size => BottomRight - TopLeft;
         public float Width => Size.X;
         public float Height => Size.Y;
         public Vector2 TopLeft => Vertices[0];
@@ -58,19 +51,16 @@ namespace Aptacode.Geometry.Primitives.Polygons
 
         #region Transformations
 
-        public override Rectangle Translate(Vector2 delta) =>
-            new(Vertices.Translate(delta),
-                _boundingCircle?.Translate(delta));
+        public override Rectangle Translate(Vector2 delta) => (Rectangle) base.Translate(delta);
+
+        public override Rectangle Rotate(float theta) => (Rectangle) base.Rotate(theta);
 
         public override Rectangle Rotate(Vector2 rotationCenter, float theta) =>
-            new(Vertices.Rotate(rotationCenter, theta), _boundingCircle?.Rotate(rotationCenter, theta));
+            (Rectangle) base.Rotate(rotationCenter, theta);
 
-        public override Rectangle Rotate(float theta) =>
-            new(Vertices.Rotate(BoundingCircle.Center, theta), _boundingCircle);
+        public override Rectangle Scale(Vector2 delta) => (Rectangle) base.Scale(delta);
 
-        public override Rectangle Scale(Vector2 delta) => new(Vertices.Scale(BoundingCircle.Center, delta), null);
-
-        public override Rectangle Skew(Vector2 delta) => new(Vertices.Skew(delta), null);
+        public override Rectangle Skew(Vector2 delta) => (Rectangle) base.Skew(delta);
 
         #endregion
     }

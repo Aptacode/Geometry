@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Vertices;
 
@@ -29,8 +30,9 @@ namespace Aptacode.Geometry.Composites
             Children = children;
         }
 
-        public PrimitiveGroup(IEnumerable<Primitive> children, BoundingCircle boundingCircle)
-            : base(children.Select(v => v.Vertices).Aggregate(), boundingCircle)
+        public PrimitiveGroup(IEnumerable<Primitive> children, BoundingCircle boundingCircle,
+            BoundingRectangle boundingRectangle)
+            : base(children.Select(v => v.Vertices).Aggregate(), boundingCircle, boundingRectangle)
         {
             Children = children;
         }

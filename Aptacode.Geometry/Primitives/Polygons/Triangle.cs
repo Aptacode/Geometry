@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives.Polygons
@@ -17,11 +18,13 @@ namespace Aptacode.Geometry.Primitives.Polygons
             }
         }
 
-        protected Triangle(VertexArray vertices, BoundingCircle? boundingCircle)
-            : base(vertices, boundingCircle) { }
+        protected Triangle(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) :
+            base(vertices, boundingCircle, boundingRectangle) { }
 
-        public Triangle(Vector2 p1, Vector2 p2, Vector2 p3, BoundingCircle? boundingCircle) : base(
-            VertexArray.Create(p1, p2, p3), boundingCircle) { }
+
+        public Triangle(Vector2 p1, Vector2 p2, Vector2 p3, BoundingCircle? boundingCircle,
+            BoundingRectangle? boundingRectangle) : base(
+            VertexArray.Create(p1, p2, p3), boundingCircle, boundingRectangle) { }
 
         public static readonly Triangle Zero = Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);
 
@@ -35,18 +38,20 @@ namespace Aptacode.Geometry.Primitives.Polygons
         public Vector2 P2 => Vertices[1];
         public Vector2 P3 => Vertices[2];
 
-        public override Triangle Translate(Vector2 delta) =>
-            new(Vertices.Translate(delta), _boundingCircle?.Translate(delta));
+        #endregion
 
-        public override Triangle Rotate(float theta) =>
-            new(Vertices.Rotate(BoundingCircle.Center, theta), _boundingCircle);
+        #region Transformations
+
+        public override Triangle Translate(Vector2 delta) => (Triangle) base.Translate(delta);
+
+        public override Triangle Rotate(float theta) => (Triangle) base.Rotate(theta);
 
         public override Triangle Rotate(Vector2 rotationCenter, float theta) =>
-            new(Vertices.Rotate(rotationCenter, theta), _boundingCircle?.Rotate(rotationCenter, theta));
+            (Triangle) base.Rotate(rotationCenter, theta);
 
-        public override Triangle Scale(Vector2 delta) => new(Vertices.Scale(BoundingCircle.Center, delta), null);
+        public override Triangle Scale(Vector2 delta) => (Triangle) base.Scale(delta);
 
-        public override Triangle Skew(Vector2 delta) => new(Vertices.Skew(delta), null);
+        public override Triangle Skew(Vector2 delta) => (Triangle) base.Skew(delta);
 
         #endregion
     }

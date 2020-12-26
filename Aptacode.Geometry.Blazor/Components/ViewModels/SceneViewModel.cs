@@ -5,16 +5,14 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Collision.Circles;
-using Aptacode.Geometry.Primitives;
-using Excubo.Blazor.Canvas;
+using Aptacode.Geometry.Collision.Rectangles;
 using Excubo.Blazor.Canvas.Contexts;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
     public class SceneViewModel : BindableBase, IAsyncDisposable
     {
-        private readonly CollisionDetector _collisionDetector = new CoarseCollisionDetector();
+        private readonly CollisionDetector _collisionDetector = new BoundingRectangleCollisionDetector();
 
         public SceneViewModel(Vector2 size, IEnumerable<ComponentViewModel> components)
         {
@@ -76,7 +74,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             }
         }
 
-
         public async Task<List<ComponentViewModel>> InvalidateItems(IContext2DWithoutGetters batch)
         {
             const int margin = 4;
@@ -101,48 +98,42 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             for (var invalidItemIndex = 0; invalidItemIndex < invalidItems.Count; invalidItemIndex++)
             {
                 var invalidItem = invalidItems[invalidItemIndex];
-                var oldradiusplusbuffer = invalidItem._oldPrimitive.BoundingCircle.Radius +
-                                          invalidItem.BorderThickness + margin;
-                var newradiusplusbuffer =
-                    invalidItem.Primitive.BoundingCircle.Radius + invalidItem.BorderThickness + margin;
-                var oldBoundingCircle = new Ellipse(invalidItem._oldPrimitive.BoundingCircle.Center,
-                    new Vector2(oldradiusplusbuffer, oldradiusplusbuffer), 0.0f);
-                var newBoundingCircle = new Ellipse(invalidItem.Primitive.BoundingCircle.Center,
-                    new Vector2(newradiusplusbuffer, newradiusplusbuffer), 0.0f);
+                var invalidItemBorder = new Vector2(invalidItem.BorderThickness);
+                var oldBoundingRecWithBorder = BoundingRectangle.FromTwoPoints(
+                    invalidItem._oldBoundingRectangle.TopLeft - 2 * invalidItemBorder,
+                    invalidItem._oldBoundingRectangle.BottomRight + 4 * invalidItemBorder);
+                var newBoundingRecWithBorder = BoundingRectangle.FromTwoPoints(
+                    invalidItem.Primitive.BoundingRectangle.TopLeft - 2 * invalidItemBorder,
+                    invalidItem.Primitive.BoundingRectangle.BottomRight + 4 * invalidItemBorder);
+
 
                 for (var validItemIndex = 0; validItemIndex < validItems.Count; validItemIndex++)
                 {
                     var validComponent = validItems[validItemIndex];
-                    var validradiusplusbuffer = validComponent.Primitive.BoundingCircle.Radius +
-                                                validComponent.BorderThickness + margin;
-                    var validComponentBoundingCircle = new Ellipse(validComponent.Primitive.BoundingCircle.Center,
-                        new Vector2(validradiusplusbuffer, validradiusplusbuffer), 0.0f);
-
-                    if (oldBoundingCircle.CollidesWith(validComponentBoundingCircle, _collisionDetector) ||
-                        newBoundingCircle.CollidesWith(validComponentBoundingCircle, _collisionDetector))
+                    var validItemBorder = new Vector2(validComponent.BorderThickness);
+                    var boundingRecWithBorder = BoundingRectangle.FromTwoPoints(
+                        validComponent.Primitive.BoundingRectangle.TopLeft - 2 * validItemBorder,
+                        validComponent.Primitive.BoundingRectangle.BottomRight + 4 * validItemBorder);
+                    if (oldBoundingRecWithBorder.CollidesWith(boundingRecWithBorder) ||
+                        newBoundingRecWithBorder.CollidesWith(boundingRecWithBorder))
                     {
                         validComponent.Invalidated = true;
                         validItems.RemoveAt(validItemIndex);
                         invalidItems.Add(validComponent);
                     }
                 }
-                await Invalidate(batch, invalidItem._oldPrimitive.BoundingCircle, invalidItem.BorderThickness,
-                    margin);
-                await Invalidate(batch, invalidItem.Primitive.BoundingCircle, invalidItem.BorderThickness, margin);
+
+                await Invalidate(batch, invalidItem._oldBoundingRectangle, invalidItem.BorderThickness);
+                await Invalidate(batch, invalidItem.Primitive.BoundingRectangle, invalidItem.BorderThickness);
             }
 
             return invalidItems;
         }
 
-        public async Task Invalidate(IContext2DWithoutGetters batch, BoundingCircle circle, int border, int margin)
+        public async Task Invalidate(IContext2DWithoutGetters batch, BoundingRectangle rectangle, int border)
         {
-            var totalRadius = (int) (circle.Radius + border + margin);
-            await batch.BeginPathAsync();
-            //await batch.ClearRectAsync((int)circle.Center.X - totalRadius,
-            //    (int)circle.Center.Y - totalRadius, totalRadius * 2,
-            //    totalRadius * 2);
-            await batch.EllipseAsync((int) circle.Center.X, (int) circle.Center.Y, totalRadius, totalRadius, 0, 0, 360);
-            await batch.FillAsync(FillRule.NonZero);
+            await batch.ClearRectAsync((int) rectangle.TopLeft.X - 2 * border, (int) rectangle.TopLeft.Y - 2 * border,
+                (int) rectangle.Size.X + 4 * border, (int) rectangle.Size.Y + 4 * border);
         }
 
         #endregion
