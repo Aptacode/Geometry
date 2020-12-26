@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using System.Threading.Tasks;
-using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;
 using Excubo.Blazor.Canvas;
 using Excubo.Blazor.Canvas.Contexts;
@@ -64,7 +63,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 
         public override void Rotate(float theta)
         {
-            Primitive = Primitive.Rotate(theta); 
+            Primitive = Primitive.Rotate(theta);
         }
 
         public override void Rotate(Vector2 rotationCenter, float theta)

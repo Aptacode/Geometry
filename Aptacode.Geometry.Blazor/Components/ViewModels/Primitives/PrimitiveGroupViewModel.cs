@@ -26,6 +26,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 
                 await ctx.RestoreAsync();
             }
+
             Invalidated = false;
             _oldPrimitive = _primitive;
         }

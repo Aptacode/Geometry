@@ -10,7 +10,9 @@ namespace Aptacode.Geometry.Tests.CollisionTests
     public class FineCollision_Tests
     {
         private readonly CollisionDetector _collisionDetector = new FineCollisionDetector();
+
         #region Ellipse
+
         [Fact]
         public void EllipseAndEllipse_FineCollision_Test()
         {
@@ -27,7 +29,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndPoint_FineCollision_Test()
         {
             //Arrange
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float)Math.PI/4f);
+            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float) Math.PI / 4f);
             var point = new Point(new Vector2(7, 7));
             //Act
             var sut = ellipse.CollidesWith(point, _collisionDetector);
@@ -39,7 +41,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndPolygon_FineCollision_Test()
         {
             //Arrange
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float)Math.PI / 4f);
+            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float) Math.PI / 4f);
             var polygon = Triangle.Create(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3));
             //Act
             var sut = ellipse.CollidesWith(polygon, _collisionDetector);
@@ -51,7 +53,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndPolygon_FineCollision_Test2()
         {
             //Arrange
-            var ellipse = Ellipse.Create(30, 30, 15, 10, (float)Math.PI);
+            var ellipse = Ellipse.Create(30, 30, 15, 10, (float) Math.PI);
             var polygon = Rectangle.Create(25, 5, 10, 10);
             //Act
             var sut = ellipse.CollidesWith(polygon, _collisionDetector);
@@ -63,21 +65,24 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndPolyLine_FineCollision_Test()
         {
             //Arrange
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float)Math.PI / 4f);
+            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float) Math.PI / 4f);
             var polyLine = PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7));
             //Act
             var sut = ellipse.CollidesWith(polyLine, _collisionDetector);
             //Assert
             Assert.True(sut);
         }
+
         #endregion
+
         #region Point
+
         [Fact]
         public void PointAndEllipse_FineCollision_Test()
         {
             //Arrange
             var point = new Point(new Vector2(4, 4));
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 7), (float)Math.PI/16f);
+            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 7), (float) Math.PI / 16f);
             //Act
             var sut = point.CollidesWith(ellipse, _collisionDetector);
             //Assert
@@ -125,14 +130,17 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
+
         #endregion
+
         #region Polygon
+
         [Fact]
         public void PolygonAndEllipse_FineCollision_Test()
         {
             //Arrange
             var polygon = Triangle.Create(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3));
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float)Math.PI / 4f);
+            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float) Math.PI / 4f);
             //Act
             var sut = polygon.CollidesWith(ellipse, _collisionDetector);
             //Assert
@@ -174,8 +182,11 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
+
         #endregion
+
         #region PolyLine
+
         [Fact]
         public void PolyLineAndEllipse_FineCollision_Test()
         {
@@ -227,6 +238,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
+
         #endregion
     }
 }

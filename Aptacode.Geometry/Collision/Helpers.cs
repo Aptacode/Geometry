@@ -50,7 +50,7 @@ namespace Aptacode.Geometry.Collision
             }
 
             var m = (end.Y - start.Y) / (end.X - start.X);
-            var c = (-m * start.X) + start.Y;
+            var c = -m * start.X + start.Y;
             return (m, c);
         }
     }

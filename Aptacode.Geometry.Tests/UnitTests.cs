@@ -65,13 +65,12 @@ namespace Aptacode.Geometry.Tests
         {
             var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(5, 3), 0);
             var sut = ellipse.GetStandardForm();
-            Assert.True(Math.Abs(9/225f - sut.A) < Constants.Tolerance);
+            Assert.True(Math.Abs(9 / 225f - sut.A) < Constants.Tolerance);
             Assert.True(Math.Abs(25 / 225f - sut.C) < Constants.Tolerance);
             Assert.Equal(0, sut.B);
-            Assert.True(Math.Abs(-90/225f - sut.D) < Constants.Tolerance);
+            Assert.True(Math.Abs(-90 / 225f - sut.D) < Constants.Tolerance);
             Assert.True(Math.Abs(-250 / 225f - sut.E) < Constants.Tolerance);
             Assert.True(Math.Abs(625 / 225f - sut.F) < Constants.Tolerance);
-
         }
 
         [Fact]
@@ -86,7 +85,6 @@ namespace Aptacode.Geometry.Tests
             var sut = Ellipse.QuarticHasRealRoots(q0, q1, q2, q3, q4);
 
             Assert.False(sut);
-
         }
     }
 }

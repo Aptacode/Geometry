@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -37,7 +36,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public Guid Id { get; init; }
 
         public Primitive _oldPrimitive;
-        
+
         protected Primitive _primitive;
 
         public Primitive Primitive => _primitive;

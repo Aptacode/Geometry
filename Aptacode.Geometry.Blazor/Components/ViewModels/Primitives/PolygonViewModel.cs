@@ -37,7 +37,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             await ctx.StrokeAsync();
             Invalidated = false;
             _oldPrimitive = _primitive;
-
         }
 
         #endregion

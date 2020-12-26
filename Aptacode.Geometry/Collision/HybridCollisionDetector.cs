@@ -1,5 +1,4 @@
-﻿using Aptacode.Geometry.Collision.Circles;
-using Aptacode.Geometry.Composites;
+﻿using Aptacode.Geometry.Composites;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
@@ -20,7 +19,7 @@ namespace Aptacode.Geometry.Collision
                                                                    FineCollisionDetector.CollidesWith(p1, p2);
 
         public override bool CollidesWith(Point p1, Ellipse p2) => CoarseCollisionDetector.CollidesWith(p1, p2) &&
-            FineCollisionDetector.CollidesWith(p1, p2);
+                                                                   FineCollisionDetector.CollidesWith(p1, p2);
 
         public override bool CollidesWith(Point p1, PrimitiveGroup p2) =>
             CoarseCollisionDetector.CollidesWith(p1, p2) &&
@@ -71,7 +70,7 @@ namespace Aptacode.Geometry.Collision
         #region Circle
 
         public override bool CollidesWith(Ellipse p1, Point p2) => CoarseCollisionDetector.CollidesWith(p1, p2) &&
-            FineCollisionDetector.CollidesWith(p1, p2);
+                                                                   FineCollisionDetector.CollidesWith(p1, p2);
 
         public override bool CollidesWith(Ellipse p1, PolyLine p2) => CoarseCollisionDetector.CollidesWith(p1, p2) &&
                                                                       FineCollisionDetector.CollidesWith(p1, p2);

@@ -9,7 +9,9 @@ namespace Aptacode.Geometry.Tests.CollisionTests
     public class CoarseCollision_Tests
     {
         private readonly CollisionDetector _collisionDetector = new CoarseCollisionDetector();
+
         #region Ellipse
+
         [Fact]
         public void CircleAndCircle_CoarseCollision_Test()
         {
@@ -21,7 +23,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-        
+
         [Fact]
         public void EllipseAndEllipse_CoarseCollision_Test()
         {
@@ -69,8 +71,11 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
+
         #endregion
+
         #region Point
+
         [Fact]
         public void PointAndEllipse_CoarseCollision_Test()
         {
@@ -118,8 +123,11 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
+
         #endregion
+
         #region Polygon
+
         [Fact]
         public void PolygonAndEllipse_CoarseCollision_Test()
         {
@@ -167,8 +175,11 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
+
         #endregion
+
         #region PolyLine
+
         [Fact]
         public void PolyLineAndCircle_CoarseCollision_Test()
         {
@@ -220,6 +231,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
+
         #endregion
     }
 }
