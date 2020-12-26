@@ -48,34 +48,5 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
         public List<ComponentViewModel> Children { get; set; }
 
         #endregion
-
-        #region Transformation
-
-        public override void Translate(Vector2 delta)
-        {
-            Primitive = Primitive.Translate(delta);
-        }
-
-        public override void Rotate(float theta)
-        {
-            Primitive = Primitive.Rotate(theta);
-        }
-
-        public override void Rotate(Vector2 rotationCenter, float theta)
-        {
-            Primitive = Primitive.Rotate(rotationCenter, theta);
-        }
-
-        public override void Scale(Vector2 delta)
-        {
-            Primitive = Primitive.Scale(delta);
-        }
-
-        public override void Skew(Vector2 delta)
-        {
-            Primitive = Primitive.Skew(delta);
-        }
-
-        #endregion
     }
 }

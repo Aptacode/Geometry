@@ -81,16 +81,6 @@ namespace Aptacode.Geometry.Primitives
 
             return (PolyLine) base.Translate(delta);
         }
-
-        public override PolyLine Rotate(float theta) => (PolyLine) base.Rotate(theta);
-
-        public override PolyLine Rotate(Vector2 rotationCenter, float theta) =>
-            (PolyLine) base.Rotate(rotationCenter, theta);
-
-        public override PolyLine Scale(Vector2 delta) => (PolyLine) base.Scale(delta);
-
-        public override PolyLine Skew(Vector2 delta) => (PolyLine) base.Skew(delta);
-
         #endregion
     }
 }

@@ -83,15 +83,6 @@ namespace Aptacode.Geometry.Primitives
             return (Polygon) base.Translate(delta);
         }
 
-        public override Polygon Rotate(float theta) => (Polygon) base.Rotate(theta);
-
-        public override Polygon Rotate(Vector2 rotationCenter, float theta) =>
-            (Polygon) base.Rotate(rotationCenter, theta);
-
-        public override Polygon Scale(Vector2 delta) => (Polygon) base.Scale(delta);
-
-        public override Polygon Skew(Vector2 delta) => (Polygon) base.Skew(delta);
-
         #endregion
     }
 }

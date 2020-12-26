@@ -166,19 +166,5 @@ namespace Aptacode.Geometry.Primitives
 
         #endregion
 
-        #region Transformations
-
-        public override Ellipse Translate(Vector2 delta) => (Ellipse) base.Translate(delta);
-
-        public override Ellipse Rotate(float theta) => (Ellipse) base.Rotate(theta);
-
-        public override Ellipse Rotate(Vector2 rotationCenter, float theta) =>
-            (Ellipse) base.Rotate(rotationCenter, theta);
-
-        public override Ellipse Scale(Vector2 delta) => (Ellipse) base.Scale(delta);
-
-        public override Ellipse Skew(Vector2 delta) => (Ellipse) base.Skew(delta);
-
-        #endregion
     }
 }

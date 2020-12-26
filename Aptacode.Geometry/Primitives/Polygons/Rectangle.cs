@@ -48,20 +48,5 @@ namespace Aptacode.Geometry.Primitives.Polygons
         public Vector2 BottomLeft => Vertices[3];
 
         #endregion
-
-        #region Transformations
-
-        public override Rectangle Translate(Vector2 delta) => (Rectangle) base.Translate(delta);
-
-        public override Rectangle Rotate(float theta) => (Rectangle) base.Rotate(theta);
-
-        public override Rectangle Rotate(Vector2 rotationCenter, float theta) =>
-            (Rectangle) base.Rotate(rotationCenter, theta);
-
-        public override Rectangle Scale(Vector2 delta) => (Rectangle) base.Scale(delta);
-
-        public override Rectangle Skew(Vector2 delta) => (Rectangle) base.Skew(delta);
-
-        #endregion
     }
 }

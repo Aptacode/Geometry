@@ -31,18 +31,5 @@ namespace Aptacode.Geometry.Primitives
 
         #endregion
 
-        #region Transformations
-
-        public override Point Translate(Vector2 delta) => (Point) base.Translate(delta);
-
-        public override Point Rotate(float theta) => (Point) base.Rotate(theta);
-
-        public override Point Rotate(Vector2 rotationCenter, float theta) => (Point) base.Rotate(rotationCenter, theta);
-
-        public override Point Scale(Vector2 delta) => (Point) base.Scale(delta);
-
-        public override Point Skew(Vector2 delta) => (Point) base.Skew(delta);
-
-        #endregion
     }
 }

@@ -29,9 +29,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             await ctx.LineWidthAsync(BorderThickness);
             await ctx.StrokeAsync();
             Invalidated = false;
-
-            _oldPrimitive = _primitive.BoundingCircle;
-            _oldBoundingRectangle = _primitive.BoundingRectangle;
         }
 
         #endregion
@@ -44,7 +41,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             set
             {
                 _primitive = value;
-                Vertices = value.Vertices.Vertices.ToIntArray();
+                Vertices = Primitive.Vertices.Vertices.ToIntArray();
                 Invalidated = true;
             }
         }
@@ -57,27 +54,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 
         public override void Translate(Vector2 delta)
         {
-            Primitive = Primitive.Translate(delta);
-        }
-
-        public override void Rotate(float theta)
-        {
-            Primitive = Primitive.Rotate(theta);
-        }
-
-        public override void Rotate(Vector2 rotationCenter, float theta)
-        {
-            Primitive = Primitive.Rotate(rotationCenter, theta);
-        }
-
-        public override void Scale(Vector2 delta)
-        {
-            Primitive = Primitive.Scale(delta);
-        }
-
-        public override void Skew(Vector2 delta)
-        {
-            Primitive = Primitive.Skew(delta);
+            base.Translate(delta);
+            Vertices = Primitive.Vertices.Vertices.ToIntArray();
         }
 
         #endregion

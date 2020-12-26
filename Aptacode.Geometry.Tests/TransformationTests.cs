@@ -89,13 +89,14 @@ namespace Aptacode.Geometry.Tests
         public void PolygonRotation_Test()
         {
             //Arrange
-            var poly = Polygon.Create(new Vector2(3, 3), new Vector2(7, 3), new Vector2(7, 5), new Vector2(3, 5));
+            var original = Polygon.Create(new Vector2(3, 3), new Vector2(7, 3), new Vector2(7, 5), new Vector2(3, 5));
+            var sut = Polygon.Create(new Vector2(3, 3), new Vector2(7, 3), new Vector2(7, 5), new Vector2(3, 5));
             //Act
-            var sut = poly.Rotate((float) Math.PI / 2);
+            sut.Rotate((float) Math.PI / 2);
             var expectedVertices = VertexArray.Create(new Vector2(4, 2), new Vector2(6, 2), new Vector2(6, 6),
                 new Vector2(4, 6));
-            var expectedBoundingCircleCenter = poly.BoundingCircle.Center;
-            var expectedBoundingCircleRadius = poly.BoundingCircle.Radius;
+            var expectedBoundingCircleCenter = original.BoundingCircle.Center;
+            var expectedBoundingCircleRadius = original.BoundingCircle.Radius;
             var expectedEdges = new[]
             {
                 (new Vector2(4, 2), new Vector2(6, 2)), (new Vector2(6, 2), new Vector2(6, 6)),
