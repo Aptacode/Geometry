@@ -66,7 +66,11 @@ namespace Aptacode.Geometry.Vertices
 
         #region List
 
-        public Vector2 this[int key] => Vertices[key];
+        public Vector2 this[int key]
+        {
+            get => Vertices[key];
+            set => Vertices[key] = value;
+        }
         public int Length => Vertices.Length;
 
         #endregion

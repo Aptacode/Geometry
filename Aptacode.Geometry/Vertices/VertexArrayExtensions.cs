@@ -68,49 +68,45 @@ namespace Aptacode.Geometry.Vertices
         public static VertexArray Translate(this VertexArray vertexArray, Vector2 delta)
         {
             var translationMatrix = Matrix3x2.CreateTranslation(delta);
-            var vertices = new Vector2[vertexArray.Length];
             for (var i = 0; i < vertexArray.Length; i++)
             {
-                vertices[i] = Vector2.Transform(vertexArray[i], translationMatrix);
+                vertexArray[i] = Vector2.Transform(vertexArray[i], translationMatrix);
             }
 
-            return VertexArray.Create(vertices);
+            return vertexArray;
         }
 
         public static VertexArray Rotate(this VertexArray vertexArray, Vector2 rotationCenter, float theta)
         {
             var rotationMatrix = Matrix3x2.CreateRotation(theta, rotationCenter);
-            var vertices = new Vector2[vertexArray.Length];
             for (var i = 0; i < vertexArray.Length; i++)
             {
-                vertices[i] = Vector2.Transform(vertexArray[i], rotationMatrix);
+                vertexArray[i] = Vector2.Transform(vertexArray[i], rotationMatrix);
             }
 
-            return VertexArray.Create(vertices);
+            return vertexArray;
         }
 
         public static VertexArray Scale(this VertexArray vertexArray, Vector2 scaleCenter, Vector2 delta)
         {
             var scaleMatrix = Matrix3x2.CreateScale(delta, scaleCenter);
-            var vertices = new Vector2[vertexArray.Length];
             for (var i = 0; i < vertexArray.Length; i++)
             {
-                vertices[i] = Vector2.Transform(vertexArray[i], scaleMatrix);
+                vertexArray[i] = Vector2.Transform(vertexArray[i], scaleMatrix);
             }
 
-            return VertexArray.Create(vertices);
+            return vertexArray;
         }
 
         public static VertexArray Skew(this VertexArray vertexArray, Vector2 delta)
         {
             var shearMatrix = new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0); //Not 100% on this one.
-            var vertices = new Vector2[vertexArray.Length];
             for (var i = 0; i < vertexArray.Length; i++)
             {
-                vertices[i] = Vector2.Transform(vertexArray[i], shearMatrix);
+                vertexArray[i] = Vector2.Transform(vertexArray[i], shearMatrix);
             }
 
-            return VertexArray.Create(vertices);
+            return vertexArray;
         }
 
         #endregion
