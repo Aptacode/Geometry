@@ -18,7 +18,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public SceneViewModel(Vector2 size, IEnumerable<ComponentViewModel> components)
         {
-            Components = components.ToArray();
+            Components = components.ToList();
             Size = size;
         }
 
@@ -66,7 +66,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
             await batch.RestoreAsync();
 
-            foreach (var component in Components.Where(c => c.Invalidated))
+            foreach (var component in invalidatedItems)
             {
                 await batch.SaveAsync();
 
@@ -84,18 +84,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             var validItems = new List<ComponentViewModel>();
             var invalidItems = new List<ComponentViewModel>();
 
-            for (var i = 0; i < Components.Length; i++)
+            for (var i = 0; i < Components.Count; i++)
             {
                 var component = Components[i];
                 if (component.Invalidated)
                 {
                     invalidItems.Add(component);
-                    if (component._oldPrimitive != component.Primitive)
-                    {
-                        //Invalidate the old primitive's bounding circle if it changed
-                        await Invalidate(batch, component._oldPrimitive.BoundingCircle, component.BorderThickness,
-                            margin);
-                    }
                 }
                 else
                 {
@@ -132,7 +126,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                         invalidItems.Add(validComponent);
                     }
                 }
-
+                await Invalidate(batch, invalidItem._oldPrimitive.BoundingCircle, invalidItem.BorderThickness,
+                    margin);
                 await Invalidate(batch, invalidItem.Primitive.BoundingCircle, invalidItem.BorderThickness, margin);
             }
 
@@ -154,7 +149,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         #region Properties
 
-        public ComponentViewModel[] Components { get; set; }
+        public List<ComponentViewModel> Components { get; set; }
 
         public Vector2 Size { get; set; }
         public Context2D Ctx { get; set; }
@@ -165,46 +160,46 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public void BringToFront(ComponentViewModel componentViewModel)
         {
-            //if (!Components.Remove(componentViewModel))
-            //{
-            //    return;
-            //}
+            if (!Components.Remove(componentViewModel))
+            {
+                return;
+            }
 
-            //Components.Add(componentViewModel);
+            Components.Add(componentViewModel);
         }
 
         public void SendToBack(ComponentViewModel componentViewModel)
         {
-            //if (!Components.Remove(componentViewModel))
-            //{
-            //    return;
-            //}
+            if (!Components.Remove(componentViewModel))
+            {
+                return;
+            }
 
-            //Components.Insert(0, componentViewModel);
+            Components.Insert(0, componentViewModel);
         }
 
         public void BringForward(ComponentViewModel componentViewModel)
         {
-            //var index = Components.IndexOf(componentViewModel);
-            //if (index == Components.Count - 1)
-            //{
-            //    return;
-            //}
+            var index = Components.IndexOf(componentViewModel);
+            if (index == Components.Count - 1)
+            {
+                return;
+            }
 
-            //Components.RemoveAt(index);
-            //Components.Insert(index + 1, componentViewModel);
+            Components.RemoveAt(index);
+            Components.Insert(index + 1, componentViewModel);
         }
 
         public void SendBackward(ComponentViewModel componentViewModel)
         {
-            //var index = Components.IndexOf(componentViewModel);
-            //if (index == 0)
-            //{
-            //    return;
-            //}
+            var index = Components.IndexOf(componentViewModel);
+            if (index == 0)
+            {
+                return;
+            }
 
-            //Components.RemoveAt(index);
-            //Components.Insert(index - 1, componentViewModel);
+            Components.RemoveAt(index);
+            Components.Insert(index - 1, componentViewModel);
         }
 
         #endregion

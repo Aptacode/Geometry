@@ -85,11 +85,21 @@ namespace Aptacode.Geometry.Vertices
 
         public static bool operator ==(VertexArray lhs, VertexArray rhs)
         {
-            return lhs.Vertices.Length == rhs.Vertices.Length &&
-                   lhs.Vertices.Select((t, i) => t - rhs.Vertices[i])
-                       .All(difference =>
-                           !(Math.Abs(difference.X) > Constants.Tolerance) &&
-                           !(Math.Abs(difference.Y) > Constants.Tolerance));
+            if (lhs.Length != rhs.Length)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < lhs.Length; i++)
+            {
+                var delta = lhs[i] - rhs[i];
+                if (Math.Abs(delta.X + delta.Y) > Constants.Tolerance)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public static bool operator !=(VertexArray lhs, VertexArray rhs) => !(lhs == rhs);
