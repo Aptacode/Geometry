@@ -15,7 +15,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         protected ComponentViewModel(Primitive primitive)
         {
             Id = Guid.NewGuid();
-            _primitive = primitive;
+            _oldPrimitive = _primitive = primitive;
             CollisionDetectionEnabled = true;
             BorderColor = Color.Black;
             FillColor = Color.Black;

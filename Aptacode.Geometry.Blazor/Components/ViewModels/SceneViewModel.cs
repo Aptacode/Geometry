@@ -72,7 +72,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
             await batch.RestoreAsync();
             
-            foreach (var component in invalidatedItems)
+            foreach (var component in Components.Where(c => c.Invalidated))
             {
                 await batch.SaveAsync();
 
@@ -122,15 +122,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                     var validComponent = validItems[validItemIndex];
                     var validComponentBoundingCircle = new Ellipse(validComponent.Primitive.BoundingCircle.Center, validComponent.Primitive.BoundingCircle.Radius + validComponent.BorderThickness + margin);
 
-                    if (!validComponentBoundingCircle.CollidesWith(oldBoundingCircle, _collisionDetector) &&
-                        !validComponentBoundingCircle.CollidesWith(newBoundingCircle, _collisionDetector))
+                    if (oldBoundingCircle.CollidesWith(validComponentBoundingCircle, _collisionDetector) ||
+                        newBoundingCircle.CollidesWith(validComponentBoundingCircle, _collisionDetector))
                     {
-                        continue;
+
+                        validComponent.Invalidated = true;
+                        validItems.RemoveAt(validItemIndex);
+                        invalidItems.Add(validComponent);
                     }
 
-                    validComponent.Invalidated = true;
-                    validItems.RemoveAt(validItemIndex);
-                    invalidItems.Add(validComponent);
                 }
 
                 await Invalidate(batch, invalidItem.Primitive.BoundingCircle, invalidItem.BorderThickness, margin);

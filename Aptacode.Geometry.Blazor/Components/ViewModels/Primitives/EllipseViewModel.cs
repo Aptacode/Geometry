@@ -31,6 +31,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
             Invalidated = false;
+            _oldPrimitive = _primitive;
         }
 
         #endregion
@@ -42,11 +43,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             get => (Ellipse) _primitive;
             set
             {
-                if (!Invalidated)
-                {
-                    _oldPrimitive = _primitive;
-                }
-                
                 _primitive = value;
                 Position = ((int) value.Position.X, (int) value.Position.Y);
                 Radius = value.Radius;

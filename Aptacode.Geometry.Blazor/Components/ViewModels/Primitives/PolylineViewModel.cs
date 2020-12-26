@@ -29,6 +29,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             await ctx.LineWidthAsync(BorderThickness);
             await ctx.StrokeAsync();
             Invalidated = false;
+            _oldPrimitive = _primitive;
         }
 
         #endregion
@@ -40,10 +41,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             get => (PolyLine) _primitive;
             set
             {
-                if (!Invalidated)
-                {
-                    _oldPrimitive = _primitive;
-                }
                 _primitive = value;
                 Vertices = value.Vertices.Vertices.ToIntArray();
                 Invalidated = true;
