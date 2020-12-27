@@ -81,6 +81,39 @@ namespace Aptacode.Geometry.Primitives
 
             return (PolyLine) base.Translate(delta);
         }
+        
+        public override PolyLine Scale(Vector2 delta)
+        {
+            if (_lineSegments != null)
+            {
+                for (var i = 0; i < _lineSegments.Length; i++)
+                {
+                    var (p1, p2) = _lineSegments[i];
+                    _lineSegments[i] = (p1 * delta, p2 * delta);
+                }
+            }
+
+            return (PolyLine)base.Scale(delta);
+        }
+
+
+        public virtual PolyLine Rotate(float theta)
+        {
+            _lineSegments = null;
+            return (PolyLine)base.Rotate(theta);
+        }
+
+        public virtual PolyLine Rotate(Vector2 rotationCenter, float theta)
+        {
+            _lineSegments = null;
+            return (PolyLine)base.Rotate(rotationCenter, theta);
+        }
+
+        public virtual PolyLine Skew(Vector2 delta)
+        {
+            _lineSegments = null;
+            return (PolyLine)base.Skew(delta);
+        }
         #endregion
     }
 }
