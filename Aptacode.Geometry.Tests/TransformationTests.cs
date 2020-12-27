@@ -59,8 +59,9 @@ namespace Aptacode.Geometry.Tests
         {
             //Arrange
             var poly = Polygon.Create(new Vector2(3, 3), new Vector2(7, 3), new Vector2(7, 5), new Vector2(3, 5));
+            var sut = Polygon.Create(new Vector2(3, 3), new Vector2(7, 3), new Vector2(7, 5), new Vector2(3, 5));
             //Act
-            var sut = poly.Translate(new Vector2(1, 0));
+            sut.Translate(new Vector2(1, 0));
             //Assert
             var expectedVertices = VertexArray.Create(new Vector2(4, 3), new Vector2(8, 3), new Vector2(8, 5),
                 new Vector2(4, 5));
