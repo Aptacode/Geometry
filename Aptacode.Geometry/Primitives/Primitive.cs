@@ -73,7 +73,10 @@ namespace Aptacode.Geometry.Primitives
 
         public virtual Primitive Scale(Vector2 delta)
         {
-            Vertices.Scale(BoundingCircle.Center, delta);
+            var oldPosition = BoundingCircle.Center;
+            Vertices.Scale(oldPosition, delta);
+            Vertices.Translate((oldPosition * delta) - oldPosition);
+            
             _boundingCircle = null;
             _boundingRectangle = null;
             return this;

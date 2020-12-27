@@ -70,35 +70,18 @@ namespace Aptacode.Geometry.Primitives
 
         public override PolyLine Translate(Vector2 delta)
         {
-            if (_lineSegments != null)
-            {
-                for (var i = 0; i < _lineSegments.Length; i++)
-                {
-                    var (p1, p2) = _lineSegments[i];
-                    _lineSegments[i] = (p1 + delta, p2 + delta);
-                }
-            }
-
+            _lineSegments = null;
             base.Translate(delta); 
             return this;
         }
 
         public override PolyLine Scale(Vector2 delta)
         {
-            if (_lineSegments != null)
-            {
-                for (var i = 0; i < _lineSegments.Length; i++)
-                {
-                    var (p1, p2) = _lineSegments[i];
-                    _lineSegments[i] = (p1 * delta, p2 * delta);
-                }
-            }
-
+            _lineSegments = null;
             base.Scale(delta);
             return this;
         }
-
-
+        
         public virtual PolyLine Rotate(float theta)
         {
             _lineSegments = null;

@@ -89,7 +89,6 @@ namespace Aptacode.Geometry.Primitives
             _edges = null;
             base.Scale(delta);
             return this;
-
         }
 
         public virtual Polygon Rotate(float theta)
