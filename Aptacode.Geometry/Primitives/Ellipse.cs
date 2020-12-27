@@ -21,10 +21,8 @@ namespace Aptacode.Geometry.Primitives
         {
             var delta = Position - other.Position;
             var radiusDelta = Radii - other.Radii;
-            return Math.Abs(delta.X) < Constants.Tolerance &&
-                   Math.Abs(delta.Y) < Constants.Tolerance &&
-                   Math.Abs(radiusDelta.X) < Constants.Tolerance &&
-                   Math.Abs(radiusDelta.Y) < Constants.Tolerance;
+            return Math.Abs(delta.X + delta.Y) < Constants.Tolerance &&
+                   Math.Abs(radiusDelta.X + radiusDelta.Y) < Constants.Tolerance;
         }
 
         #endregion
