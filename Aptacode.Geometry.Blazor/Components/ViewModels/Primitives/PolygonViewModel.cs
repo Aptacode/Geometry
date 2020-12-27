@@ -64,6 +64,30 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             Vertices = Primitive.Vertices.Vertices.ToIntArray();
         }
 
+        public override void Rotate(float theta)
+        {
+            base.Rotate(theta);
+            Vertices = Primitive.Vertices.Vertices.ToIntArray();
+        }
+
+        public override void Rotate(Vector2 rotationCenter, float theta)
+        {
+            base.Rotate(rotationCenter, theta);
+            Vertices = Primitive.Vertices.Vertices.ToIntArray();
+        }
+
+        public override void Scale(Vector2 delta)
+        {
+            base.Scale(delta);
+            Vertices = Primitive.Vertices.Vertices.ToIntArray();
+        }
+
+        public override void Skew(Vector2 delta)
+        {
+            base.Skew(delta);
+            Vertices = Primitive.Vertices.Vertices.ToIntArray();
+        }
+
         #endregion
     }
 }

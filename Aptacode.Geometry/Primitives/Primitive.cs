@@ -57,9 +57,10 @@ namespace Aptacode.Geometry.Primitives
 
         public virtual Primitive Rotate(float theta)
         {
-            Vertices.Rotate(BoundingCircle.Center, theta);
-            _boundingCircle = _boundingCircle?.Rotate(BoundingCircle.Center, theta);
-            _boundingRectangle = _boundingRectangle?.Rotate(BoundingCircle.Center, theta);
+            var center = BoundingCircle.Center;
+            
+            Vertices.Rotate(center, theta);
+            _boundingRectangle = null;
             return this;
         }
 
@@ -73,16 +74,16 @@ namespace Aptacode.Geometry.Primitives
         public virtual Primitive Scale(Vector2 delta)
         {
             Vertices.Scale(BoundingCircle.Center, delta);
-            _boundingCircle = _boundingCircle?.Scale(BoundingCircle.Center, delta);
-            _boundingRectangle = _boundingRectangle?.Scale(BoundingCircle.Center, delta);
+            _boundingCircle = null;
+            _boundingRectangle = null;
             return this;
         }
 
         public virtual Primitive Skew(Vector2 delta)
         {
             Vertices.Skew(delta);
-            _boundingCircle = _boundingCircle?.Skew(delta);
-            _boundingRectangle = _boundingRectangle?.Skew(delta);
+            _boundingCircle = null;
+            _boundingRectangle = null;
             return this;
         }
 

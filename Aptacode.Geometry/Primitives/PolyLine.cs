@@ -79,9 +79,10 @@ namespace Aptacode.Geometry.Primitives
                 }
             }
 
-            return (PolyLine) base.Translate(delta);
+            base.Translate(delta); 
+            return this;
         }
-        
+
         public override PolyLine Scale(Vector2 delta)
         {
             if (_lineSegments != null)
@@ -93,26 +94,30 @@ namespace Aptacode.Geometry.Primitives
                 }
             }
 
-            return (PolyLine)base.Scale(delta);
+            base.Scale(delta);
+            return this;
         }
 
 
         public virtual PolyLine Rotate(float theta)
         {
             _lineSegments = null;
-            return (PolyLine)base.Rotate(theta);
+            base.Rotate(theta);
+            return this;
         }
 
         public virtual PolyLine Rotate(Vector2 rotationCenter, float theta)
         {
             _lineSegments = null;
-            return (PolyLine)base.Rotate(rotationCenter, theta);
+            base.Rotate(rotationCenter, theta);
+            return this;
         }
 
         public virtual PolyLine Skew(Vector2 delta)
         {
             _lineSegments = null;
-            return (PolyLine)base.Skew(delta);
+            base.Skew(delta);
+            return this;
         }
         #endregion
     }

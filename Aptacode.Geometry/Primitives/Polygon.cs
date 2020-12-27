@@ -79,40 +79,40 @@ namespace Aptacode.Geometry.Primitives
                     _edges[i] = (p1 + delta, p2 + delta);
                 }
             }
-
-            return (Polygon) base.Translate(delta);
+            
+            base.Translate(delta);
+            return this;
         }
         
         public override Polygon Scale(Vector2 delta)
         {
-            if (_edges != null)
-            {
-                for (var i = 0; i < _edges.Length; i++)
-                {
-                    var (p1, p2) = _edges[i];
-                    _edges[i] = (p1 * delta, p2 * delta);
-                }
-            }
+            _edges = null;
+            base.Scale(delta);
+            return this;
 
-            return (Polygon)base.Scale(delta);
         }
 
         public virtual Polygon Rotate(float theta)
         {
             _edges = null;
-            return (Polygon)base.Rotate(theta);
+            base.Rotate(theta); 
+            return this;
         }
 
         public virtual Polygon Rotate(Vector2 rotationCenter, float theta)
         {
             _edges = null;
-            return (Polygon)base.Rotate(rotationCenter, theta);
+            base.Rotate(rotationCenter, theta);
+            return this;
+
         }
 
         public virtual Polygon Skew(Vector2 delta)
         {
             _edges = null;
-            return (Polygon)base.Skew(delta);
+            base.Skew(delta);
+            return this;
+
         }
         #endregion
     }
