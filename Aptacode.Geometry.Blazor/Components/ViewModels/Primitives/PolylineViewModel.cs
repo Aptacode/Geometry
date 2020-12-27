@@ -28,7 +28,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
             await ctx.StrokeStyleAsync(BorderColorName);
             await ctx.LineWidthAsync(BorderThickness);
             await ctx.StrokeAsync();
-            Invalidated = false;
+            await base.Draw(ctx);
         }
 
         #endregion

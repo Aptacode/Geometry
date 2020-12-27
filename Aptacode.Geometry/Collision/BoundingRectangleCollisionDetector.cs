@@ -13,13 +13,13 @@ namespace Aptacode.Geometry.Collision
             var r2 = p2.BoundingRectangle.BottomRight;
 
             // If one rectangle is on left side of other 
-            if (l1.X >= r2.X || l2.X >= r1.X)
+            if (l1.X > r2.X || l2.X > r1.X)
             {
                 return false;
             }
 
             // If one rectangle is above other 
-            if (l1.Y <= r2.Y || l2.Y <= r1.Y)
+            if (l1.Y > r2.Y || l2.Y > r1.Y)
             {
                 return false;
             }

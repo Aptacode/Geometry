@@ -64,8 +64,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
             await batch.RestoreAsync();
 
-            foreach (var component in invalidatedItems)
+            for (var i = 0; i < invalidatedItems.Count; i++)
             {
+                var component = invalidatedItems[i];
                 await batch.SaveAsync();
 
                 await component.Draw(batch);
@@ -100,26 +101,33 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 var invalidItem = invalidItems[invalidItemIndex];
                 var invalidItemBorder = new Vector2(invalidItem.BorderThickness);
                 var oldBoundingRecWithBorder = BoundingRectangle.FromTwoPoints(
-                    invalidItem._oldBoundingRectangle.TopLeft - 2 * invalidItemBorder,
-                    invalidItem._oldBoundingRectangle.BottomRight + 4 * invalidItemBorder);
+                    invalidItem._oldBoundingRectangle.TopLeft - (4 * invalidItemBorder),
+                    invalidItem._oldBoundingRectangle.BottomRight + (8 * invalidItemBorder));
                 var newBoundingRecWithBorder = BoundingRectangle.FromTwoPoints(
-                    invalidItem.Primitive.BoundingRectangle.TopLeft - 2 * invalidItemBorder,
-                    invalidItem.Primitive.BoundingRectangle.BottomRight + 4 * invalidItemBorder);
+                    invalidItem.Primitive.BoundingRectangle.TopLeft - (4 * invalidItemBorder),
+                    invalidItem.Primitive.BoundingRectangle.BottomRight + (8 * invalidItemBorder));
 
 
-                for (var validItemIndex = 0; validItemIndex < validItems.Count; validItemIndex++)
+                for (var validItemIndex = 0; validItemIndex < validItems.Count;)
                 {
                     var validComponent = validItems[validItemIndex];
                     var validItemBorder = new Vector2(validComponent.BorderThickness);
-                    var boundingRecWithBorder = BoundingRectangle.FromTwoPoints(
-                        validComponent.Primitive.BoundingRectangle.TopLeft - 2 * validItemBorder,
-                        validComponent.Primitive.BoundingRectangle.BottomRight + 4 * validItemBorder);
-                    if (oldBoundingRecWithBorder.CollidesWith(boundingRecWithBorder) ||
-                        newBoundingRecWithBorder.CollidesWith(boundingRecWithBorder))
+                    
+                    var newValidBoundingRect = BoundingRectangle.FromTwoPoints(
+                        validComponent.Primitive.BoundingRectangle.TopLeft - (4 * validItemBorder),
+                        validComponent.Primitive.BoundingRectangle.BottomRight + (8 * validItemBorder));
+                    
+                    if (oldBoundingRecWithBorder.CollidesWith(newValidBoundingRect) ||
+                        newBoundingRecWithBorder.CollidesWith(newValidBoundingRect)
+                    )
                     {
                         validComponent.Invalidated = true;
                         validItems.RemoveAt(validItemIndex);
                         invalidItems.Add(validComponent);
+                    }
+                    else
+                    {
+                        validItemIndex++;
                     }
                 }
 
@@ -132,8 +140,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public async Task Invalidate(IContext2DWithoutGetters batch, BoundingRectangle rectangle, int border)
         {
-            await batch.ClearRectAsync((int) rectangle.TopLeft.X - 2 * border, (int) rectangle.TopLeft.Y - 2 * border,
-                (int) rectangle.Size.X + 4 * border, (int) rectangle.Size.Y + 4 * border);
+            await batch.ClearRectAsync((int) rectangle.TopLeft.X - 4 * border, (int) rectangle.TopLeft.Y - 4 * border,
+                (int) rectangle.Size.X + 8 * border, (int) rectangle.Size.Y + 8 * border);
         }
 
         #endregion

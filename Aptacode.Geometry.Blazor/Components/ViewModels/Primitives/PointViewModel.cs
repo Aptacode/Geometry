@@ -30,7 +30,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Primitives
 
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
-            Invalidated = false;
+            await base.Draw(ctx);
         }
 
         #endregion

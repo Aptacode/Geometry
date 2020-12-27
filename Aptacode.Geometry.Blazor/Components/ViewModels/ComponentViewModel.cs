@@ -27,7 +27,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         #region Canvas
 
-        public abstract Task Draw(IContext2DWithoutGetters ctx);
+        public virtual async Task Draw(IContext2DWithoutGetters ctx)
+        {
+            _oldPrimitive = _primitive.BoundingCircle;
+            _oldBoundingRectangle = _primitive.BoundingRectangle;
+            Invalidated = false;
+        }
 
         #endregion
 
@@ -99,59 +104,30 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public virtual void Translate(Vector2 delta)
         {
-            if (!Invalidated){
-                _oldPrimitive = _primitive.BoundingCircle;
-                _oldBoundingRectangle = _primitive.BoundingRectangle;
-            }
-            
             Primitive.Translate(delta);
             Invalidated = true;
         }
 
         public virtual void Rotate(float theta)
         {
-            if (!Invalidated)
-            {
-                _oldPrimitive = _primitive.BoundingCircle;
-                _oldBoundingRectangle = _primitive.BoundingRectangle;
-            }
-            
             Primitive.Rotate(theta);
             Invalidated = true;
         }
 
         public virtual void Rotate(Vector2 rotationCenter, float theta)
         {
-            if (!Invalidated)
-            {
-                _oldPrimitive = _primitive.BoundingCircle;
-                _oldBoundingRectangle = _primitive.BoundingRectangle;
-            }
-            
             Primitive.Rotate(rotationCenter, theta);
             Invalidated = true;
         }
 
         public virtual void Scale(Vector2 delta)
         {
-            if (!Invalidated)
-            {
-                _oldPrimitive = _primitive.BoundingCircle;
-                _oldBoundingRectangle = _primitive.BoundingRectangle;
-            }
-            
             Primitive.Scale(delta);
             Invalidated = true;
         }
 
         public virtual void Skew(Vector2 delta)
         {
-            if (!Invalidated)
-            {
-                _oldPrimitive = _primitive.BoundingCircle;
-                _oldBoundingRectangle = _primitive.BoundingRectangle;
-            }
-            
             Primitive.Skew(delta);
             Invalidated = true;
         }
