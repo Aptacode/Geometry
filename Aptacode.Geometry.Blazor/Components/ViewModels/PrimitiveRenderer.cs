@@ -11,7 +11,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public static async Task Draw(this Primitive primitive, IContext2DWithoutGetters ctx)
         {
             await ctx.BeginPathAsync();
-
             switch (primitive)
             {
                 case Ellipse ellipse:

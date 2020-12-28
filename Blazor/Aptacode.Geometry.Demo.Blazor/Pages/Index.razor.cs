@@ -48,12 +48,17 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                 .SetFillColor(Color.Red).SetBorderThickness(1).Build());
 
             //Ellipse
-            sceneBuilder.AddComponent(componentBuilder.AddPrimitive(Ellipse.Create(80, 80, 15, 15, 0.0f))
-                .SetFillColor(Color.Orange).SetBorderThickness(1).Build());
 
-            sceneBuilder.AddComponent(componentBuilder.AddPrimitive(Ellipse.Create(300, 180, 15, 10, (float) Math.PI))
-                .SetFillColor(Color.Green).SetBorderThickness(1).Build());
 
+            var child1 = componentBuilder.AddPrimitive(Ellipse.Create(80, 80, 15, 15, 0.0f))
+                .SetFillColor(Color.Orange).SetBorderThickness(1).Build();
+
+            var child2 = componentBuilder.AddPrimitive(Ellipse.Create(300, 180, 15, 10, (float) Math.PI))
+                .SetFillColor(Color.Green).SetBorderThickness(1).Build();
+            
+            var group = componentBuilder.AddChild(child1).AddChild(child2).Build();
+
+            sceneBuilder.AddComponent(group);
 
             //PrimitiveGroup
             sceneBuilder.AddComponent(componentBuilder

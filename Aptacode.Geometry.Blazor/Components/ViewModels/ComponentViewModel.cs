@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
@@ -15,10 +16,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
     public class ComponentViewModel
     {
-        public ComponentViewModel(IEnumerable<Primitive> primitive)
+        #region Ctor
+
+        public ComponentViewModel()
         {
             Id = Guid.NewGuid();
-            Primitives = primitive.ToList();
+            Primitives = new List<Primitive>();
+            Children = new List<ComponentViewModel>();
+
             CollisionDetectionEnabled = true;
             BorderColor = Color.Black;
             FillColor = Color.Black;
@@ -26,8 +31,39 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             Margin = DefaultMargin;
             Invalidated = true;
             IsShown = true;
-            OldBoundingRectangle = BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
+            
+            UpdateBoundingRectangle();
+            OldBoundingRectangle = BoundingRectangle;
         }
+
+        #endregion
+
+        #region Children
+
+        public List<Primitive> Primitives { get; }
+        public List<ComponentViewModel> Children { get; }
+
+        public void UpdateBoundingRectangle()
+        {
+            var primitiveBoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
+            var childrenBoundingRectangle = Children.ToBoundingRectangle().AddMargin(Margin);
+
+            BoundingRectangle = primitiveBoundingRectangle.Combine(childrenBoundingRectangle);
+        }
+
+        public void Add(Primitive primitive)
+        {
+            Primitives.Add(primitive);
+            UpdateBoundingRectangle();
+        }
+
+        public void Add(ComponentViewModel child)
+        {
+            Children.Add(child);
+            UpdateBoundingRectangle();
+        }
+        
+        #endregion
 
         #region Canvas
 
@@ -50,6 +86,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             foreach (var primitive in Primitives)
             {
                 await primitive.Draw(ctx);
+            }
+
+            foreach (var child in Children)
+            {
+                await child.Draw(ctx); 
             }
 
             if (!string.IsNullOrEmpty(Text))
@@ -77,7 +118,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public BoundingRectangle OldBoundingRectangle { get; private set; }
         public BoundingRectangle BoundingRectangle { get; private set; }
-        public List<Primitive> Primitives { get; }
 
         public float Margin { get; set; }
 
@@ -128,15 +168,46 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             {
                 return false;
             }
-            
+
+            foreach (var child in Children)
+            {
+                if (child.CollidesWith(component, collisionDetector))
+                {
+                    return true;
+                }
+            }
+
             foreach (var primitive in Primitives)
             {
-                foreach (var componentPrimitive in component.Primitives)
+                if (component.CollidesWith(primitive, collisionDetector))
                 {
-                    if (primitive.CollidesWith(componentPrimitive, collisionDetector))
-                    {
-                        return true;
-                    }
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
+        {
+            if (!primitive.BoundingRectangle.CollidesWith(BoundingRectangle))
+            {
+                return false;
+            }
+
+            foreach (var child in Children)
+            {
+                if (child.CollidesWith(primitive, collisionDetector))
+                {
+                    return true;
+                }
+            }
+
+            foreach (var p in Primitives)
+            {
+                if (p.CollidesWith(primitive, collisionDetector))
+                {
+                    return true;
                 }
             }
 
@@ -151,6 +222,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             }
             
             var p = point.ToPoint();
+
+            foreach (var child in Children)
+            {
+                if (child.CollidesWith(point, collisionDetector))
+                {
+                    return true;
+                }
+            }
+            
             foreach (var primitive in Primitives)
             {
                 if (primitive.CollidesWith(p, collisionDetector))
@@ -172,8 +252,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             {
                 primitive.Translate(delta);
             }
-
-            BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
+            foreach (var child in Children)
+            {
+                child.Translate(delta);
+            }
+            UpdateBoundingRectangle();
+            
             Invalidated = true;
         }
 
@@ -184,8 +268,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 primitive.Rotate(theta);
             }
 
-            BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
-            Invalidated = true;
+            foreach (var child in Children)
+            {
+                child.Rotate(theta);
+            }
+            UpdateBoundingRectangle(); Invalidated = true;
         }
 
         public virtual void Rotate(Vector2 rotationCenter, float theta)
@@ -195,8 +282,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 primitive.Rotate(rotationCenter, theta);
             }
 
-            BoundingRectangle = Primitives.ToBoundingRectangle();
-            Invalidated = true;
+            foreach (var child in Children)
+            {
+                child.Rotate(rotationCenter, theta);
+            }
+            UpdateBoundingRectangle(); Invalidated = true;
         }
 
         public virtual void Scale(Vector2 delta)
@@ -206,8 +296,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 primitive.Scale(delta);
             }
 
-            BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
-            Invalidated = true;
+            foreach (var child in Children)
+            {
+                child.Scale(delta);
+            }
+            UpdateBoundingRectangle(); Invalidated = true;
         }
 
         public virtual void Skew(Vector2 delta)
@@ -217,8 +310,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 primitive.Skew(delta);
             }
 
-            BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
-            Invalidated = true;
+            foreach (var child in Children)
+            {
+                child.Skew(delta);
+            }
+            UpdateBoundingRectangle(); Invalidated = true;
         }
 
         #endregion

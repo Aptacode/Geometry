@@ -53,6 +53,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             await batch.FillStyleAsync(ComponentViewModel.DefaultFillColor);
             await batch.StrokeStyleAsync(ComponentViewModel.DefaultBorderColor);
             await batch.LineWidthAsync(ComponentViewModel.DefaultBorderThickness);
+            await batch.ShadowBlurAsync(0.0f);
 
             await batch.SaveAsync();
             await batch.FillStyleAsync("White");
