@@ -10,7 +10,7 @@ namespace Aptacode.Geometry.Primitives.Extensions
         {
             var a = ellipse.Radii.X;
             var b = ellipse.Radii.Y;
-            if (ellipse.Radii.Y >= ellipse.Radii.X)
+            if (ellipse.Radii.Y > ellipse.Radii.X)
             {
                 a = ellipse.Radii.Y;
                 b = ellipse.Radii.X;
@@ -33,7 +33,7 @@ namespace Aptacode.Geometry.Primitives.Extensions
             var E = -1 * px * d5 - 2 * py * d3 + px * d6 - 2 * py * d2;
             var F = px * px * d1 + px * py * d5 + py * py * d3 + px * px * d4 - px * py * d6 + py * py * d2 - 1;
 
-            return (A, B, C, D, E, F);
+            return (A * 10, B * 10, C * 10, D * 10, E * 10, F * 10);
         }
     }
 }

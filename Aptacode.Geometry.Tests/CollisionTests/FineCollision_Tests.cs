@@ -24,6 +24,20 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
+        
+        [Fact]
+        public void EllipseAndCircle_FineCollision_Test()
+        {
+            //Arrange
+            var ellipse = new Ellipse(new Vector2(53, 45), new Vector2(15, 10), 0.0f);
+            var circle = new Ellipse(new Vector2(25, 25), new Vector2(15, 15), 0.0f);
+            //Act
+            var sut = ellipse.CollidesWith(circle, _collisionDetector);
+            //Assert
+            Assert.True(sut);
+        }
+
+
 
         [Fact]
         public void EllipseAndPoint_FineCollision_Test()

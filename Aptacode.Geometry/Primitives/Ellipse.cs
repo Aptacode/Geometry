@@ -13,7 +13,10 @@ namespace Aptacode.Geometry.Primitives
         public Vector2 Radii; //The x width(height) and the y height(width)
         public Vector2 Position => Vertices[0];
         public (Vector2, Vector2) Foci => GetFoci();
-        public ((Vector2, Vector2), (Vector2, Vector2)) EllipseVertices => GetEllipseVertices();
+        public VertexArray EllipseVertices => GetEllipseVertices();
+        public VertexArray EllipseExtrema => GetEllipseExtrema();
+
+
 
         #region IEquatable
 
@@ -27,12 +30,33 @@ namespace Aptacode.Geometry.Primitives
 
         #endregion
 
-        private ((Vector2, Vector2), (Vector2, Vector2)) GetEllipseVertices()
+        private VertexArray GetEllipseExtrema()
+        {
+            var asquared = Radii.X * Radii.X;
+            var bsquared = Radii.Y * Radii.Y;
+
+            var costheta = Math.Cos(Rotation);
+            var costhetasquared = costheta * costheta;
+
+            var sintheta = Math.Sin(Rotation);
+            var sinthetasquared = sintheta * sintheta;
+
+            var xdelta = (float)Math.Sqrt(asquared * costhetasquared + bsquared * sinthetasquared);
+            var ydelta = (float)Math.Sqrt(asquared * sinthetasquared + bsquared * costhetasquared);
+
+            var topLeft = Position - new Vector2(xdelta, ydelta);
+            var topRight = Position + new Vector2(xdelta, -ydelta);
+            var bottomLeft = Position + new Vector2(-xdelta, ydelta);
+            var bottomRight = Position + new Vector2(xdelta, ydelta);
+            return new VertexArray(new Vector2[] { topLeft, topRight, bottomRight, bottomLeft });
+        }
+
+        private VertexArray GetEllipseVertices()
         {
             var a = Vector2.Transform(new Vector2(Radii.X, 0.0f), Matrix3x2.CreateRotation(Rotation));
             var b = Vector2.Transform(new Vector2(0.0f, Radii.Y), Matrix3x2.CreateRotation(Rotation));
 
-            return ((Position - a, Position + a), (Position - b, Position + b));
+            return new VertexArray(new Vector2[]{ Position - a, Position + a, Position - b, Position + b });
         }
 
         private (Vector2, Vector2) GetFoci()
@@ -91,14 +115,18 @@ namespace Aptacode.Geometry.Primitives
 
         public static bool QuarticHasRealRoots(double u0, double u1, double u2, double u3, double u4)
         {
-            if (u4 == 0 && u3 != 0)
+            if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) > Constants.Tolerance)
             {
                 return true;
             }
 
-            if (u4 == 0 && u3 == 0 && u2 != 0)
+            if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) < Constants.Tolerance && u2 != 0)
             {
                 var det = u1 * u1 - 4 * u2 * u0;
+                if (Math.Abs(det) < Constants.Tolerance)
+                {
+                    return true;
+                }
                 return det >= 0;
             }
 
@@ -108,13 +136,18 @@ namespace Aptacode.Geometry.Primitives
                         + 144 * u4 * u4 * u2 * u1 * u1 * u0
                         - 27 * u4 * u4 * u1 * u1 * u1 * u1
                         + 144 * u4 * u3 * u3 * u1 * u0 * u0
+                        - 6 * u4 * u3 * u3 * u1 * u1 * u0
+                        - 80 * u4 * u3 * u2 * u2 * u1 * u0
+                        + 18 * u4 * u3 * u2 * u1 * u1 * u1
+                        + 16 * u4 * u2 * u2 * u2 * u2 * u0
+                        - 4 * u4 * u2 * u2 * u2 * u1 * u1
                         - 27 * u3 * u3 * u3 * u3 * u0 * u0
                         + 18 * u3 * u3 * u3 * u2 * u1 * u0
                         - 4 * u3 * u3 * u3 * u1 * u1 * u1
                         - 4 * u3 * u3 * u2 * u2 * u2 * u0
                         + u3 * u3 * u2 * u2 * u1 * u1;
 
-            if (delta < 0)
+            if (delta < 0 && Math.Abs(delta) > 0.01f)
             {
                 return true;
             }
@@ -126,7 +159,7 @@ namespace Aptacode.Geometry.Primitives
                     - 16 * u4 * u4 * u3 * u1
                     - 3 * u3 * u3 * u3 * u3;
 
-            if (p > 0 || d > 0)
+            if ((p > 0 && Math.Abs(p) > Constants.Tolerance) || d > 0)
             {
                 return false;
             }
