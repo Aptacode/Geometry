@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Aptacode.Geometry.Blazor.Utilities;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Aptacode.Geometry.Blazor.Extensions
@@ -6,6 +7,6 @@ namespace Aptacode.Geometry.Blazor.Extensions
     public static class MouseEventArgsExtensions
     {
         public static Vector2 FromScale(this MouseEventArgs args) => new(
-            (float) args.OffsetX / 1.5f, (float) args.OffsetY / 1.5f);
+            (float) args.OffsetX / Scale.Value, (float) args.OffsetY / Scale.Value);
     }
 }

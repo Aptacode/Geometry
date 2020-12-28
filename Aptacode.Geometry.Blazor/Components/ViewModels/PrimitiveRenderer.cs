@@ -25,7 +25,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                     await ctx.StrokeAsync();
                     break;
                 case Polygon polygon:
-                    await ctx.MoveToAsync(polygon.Vertices[0].X, polygon.Vertices[0].Y);
+                    await ctx.MoveToAsync((int)polygon.Vertices[0].X, (int)polygon.Vertices[0].Y);
                     for (var i = 1; i < polygon.Vertices.Length; i++)
                     {
                         var vertex = polygon.Vertices[i];
@@ -37,7 +37,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                     await ctx.StrokeAsync();
                     break;
                 case PolyLine polyline:
-                    await ctx.MoveToAsync(polyline.Vertices[0].X, polyline.Vertices[0].Y);
+                    await ctx.MoveToAsync((int)polyline.Vertices[0].X, (int)polyline.Vertices[0].Y);
                     for (var i = 1; i < polyline.Vertices.Length; i++)
                     {
                         var vertex = polyline.Vertices[i];

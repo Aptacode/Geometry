@@ -22,10 +22,21 @@ namespace Aptacode.Geometry.Blazor.Utilities
             _borderColor = borderColor;
             return this;
         }
+        public ComponentBuilder SetText(string text)
+        {
+            _text = text;
+            return this;
+        }
 
         public ComponentBuilder SetFillColor(Color fillColor)
         {
             _fillColor = fillColor;
+            return this;
+        }
+
+        public ComponentBuilder SetMargin(float margin)
+        {
+            _margin = margin;
             return this;
         }
 
@@ -41,7 +52,9 @@ namespace Aptacode.Geometry.Blazor.Utilities
             {
                 BorderColor = _borderColor,
                 FillColor = _fillColor,
-                BorderThickness = _borderThickness
+                BorderThickness = _borderThickness,
+                Text = _text,
+                Margin = _margin
             };
 
             Reset();
@@ -54,6 +67,8 @@ namespace Aptacode.Geometry.Blazor.Utilities
             _borderColor = Color.Black;
             _fillColor = Color.White;
             _borderThickness = 1;
+            _margin = 0.0f;
+            _text = "";
         }
 
         #region Properties
@@ -61,6 +76,8 @@ namespace Aptacode.Geometry.Blazor.Utilities
         private Color _fillColor = Color.White;
         private Color _borderColor = Color.Black;
         private int _borderThickness = 1;
+        private float _margin = 0.0f;
+        private string _text = "";
         private readonly List<Primitive> _primitives = new();
 
         #endregion

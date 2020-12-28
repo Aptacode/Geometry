@@ -39,7 +39,9 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             sceneBuilder.AddComponent(polyLine);
 
             //Rectangles
-            sceneBuilder.AddComponent(componentBuilder.AddPrimitive(Rectangle.Create(400, 100, 75, 75))
+            sceneBuilder.AddComponent(
+                componentBuilder.AddPrimitive(Rectangle.Create(400, 100, 75, 75))
+                    .SetText("Blue Rectangle")
                 .SetFillColor(Color.Blue).SetBorderThickness(1).Build());
 
             sceneBuilder.AddComponent(componentBuilder.AddPrimitive(Rectangle.Create(100, 250, 100, 100))
@@ -54,17 +56,12 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
 
             //PrimitiveGroup
-
-            //var p1 = componentBuilder
-            //    .SetPrimitive(Ellipse.Create(400, 200, 15, 15, 0.0f)).SetFillColor(Color.Green)
-            //    .SetBorderThickness(1).Build(); 
-            //var p2 = componentBuilder
-            //    .SetPrimitive(Rectangle.Create(400, 200, 30, 10, 0.0f)).SetFillColor(Color.Green)
-            //    .SetBorderThickness(1).Build();
-
-            var p1 = Ellipse.Create(400, 200, 15, 15, 0.0f);
-            var p2 = Polygon.Create(400, 200, 30, 10, 0.0f);
-
+            sceneBuilder.AddComponent(componentBuilder
+                .AddPrimitive(Ellipse.Create(400, 200, 15, 15, 0.0f))
+                .AddPrimitive(Rectangle.Create(400, 200, 30, 10))
+                .SetFillColor(Color.Green)
+                .SetText("Group")
+                .SetBorderThickness(1).Build());
 
             var scene = sceneBuilder.Build();
 

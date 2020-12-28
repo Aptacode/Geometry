@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
+using Aptacode.Geometry.Blazor.Utilities;
 using Excubo.Blazor.Canvas;
 using Microsoft.AspNetCore.Components;
 
@@ -28,6 +29,9 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 
         [Parameter] public SceneViewModel ViewModel { get; set; }
         public Canvas SceneCanvas { get; set; }
+
+        public string Style { get; set; } =
+            $"-moz-transform: scale({Scale.Value}); -moz-transform-origin: 0 0; zoom: {Scale.Value};";
 
         #endregion
     }

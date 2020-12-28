@@ -8,6 +8,7 @@ using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
+using Excubo.Blazor.Canvas;
 using Excubo.Blazor.Canvas.Contexts;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
@@ -18,18 +19,28 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         {
             Id = Guid.NewGuid();
             Primitives = primitive.ToList();
-            OldBoundingRectangle = BoundingRectangle = Primitives.ToBoundingRectangle();
             CollisionDetectionEnabled = true;
             BorderColor = Color.Black;
             FillColor = Color.Black;
             BorderThickness = DefaultBorderThickness;
+            Margin = DefaultMargin;
             Invalidated = true;
+            IsShown = true;
+            OldBoundingRectangle = BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
         }
 
         #region Canvas
 
         public async Task Draw(IContext2DWithoutGetters ctx)
         {
+            OldBoundingRectangle = BoundingRectangle;
+            Invalidated = false;
+            
+            if (!IsShown)
+            {
+                return;
+            }
+            
             await ctx.FillStyleAsync(FillColorName);
 
             await ctx.StrokeStyleAsync(BorderColorName);
@@ -41,18 +52,26 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 await primitive.Draw(ctx);
             }
 
-            OldBoundingRectangle = BoundingRectangle;
-            BoundingRectangle = Primitives.ToBoundingRectangle();
-            Invalidated = false;
+            if (!string.IsNullOrEmpty(Text))
+            {
+                await ctx.TextAlignAsync(TextAlign.Center);
+                await ctx.FillStyleAsync("black");
+                await ctx.FillTextAsync(Text, BoundingRectangle.Center.X, BoundingRectangle.Center.Y);
+            }
         }
 
         #endregion
 
-        #region Properties
+        #region Defaults
 
         public static readonly string DefaultBorderColor = Color.Black.ToKnownColor().ToString();
         public static readonly string DefaultFillColor = Color.Black.ToKnownColor().ToString();
         public static readonly int DefaultBorderThickness = 1;
+        public static readonly float DefaultMargin = 0.0f;
+
+        #endregion
+
+        #region Properties
 
         public Guid Id { get; init; }
 
@@ -63,6 +82,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public float Margin { get; set; }
 
         public bool IsShown { get; set; }
+        
+        public string Text { get; set; }
 
         private Color _borderColor;
 
@@ -103,7 +124,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {
-            //ToDo check Bounding rectangle collision first
+            if (!component.BoundingRectangle.CollidesWith(BoundingRectangle))
+            {
+                return false;
+            }
+            
             foreach (var primitive in Primitives)
             {
                 foreach (var componentPrimitive in component.Primitives)
@@ -120,8 +145,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public bool CollidesWith(Vector2 point, CollisionDetector collisionDetector)
         {
+            if (!BoundingRectangle.Contains(point))
+            {
+                return false;
+            }
+            
             var p = point.ToPoint();
-            //ToDo check Bounding rectangle collision first
             foreach (var primitive in Primitives)
             {
                 if (primitive.CollidesWith(p, collisionDetector))
@@ -144,6 +173,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 primitive.Translate(delta);
             }
 
+            BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
             Invalidated = true;
         }
 
@@ -154,6 +184,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 primitive.Rotate(theta);
             }
 
+            BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
             Invalidated = true;
         }
 
@@ -164,6 +195,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 primitive.Rotate(rotationCenter, theta);
             }
 
+            BoundingRectangle = Primitives.ToBoundingRectangle();
             Invalidated = true;
         }
 
@@ -174,6 +206,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 primitive.Scale(delta);
             }
 
+            BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
             Invalidated = true;
         }
 
@@ -184,6 +217,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 primitive.Skew(delta);
             }
 
+            BoundingRectangle = Primitives.ToBoundingRectangle().AddMargin(Margin);
             Invalidated = true;
         }
 
