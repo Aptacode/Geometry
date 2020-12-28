@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
@@ -30,9 +31,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             }
 
             await ConfigureDraw(ctx);
+            await ctx.BeginPathAsync();
 
-            await Point.Draw(ctx);
-
+            await ctx.EllipseAsync((int)Point.Position.X, (int)Point.Position.Y, 1, 1, 0, 0, 2 * Math.PI);
+            await ctx.FillAsync(FillRule.NonZero);
+            await ctx.StrokeAsync();
+            
             foreach (var child in Children)
             {
                 await child.Draw(ctx);

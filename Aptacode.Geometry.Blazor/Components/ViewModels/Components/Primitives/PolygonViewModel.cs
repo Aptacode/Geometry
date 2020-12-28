@@ -30,9 +30,18 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             }
 
             await ConfigureDraw(ctx);
+            await ctx.BeginPathAsync();
 
-            await Polygon.Draw(ctx);
+            await ctx.MoveToAsync((int)Polygon.Vertices[0].X, (int)Polygon.Vertices[0].Y);
+            for (var i = 1; i < Polygon.Vertices.Length; i++)
+            {
+                var vertex = Polygon.Vertices[i];
+                await ctx.LineToAsync((int)vertex.X, (int)vertex.Y);
+            }
 
+            await ctx.ClosePathAsync();
+            await ctx.FillAsync(FillRule.NonZero);
+            await ctx.StrokeAsync();
             foreach (var child in Children)
             {
                 await child.Draw(ctx);

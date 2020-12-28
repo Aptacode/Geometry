@@ -30,9 +30,17 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             }
 
             await ConfigureDraw(ctx);
+            
+            await ctx.BeginPathAsync();
+            await ctx.MoveToAsync((int)PolyLine.Vertices[0].X, (int)PolyLine.Vertices[0].Y);
+            for (var i = 1; i < PolyLine.Vertices.Length; i++)
+            {
+                var vertex = PolyLine.Vertices[i];
+                await ctx.LineToAsync((int)vertex.X, (int)vertex.Y);
+            }
 
-            await PolyLine.Draw(ctx);
-
+            await ctx.StrokeAsync();
+            
             foreach (var child in Children)
             {
                 await child.Draw(ctx);
