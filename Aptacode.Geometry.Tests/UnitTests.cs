@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
 using Xunit;
@@ -30,6 +31,17 @@ namespace Aptacode.Geometry.Tests
             var sut = poly.MinimumBoundingCircle();
             //Assert
             Assert.Equal(new Vector2(2, 2), sut.Center);
+        }
+
+        [Fact]
+        public void BoundingRectangle_Test()
+        {
+            //Arrange
+            var ellipse = Ellipse.Create(15, 15, 10, 5, 0.0f);
+            //Act
+            var sut = ellipse.MinimumBoundingRectangle();
+            //Assert
+            Assert.Equal(new Vector2(5, 10), sut.TopLeft);
         }
 
         [Fact]
