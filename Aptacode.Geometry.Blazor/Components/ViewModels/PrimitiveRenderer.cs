@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Aptacode.Geometry.Primitives;
 using Excubo.Blazor.Canvas;
 using Excubo.Blazor.Canvas.Contexts;
@@ -15,12 +16,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             {
                 case Ellipse ellipse:
                     await ctx.EllipseAsync((int) ellipse.Position.X, (int) ellipse.Position.Y, (int) ellipse.Radii.X,
-                        (int) ellipse.Radii.Y, 0, 0, 360);
+                        (int) ellipse.Radii.Y, ellipse.Rotation, 0, 2 * Math.PI);
                     await ctx.FillAsync(FillRule.NonZero);
                     await ctx.StrokeAsync();
                     break;
                 case Point point:
-                    await ctx.EllipseAsync((int) point.Position.X, (int) point.Position.Y, 1, 1, 0, 0, 360);
+                    await ctx.EllipseAsync((int) point.Position.X, (int) point.Position.Y, 1, 1, 0, 0, 2 * Math.PI);
                     await ctx.FillAsync(FillRule.NonZero);
                     await ctx.StrokeAsync();
                     break;
