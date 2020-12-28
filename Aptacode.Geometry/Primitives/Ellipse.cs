@@ -17,7 +17,6 @@ namespace Aptacode.Geometry.Primitives
         public VertexArray EllipseExtrema => GetEllipseExtrema();
 
 
-
         #region IEquatable
 
         public virtual bool Equals(Ellipse other)
@@ -41,14 +40,14 @@ namespace Aptacode.Geometry.Primitives
             var sintheta = Math.Sin(Rotation);
             var sinthetasquared = sintheta * sintheta;
 
-            var xdelta = (float)Math.Sqrt(asquared * costhetasquared + bsquared * sinthetasquared);
-            var ydelta = (float)Math.Sqrt(asquared * sinthetasquared + bsquared * costhetasquared);
+            var xdelta = (float) Math.Sqrt(asquared * costhetasquared + bsquared * sinthetasquared);
+            var ydelta = (float) Math.Sqrt(asquared * sinthetasquared + bsquared * costhetasquared);
 
             var topLeft = Position - new Vector2(xdelta, ydelta);
             var topRight = Position + new Vector2(xdelta, -ydelta);
             var bottomLeft = Position + new Vector2(-xdelta, ydelta);
             var bottomRight = Position + new Vector2(xdelta, ydelta);
-            return new VertexArray(new Vector2[] { topLeft, topRight, bottomRight, bottomLeft });
+            return new VertexArray(new[] {topLeft, topRight, bottomRight, bottomLeft});
         }
 
         private VertexArray GetEllipseVertices()
@@ -56,7 +55,7 @@ namespace Aptacode.Geometry.Primitives
             var a = Vector2.Transform(new Vector2(Radii.X, 0.0f), Matrix3x2.CreateRotation(Rotation));
             var b = Vector2.Transform(new Vector2(0.0f, Radii.Y), Matrix3x2.CreateRotation(Rotation));
 
-            return new VertexArray(new Vector2[]{ Position - a, Position + a, Position - b, Position + b });
+            return new VertexArray(new[] {Position - a, Position + a, Position - b, Position + b});
         }
 
         private (Vector2, Vector2) GetFoci()
@@ -127,6 +126,7 @@ namespace Aptacode.Geometry.Primitives
                 {
                     return true;
                 }
+
                 return det >= 0;
             }
 
@@ -159,7 +159,7 @@ namespace Aptacode.Geometry.Primitives
                     - 16 * u4 * u4 * u3 * u1
                     - 3 * u3 * u3 * u3 * u3;
 
-            if ((p > 0 && Math.Abs(p) > Constants.Tolerance) || d > 0)
+            if (p > 0 && Math.Abs(p) > Constants.Tolerance || d > 0)
             {
                 return false;
             }

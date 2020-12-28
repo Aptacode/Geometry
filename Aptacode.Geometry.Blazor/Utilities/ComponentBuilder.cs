@@ -7,10 +7,6 @@ namespace Aptacode.Geometry.Blazor.Utilities
 {
     public class ComponentBuilder
     {
-        #region Ctor
-
-        #endregion
-
         public ComponentBuilder SetBorderThickness(int borderThickness)
         {
             _borderThickness = borderThickness;
@@ -22,6 +18,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
             _borderColor = borderColor;
             return this;
         }
+
         public ComponentBuilder SetText(string text)
         {
             _text = text;
@@ -45,6 +42,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
             _primitives.Add(primitive);
             return this;
         }
+
         public ComponentBuilder AddChild(ComponentViewModel child)
         {
             _children.Add(child);
@@ -53,7 +51,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
 
         public ComponentViewModel Build()
         {
-            var component = new ComponentViewModel()
+            var component = new ComponentViewModel
             {
                 BorderColor = _borderColor,
                 FillColor = _fillColor,
@@ -65,7 +63,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
             component.Primitives.AddRange(_primitives);
             component.Children.AddRange(_children);
             component.UpdateBoundingRectangle();
-            
+
             Reset();
             return component;
         }
@@ -81,12 +79,16 @@ namespace Aptacode.Geometry.Blazor.Utilities
             _text = "";
         }
 
+        #region Ctor
+
+        #endregion
+
         #region Properties
 
         private Color _fillColor = Color.White;
         private Color _borderColor = Color.Black;
         private int _borderThickness = 1;
-        private float _margin = 0.0f;
+        private float _margin;
         private string _text = "";
         private readonly List<Primitive> _primitives = new();
         private readonly List<ComponentViewModel> _children = new();

@@ -4,34 +4,21 @@ using System.Numerics;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
-using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Blazor.Extensions
 {
     public static class ComponentExtensions
     {
-        #region CollisionDetection
-
-        public static IEnumerable<ComponentViewModel> CollidingWith(this IEnumerable<ComponentViewModel> components,
-            Vector2 point, CollisionDetector collisionDetector)
-        {
-            return components.Where(c => c.CollisionDetectionEnabled && c.CollidesWith(point, collisionDetector));
-        }
-
-        public static IEnumerable<ComponentViewModel> CollidingWith(this IEnumerable<ComponentViewModel> components,
-            ComponentViewModel component, CollisionDetector collisionDetector)
-        {
-            return components.Where(c => c.CollisionDetectionEnabled && c.CollidesWith(component, collisionDetector));
-        }
-
-        #endregion
-
         public static BoundingRectangle Combine(this BoundingRectangle rectangle1, BoundingRectangle rectangle2)
         {
             var minX = rectangle1.TopLeft.X < rectangle2.TopLeft.X ? rectangle1.TopLeft.X : rectangle2.TopLeft.X;
             var minY = rectangle1.TopLeft.Y < rectangle2.TopLeft.Y ? rectangle1.TopLeft.Y : rectangle2.TopLeft.Y;
-            var maxX = rectangle1.BottomRight.X > rectangle2.BottomRight.X ? rectangle1.BottomRight.X : rectangle2.BottomRight.X;
-            var maxY = rectangle1.BottomRight.Y > rectangle2.BottomRight.Y ? rectangle1.BottomRight.Y : rectangle2.BottomRight.Y;
+            var maxX = rectangle1.BottomRight.X > rectangle2.BottomRight.X
+                ? rectangle1.BottomRight.X
+                : rectangle2.BottomRight.X;
+            var maxY = rectangle1.BottomRight.Y > rectangle2.BottomRight.Y
+                ? rectangle1.BottomRight.Y
+                : rectangle2.BottomRight.Y;
 
             return BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY));
         }
@@ -68,5 +55,21 @@ namespace Aptacode.Geometry.Blazor.Extensions
 
             return BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY));
         }
+
+        #region CollisionDetection
+
+        public static IEnumerable<ComponentViewModel> CollidingWith(this IEnumerable<ComponentViewModel> components,
+            Vector2 point, CollisionDetector collisionDetector)
+        {
+            return components.Where(c => c.CollisionDetectionEnabled && c.CollidesWith(point, collisionDetector));
+        }
+
+        public static IEnumerable<ComponentViewModel> CollidingWith(this IEnumerable<ComponentViewModel> components,
+            ComponentViewModel component, CollisionDetector collisionDetector)
+        {
+            return components.Where(c => c.CollisionDetectionEnabled && c.CollidesWith(component, collisionDetector));
+        }
+
+        #endregion
     }
 }

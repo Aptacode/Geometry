@@ -24,9 +24,9 @@ namespace Aptacode.Geometry.Collision.Rectangles
             BottomRight = bottomRight;
             BottomLeft = bottomLeft;
             Size = BottomRight - TopLeft;
-            Center = TopLeft + (Size / 2.0f);
+            Center = TopLeft + Size / 2.0f;
         }
-        
+
         public static BoundingRectangle FromTwoPoints(Vector2 topLeft, Vector2 bottomRight)
         {
             var topRight = new Vector2(bottomRight.X, topLeft.Y);
@@ -34,6 +34,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
 
             return new BoundingRectangle(topLeft, topRight, bottomRight, bottomLeft);
         }
+
         public static readonly BoundingRectangle Zero = FromTwoPoints(Vector2.Zero, Vector2.Zero);
 
         #endregion

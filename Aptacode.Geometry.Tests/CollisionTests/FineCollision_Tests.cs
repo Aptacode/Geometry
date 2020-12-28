@@ -24,7 +24,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-        
+
         [Fact]
         public void EllipseAndCircle_FineCollision_Test()
         {
@@ -36,7 +36,6 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-
 
 
         [Fact]

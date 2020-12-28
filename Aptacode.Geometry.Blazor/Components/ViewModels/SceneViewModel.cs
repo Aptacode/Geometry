@@ -4,7 +4,6 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
-using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Excubo.Blazor.Canvas.Contexts;
 
@@ -12,13 +11,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
     public class SceneViewModel : BindableBase, IAsyncDisposable
     {
-        private readonly CollisionDetector _collisionDetector = new BoundingRectangleCollisionDetector();
+        #region Ctor
 
         public SceneViewModel(Vector2 size, IEnumerable<ComponentViewModel> components)
         {
             Components = components.ToList();
             Size = size;
         }
+        #endregion
+
 
         #region Disposable
 
@@ -34,7 +35,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         #region Redraw
 
-        private DateTime lastTick = DateTime.Now;
+        private DateTime _lastTick = DateTime.Now;
 
         public async Task RedrawAsync()
         {
@@ -44,9 +45,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             }
 
             var currentTime = DateTime.Now;
-            var delta = currentTime - lastTick;
+            var delta = currentTime - _lastTick;
             var frameRate = 1.0f / delta.TotalSeconds;
-            lastTick = currentTime;
+            _lastTick = currentTime;
 
             Console.WriteLine($"{frameRate}fps");
             await using var batch = await Ctx.CreateBatchAsync();
