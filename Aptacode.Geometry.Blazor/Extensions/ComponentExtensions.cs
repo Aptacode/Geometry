@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Aptacode.Geometry.Blazor.Components.ViewModels;
+using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
+using Aptacode.Geometry.Primitives.Extensions;
 
 namespace Aptacode.Geometry.Blazor.Extensions
 {
@@ -61,7 +62,8 @@ namespace Aptacode.Geometry.Blazor.Extensions
         public static IEnumerable<ComponentViewModel> CollidingWith(this IEnumerable<ComponentViewModel> components,
             Vector2 point, CollisionDetector collisionDetector)
         {
-            return components.Where(c => c.CollisionDetectionEnabled && c.CollidesWith(point, collisionDetector));
+            return components.Where(c =>
+                c.CollisionDetectionEnabled && c.CollidesWith(point.ToPoint(), collisionDetector));
         }
 
         public static IEnumerable<ComponentViewModel> CollidingWith(this IEnumerable<ComponentViewModel> components,

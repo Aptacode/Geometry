@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
+using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 
 namespace Aptacode.Geometry.Blazor.Utilities
 {

@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
+using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Collision;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels

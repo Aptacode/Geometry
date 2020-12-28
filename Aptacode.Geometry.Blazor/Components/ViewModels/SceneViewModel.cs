@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
+using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Collision.Rectangles;
 using Excubo.Blazor.Canvas.Contexts;
 
@@ -18,6 +19,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             Components = components.ToList();
             Size = size;
         }
+
         #endregion
 
 
@@ -99,7 +101,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             for (var invalidItemIndex = 0; invalidItemIndex < invalidItems.Count; invalidItemIndex++)
             {
                 var invalidItem = invalidItems[invalidItemIndex];
-                var invalidItemBorder = new Vector2(invalidItem.BorderThickness);
+                var thickness = invalidItem.BorderThickness.HasValue ? invalidItem.BorderThickness.Value : 0.0f;
+
+                var invalidItemBorder = new Vector2(thickness);
                 var oldBoundingRecWithBorder = BoundingRectangle.FromTwoPoints(
                     invalidItem.OldBoundingRectangle.TopLeft - 4 * invalidItemBorder,
                     invalidItem.OldBoundingRectangle.BottomRight + 8 * invalidItemBorder);
@@ -111,7 +115,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 for (var validItemIndex = 0; validItemIndex < validItems.Count;)
                 {
                     var validComponent = validItems[validItemIndex];
-                    var validItemBorder = new Vector2(validComponent.BorderThickness);
+                    var validThickness = validComponent.BorderThickness.HasValue
+                        ? validComponent.BorderThickness.Value
+                        : 0.0f;
+
+                    var validItemBorder = new Vector2(validThickness);
 
                     var newValidBoundingRect = BoundingRectangle.FromTwoPoints(
                         validComponent.BoundingRectangle.TopLeft - 4 * validItemBorder,
@@ -131,14 +139,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                     }
                 }
 
-                await Invalidate(batch, invalidItem.OldBoundingRectangle, invalidItem.BorderThickness);
-                await Invalidate(batch, invalidItem.BoundingRectangle, invalidItem.BorderThickness);
+                await Invalidate(batch, invalidItem.OldBoundingRectangle, thickness);
+                await Invalidate(batch, invalidItem.BoundingRectangle, thickness);
             }
 
             return invalidItems;
         }
 
-        public async Task Invalidate(IContext2DWithoutGetters batch, BoundingRectangle rectangle, int border)
+        public async Task Invalidate(IContext2DWithoutGetters batch, BoundingRectangle rectangle, float border)
         {
             await batch.ClearRectAsync((int) rectangle.TopLeft.X - 4 * border, (int) rectangle.TopLeft.Y - 4 * border,
                 (int) rectangle.Size.X + 8 * border, (int) rectangle.Size.Y + 8 * border);

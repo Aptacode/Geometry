@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Numerics;
 using System.Threading;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
+using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Blazor.Extensions;
 
 namespace Aptacode.Geometry.Demo.Blazor.Pages

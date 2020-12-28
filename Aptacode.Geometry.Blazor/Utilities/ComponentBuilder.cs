@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using Aptacode.Geometry.Blazor.Components.ViewModels;
-using Aptacode.Geometry.Primitives;
+using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 
 namespace Aptacode.Geometry.Blazor.Utilities
 {
@@ -37,9 +36,9 @@ namespace Aptacode.Geometry.Blazor.Utilities
             return this;
         }
 
-        public ComponentBuilder AddPrimitive(Primitive primitive)
+        public ComponentBuilder SetBase(ComponentViewModel component)
         {
-            _primitives.Add(primitive);
+            _baseComponent = component;
             return this;
         }
 
@@ -51,16 +50,13 @@ namespace Aptacode.Geometry.Blazor.Utilities
 
         public ComponentViewModel Build()
         {
-            var component = new ComponentViewModel
-            {
-                BorderColor = _borderColor,
-                FillColor = _fillColor,
-                BorderThickness = _borderThickness,
-                Text = _text,
-                Margin = _margin
-            };
+            var component = _baseComponent;
+            component.BorderColor = _borderColor;
+            component.FillColor = _fillColor;
+            component.BorderThickness = _borderThickness;
+            component.Text = _text;
+            component.Margin = _margin;
 
-            component.Primitives.AddRange(_primitives);
             component.Children.AddRange(_children);
             component.UpdateBoundingRectangle();
 
@@ -70,7 +66,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
 
         public void Reset()
         {
-            _primitives.Clear();
+            _baseComponent = new ComponentViewModel();
             _children.Clear();
             _borderColor = Color.Black;
             _fillColor = Color.White;
@@ -90,8 +86,8 @@ namespace Aptacode.Geometry.Blazor.Utilities
         private int _borderThickness = 1;
         private float _margin;
         private string _text = "";
-        private readonly List<Primitive> _primitives = new();
         private readonly List<ComponentViewModel> _children = new();
+        private ComponentViewModel _baseComponent = new();
 
         #endregion
     }

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
+using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;
 using Microsoft.AspNetCore.Components;
@@ -22,7 +23,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
             //Polygon
             var polygon = componentBuilder
-                .AddPrimitive(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20)).SetFillColor(Color.Green)
+                .SetBase(Polygon.Create(20, 20, 20, 25, 25, 25, 30, 35, 25, 20).ToViewModel()).SetFillColor(Color.Green)
                 .SetBorderThickness(1).Build();
 
             polygon.Scale(new Vector2(4.0f));
@@ -31,7 +32,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             sceneBuilder.AddComponent(polygon);
 
             //Polyline
-            var polyLine = componentBuilder.AddPrimitive(PolyLine.Create(80, 40, 70, 80, 60, 20))
+            var polyLine = componentBuilder.SetBase(PolyLine.Create(80, 40, 70, 80, 60, 20).ToViewModel())
                 .SetFillColor(Color.Blue).SetBorderThickness(1).Build();
 
             polyLine.Scale(new Vector2(2.0f));
@@ -40,20 +41,20 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
             //Rectangles
             sceneBuilder.AddComponent(
-                componentBuilder.AddPrimitive(Rectangle.Create(400, 100, 75, 75))
+                componentBuilder.SetBase(Rectangle.Create(400, 100, 75, 75).ToViewModel())
                     .SetText("Blue Rectangle")
                     .SetFillColor(Color.Blue).SetBorderThickness(1).Build());
 
-            sceneBuilder.AddComponent(componentBuilder.AddPrimitive(Rectangle.Create(100, 250, 100, 100))
+            sceneBuilder.AddComponent(componentBuilder.SetBase(Rectangle.Create(100, 250, 100, 100).ToViewModel())
                 .SetFillColor(Color.Red).SetBorderThickness(1).Build());
 
             //Ellipse
 
 
-            var child1 = componentBuilder.AddPrimitive(Ellipse.Create(80, 80, 15, 15, 0.0f))
+            var child1 = componentBuilder.SetBase(Ellipse.Create(80, 80, 15, 15, 0.0f).ToViewModel())
                 .SetFillColor(Color.Orange).SetBorderThickness(1).Build();
 
-            var child2 = componentBuilder.AddPrimitive(Ellipse.Create(300, 180, 15, 10, (float) Math.PI))
+            var child2 = componentBuilder.SetBase(Ellipse.Create(300, 180, 15, 10, (float) Math.PI).ToViewModel())
                 .SetFillColor(Color.Green).SetBorderThickness(1).Build();
 
             var group = componentBuilder.AddChild(child1).AddChild(child2).Build();
@@ -62,8 +63,8 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
             //PrimitiveGroup
             sceneBuilder.AddComponent(componentBuilder
-                .AddPrimitive(Ellipse.Create(400, 200, 15, 15, 0.0f))
-                .AddPrimitive(Rectangle.Create(400, 200, 30, 10))
+                .AddChild(Ellipse.Create(400, 200, 15, 15, 0.0f).ToViewModel())
+                .AddChild(Rectangle.Create(400, 200, 30, 10).ToViewModel())
                 .SetFillColor(Color.Green)
                 .SetText("Group")
                 .SetBorderThickness(1).Build());
