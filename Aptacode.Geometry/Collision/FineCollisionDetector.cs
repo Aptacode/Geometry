@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
-using Aptacode.Geometry.Composites;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
 
@@ -499,37 +498,6 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
-
-        #endregion
-
-        #region PrimitiveGroup
-
-        public override bool CollidesWith(Point p1, PrimitiveGroup p2) =>
-            p2.Children.Any(c => c.CollidesWith(p1, this));
-
-        public override bool CollidesWith(PolyLine p1, PrimitiveGroup p2) =>
-            p2.Children.Any(c => c.CollidesWith(p1, this));
-
-        public override bool CollidesWith(Polygon p1, PrimitiveGroup p2) =>
-            p2.Children.Any(c => c.CollidesWith(p1, this));
-
-        public override bool CollidesWith(Ellipse p1, PrimitiveGroup p2) =>
-            p2.Children.Any(c => c.CollidesWith(p1, this));
-
-        public override bool CollidesWith(PrimitiveGroup p1, PrimitiveGroup p2) =>
-            p2.Children.Any(c => c.CollidesWith(p1, this));
-
-        public override bool CollidesWith(PrimitiveGroup p1, Point p2) =>
-            p1.Children.Any(c => c.CollidesWith(p2, this));
-
-        public override bool CollidesWith(PrimitiveGroup p1, PolyLine p2) =>
-            p1.Children.Any(c => c.CollidesWith(p2, this));
-
-        public override bool CollidesWith(PrimitiveGroup p1, Polygon p2) =>
-            p1.Children.Any(c => c.CollidesWith(p2, this));
-
-        public override bool CollidesWith(PrimitiveGroup p1, Ellipse p2) =>
-            p1.Children.Any(c => c.CollidesWith(p2, this));
 
         #endregion
     }

@@ -1,5 +1,4 @@
-﻿using Aptacode.Geometry.Composites;
-using Aptacode.Geometry.Primitives;
+﻿using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
 {
@@ -13,7 +12,6 @@ namespace Aptacode.Geometry.Collision
                 PolyLine p => CollidesWith(p, p2),
                 Polygon p => CollidesWith(p, p2),
                 Ellipse p => CollidesWith(p, p2),
-                PrimitiveGroup p => CollidesWith(p, p2),
                 _ => false
             };
         }
@@ -28,7 +26,6 @@ namespace Aptacode.Geometry.Collision
                 PolyLine p => CollidesWith(p1, p),
                 Polygon p => CollidesWith(p1, p),
                 Ellipse p => CollidesWith(p1, p),
-                PrimitiveGroup p => CollidesWith(p, p2),
                 _ => false
             };
         }
@@ -37,7 +34,6 @@ namespace Aptacode.Geometry.Collision
         public abstract bool CollidesWith(Point p1, PolyLine p2);
         public abstract bool CollidesWith(Point p1, Polygon p2);
         public abstract bool CollidesWith(Point p1, Ellipse p2);
-        public abstract bool CollidesWith(Point p1, PrimitiveGroup p2);
 
         #endregion
 
@@ -51,7 +47,6 @@ namespace Aptacode.Geometry.Collision
                 PolyLine p => CollidesWith(p1, p),
                 Polygon p => CollidesWith(p1, p),
                 Ellipse p => CollidesWith(p1, p),
-                PrimitiveGroup p => CollidesWith(p1, p),
                 _ => false
             };
         }
@@ -60,7 +55,6 @@ namespace Aptacode.Geometry.Collision
         public abstract bool CollidesWith(PolyLine p1, PolyLine p2);
         public abstract bool CollidesWith(PolyLine p1, Polygon p2);
         public abstract bool CollidesWith(PolyLine p1, Ellipse p2);
-        public abstract bool CollidesWith(PolyLine p1, PrimitiveGroup p2);
 
         #endregion
 
@@ -74,7 +68,6 @@ namespace Aptacode.Geometry.Collision
                 PolyLine p => CollidesWith(p1, p),
                 Polygon p => CollidesWith(p1, p),
                 Ellipse p => CollidesWith(p1, p),
-                PrimitiveGroup p => CollidesWith(p1, p),
                 _ => false
             };
         }
@@ -83,7 +76,6 @@ namespace Aptacode.Geometry.Collision
         public abstract bool CollidesWith(Polygon p1, PolyLine p2);
         public abstract bool CollidesWith(Polygon p1, Polygon p2);
         public abstract bool CollidesWith(Polygon p1, Ellipse p2);
-        public abstract bool CollidesWith(Polygon p1, PrimitiveGroup p2);
 
         #endregion
 
@@ -98,7 +90,6 @@ namespace Aptacode.Geometry.Collision
                 PolyLine p => CollidesWith(p1, p),
                 Polygon p => CollidesWith(p1, p),
                 Ellipse p => CollidesWith(p1, p),
-                PrimitiveGroup p => CollidesWith(p1, p),
                 _ => false
             };
         }
@@ -107,30 +98,6 @@ namespace Aptacode.Geometry.Collision
         public abstract bool CollidesWith(Ellipse p1, PolyLine p2);
         public abstract bool CollidesWith(Ellipse p1, Polygon p2);
         public abstract bool CollidesWith(Ellipse p1, Ellipse p2);
-        public abstract bool CollidesWith(Ellipse p1, PrimitiveGroup p2);
-
-        #endregion
-
-        #region PrimitiveGroup
-
-        public bool PrimitiveGroup(PrimitiveGroup p1, Primitive p2)
-        {
-            return p2 switch
-            {
-                Point p => CollidesWith(p1, p),
-                PolyLine p => CollidesWith(p1, p),
-                Polygon p => CollidesWith(p1, p),
-                Ellipse p => CollidesWith(p1, p),
-                PrimitiveGroup p => CollidesWith(p1, p),
-                _ => false
-            };
-        }
-
-        public abstract bool CollidesWith(PrimitiveGroup p1, PrimitiveGroup p2);
-        public abstract bool CollidesWith(PrimitiveGroup p1, Point p2);
-        public abstract bool CollidesWith(PrimitiveGroup p1, PolyLine p2);
-        public abstract bool CollidesWith(PrimitiveGroup p1, Polygon p2);
-        public abstract bool CollidesWith(PrimitiveGroup p1, Ellipse p2);
 
         #endregion
     }

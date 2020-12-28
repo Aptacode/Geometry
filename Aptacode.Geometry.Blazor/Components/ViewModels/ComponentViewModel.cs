@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
@@ -11,26 +12,37 @@ using Excubo.Blazor.Canvas.Contexts;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
-    public abstract class ComponentViewModel
+    public class ComponentViewModel
     {
-        protected ComponentViewModel(Primitive primitive)
+        public ComponentViewModel(IEnumerable<Primitive> primitive)
         {
             Id = Guid.NewGuid();
-            _primitive = primitive;
-            _oldPrimitive = primitive.BoundingCircle;
-            _oldBoundingRectangle = primitive.BoundingRectangle;
+            Primitives = primitive.ToList();
+            OldBoundingRectangle = BoundingRectangle = Primitives.ToBoundingRectangle();
             CollisionDetectionEnabled = true;
             BorderColor = Color.Black;
             FillColor = Color.Black;
             BorderThickness = DefaultBorderThickness;
+            Invalidated = true;
         }
 
         #region Canvas
 
-        public virtual async Task Draw(IContext2DWithoutGetters ctx)
+        public async Task Draw(IContext2DWithoutGetters ctx)
         {
-            _oldPrimitive = _primitive.BoundingCircle;
-            _oldBoundingRectangle = _primitive.BoundingRectangle;
+            await ctx.FillStyleAsync(FillColorName);
+
+            await ctx.StrokeStyleAsync(BorderColorName);
+
+            await ctx.LineWidthAsync(BorderThickness);
+
+            foreach (var primitive in Primitives)
+            {
+                await primitive.Draw(ctx);
+            }
+
+            OldBoundingRectangle = BoundingRectangle;
+            BoundingRectangle = Primitives.ToBoundingRectangle();
             Invalidated = false;
         }
 
@@ -44,12 +56,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public Guid Id { get; init; }
 
-        public BoundingCircle _oldPrimitive;
-        public BoundingRectangle _oldBoundingRectangle;
-
-        protected Primitive _primitive;
-
-        public Primitive Primitive => _primitive;
+        public BoundingRectangle OldBoundingRectangle { get; private set; }
+        public BoundingRectangle BoundingRectangle { get; private set; }
+        public List<Primitive> Primitives { get; }
 
         public float Margin { get; set; }
 
@@ -90,13 +99,39 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         #region CollisionDetection
 
         public bool CollisionDetectionEnabled { get; set; }
-        public bool Invalidated { get; set; } = false;
+        public bool Invalidated { get; set; }
 
-        public bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>
-            Primitive.CollidesWith(component.Primitive, collisionDetector);
+        public bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
+        {
+            //ToDo check Bounding rectangle collision first
+            foreach (var primitive in Primitives)
+            {
+                foreach (var componentPrimitive in component.Primitives)
+                {
+                    if (primitive.CollidesWith(componentPrimitive, collisionDetector))
+                    {
+                        return true;
+                    }
+                }
+            }
 
-        public bool CollidesWith(Vector2 point, CollisionDetector collisionDetector) =>
-            Primitive.CollidesWith(point.ToPoint(), collisionDetector);
+            return false;
+        }
+
+        public bool CollidesWith(Vector2 point, CollisionDetector collisionDetector)
+        {
+            var p = point.ToPoint();
+            //ToDo check Bounding rectangle collision first
+            foreach (var primitive in Primitives)
+            {
+                if (primitive.CollidesWith(p, collisionDetector))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         #endregion
 
@@ -104,31 +139,51 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public virtual void Translate(Vector2 delta)
         {
-            Primitive.Translate(delta);
+            foreach (var primitive in Primitives)
+            {
+                primitive.Translate(delta);
+            }
+
             Invalidated = true;
         }
 
         public virtual void Rotate(float theta)
         {
-            Primitive.Rotate(theta);
+            foreach (var primitive in Primitives)
+            {
+                primitive.Rotate(theta);
+            }
+
             Invalidated = true;
         }
 
         public virtual void Rotate(Vector2 rotationCenter, float theta)
         {
-            Primitive.Rotate(rotationCenter, theta);
+            foreach (var primitive in Primitives)
+            {
+                primitive.Rotate(rotationCenter, theta);
+            }
+
             Invalidated = true;
         }
 
         public virtual void Scale(Vector2 delta)
         {
-            Primitive.Scale(delta);
+            foreach (var primitive in Primitives)
+            {
+                primitive.Scale(delta);
+            }
+
             Invalidated = true;
         }
 
         public virtual void Skew(Vector2 delta)
         {
-            Primitive.Skew(delta);
+            foreach (var primitive in Primitives)
+            {
+                primitive.Skew(delta);
+            }
+
             Invalidated = true;
         }
 

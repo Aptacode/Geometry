@@ -13,10 +13,8 @@ namespace Aptacode.Geometry.Collision.Circles
         public static BoundingCircle Translate(this BoundingCircle boundingCircle, Vector2 delta) =>
             new(boundingCircle.Center + delta, boundingCircle.Radius);
 
-        public static BoundingCircle Scale(this BoundingCircle boundingCircle, float delta)
-        {
-            return new(boundingCircle.Center, boundingCircle.Radius * delta);
-        }
+        public static BoundingCircle Scale(this BoundingCircle boundingCircle, float delta) =>
+            new(boundingCircle.Center, boundingCircle.Radius * delta);
 
         public static BoundingCircle Skew(this BoundingCircle boundingCircle, Vector2 delta) =>
             new(boundingCircle.Center + delta, boundingCircle.Radius);

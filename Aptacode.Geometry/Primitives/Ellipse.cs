@@ -163,6 +163,5 @@ namespace Aptacode.Geometry.Primitives
         public static readonly Ellipse Unit = new(Vector2.Zero, Vector2.One, 0.0f); //This is a circle
 
         #endregion
-
     }
 }

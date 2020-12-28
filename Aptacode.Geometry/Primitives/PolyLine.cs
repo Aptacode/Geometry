@@ -71,7 +71,7 @@ namespace Aptacode.Geometry.Primitives
         public override PolyLine Translate(Vector2 delta)
         {
             _lineSegments = null;
-            base.Translate(delta); 
+            base.Translate(delta);
             return this;
         }
 
@@ -81,7 +81,7 @@ namespace Aptacode.Geometry.Primitives
             base.Scale(delta);
             return this;
         }
-        
+
         public virtual PolyLine Rotate(float theta)
         {
             _lineSegments = null;
@@ -102,6 +102,7 @@ namespace Aptacode.Geometry.Primitives
             base.Skew(delta);
             return this;
         }
+
         #endregion
     }
 }

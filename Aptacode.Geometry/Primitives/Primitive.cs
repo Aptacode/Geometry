@@ -58,7 +58,7 @@ namespace Aptacode.Geometry.Primitives
         public virtual Primitive Rotate(float theta)
         {
             var center = BoundingCircle.Center;
-            
+
             Vertices.Rotate(center, theta);
             _boundingRectangle = null;
             return this;
@@ -75,8 +75,8 @@ namespace Aptacode.Geometry.Primitives
         {
             var oldPosition = BoundingCircle.Center;
             Vertices.Scale(oldPosition, delta);
-            Vertices.Translate((oldPosition * delta) - oldPosition);
-            
+            Vertices.Translate(oldPosition * delta - oldPosition);
+
             _boundingCircle = null;
             _boundingRectangle = null;
             return this;

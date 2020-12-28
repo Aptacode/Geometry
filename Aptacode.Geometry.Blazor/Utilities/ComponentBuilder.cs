@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
 using Aptacode.Geometry.Primitives;
 
@@ -6,6 +7,10 @@ namespace Aptacode.Geometry.Blazor.Utilities
 {
     public class ComponentBuilder
     {
+        #region Ctor
+
+        #endregion
+
         public ComponentBuilder SetBorderThickness(int borderThickness)
         {
             _borderThickness = borderThickness;
@@ -24,18 +29,20 @@ namespace Aptacode.Geometry.Blazor.Utilities
             return this;
         }
 
-        public ComponentBuilder SetPrimitive(Primitive primitive)
+        public ComponentBuilder AddPrimitive(Primitive primitive)
         {
-            _primitive = primitive;
+            _primitives.Add(primitive);
             return this;
         }
 
         public ComponentViewModel Build()
         {
-            var component = _viewModelFactory.ToViewModel(_primitive);
-            component.BorderColor = _borderColor;
-            component.FillColor = _fillColor;
-            component.BorderThickness = _borderThickness;
+            var component = new ComponentViewModel(_primitives)
+            {
+                BorderColor = _borderColor,
+                FillColor = _fillColor,
+                BorderThickness = _borderThickness
+            };
 
             Reset();
             return component;
@@ -43,6 +50,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
 
         public void Reset()
         {
+            _primitives.Clear();
             _borderColor = Color.Black;
             _fillColor = Color.White;
             _borderThickness = 1;
@@ -50,23 +58,10 @@ namespace Aptacode.Geometry.Blazor.Utilities
 
         #region Properties
 
-        private readonly ComponentViewModelFactory _viewModelFactory = new();
         private Color _fillColor = Color.White;
         private Color _borderColor = Color.Black;
         private int _borderThickness = 1;
-        private Primitive _primitive;
-
-        #endregion
-
-
-        #region Ctor
-
-        public ComponentBuilder(ComponentViewModelFactory viewModelFactory)
-        {
-            _viewModelFactory = viewModelFactory;
-        }
-
-        public ComponentBuilder() { }
+        private readonly List<Primitive> _primitives = new();
 
         #endregion
     }
