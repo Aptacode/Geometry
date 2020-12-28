@@ -72,7 +72,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
             return p switch
             {
                 Point point => new BoundingRectangle(point.Position, point.Position, point.Position, point.Position),
-                Ellipse ellipse => BoundingRectangle.FromVertexArray(ellipse.EllipseExtrema),
+                Ellipse ellipse => ellipse.EllipseExtrema.ToBoundingRectangle(),
                 Rectangle rectangle => new BoundingRectangle(rectangle.TopLeft, rectangle.TopRight,
                     rectangle.BottomRight, rectangle.BottomLeft),
                 _ => p.Vertices.ToBoundingRectangle()
