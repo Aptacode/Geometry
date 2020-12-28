@@ -18,19 +18,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         }
 
         public PolyLine PolyLine { get; }
-
-        public override async Task Draw(IContext2DWithoutGetters ctx)
+        public override async Task CustomDraw(IContext2DWithoutGetters ctx)
         {
-            OldBoundingRectangle = BoundingRectangle;
-            Invalidated = false;
-
-            if (!IsShown)
-            {
-                return;
-            }
-
-            await ConfigureDraw(ctx);
-            
             await ctx.BeginPathAsync();
             await ctx.MoveToAsync((int)PolyLine.Vertices[0].X, (int)PolyLine.Vertices[0].Y);
             for (var i = 1; i < PolyLine.Vertices.Length; i++)
@@ -40,18 +29,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             }
 
             await ctx.StrokeAsync();
-            
-            foreach (var child in Children)
-            {
-                await child.Draw(ctx);
-            }
-
-            if (!string.IsNullOrEmpty(Text))
-            {
-                await ctx.TextAlignAsync(TextAlign.Center);
-                await ctx.FillStyleAsync("black");
-                await ctx.FillTextAsync(Text, BoundingRectangle.Center.X, BoundingRectangle.Center.Y);
-            }
         }
 
         #region Transformations

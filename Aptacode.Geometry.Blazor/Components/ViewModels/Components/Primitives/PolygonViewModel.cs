@@ -18,18 +18,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         }
 
         public Polygon Polygon { get; }
-
-        public override async Task Draw(IContext2DWithoutGetters ctx)
+        public override async Task CustomDraw(IContext2DWithoutGetters ctx)
         {
-            OldBoundingRectangle = BoundingRectangle;
-            Invalidated = false;
-
-            if (!IsShown)
-            {
-                return;
-            }
-
-            await ConfigureDraw(ctx);
             await ctx.BeginPathAsync();
 
             await ctx.MoveToAsync((int)Polygon.Vertices[0].X, (int)Polygon.Vertices[0].Y);
@@ -42,19 +32,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             await ctx.ClosePathAsync();
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
-            foreach (var child in Children)
-            {
-                await child.Draw(ctx);
-            }
-
-            if (!string.IsNullOrEmpty(Text))
-            {
-                await ctx.TextAlignAsync(TextAlign.Center);
-                await ctx.FillStyleAsync("black");
-                await ctx.FillTextAsync(Text, BoundingRectangle.Center.X, BoundingRectangle.Center.Y);
-            }
         }
-
+       
         #region Transformations
 
         public override void Translate(Vector2 delta)

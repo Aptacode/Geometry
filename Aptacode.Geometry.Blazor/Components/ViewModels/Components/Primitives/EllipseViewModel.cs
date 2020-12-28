@@ -25,34 +25,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public Ellipse Ellipse { get; }
 
-        public override async Task Draw(IContext2DWithoutGetters ctx)
+        public override async Task CustomDraw(IContext2DWithoutGetters ctx)
         {
-            OldBoundingRectangle = BoundingRectangle;
-            Invalidated = false;
-
-            if (!IsShown)
-            {
-                return;
-            }
-
-            await ConfigureDraw(ctx);
             await ctx.BeginPathAsync();
 
             await ctx.EllipseAsync((int)Ellipse.Position.X, (int)Ellipse.Position.Y, (int)Ellipse.Radii.X,
                 (int)Ellipse.Radii.Y, Ellipse.Rotation, 0, 2 * Math.PI);
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
-            foreach (var child in Children)
-            {
-                await child.Draw(ctx);
-            }
-
-            if (!string.IsNullOrEmpty(Text))
-            {
-                await ctx.TextAlignAsync(TextAlign.Center);
-                await ctx.FillStyleAsync("black");
-                await ctx.FillTextAsync(Text, BoundingRectangle.Center.X, BoundingRectangle.Center.Y);
-            }
         }
 
         #region Transformations

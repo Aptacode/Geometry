@@ -33,8 +33,21 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         #region Canvas
 
-        public async Task ConfigureDraw(IContext2DWithoutGetters ctx)
+        public virtual async Task CustomDraw(IContext2DWithoutGetters ctx)
         {
+
+        }
+
+        public virtual async Task Draw(IContext2DWithoutGetters ctx)
+        {
+            OldBoundingRectangle = BoundingRectangle;
+            Invalidated = false;
+
+            if (!IsShown)
+            {
+                return;
+            }
+
             if (FillColorName != null)
             {
                 await ctx.FillStyleAsync(FillColorName);
@@ -49,19 +62,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             {
                 await ctx.LineWidthAsync(BorderThickness.Value);
             }
-        }
 
-        public virtual async Task Draw(IContext2DWithoutGetters ctx)
-        {
-            OldBoundingRectangle = BoundingRectangle;
-            Invalidated = false;
-
-            if (!IsShown)
-            {
-                return;
-            }
-
-            await ConfigureDraw(ctx);
+            await CustomDraw(ctx);
 
             foreach (var child in Children)
             {
@@ -76,6 +78,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             }
         }
 
+        
+        
         #endregion
 
         #region Children
