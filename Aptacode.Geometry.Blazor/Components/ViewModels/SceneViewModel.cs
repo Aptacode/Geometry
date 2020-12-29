@@ -101,7 +101,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             for (var invalidItemIndex = 0; invalidItemIndex < invalidItems.Count; invalidItemIndex++)
             {
                 var invalidItem = invalidItems[invalidItemIndex];
-                var thickness = invalidItem.BorderThickness.HasValue ? invalidItem.BorderThickness.Value : 0.0f;
+                var thickness = invalidItem.BorderThickness;
 
                 var invalidItemBorder = new Vector2(thickness);
                 var oldBoundingRecWithBorder = BoundingRectangle.FromTwoPoints(
@@ -115,9 +115,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                 for (var validItemIndex = 0; validItemIndex < validItems.Count;)
                 {
                     var validComponent = validItems[validItemIndex];
-                    var validThickness = validComponent.BorderThickness.HasValue
-                        ? validComponent.BorderThickness.Value
-                        : 0.0f;
+                    var validThickness = validComponent.BorderThickness;
 
                     var validItemBorder = new Vector2(validThickness);
 

@@ -38,6 +38,16 @@ namespace Aptacode.Geometry.Primitives
 
         protected BoundingRectangle? _boundingRectangle;
 
+
+        public void ResetCircle()
+        {
+            _boundingCircle = null;
+        }
+
+        public void ResetRectangle()
+        {
+            _boundingRectangle = null;
+        }
         public BoundingRectangle BoundingRectangle =>
             _boundingRectangle ?? (_boundingRectangle = this.MinimumBoundingRectangle()).Value;
 

@@ -24,11 +24,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             Margin = DefaultMargin;
             Invalidated = true;
             IsShown = true;
-
-            BoundingRectangle = Children.ToBoundingRectangle().AddMargin(Margin);
-            OldBoundingRectangle = BoundingRectangle;
+            BorderThickness = DefaultBorderThickness;
+            BorderColor = Color.Black;
+            FillColor = Color.Black;
+            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().AddMargin(Margin);
         }
-
+        
         #endregion
 
         #region Canvas
@@ -48,20 +49,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
                 return;
             }
 
-            if (FillColorName != null)
-            {
-                await ctx.FillStyleAsync(FillColorName);
-            }
+            await ctx.FillStyleAsync(FillColorName);
 
-            if (BorderColorName != null)
-            {
-                await ctx.StrokeStyleAsync(BorderColorName);
-            }
+            await ctx.StrokeStyleAsync(BorderColorName);
 
-            if (BorderThickness != null)
-            {
-                await ctx.LineWidthAsync(BorderThickness.Value);
-            }
+            await ctx.LineWidthAsync(BorderThickness);
+
 
             await CustomDraw(ctx);
 
@@ -86,9 +79,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public List<ComponentViewModel> Children { get; }
 
-        public virtual void UpdateBoundingRectangle()
+        public virtual BoundingRectangle UpdateBoundingRectangle()
         {
             BoundingRectangle = Children.ToBoundingRectangle().AddMargin(Margin);
+            return BoundingRectangle;
         }
 
         public void Add(ComponentViewModel child)
@@ -103,7 +97,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public static readonly string DefaultBorderColor = Color.Black.ToKnownColor().ToString();
         public static readonly string DefaultFillColor = Color.Black.ToKnownColor().ToString();
-        public static readonly int DefaultBorderThickness = 1;
+        public static readonly int DefaultBorderThickness = 5;
         public static readonly float DefaultMargin = 0.0f;
 
         #endregion
@@ -147,9 +141,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             }
         }
 
-        public string? FillColorName { get; set; }
+        public string FillColorName { get; set; }
 
-        public int? BorderThickness { get; set; }
+        public int BorderThickness { get; set; }
 
         #endregion
 

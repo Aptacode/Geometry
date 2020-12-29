@@ -14,7 +14,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public PolygonViewModel(Polygon polygon)
         {
             Polygon = polygon;
-            BoundingRectangle = Children.ToBoundingRectangle().Combine(Polygon.BoundingRectangle).AddMargin(Margin);
+            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().Combine(Polygon.BoundingRectangle).AddMargin(Margin);
         }
 
         public Polygon Polygon { get; }
@@ -73,9 +73,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         #region Collision
 
-        public sealed override void UpdateBoundingRectangle()
+        public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = Children.ToBoundingRectangle().Combine(Polygon.BoundingRectangle).AddMargin(Margin);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(Polygon.BoundingRectangle);
+            return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>

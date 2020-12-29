@@ -17,7 +17,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public EllipseViewModel(Ellipse ellipse)
         {
             Ellipse = ellipse;
-            BoundingRectangle = Children.ToBoundingRectangle().Combine(Ellipse.BoundingRectangle).AddMargin(Margin);
+            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().Combine(Ellipse.BoundingRectangle).AddMargin(Margin);
         }
 
         #endregion
@@ -74,9 +74,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         #region Collision
 
-        public override void UpdateBoundingRectangle()
+        public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = Children.ToBoundingRectangle().Combine(Ellipse.BoundingRectangle).AddMargin(Margin);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(Ellipse.BoundingRectangle);
+            return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>

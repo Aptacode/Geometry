@@ -14,7 +14,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public PolylineViewModel(PolyLine polyLine)
         {
             PolyLine = polyLine;
-            BoundingRectangle = Children.ToBoundingRectangle().Combine(PolyLine.BoundingRectangle).AddMargin(Margin);
+            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().Combine(PolyLine.BoundingRectangle).AddMargin(Margin);
         }
 
         public PolyLine PolyLine { get; }
@@ -69,10 +69,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         #endregion
 
         #region Collision
-
-        public override void UpdateBoundingRectangle()
+        
+        public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = Children.ToBoundingRectangle().Combine(PolyLine.BoundingRectangle).AddMargin(Margin);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(PolyLine.BoundingRectangle);
+            return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>

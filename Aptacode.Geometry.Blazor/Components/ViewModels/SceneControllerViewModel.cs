@@ -26,7 +26,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             List<ComponentViewModel> movingComponents,
             CancellationTokenSource cancellationToken)
         {
-            var unselectedItems = Scene.Components.Except(movingComponents);
+            var unselectedItems = Scene.Components.Except(movingComponents).Where(c => c.CollisionDetectionEnabled);
 
             component.Translate(delta);
 
