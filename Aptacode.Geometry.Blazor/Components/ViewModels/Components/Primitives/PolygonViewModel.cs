@@ -4,6 +4,7 @@ using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
+using Aptacode.Geometry.Vertices;
 using Excubo.Blazor.Canvas;
 using Excubo.Blazor.Canvas.Contexts;
 
@@ -11,14 +12,26 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
     public class PolygonViewModel : ComponentViewModel
     {
+        private Polygon _polygon;
+
         public PolygonViewModel(Polygon polygon)
         {
             Polygon = polygon;
             OldBoundingRectangle = BoundingRectangle =
-                Children.ToBoundingRectangle().Combine(Polygon.BoundingRectangle).AddMargin(Margin);
+                Children.ToBoundingRectangle().Combine(ConvexHull.BoundingRectangle);
         }
 
-        public Polygon Polygon { get; set; }
+        public Polygon Polygon
+        {
+            get => _polygon;
+            set
+            {
+                _polygon = value;
+                ConvexHull = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
+            }
+        }
+
+        public Polygon ConvexHull { get; set; }
 
         public override async Task CustomDraw(IContext2DWithoutGetters ctx)
         {
@@ -41,12 +54,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Translate(Vector2 delta)
         {
             Polygon.Translate(delta);
+            ConvexHull.Translate(delta);
             base.Translate(delta);
         }
 
         public override void Scale(Vector2 delta)
         {
             Polygon.Scale(delta);
+            ConvexHull = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
 
             base.Scale(delta);
         }
@@ -54,6 +69,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Rotate(float theta)
         {
             Polygon.Rotate(theta);
+            ConvexHull = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
 
             base.Rotate(theta);
         }
@@ -61,6 +77,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Rotate(Vector2 rotationCenter, float theta)
         {
             Polygon.Rotate(rotationCenter, theta);
+            ConvexHull = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
 
             base.Rotate(rotationCenter, theta);
         }
@@ -68,6 +85,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Skew(Vector2 delta)
         {
             Polygon.Skew(delta);
+            ConvexHull = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
             base.Skew(delta);
         }
 
@@ -77,15 +95,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = base.UpdateBoundingRectangle().Combine(Polygon.BoundingRectangle);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(ConvexHull.BoundingRectangle);
             return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>
-            component.CollidesWith(Polygon, collisionDetector) || base.CollidesWith(component, collisionDetector);
+            component.CollidesWith(ConvexHull, collisionDetector) || base.CollidesWith(component, collisionDetector);
 
         public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector) =>
-            primitive.CollidesWith(Polygon, collisionDetector) || base.CollidesWith(primitive, collisionDetector);
+            primitive.CollidesWith(ConvexHull, collisionDetector) || base.CollidesWith(primitive, collisionDetector);
 
         #endregion
     }

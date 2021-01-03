@@ -49,8 +49,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         public ConnectionPointViewModel(ConnectedComponentViewModel component, Ellipse ellipse) : base(ellipse)
         {
-            this.component = component;
-            Ellipse = ellipse;
+            Component = component;
             Connections = new List<ConnectionViewModel>();
         }
 
@@ -67,9 +66,8 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         #region Prop
 
-        public ConnectedComponentViewModel component { get; set; }
+        public ConnectedComponentViewModel Component { get; set; }
         public List<ConnectionViewModel> Connections { get; set; }
-        public Ellipse Ellipse { get; set; }
 
         #endregion
     }
@@ -103,10 +101,11 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         public void Calculate()
         {
-            PolyLine.Vertices[0] = ConnectionPoint1.Ellipse.BoundingCircle.Center;
-            PolyLine.Vertices[1] = ConnectionPoint2.Ellipse.BoundingCircle.Center;
-            PolyLine.ResetCircle();
-            PolyLine.ResetRectangle();
+            PolyLine = new PolyLine(VertexArray.Create(new[]
+            {
+                ConnectionPoint1.Ellipse.BoundingCircle.Center,
+                ConnectionPoint2.Ellipse.BoundingCircle.Center
+            }));
             UpdateBoundingRectangle();
             Invalidated = true;
         }
@@ -115,8 +114,6 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         public ConnectionPointViewModel ConnectionPoint1 { get; set; }
         public ConnectionPointViewModel ConnectionPoint2 { get; set; }
-
-        public PolyLine Connection { get; set; }
 
         #endregion
     }

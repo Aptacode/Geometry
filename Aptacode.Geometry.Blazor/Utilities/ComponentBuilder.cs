@@ -71,7 +71,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
             _borderColor = Color.Black;
             _fillColor = Color.White;
             _borderThickness = 1;
-            _margin = 0.0f;
+            _margin = ComponentViewModel.DefaultMargin;
             _text = "";
         }
 
@@ -84,7 +84,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
         private Color _fillColor = Color.White;
         private Color _borderColor = Color.Black;
         private int _borderThickness = 1;
-        private float _margin;
+        private float _margin = ComponentViewModel.DefaultMargin;
         private string _text = "";
         private readonly List<ComponentViewModel> _children = new();
         private ComponentViewModel _baseComponent = new();

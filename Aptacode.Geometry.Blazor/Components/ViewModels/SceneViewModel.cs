@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
@@ -14,14 +13,13 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
     {
         #region Ctor
 
-        public SceneViewModel(Vector2 size, IEnumerable<ComponentViewModel> components)
+        public SceneViewModel(Vector2 size)
         {
-            Components = components.ToList();
+            Components = new List<ComponentViewModel>();
             Size = size;
         }
 
         #endregion
-
 
         #region Disposable
 

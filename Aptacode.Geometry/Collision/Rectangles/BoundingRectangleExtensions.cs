@@ -81,12 +81,6 @@ namespace Aptacode.Geometry.Collision.Rectangles
 
         #region Creation
 
-        public static BoundingRectangle AddMargin(this BoundingRectangle boundingRectangle, float margin) =>
-            boundingRectangle;
-        //BoundingRectangle.FromTwoPoints(
-        //    new Vector2(boundingRectangle.TopLeft.X - margin, boundingRectangle.TopLeft.Y - margin),
-        //    new Vector2(boundingRectangle.BottomRight.X + margin, boundingRectangle.BottomRight.Y + margin));
-
         public static BoundingRectangle ToBoundingRectangle(this IEnumerable<Primitive> primitives)
         {
             var maxX = 0.0f;

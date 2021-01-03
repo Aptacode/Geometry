@@ -27,7 +27,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             BorderThickness = DefaultBorderThickness;
             BorderColor = Color.Black;
             FillColor = Color.Black;
-            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().AddMargin(Margin);
+            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle();
         }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = Children.ToBoundingRectangle().AddMargin(Margin);
+            BoundingRectangle = Children.ToBoundingRectangle();
             return BoundingRectangle;
         }
 
@@ -93,7 +93,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
         public static readonly string DefaultBorderColor = Color.Black.ToKnownColor().ToString();
         public static readonly string DefaultFillColor = Color.Black.ToKnownColor().ToString();
         public static readonly int DefaultBorderThickness = 5;
-        public static readonly float DefaultMargin = 0.0f;
+        public static readonly float DefaultMargin = 20.0f;
 
         #endregion
 
