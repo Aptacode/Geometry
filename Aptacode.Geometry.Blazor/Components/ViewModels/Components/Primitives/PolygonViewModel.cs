@@ -14,26 +14,28 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public PolygonViewModel(Polygon polygon)
         {
             Polygon = polygon;
-            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().Combine(Polygon.BoundingRectangle).AddMargin(Margin);
+            OldBoundingRectangle = BoundingRectangle =
+                Children.ToBoundingRectangle().Combine(Polygon.BoundingRectangle).AddMargin(Margin);
         }
 
-        public Polygon Polygon { get; }
+        public Polygon Polygon { get; set; }
+
         public override async Task CustomDraw(IContext2DWithoutGetters ctx)
         {
             await ctx.BeginPathAsync();
 
-            await ctx.MoveToAsync((int)Polygon.Vertices[0].X, (int)Polygon.Vertices[0].Y);
+            await ctx.MoveToAsync((int) Polygon.Vertices[0].X, (int) Polygon.Vertices[0].Y);
             for (var i = 1; i < Polygon.Vertices.Length; i++)
             {
                 var vertex = Polygon.Vertices[i];
-                await ctx.LineToAsync((int)vertex.X, (int)vertex.Y);
+                await ctx.LineToAsync((int) vertex.X, (int) vertex.Y);
             }
 
             await ctx.ClosePathAsync();
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
         }
-       
+
         #region Transformations
 
         public override void Translate(Vector2 delta)

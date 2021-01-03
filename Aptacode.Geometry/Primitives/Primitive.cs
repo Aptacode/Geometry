@@ -48,6 +48,7 @@ namespace Aptacode.Geometry.Primitives
         {
             _boundingRectangle = null;
         }
+
         public BoundingRectangle BoundingRectangle =>
             _boundingRectangle ?? (_boundingRectangle = this.MinimumBoundingRectangle()).Value;
 

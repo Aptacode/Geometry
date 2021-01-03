@@ -32,6 +32,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
             var collidingItems = unselectedItems
                 .Where(i => i.CollidesWith(component, CollisionDetector)).ToList();
+
             movingComponents.AddRange(collidingItems);
 
             foreach (var collidingItem in collidingItems)

@@ -17,20 +17,21 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public EllipseViewModel(Ellipse ellipse)
         {
             Ellipse = ellipse;
-            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().Combine(Ellipse.BoundingRectangle).AddMargin(Margin);
+            OldBoundingRectangle = BoundingRectangle =
+                Children.ToBoundingRectangle().Combine(Ellipse.BoundingRectangle).AddMargin(Margin);
         }
 
         #endregion
 
 
-        public Ellipse Ellipse { get; }
+        public Ellipse Ellipse { get; set; }
 
         public override async Task CustomDraw(IContext2DWithoutGetters ctx)
         {
             await ctx.BeginPathAsync();
 
-            await ctx.EllipseAsync((int)Ellipse.Position.X, (int)Ellipse.Position.Y, (int)Ellipse.Radii.X,
-                (int)Ellipse.Radii.Y, Ellipse.Rotation, 0, 2 * Math.PI);
+            await ctx.EllipseAsync((int) Ellipse.Position.X, (int) Ellipse.Position.Y, (int) Ellipse.Radii.X,
+                (int) Ellipse.Radii.Y, Ellipse.Rotation, 0, 2 * Math.PI);
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
         }

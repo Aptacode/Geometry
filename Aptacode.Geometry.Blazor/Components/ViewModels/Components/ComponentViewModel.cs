@@ -29,15 +29,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             FillColor = Color.Black;
             OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().AddMargin(Margin);
         }
-        
+
         #endregion
 
         #region Canvas
 
-        public virtual async Task CustomDraw(IContext2DWithoutGetters ctx)
-        {
-
-        }
+        public virtual async Task CustomDraw(IContext2DWithoutGetters ctx) { }
 
         public virtual async Task Draw(IContext2DWithoutGetters ctx)
         {
@@ -71,8 +68,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             }
         }
 
-        
-        
         #endregion
 
         #region Children

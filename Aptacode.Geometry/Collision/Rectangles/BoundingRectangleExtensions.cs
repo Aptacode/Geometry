@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Polygons;
 using Aptacode.Geometry.Vertices;
@@ -84,9 +83,9 @@ namespace Aptacode.Geometry.Collision.Rectangles
 
         public static BoundingRectangle AddMargin(this BoundingRectangle boundingRectangle, float margin) =>
             boundingRectangle;
-            //BoundingRectangle.FromTwoPoints(
-            //    new Vector2(boundingRectangle.TopLeft.X - margin, boundingRectangle.TopLeft.Y - margin),
-            //    new Vector2(boundingRectangle.BottomRight.X + margin, boundingRectangle.BottomRight.Y + margin));
+        //BoundingRectangle.FromTwoPoints(
+        //    new Vector2(boundingRectangle.TopLeft.X - margin, boundingRectangle.TopLeft.Y - margin),
+        //    new Vector2(boundingRectangle.BottomRight.X + margin, boundingRectangle.BottomRight.Y + margin));
 
         public static BoundingRectangle ToBoundingRectangle(this IEnumerable<Primitive> primitives)
         {

@@ -15,15 +15,17 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public PointViewModel(Point point)
         {
             Point = point;
-            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().Combine(Point.BoundingRectangle).AddMargin(Margin);
+            OldBoundingRectangle = BoundingRectangle =
+                Children.ToBoundingRectangle().Combine(Point.BoundingRectangle).AddMargin(Margin);
         }
 
-        public Point Point { get; }
+        public Point Point { get; set; }
+
         public override async Task CustomDraw(IContext2DWithoutGetters ctx)
         {
             await ctx.BeginPathAsync();
 
-            await ctx.EllipseAsync((int)Point.Position.X, (int)Point.Position.Y, 1, 1, 0, 0, 2 * Math.PI);
+            await ctx.EllipseAsync((int) Point.Position.X, (int) Point.Position.Y, 1, 1, 0, 0, 2 * Math.PI);
             await ctx.FillAsync(FillRule.NonZero);
             await ctx.StrokeAsync();
         }
@@ -72,7 +74,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             BoundingRectangle = base.UpdateBoundingRectangle().Combine(Point.BoundingRectangle);
             return BoundingRectangle;
         }
-        
+
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>
             component.CollidesWith(Point, collisionDetector) || base.CollidesWith(component, collisionDetector);
 

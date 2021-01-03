@@ -4,7 +4,6 @@ using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
-using Excubo.Blazor.Canvas;
 using Excubo.Blazor.Canvas.Contexts;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
@@ -14,18 +13,20 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public PolylineViewModel(PolyLine polyLine)
         {
             PolyLine = polyLine;
-            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle().Combine(PolyLine.BoundingRectangle).AddMargin(Margin);
+            OldBoundingRectangle = BoundingRectangle =
+                Children.ToBoundingRectangle().Combine(PolyLine.BoundingRectangle).AddMargin(Margin);
         }
 
-        public PolyLine PolyLine { get; }
+        public PolyLine PolyLine { get; set; }
+
         public override async Task CustomDraw(IContext2DWithoutGetters ctx)
         {
             await ctx.BeginPathAsync();
-            await ctx.MoveToAsync((int)PolyLine.Vertices[0].X, (int)PolyLine.Vertices[0].Y);
+            await ctx.MoveToAsync((int) PolyLine.Vertices[0].X, (int) PolyLine.Vertices[0].Y);
             for (var i = 1; i < PolyLine.Vertices.Length; i++)
             {
                 var vertex = PolyLine.Vertices[i];
-                await ctx.LineToAsync((int)vertex.X, (int)vertex.Y);
+                await ctx.LineToAsync((int) vertex.X, (int) vertex.Y);
             }
 
             await ctx.StrokeAsync();
@@ -69,7 +70,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         #endregion
 
         #region Collision
-        
+
         public override BoundingRectangle UpdateBoundingRectangle()
         {
             BoundingRectangle = base.UpdateBoundingRectangle().Combine(PolyLine.BoundingRectangle);

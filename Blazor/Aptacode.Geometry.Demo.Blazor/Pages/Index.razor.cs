@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
-using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives;
-using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Blazor.Utilities;
-using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Vertices;
 using Microsoft.AspNetCore.Components;
@@ -18,18 +15,13 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
     public class ConnectedComponentViewModel : PolygonViewModel
     {
         #region Ctor
+
         public ConnectedComponentViewModel(Rectangle body) : base(body)
         {
             Body = body;
 
             ConnectionPoints = new List<ConnectionPointViewModel>();
         }
-        #endregion
-
-        #region Prop
-
-        public Rectangle Body { get; private set; }
-        public List<ConnectionPointViewModel> ConnectionPoints { get; private set; }
 
         #endregion
 
@@ -42,6 +34,13 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             Children.Add(connectionPoint);
             return connectionPoint;
         }
+
+        #region Prop
+
+        public Rectangle Body { get; }
+        public List<ConnectionPointViewModel> ConnectionPoints { get; }
+
+        #endregion
     }
 
     public class ConnectionPointViewModel : EllipseViewModel
@@ -54,13 +53,6 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             Ellipse = ellipse;
             Connections = new List<ConnectionViewModel>();
         }
-        #endregion
-
-        #region Prop
-
-        public ConnectedComponentViewModel component { get; set; }
-        public List<ConnectionViewModel> Connections { get; set; }
-        public Ellipse Ellipse { get; set; }
 
         #endregion
 
@@ -72,12 +64,22 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                 connectionViewModel.Calculate();
             }
         }
+
+        #region Prop
+
+        public ConnectedComponentViewModel component { get; set; }
+        public List<ConnectionViewModel> Connections { get; set; }
+        public Ellipse Ellipse { get; set; }
+
+        #endregion
     }
 
     public class ConnectionViewModel : PolylineViewModel
     {
         #region Ctor
-        protected ConnectionViewModel(ConnectionPointViewModel connectionPoint1, ConnectionPointViewModel connectionPoint2) : base(new PolyLine(VertexArray.Create(new[]
+
+        protected ConnectionViewModel(ConnectionPointViewModel connectionPoint1,
+            ConnectionPointViewModel connectionPoint2) : base(new PolyLine(VertexArray.Create(new[]
         {
             connectionPoint1.Ellipse.BoundingCircle.Center,
             connectionPoint2.Ellipse.BoundingCircle.Center
@@ -87,18 +89,11 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             ConnectionPoint2 = connectionPoint2;
             CollisionDetectionEnabled = false;
         }
-        #endregion
-
-        #region Prop
-
-        public ConnectionPointViewModel ConnectionPoint1 { get; set; }
-        public ConnectionPointViewModel ConnectionPoint2 { get; set; }
-
-        public PolyLine Connection { get; set; }
 
         #endregion
 
-        public static ConnectionViewModel Connect(ConnectionPointViewModel connectionPoint1, ConnectionPointViewModel connectionPoint2)
+        public static ConnectionViewModel Connect(ConnectionPointViewModel connectionPoint1,
+            ConnectionPointViewModel connectionPoint2)
         {
             var connection = new ConnectionViewModel(connectionPoint1, connectionPoint2);
             connectionPoint1.Connections.Add(connection);
@@ -115,6 +110,15 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             UpdateBoundingRectangle();
             Invalidated = true;
         }
+
+        #region Prop
+
+        public ConnectionPointViewModel ConnectionPoint1 { get; set; }
+        public ConnectionPointViewModel ConnectionPoint2 { get; set; }
+
+        public PolyLine Connection { get; set; }
+
+        #endregion
     }
 
     public class IndexBase : ComponentBase
@@ -167,7 +171,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             var group = componentBuilder.AddChild(child1).AddChild(child2).Build();
 
             sceneBuilder.AddComponent(group);
-            
+
             //PrimitiveGroup
             sceneBuilder.AddComponent(componentBuilder
                 .AddChild(Ellipse.Create(400, 200, 15, 15, 0.0f).ToViewModel())
@@ -194,6 +198,5 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
             await base.OnInitializedAsync();
         }
-        
     }
 }
