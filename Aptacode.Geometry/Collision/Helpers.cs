@@ -21,15 +21,11 @@ namespace Aptacode.Geometry.Collision
 
             if (line1A == line2A || line1B == line2B || line1A == line2B || line1B == line1A
             ) //These lines has at least one of the same endpoints
-            {
                 return true;
-            }
 
             var det = (line2B.Y - line2A.Y) * (line1B.X - line1A.X) - (line2B.X - line2A.X) * (line1B.Y - line1A.Y);
             if (det == 0) //These lines are parallel and do not intersect
-            {
                 return false;
-            }
 
             var A = ((line2B.X - line2A.X) * (line1A.Y - line2A.Y) - (line2B.Y - line2A.Y) * (line1A.X - line2A.X)) /
                     det;
@@ -44,10 +40,7 @@ namespace Aptacode.Geometry.Collision
 
         public static (float m, float c) ToLineEquation(Vector2 start, Vector2 end)
         {
-            if (Math.Abs(end.X - start.X) < Constants.Tolerance)
-            {
-                return (float.PositiveInfinity, start.X);
-            }
+            if (Math.Abs(end.X - start.X) < Constants.Tolerance) return (float.PositiveInfinity, start.X);
 
             var m = (end.Y - start.Y) / (end.X - start.X);
             var c = -m * start.X + start.Y;

@@ -18,15 +18,13 @@ namespace Aptacode.Geometry.Blazor.Components.Views
         protected override async Task OnInitializedAsync()
         {
             await JsRuntime.InvokeAsync<object>("initGame", DotNetObjectReference.Create(this));
+            ViewModel.SetRunTime(JSUnmarshalledRuntime);
             await base.OnInitializedAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
-            {
-                await JsRuntime.InvokeVoidAsync("SetFocusToElement", Container);
-            }
+            if (firstRender) await JsRuntime.InvokeVoidAsync("SetFocusToElement", Container);
         }
 
         public void MouseDown(MouseEventArgs e)
@@ -39,7 +37,9 @@ namespace Aptacode.Geometry.Blazor.Components.Views
             ViewModel.UserInteractionController.MouseUp(e.FromScale());
         }
 
-        public void MouseOut(MouseEventArgs e) { }
+        public void MouseOut(MouseEventArgs e)
+        {
+        }
 
         public void MouseMove(MouseEventArgs e)
         {
@@ -63,6 +63,8 @@ namespace Aptacode.Geometry.Blazor.Components.Views
         [Inject] private IJSRuntime JsRuntime { get; set; }
 
         protected ElementReference Container;
+
+        [Inject] public IJSUnmarshalledRuntime JSUnmarshalledRuntime { get; set; }
 
         #endregion
     }

@@ -10,7 +10,10 @@ namespace Aptacode.Geometry.Primitives
     {
         #region Collision Detection
 
-        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
+        public override bool CollidesWith(Primitive p, CollisionDetector detector)
+        {
+            return detector.CollidesWith(this, p);
+        }
 
         #endregion
 
@@ -23,28 +26,26 @@ namespace Aptacode.Geometry.Primitives
 
         public static PolyLine Create(params float[] points)
         {
-            if (points.Length < 2)
-            {
-                return Zero;
-            }
+            if (points.Length < 2) return Zero;
 
             var vertices = new Vector2[points.Length / 2];
             var count = 0;
-            for (var i = 0; i < points.Length; i += 2)
-            {
-                vertices[count++] = new Vector2(points[i], points[i + 1]);
-            }
+            for (var i = 0; i < points.Length; i += 2) vertices[count++] = new Vector2(points[i], points[i + 1]);
 
             return new PolyLine(VertexArray.Create(vertices));
         }
 
         public PolyLine(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) :
-            base(vertices, boundingCircle, boundingRectangle) { }
+            base(vertices, boundingCircle, boundingRectangle)
+        {
+        }
 
         public static readonly PolyLine Zero = Create(Vector2.Zero, Vector2.Zero);
 
-        public static PolyLine Create(Vector2 p1, Vector2 p2, params Vector2[] points) =>
-            new(VertexArray.Create(p1, p2, points));
+        public static PolyLine Create(Vector2 p1, Vector2 p2, params Vector2[] points)
+        {
+            return new(VertexArray.Create(p1, p2, points));
+        }
 
         #endregion
 
@@ -53,10 +54,7 @@ namespace Aptacode.Geometry.Primitives
         private (Vector2 p1, Vector2 p2)[] CalculateLineSegments()
         {
             var lineSegments = new (Vector2 p1, Vector2 p2)[Vertices.Length - 1];
-            for (var i = 0; i < Vertices.Length - 1; i++)
-            {
-                lineSegments[i] = (Vertices[i], Vertices[i + 1]);
-            }
+            for (var i = 0; i < Vertices.Length - 1; i++) lineSegments[i] = (Vertices[i], Vertices[i + 1]);
 
             return lineSegments;
         }

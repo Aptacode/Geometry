@@ -22,25 +22,17 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public void MouseClickDown()
         {
             if (DateTime.Now - FirstMouseDownTime > TimeSpan.FromMilliseconds(300))
-            {
                 FirstMouseDownTime = DateTime.Now;
-            }
             else
-            {
                 SecondMouseDownTime = DateTime.Now;
-            }
         }
 
         public void MouseClickRelease(Vector2 position)
         {
             if (DateTime.Now - SecondMouseDownTime < TimeSpan.FromMilliseconds(150))
-            {
                 OnMouseDoubleClicked?.Invoke(this, position);
-            }
             else if (DateTime.Now - FirstMouseDownTime < TimeSpan.FromMilliseconds(150))
-            {
                 OnMouseClicked?.Invoke(this, position);
-            }
         }
 
         public void MouseDown(Vector2 position)
@@ -63,9 +55,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         {
             if (Math.Abs(LastMousePosition.X - position.X) <= Constants.Tolerance &&
                 Math.Abs(LastMousePosition.Y - position.Y) <= Constants.Tolerance)
-            {
                 return;
-            }
 
             OnMouseMoved?.Invoke(this, position);
             LastMousePosition = position;
@@ -77,7 +67,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public string? CurrentKey;
         public bool ControlPressed => CurrentKey == "Control";
-        public bool IsPressed(string key) => string.Equals(CurrentKey, key, StringComparison.OrdinalIgnoreCase);
+
+        public bool IsPressed(string key)
+        {
+            return string.Equals(CurrentKey, key, StringComparison.OrdinalIgnoreCase);
+        }
+
         public bool NothingPressed => string.IsNullOrEmpty(CurrentKey);
 
         public void KeyDown(string key)
@@ -88,10 +83,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public void KeyUp(string key)
         {
-            if (ControlPressed)
-            {
-                CurrentKey = null;
-            }
+            if (ControlPressed) CurrentKey = null;
 
             CurrentKey = null;
             OnKeyUp?.Invoke(this, CurrentKey);

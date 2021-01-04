@@ -17,10 +17,7 @@ namespace Aptacode.Geometry.Tests
             //Act
             var sut = vertexArray.Translate(new Vector2(1, 1));
             //Assert
-            foreach (var vertex in expectedVertexArray.Vertices)
-            {
-                Assert.Contains(vertex, sut.Vertices);
-            }
+            foreach (var vertex in expectedVertexArray.Vertices) Assert.Contains(vertex, sut.Vertices);
         }
 
         [Fact]
@@ -32,10 +29,7 @@ namespace Aptacode.Geometry.Tests
             //Act
             var sut = vertexArray.Rotate(new Vector2(1, 1), (float) Math.PI / 2);
             //Assert
-            foreach (var vertex in expectedVertexArray.Vertices)
-            {
-                Assert.Contains(vertex, sut.Vertices);
-            }
+            foreach (var vertex in expectedVertexArray.Vertices) Assert.Contains(vertex, sut.Vertices);
         }
 
         [Fact]
@@ -47,10 +41,7 @@ namespace Aptacode.Geometry.Tests
             //Act
             var sut = vertexArray.Scale(new Vector2(3, 2), new Vector2(2, 1));
             //Assert
-            foreach (var vertex in expectedVertexArray.Vertices)
-            {
-                Assert.Contains(vertex, sut.Vertices);
-            }
+            foreach (var vertex in expectedVertexArray.Vertices) Assert.Contains(vertex, sut.Vertices);
         }
 
 
@@ -73,17 +64,11 @@ namespace Aptacode.Geometry.Tests
                 (new Vector2(8, 5), new Vector2(4, 5)), (new Vector2(4, 5), new Vector2(4, 3))
             };
             //Assert
-            foreach (var vertex in expectedVertices.Vertices)
-            {
-                Assert.Contains(vertex, sut.Vertices.Vertices);
-            }
+            foreach (var vertex in expectedVertices.Vertices) Assert.Contains(vertex, sut.Vertices.Vertices);
 
             Assert.Equal(expectedBoundingCircleCenter, sut.BoundingCircle.Center);
             Assert.Equal(expectedBoundingCircleRadius, sut.BoundingCircle.Radius);
-            foreach (var edge in expectedEdges)
-            {
-                Assert.Contains(edge, sut.Edges);
-            }
+            foreach (var edge in expectedEdges) Assert.Contains(edge, sut.Edges);
         }
 
         [Fact]
@@ -104,17 +89,11 @@ namespace Aptacode.Geometry.Tests
                 (new Vector2(6, 6), new Vector2(4, 6)), (new Vector2(4, 6), new Vector2(4, 2))
             };
             //Assert
-            foreach (var vertex in expectedVertices.Vertices)
-            {
-                Assert.Contains(vertex, sut.Vertices.Vertices);
-            }
+            foreach (var vertex in expectedVertices.Vertices) Assert.Contains(vertex, sut.Vertices.Vertices);
 
             Assert.Equal(expectedBoundingCircleCenter, sut.BoundingCircle.Center);
             Assert.Equal(expectedBoundingCircleRadius, sut.BoundingCircle.Radius);
-            foreach (var edge in expectedEdges)
-            {
-                Assert.Contains(edge, sut.Edges);
-            }
+            foreach (var edge in expectedEdges) Assert.Contains(edge, sut.Edges);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Collision.Rectangles;
-using Excubo.Blazor.Canvas.Contexts;
+using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
@@ -21,14 +21,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         #endregion
 
+        public IJSUnmarshalledRuntime JSUnmarshalledRuntime { get; set; }
+
         #region Disposable
 
         public async ValueTask DisposeAsync()
         {
-            if (Ctx != null)
-            {
-                await Ctx.DisposeAsync();
-            }
         }
 
         #endregion
@@ -39,10 +37,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public async Task RedrawAsync()
         {
-            if (Ctx == null)
-            {
-                return;
-            }
+            if (JSUnmarshalledRuntime == null) return;
 
             var currentTime = DateTime.Now;
             var delta = currentTime - _lastTick;
@@ -50,34 +45,21 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             _lastTick = currentTime;
 
             Console.WriteLine($"{frameRate}fps");
-            await using var batch = await Ctx.CreateBatchAsync();
-            await batch.FillStyleAsync(ComponentViewModel.DefaultFillColor);
-            await batch.StrokeStyleAsync(ComponentViewModel.DefaultBorderColor);
-            await batch.LineWidthAsync(ComponentViewModel.DefaultBorderThickness);
-            await batch.ShadowBlurAsync(0.0f);
-
-            await batch.SaveAsync();
-            await batch.FillStyleAsync("White");
-            await batch.StrokeStyleAsync("White");
-            await batch.LineWidthAsync(0);
+            JSUnmarshalledRuntime.fillStyle(ComponentViewModel.DefaultFillColor);
+            JSUnmarshalledRuntime.strokeStyle(ComponentViewModel.DefaultBorderColor);
+            JSUnmarshalledRuntime.lineWidth(ComponentViewModel.DefaultBorderThickness);
 
             var invalidatedItems
-                = await InvalidateItems(batch);
-
-            await batch.RestoreAsync();
+                = await InvalidateItems();
 
             for (var i = 0; i < invalidatedItems.Count; i++)
             {
                 var component = invalidatedItems[i];
-                await batch.SaveAsync();
-
-                await component.Draw(batch);
-
-                await batch.RestoreAsync();
+                await component.Draw(JSUnmarshalledRuntime);
             }
         }
 
-        public async Task<List<ComponentViewModel>> InvalidateItems(IContext2DWithoutGetters batch)
+        public async Task<List<ComponentViewModel>> InvalidateItems()
         {
             var validItems = new List<ComponentViewModel>();
             var invalidItems = new List<ComponentViewModel>();
@@ -86,13 +68,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             {
                 var component = Components[i];
                 if (component.Invalidated)
-                {
                     invalidItems.Add(component);
-                }
                 else
-                {
                     validItems.Add(component);
-                }
             }
 
 
@@ -135,17 +113,17 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
                     }
                 }
 
-                await Invalidate(batch, invalidItem.OldBoundingRectangle, thickness);
-                await Invalidate(batch, invalidItem.BoundingRectangle, thickness);
+                await Invalidate(invalidItem.OldBoundingRectangle, thickness);
+                await Invalidate(invalidItem.BoundingRectangle, thickness);
             }
 
             return invalidItems;
         }
 
-        public async Task Invalidate(IContext2DWithoutGetters batch, BoundingRectangle rectangle, float border)
+        public async Task Invalidate(BoundingRectangle rectangle, float border)
         {
-            await batch.ClearRectAsync((int) rectangle.TopLeft.X - 4 * border, (int) rectangle.TopLeft.Y - 4 * border,
-                (int) rectangle.Size.X + 8 * border, (int) rectangle.Size.Y + 8 * border);
+            JSUnmarshalledRuntime.clearRect(rectangle.TopLeft.X - 4 * border, rectangle.TopLeft.Y - 4 * border,
+                rectangle.Size.X + 8 * border, rectangle.Size.Y + 8 * border);
         }
 
         #endregion
@@ -155,7 +133,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public List<ComponentViewModel> Components { get; set; }
 
         public Vector2 Size { get; set; }
-        public Context2D Ctx { get; set; }
 
         #endregion
 
@@ -163,20 +140,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public void BringToFront(ComponentViewModel componentViewModel)
         {
-            if (!Components.Remove(componentViewModel))
-            {
-                return;
-            }
+            if (!Components.Remove(componentViewModel)) return;
 
             Components.Add(componentViewModel);
         }
 
         public void SendToBack(ComponentViewModel componentViewModel)
         {
-            if (!Components.Remove(componentViewModel))
-            {
-                return;
-            }
+            if (!Components.Remove(componentViewModel)) return;
 
             Components.Insert(0, componentViewModel);
         }
@@ -184,10 +155,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public void BringForward(ComponentViewModel componentViewModel)
         {
             var index = Components.IndexOf(componentViewModel);
-            if (index == Components.Count - 1)
-            {
-                return;
-            }
+            if (index == Components.Count - 1) return;
 
             Components.RemoveAt(index);
             Components.Insert(index + 1, componentViewModel);
@@ -196,10 +164,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public void SendBackward(ComponentViewModel componentViewModel)
         {
             var index = Components.IndexOf(componentViewModel);
-            if (index == 0)
-            {
-                return;
-            }
+            if (index == 0) return;
 
             Components.RemoveAt(index);
             Components.Insert(index - 1, componentViewModel);

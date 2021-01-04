@@ -33,25 +33,13 @@ namespace Aptacode.Geometry.Blazor.Extensions
             foreach (var component in components)
             {
                 var boundingRectangle = component.BoundingRectangle;
-                if (boundingRectangle.TopLeft.X < minX)
-                {
-                    minX = boundingRectangle.TopLeft.X;
-                }
+                if (boundingRectangle.TopLeft.X < minX) minX = boundingRectangle.TopLeft.X;
 
-                if (boundingRectangle.TopLeft.Y < minY)
-                {
-                    minY = boundingRectangle.TopLeft.Y;
-                }
+                if (boundingRectangle.TopLeft.Y < minY) minY = boundingRectangle.TopLeft.Y;
 
-                if (boundingRectangle.BottomRight.X > maxX)
-                {
-                    maxX = boundingRectangle.BottomRight.X;
-                }
+                if (boundingRectangle.BottomRight.X > maxX) maxX = boundingRectangle.BottomRight.X;
 
-                if (boundingRectangle.BottomRight.Y > maxY)
-                {
-                    maxY = boundingRectangle.BottomRight.Y;
-                }
+                if (boundingRectangle.BottomRight.Y > maxY) maxY = boundingRectangle.BottomRight.Y;
             }
 
             return BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY));

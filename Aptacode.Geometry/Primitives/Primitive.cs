@@ -12,7 +12,10 @@ namespace Aptacode.Geometry.Primitives
 
         #region IEquatable
 
-        public virtual bool Equals(Primitive other) => Vertices.Equals(other.Vertices);
+        public virtual bool Equals(Primitive other)
+        {
+            return Vertices.Equals(other.Vertices);
+        }
 
         #endregion
 
@@ -52,7 +55,10 @@ namespace Aptacode.Geometry.Primitives
         public BoundingRectangle BoundingRectangle =>
             _boundingRectangle ?? (_boundingRectangle = this.MinimumBoundingRectangle()).Value;
 
-        public virtual bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
+        public virtual bool CollidesWith(Primitive p, CollisionDetector detector)
+        {
+            return detector.CollidesWith(this, p);
+        }
 
         #endregion
 

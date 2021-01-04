@@ -16,19 +16,32 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
-        public override bool CollidesWith(Primitive p, CollisionDetector detector) => detector.CollidesWith(this, p);
+        public override bool CollidesWith(Primitive p, CollisionDetector detector)
+        {
+            return detector.CollidesWith(this, p);
+        }
 
         #endregion
 
         #region Ctor
 
-        public Point(Vector2 position) : base(VertexArray.Create(position)) { }
-        protected Point(VertexArray vertexArray) : base(vertexArray) { }
+        public Point(Vector2 position) : base(VertexArray.Create(position))
+        {
+        }
+
+        protected Point(VertexArray vertexArray) : base(vertexArray)
+        {
+        }
 
         public Point(Vector2 position, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) : base(
-            VertexArray.Create(position), boundingCircle, boundingRectangle) { }
+            VertexArray.Create(position), boundingCircle, boundingRectangle)
+        {
+        }
 
-        public static Point Create(float x, float y) => new(new Vector2(x, y));
+        public static Point Create(float x, float y)
+        {
+            return new(new Vector2(x, y));
+        }
 
         #endregion
 

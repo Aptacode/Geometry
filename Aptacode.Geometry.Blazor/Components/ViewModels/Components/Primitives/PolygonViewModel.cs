@@ -5,8 +5,7 @@ using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Vertices;
-using Excubo.Blazor.Canvas;
-using Excubo.Blazor.Canvas.Contexts;
+using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
@@ -33,20 +32,20 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public Polygon ConvexHull { get; set; }
 
-        public override async Task CustomDraw(IContext2DWithoutGetters ctx)
+        public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
         {
-            await ctx.BeginPathAsync();
+            ctx.beginPath();
 
-            await ctx.MoveToAsync((int) Polygon.Vertices[0].X, (int) Polygon.Vertices[0].Y);
+            ctx.moveTo((int) Polygon.Vertices[0].X, (int) Polygon.Vertices[0].Y);
             for (var i = 1; i < Polygon.Vertices.Length; i++)
             {
                 var vertex = Polygon.Vertices[i];
-                await ctx.LineToAsync((int) vertex.X, (int) vertex.Y);
+                ctx.lineTo((int) vertex.X, (int) vertex.Y);
             }
 
-            await ctx.ClosePathAsync();
-            await ctx.FillAsync(FillRule.NonZero);
-            await ctx.StrokeAsync();
+            ctx.closePath();
+            ctx.Fill();
+            ctx.Stroke();
         }
 
         #region Transformations
@@ -99,11 +98,17 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             return BoundingRectangle;
         }
 
-        public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>
-            component.CollidesWith(ConvexHull, collisionDetector) || base.CollidesWith(component, collisionDetector);
+        public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
+        {
+            return component.CollidesWith(ConvexHull, collisionDetector) ||
+                   base.CollidesWith(component, collisionDetector);
+        }
 
-        public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector) =>
-            primitive.CollidesWith(ConvexHull, collisionDetector) || base.CollidesWith(primitive, collisionDetector);
+        public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
+        {
+            return primitive.CollidesWith(ConvexHull, collisionDetector) ||
+                   base.CollidesWith(primitive, collisionDetector);
+        }
 
         #endregion
     }

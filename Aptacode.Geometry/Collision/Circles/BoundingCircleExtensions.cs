@@ -7,17 +7,25 @@ namespace Aptacode.Geometry.Collision.Circles
 {
     public static class BoundingCircleExtensions
     {
-        public static bool Contains(this BoundingCircle circle, Vector2 point) =>
-            (point - circle.Center).Length() <= circle.Radius;
+        public static bool Contains(this BoundingCircle circle, Vector2 point)
+        {
+            return (point - circle.Center).Length() <= circle.Radius;
+        }
 
-        public static BoundingCircle Translate(this BoundingCircle boundingCircle, Vector2 delta) =>
-            new(boundingCircle.Center + delta, boundingCircle.Radius);
+        public static BoundingCircle Translate(this BoundingCircle boundingCircle, Vector2 delta)
+        {
+            return new(boundingCircle.Center + delta, boundingCircle.Radius);
+        }
 
-        public static BoundingCircle Scale(this BoundingCircle boundingCircle, float delta) =>
-            new(boundingCircle.Center, boundingCircle.Radius * delta);
+        public static BoundingCircle Scale(this BoundingCircle boundingCircle, float delta)
+        {
+            return new(boundingCircle.Center, boundingCircle.Radius * delta);
+        }
 
-        public static BoundingCircle Skew(this BoundingCircle boundingCircle, Vector2 delta) =>
-            new(boundingCircle.Center + delta, boundingCircle.Radius);
+        public static BoundingCircle Skew(this BoundingCircle boundingCircle, Vector2 delta)
+        {
+            return new(boundingCircle.Center + delta, boundingCircle.Radius);
+        }
 
         public static BoundingCircle Rotate(this BoundingCircle boundingCircle, Vector2 rotationCenter, float theta)
         {

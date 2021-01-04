@@ -58,10 +58,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
         public override void Translate(Vector2 delta)
         {
             base.Translate(delta);
-            foreach (var connectionViewModel in Connections)
-            {
-                connectionViewModel.Calculate();
-            }
+            foreach (var connectionViewModel in Connections) connectionViewModel.Calculate();
         }
 
         #region Prop

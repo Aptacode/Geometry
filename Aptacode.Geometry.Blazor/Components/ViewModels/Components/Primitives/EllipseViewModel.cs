@@ -5,8 +5,7 @@ using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
-using Excubo.Blazor.Canvas;
-using Excubo.Blazor.Canvas.Contexts;
+using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
@@ -38,14 +37,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public Ellipse EllipseBorder { get; set; }
 
-        public override async Task CustomDraw(IContext2DWithoutGetters ctx)
+        public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
         {
-            await ctx.BeginPathAsync();
+            ctx.beginPath();
 
-            await ctx.EllipseAsync((int) Ellipse.Position.X, (int) Ellipse.Position.Y, (int) Ellipse.Radii.X,
-                (int) Ellipse.Radii.Y, Ellipse.Rotation, 0, 2 * Math.PI);
-            await ctx.FillAsync(FillRule.NonZero);
-            await ctx.StrokeAsync();
+            ctx.ellipse((int) Ellipse.Position.X, (int) Ellipse.Position.Y, (int) Ellipse.Radii.X,
+                (int) Ellipse.Radii.Y, Ellipse.Rotation, 0, 2.0f * (float) Math.PI);
+            ctx.Fill();
+            ctx.Stroke();
         }
 
         #region Transformations
@@ -95,11 +94,17 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             return BoundingRectangle;
         }
 
-        public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector) =>
-            component.CollidesWith(EllipseBorder, collisionDetector) || base.CollidesWith(component, collisionDetector);
+        public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
+        {
+            return component.CollidesWith(EllipseBorder, collisionDetector) ||
+                   base.CollidesWith(component, collisionDetector);
+        }
 
-        public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector) =>
-            primitive.CollidesWith(EllipseBorder, collisionDetector) || base.CollidesWith(primitive, collisionDetector);
+        public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
+        {
+            return primitive.CollidesWith(EllipseBorder, collisionDetector) ||
+                   base.CollidesWith(primitive, collisionDetector);
+        }
 
         #endregion
     }

@@ -14,7 +14,11 @@ namespace Aptacode.Geometry.Collision.Circles
         }
 
         public static BoundingCircle Zero => new(new Vector2(0.0f, 0.0f), 0.0f);
-        public static BoundingCircle FromOnePoint(Vector2 p1) => new(p1, 0.0f);
+
+        public static BoundingCircle FromOnePoint(Vector2 p1)
+        {
+            return new(p1, 0.0f);
+        }
 
         public static BoundingCircle FromTwoPoints(Vector2 p1, Vector2 p2)
         {
@@ -28,20 +32,11 @@ namespace Aptacode.Geometry.Collision.Circles
         public static BoundingCircle FromThreePoints(Vector2 p1, Vector2 p2, Vector2 p3)
         {
             BoundingCircle tempCircle;
-            if ((tempCircle = FromTwoPoints(p1, p2)).Contains(p3))
-            {
-                return tempCircle;
-            }
+            if ((tempCircle = FromTwoPoints(p1, p2)).Contains(p3)) return tempCircle;
 
-            if ((tempCircle = FromTwoPoints(p1, p3)).Contains(p2))
-            {
-                return tempCircle;
-            }
+            if ((tempCircle = FromTwoPoints(p1, p3)).Contains(p2)) return tempCircle;
 
-            if ((tempCircle = FromTwoPoints(p2, p3)).Contains(p1))
-            {
-                return tempCircle;
-            }
+            if ((tempCircle = FromTwoPoints(p2, p3)).Contains(p1)) return tempCircle;
 
             var a = p3.LengthSquared() - p2.LengthSquared();
             var b = p1.LengthSquared() - p3.LengthSquared();

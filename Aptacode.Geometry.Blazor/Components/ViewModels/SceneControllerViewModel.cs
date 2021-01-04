@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Collision;
+using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
@@ -36,14 +37,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             movingComponents.AddRange(collidingItems);
 
             foreach (var collidingItem in collidingItems)
-            {
                 Translate(collidingItem, delta, movingComponents, cancellationToken);
-            }
 
-            if (cancellationToken.IsCancellationRequested)
-            {
-                component.Translate(-delta);
-            }
+            if (cancellationToken.IsCancellationRequested) component.Translate(-delta);
         }
 
         #endregion
@@ -56,6 +52,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         }
 
         #endregion
+
+        public void SetRunTime(IJSUnmarshalledRuntime jsRuntime)
+        {
+            Scene.JSUnmarshalledRuntime = jsRuntime;
+        }
 
         #region Properties
 

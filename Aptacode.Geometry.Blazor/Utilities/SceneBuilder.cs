@@ -33,10 +33,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
         {
             var scene = new SceneViewModel(new Vector2(_width, _height));
 
-            foreach (var componentViewModel in _components)
-            {
-                scene.Components.Add(componentViewModel);
-            }
+            foreach (var componentViewModel in _components) scene.Components.Add(componentViewModel);
 
             Reset();
             return scene;

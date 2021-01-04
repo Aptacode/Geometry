@@ -7,8 +7,7 @@ using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
-using Excubo.Blazor.Canvas;
-using Excubo.Blazor.Canvas.Contexts;
+using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 {
@@ -34,37 +33,33 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         #region Canvas
 
-        public virtual async Task CustomDraw(IContext2DWithoutGetters ctx) { }
+        public virtual async Task CustomDraw(IJSUnmarshalledRuntime ctx)
+        {
+        }
 
-        public virtual async Task Draw(IContext2DWithoutGetters ctx)
+        public virtual async Task Draw(IJSUnmarshalledRuntime ctx)
         {
             OldBoundingRectangle = BoundingRectangle;
             Invalidated = false;
 
-            if (!IsShown)
-            {
-                return;
-            }
+            if (!IsShown) return;
 
-            await ctx.FillStyleAsync(FillColorName);
+            ctx.fillStyle(FillColorName);
 
-            await ctx.StrokeStyleAsync(BorderColorName);
+            ctx.strokeStyle(BorderColorName);
 
-            await ctx.LineWidthAsync(BorderThickness);
+            ctx.lineWidth(BorderThickness);
 
 
             await CustomDraw(ctx);
 
-            foreach (var child in Children)
-            {
-                await child.Draw(ctx);
-            }
+            foreach (var child in Children) await child.Draw(ctx);
 
             if (!string.IsNullOrEmpty(Text))
             {
-                await ctx.TextAlignAsync(TextAlign.Center);
-                await ctx.FillStyleAsync("black");
-                await ctx.FillTextAsync(Text, BoundingRectangle.Center.X, BoundingRectangle.Center.Y);
+                ctx.textAlign("center");
+                ctx.fillStyle("black");
+                ctx.fillText(Text, BoundingRectangle.Center.X, BoundingRectangle.Center.Y);
             }
         }
 
@@ -149,36 +144,22 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {
-            if (!component.BoundingRectangle.CollidesWith(BoundingRectangle))
-            {
-                return false;
-            }
+            if (!component.BoundingRectangle.CollidesWith(BoundingRectangle)) return false;
 
             foreach (var child in Children)
-            {
                 if (child.CollidesWith(component, collisionDetector))
-                {
                     return true;
-                }
-            }
 
             return false;
         }
 
         public virtual bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
         {
-            if (!BoundingRectangle.CollidesWith(primitive.BoundingRectangle))
-            {
-                return false;
-            }
+            if (!BoundingRectangle.CollidesWith(primitive.BoundingRectangle)) return false;
 
             foreach (var child in Children)
-            {
                 if (child.CollidesWith(primitive, collisionDetector))
-                {
                     return true;
-                }
-            }
 
             return false;
         }
@@ -189,10 +170,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Translate(Vector2 delta)
         {
-            foreach (var child in Children)
-            {
-                child.Translate(delta);
-            }
+            foreach (var child in Children) child.Translate(delta);
 
             UpdateBoundingRectangle();
 
@@ -201,10 +179,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Rotate(float theta)
         {
-            foreach (var child in Children)
-            {
-                child.Rotate(theta);
-            }
+            foreach (var child in Children) child.Rotate(theta);
 
             UpdateBoundingRectangle();
             Invalidated = true;
@@ -212,10 +187,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Rotate(Vector2 rotationCenter, float theta)
         {
-            foreach (var child in Children)
-            {
-                child.Rotate(rotationCenter, theta);
-            }
+            foreach (var child in Children) child.Rotate(rotationCenter, theta);
 
             UpdateBoundingRectangle();
             Invalidated = true;
@@ -223,10 +195,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Scale(Vector2 delta)
         {
-            foreach (var child in Children)
-            {
-                child.Scale(delta);
-            }
+            foreach (var child in Children) child.Scale(delta);
 
             UpdateBoundingRectangle();
             Invalidated = true;
@@ -234,10 +203,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Skew(Vector2 delta)
         {
-            foreach (var child in Children)
-            {
-                child.Skew(delta);
-            }
+            foreach (var child in Children) child.Skew(delta);
 
             UpdateBoundingRectangle();
             Invalidated = true;
