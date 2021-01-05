@@ -17,7 +17,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         {
             PolyLine = polyLine;
             OldBoundingRectangle = BoundingRectangle =
-                Children.ToBoundingRectangle().Combine(ConvexHull.BoundingRectangle);
+                Children.ToBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
         }
 
         public PolyLine PolyLine
@@ -26,11 +26,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             set
             {
                 _polyLine = value;
-                ConvexHull = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
+                MarginPolygon = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
             }
         }
 
-        public Polygon ConvexHull { get; set; }
+        public Polygon MarginPolygon { get; set; }
 
         public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
         {
@@ -50,7 +50,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Translate(Vector2 delta)
         {
             PolyLine.Translate(delta);
-            ConvexHull.Translate(delta);
+            MarginPolygon.Translate(delta);
 
             base.Translate(delta);
         }
@@ -58,7 +58,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Scale(Vector2 delta)
         {
             PolyLine.Scale(delta);
-            ConvexHull = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
+            MarginPolygon = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
 
             base.Scale(delta);
         }
@@ -66,7 +66,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Rotate(float theta)
         {
             PolyLine.Rotate(theta);
-            ConvexHull = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
+            MarginPolygon = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
 
             base.Rotate(theta);
         }
@@ -74,7 +74,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Rotate(Vector2 rotationCenter, float theta)
         {
             PolyLine.Rotate(rotationCenter, theta);
-            ConvexHull = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
+            MarginPolygon = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
 
             base.Rotate(rotationCenter, theta);
         }
@@ -82,7 +82,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Skew(Vector2 delta)
         {
             PolyLine.Skew(delta);
-            ConvexHull = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
+            MarginPolygon = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
 
             base.Skew(delta);
         }
@@ -93,19 +93,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = base.UpdateBoundingRectangle().Combine(ConvexHull.BoundingRectangle);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
             return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {
-            return component.CollidesWith(ConvexHull, collisionDetector) ||
+            return component.CollidesWith(MarginPolygon, collisionDetector) ||
                    base.CollidesWith(component, collisionDetector);
         }
 
         public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
         {
-            return primitive.CollidesWith(ConvexHull, collisionDetector) ||
+            return primitive.CollidesWith(MarginPolygon, collisionDetector) ||
                    base.CollidesWith(primitive, collisionDetector);
         }
 

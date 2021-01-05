@@ -13,7 +13,9 @@ namespace Aptacode.Geometry.Primitives.Polygons
         public Triangle(Vector2 p1, Vector2 p2, Vector2 p3) : base(VertexArray.Create(p1, p2, p3))
         {
             if (p1 == p2 || p1 == p3 || p2 == p3)
+            {
                 throw new ArgumentException("A triangle must have three distinct points");
+            }
         }
 
         protected Triangle(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) :

@@ -37,9 +37,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             movingComponents.AddRange(collidingItems);
 
             foreach (var collidingItem in collidingItems)
+            {
                 Translate(collidingItem, delta, movingComponents, cancellationToken);
+            }
 
-            if (cancellationToken.IsCancellationRequested) component.Translate(-delta);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                component.Translate(-delta);
+            }
         }
 
         #endregion

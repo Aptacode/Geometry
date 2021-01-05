@@ -16,10 +16,16 @@ namespace Aptacode.Geometry.Collision.Rectangles
             var r2 = p2.BottomRight;
 
             // If one rectangle is on left side of other 
-            if (l1.X > r2.X || l2.X > r1.X) return false;
+            if (l1.X > r2.X || l2.X > r1.X)
+            {
+                return false;
+            }
 
             // If one rectangle is above other 
-            if (l1.Y > r2.Y || l2.Y > r1.Y) return false;
+            if (l1.Y > r2.Y || l2.Y > r1.Y)
+            {
+                return false;
+            }
 
             return true;
         }
@@ -92,13 +98,25 @@ namespace Aptacode.Geometry.Collision.Rectangles
             foreach (var primitive in primitives)
             {
                 var boundingRectangle = primitive.BoundingRectangle;
-                if (boundingRectangle.TopLeft.X < minX) minX = boundingRectangle.TopLeft.X;
+                if (boundingRectangle.TopLeft.X < minX)
+                {
+                    minX = boundingRectangle.TopLeft.X;
+                }
 
-                if (boundingRectangle.TopLeft.Y < minY) minY = boundingRectangle.TopLeft.Y;
+                if (boundingRectangle.TopLeft.Y < minY)
+                {
+                    minY = boundingRectangle.TopLeft.Y;
+                }
 
-                if (boundingRectangle.BottomRight.X > maxX) maxX = boundingRectangle.BottomRight.X;
+                if (boundingRectangle.BottomRight.X > maxX)
+                {
+                    maxX = boundingRectangle.BottomRight.X;
+                }
 
-                if (boundingRectangle.BottomRight.Y > maxY) maxY = boundingRectangle.BottomRight.Y;
+                if (boundingRectangle.BottomRight.Y > maxY)
+                {
+                    maxY = boundingRectangle.BottomRight.Y;
+                }
             }
 
             return BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY));
@@ -113,13 +131,25 @@ namespace Aptacode.Geometry.Collision.Rectangles
             for (var i = 0; i < vertexArray.Length; i++)
             {
                 var vertex = vertexArray[i];
-                if (vertex.X > maxX) maxX = vertex.X;
+                if (vertex.X > maxX)
+                {
+                    maxX = vertex.X;
+                }
 
-                if (vertex.Y > maxY) maxY = vertex.Y;
+                if (vertex.Y > maxY)
+                {
+                    maxY = vertex.Y;
+                }
 
-                if (vertex.X < minX) minX = vertex.X;
+                if (vertex.X < minX)
+                {
+                    minX = vertex.X;
+                }
 
-                if (vertex.Y < minY) minY = vertex.Y;
+                if (vertex.Y < minY)
+                {
+                    minY = vertex.Y;
+                }
             }
 
             return BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY));

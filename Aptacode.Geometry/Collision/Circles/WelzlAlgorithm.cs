@@ -9,6 +9,7 @@ namespace Aptacode.Geometry.Collision.Circles
             int boundarySetIndex)
         {
             if (n == 0 || boundarySetIndex == 2)
+            {
                 return boundarySetIndex switch
                 {
                     0 => BoundingCircle.Zero,
@@ -16,15 +17,22 @@ namespace Aptacode.Geometry.Collision.Circles
                     2 => BoundingCircle.FromTwoPoints(boundarySet[0], boundarySet[1]),
                     _ => BoundingCircle.FromThreePoints(boundarySet[0], boundarySet[1], boundarySet[2])
                 };
+            }
 
             var index = n - 1;
             var p = points[index];
 
             var d = Compute(points, boundarySet, index, boundarySetIndex);
 
-            if (d.Contains(p)) return d;
+            if (d.Contains(p))
+            {
+                return d;
+            }
 
-            if (boundarySetIndex == 3) boundarySetIndex = 0;
+            if (boundarySetIndex == 3)
+            {
+                boundarySetIndex = 0;
+            }
 
             boundarySet[boundarySetIndex] = p;
             boundarySetIndex++;

@@ -24,7 +24,10 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender) await JsRuntime.InvokeVoidAsync("SetFocusToElement", Container);
+            if (firstRender)
+            {
+                await JsRuntime.InvokeVoidAsync("SetFocusToElement", Container);
+            }
         }
 
         public void MouseDown(MouseEventArgs e)

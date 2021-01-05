@@ -31,13 +31,18 @@ namespace Aptacode.Geometry.Primitives
 
         public static Polygon Create(params float[] points)
         {
-            if (points.Length < 3) return Zero;
+            if (points.Length < 3)
+            {
+                return Zero;
+            }
 
             var vertices = new Vector2[points.Length / 2];
 
             var pointIndex = 0;
             for (var i = 0; i < vertices.Length; i++)
+            {
                 vertices[i] = new Vector2(points[pointIndex++], points[pointIndex++]);
+            }
 
             return new Polygon(VertexArray.Create(vertices));
         }
@@ -56,7 +61,10 @@ namespace Aptacode.Geometry.Primitives
         private (Vector2 p1, Vector2 p2)[] CalculateEdges()
         {
             var edges = new (Vector2 p1, Vector2 p2)[Vertices.Length];
-            for (var i = 0; i < Vertices.Length - 1; i++) edges[i] = (Vertices[i], Vertices[i + 1]);
+            for (var i = 0; i < Vertices.Length - 1; i++)
+            {
+                edges[i] = (Vertices[i], Vertices[i + 1]);
+            }
 
             edges[Vertices.Length - 1] = (Vertices[^1], Vertices[0]);
 
@@ -73,11 +81,13 @@ namespace Aptacode.Geometry.Primitives
         public override Polygon Translate(Vector2 delta)
         {
             if (_edges != null)
+            {
                 for (var i = 0; i < _edges.Length; i++)
                 {
                     var (p1, p2) = _edges[i];
                     _edges[i] = (p1 + delta, p2 + delta);
                 }
+            }
 
             base.Translate(delta);
             return this;

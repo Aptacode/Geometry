@@ -37,7 +37,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public async Task RedrawAsync()
         {
-            if (JSUnmarshalledRuntime == null) return;
+            if (JSUnmarshalledRuntime == null)
+            {
+                return;
+            }
 
             var currentTime = DateTime.Now;
             var delta = currentTime - _lastTick;
@@ -68,9 +71,13 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             {
                 var component = Components[i];
                 if (component.Invalidated)
+                {
                     invalidItems.Add(component);
+                }
                 else
+                {
                     validItems.Add(component);
+                }
             }
 
 
@@ -140,14 +147,20 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public void BringToFront(ComponentViewModel componentViewModel)
         {
-            if (!Components.Remove(componentViewModel)) return;
+            if (!Components.Remove(componentViewModel))
+            {
+                return;
+            }
 
             Components.Add(componentViewModel);
         }
 
         public void SendToBack(ComponentViewModel componentViewModel)
         {
-            if (!Components.Remove(componentViewModel)) return;
+            if (!Components.Remove(componentViewModel))
+            {
+                return;
+            }
 
             Components.Insert(0, componentViewModel);
         }
@@ -155,7 +168,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public void BringForward(ComponentViewModel componentViewModel)
         {
             var index = Components.IndexOf(componentViewModel);
-            if (index == Components.Count - 1) return;
+            if (index == Components.Count - 1)
+            {
+                return;
+            }
 
             Components.RemoveAt(index);
             Components.Insert(index + 1, componentViewModel);
@@ -164,7 +180,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public void SendBackward(ComponentViewModel componentViewModel)
         {
             var index = Components.IndexOf(componentViewModel);
-            if (index == 0) return;
+            if (index == 0)
+            {
+                return;
+            }
 
             Components.RemoveAt(index);
             Components.Insert(index - 1, componentViewModel);

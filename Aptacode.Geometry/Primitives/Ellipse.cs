@@ -117,12 +117,18 @@ namespace Aptacode.Geometry.Primitives
 
         public static bool QuarticHasRealRoots(double u0, double u1, double u2, double u3, double u4)
         {
-            if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) > Constants.Tolerance) return true;
+            if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) > Constants.Tolerance)
+            {
+                return true;
+            }
 
             if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) < Constants.Tolerance && u2 != 0)
             {
                 var det = u1 * u1 - 4 * u2 * u0;
-                if (Math.Abs(det) < Constants.Tolerance) return true;
+                if (Math.Abs(det) < Constants.Tolerance)
+                {
+                    return true;
+                }
 
                 return det >= 0;
             }
@@ -144,7 +150,10 @@ namespace Aptacode.Geometry.Primitives
                         - 4 * u3 * u3 * u2 * u2 * u2 * u0
                         + u3 * u3 * u2 * u2 * u1 * u1;
 
-            if (delta < 0 && Math.Abs(delta) > 0.01f) return true;
+            if (delta < 0 && Math.Abs(delta) > 0.01f)
+            {
+                return true;
+            }
 
             var p = 8 * u4 * u2 - 3 * u3 * u3;
             var d = 64 * u4 * u4 * u4 * u0
@@ -153,7 +162,10 @@ namespace Aptacode.Geometry.Primitives
                     - 16 * u4 * u4 * u3 * u1
                     - 3 * u3 * u3 * u3 * u3;
 
-            if (p > 0 && Math.Abs(p) > Constants.Tolerance || d > 0) return false;
+            if (p > 0 && Math.Abs(p) > Constants.Tolerance || d > 0)
+            {
+                return false;
+            }
 
             return true;
         }

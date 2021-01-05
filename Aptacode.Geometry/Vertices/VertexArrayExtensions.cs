@@ -11,9 +11,15 @@ namespace Aptacode.Geometry.Vertices
         {
             var newVertices = new Vector2[vertexArray.Length + vertices.Length];
             var count = 0;
-            for (var i = 0; i < vertexArray.Length; i++) newVertices[count++] = vertexArray[i];
+            for (var i = 0; i < vertexArray.Length; i++)
+            {
+                newVertices[count++] = vertexArray[i];
+            }
 
-            for (var i = 0; i < vertices.Length; i++) newVertices[count++] = vertices[i];
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                newVertices[count++] = vertices[i];
+            }
 
             return new VertexArray(newVertices);
         }
@@ -22,9 +28,15 @@ namespace Aptacode.Geometry.Vertices
         {
             var newVertices = new Vector2[vertexArrayA.Length + vertexArrayB.Length];
             var count = 0;
-            for (var i = 0; i < vertexArrayA.Length; i++) newVertices[count++] = vertexArrayA[i];
+            for (var i = 0; i < vertexArrayA.Length; i++)
+            {
+                newVertices[count++] = vertexArrayA[i];
+            }
 
-            for (var i = 0; i < vertexArrayB.Length; i++) newVertices[count++] = vertexArrayB[i];
+            for (var i = 0; i < vertexArrayB.Length; i++)
+            {
+                newVertices[count++] = vertexArrayB[i];
+            }
 
             return new VertexArray(newVertices);
         }
@@ -35,8 +47,12 @@ namespace Aptacode.Geometry.Vertices
             var newVertices = new Vector2[totalVertices];
             var count = 0;
             foreach (var array in vertexArrays)
+            {
                 for (var i = 0; i < array.Length; i++)
+                {
                     newVertices[count++] = array[i];
+                }
+            }
 
             return new VertexArray(newVertices);
         }
@@ -73,7 +89,10 @@ namespace Aptacode.Geometry.Vertices
         {
             var val = (q.Y - p.Y) * (r.X - q.X) - (q.X - p.X) * (r.Y - q.Y);
 
-            if (val == 0) return 0; // collinear 
+            if (val == 0)
+            {
+                return 0; // collinear 
+            }
 
             return val > 0 ? 1 : 2; // clock or counterclock wise 
         }
@@ -82,7 +101,10 @@ namespace Aptacode.Geometry.Vertices
         public static Vector2[] ToConvexHull(this Vector2[] points, int n)
         {
             // There must be at least 3 points 
-            if (n < 3) return Array.Empty<Vector2>();
+            if (n < 3)
+            {
+                return Array.Empty<Vector2>();
+            }
 
             // Initialize Result 
             var hull = new List<Vector2>();
@@ -90,8 +112,12 @@ namespace Aptacode.Geometry.Vertices
             // Find the leftmost point 
             var l = 0;
             for (var i = 1; i < n; i++)
+            {
                 if (points[i].X < points[l].X)
+                {
                     l = i;
+                }
+            }
 
             // Start from leftmost point, keep moving  
             // counterclockwise until reach the start point 
@@ -112,11 +138,15 @@ namespace Aptacode.Geometry.Vertices
                 q = (p + 1) % n;
 
                 for (var i = 0; i < n; i++)
+                {
                     // If i is more counterclockwise than  
                     // current q, then update q 
                     if (Orientation(points[p], points[i], points[q])
                         == 2)
+                    {
                         q = i;
+                    }
+                }
 
                 // Now q is the most counterclockwise with 
                 // respect to p. Set p as q for next iteration,  
@@ -136,7 +166,9 @@ namespace Aptacode.Geometry.Vertices
         {
             var translationMatrix = Matrix3x2.CreateTranslation(delta);
             for (var i = 0; i < vertexArray.Length; i++)
+            {
                 vertexArray[i] = Vector2.Transform(vertexArray[i], translationMatrix);
+            }
 
             return vertexArray;
         }
@@ -145,7 +177,9 @@ namespace Aptacode.Geometry.Vertices
         {
             var rotationMatrix = Matrix3x2.CreateRotation(theta, rotationCenter);
             for (var i = 0; i < vertexArray.Length; i++)
+            {
                 vertexArray[i] = Vector2.Transform(vertexArray[i], rotationMatrix);
+            }
 
             return vertexArray;
         }
@@ -154,7 +188,9 @@ namespace Aptacode.Geometry.Vertices
         {
             var scaleMatrix = Matrix3x2.CreateScale(delta, scaleCenter);
             for (var i = 0; i < vertexArray.Length; i++)
+            {
                 vertexArray[i] = Vector2.Transform(vertexArray[i], scaleMatrix);
+            }
 
             return vertexArray;
         }
@@ -163,7 +199,9 @@ namespace Aptacode.Geometry.Vertices
         {
             var shearMatrix = new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0); //Not 100% on this one.
             for (var i = 0; i < vertexArray.Length; i++)
+            {
                 vertexArray[i] = Vector2.Transform(vertexArray[i], shearMatrix);
+            }
 
             return vertexArray;
         }

@@ -26,11 +26,17 @@ namespace Aptacode.Geometry.Primitives
 
         public static PolyLine Create(params float[] points)
         {
-            if (points.Length < 2) return Zero;
+            if (points.Length < 2)
+            {
+                return Zero;
+            }
 
             var vertices = new Vector2[points.Length / 2];
             var count = 0;
-            for (var i = 0; i < points.Length; i += 2) vertices[count++] = new Vector2(points[i], points[i + 1]);
+            for (var i = 0; i < points.Length; i += 2)
+            {
+                vertices[count++] = new Vector2(points[i], points[i + 1]);
+            }
 
             return new PolyLine(VertexArray.Create(vertices));
         }
@@ -54,7 +60,10 @@ namespace Aptacode.Geometry.Primitives
         private (Vector2 p1, Vector2 p2)[] CalculateLineSegments()
         {
             var lineSegments = new (Vector2 p1, Vector2 p2)[Vertices.Length - 1];
-            for (var i = 0; i < Vertices.Length - 1; i++) lineSegments[i] = (Vertices[i], Vertices[i + 1]);
+            for (var i = 0; i < Vertices.Length - 1; i++)
+            {
+                lineSegments[i] = (Vertices[i], Vertices[i + 1]);
+            }
 
             return lineSegments;
         }

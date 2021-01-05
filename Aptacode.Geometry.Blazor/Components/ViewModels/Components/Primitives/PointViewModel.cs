@@ -18,7 +18,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         {
             Point = point;
             OldBoundingRectangle = BoundingRectangle =
-                Children.ToBoundingRectangle().Combine(ConvexHull.BoundingRectangle);
+                Children.ToBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
         }
 
         public Point Point
@@ -27,11 +27,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             set
             {
                 _point = value;
-                ConvexHull = new Polygon(_point.Vertices.ToConvexHull(Margin));
+                MarginPolygon = new Polygon(_point.Vertices.ToConvexHull(Margin));
             }
         }
 
-        public Polygon ConvexHull { get; set; }
+        public Polygon MarginPolygon { get; set; }
 
         public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
         {
@@ -46,35 +46,35 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Translate(Vector2 delta)
         {
             Point.Translate(delta);
-            ConvexHull.Translate(delta);
+            MarginPolygon.Translate(delta);
             base.Translate(delta);
         }
 
         public override void Scale(Vector2 delta)
         {
             Point.Scale(delta);
-            ConvexHull.Scale(delta);
+            MarginPolygon.Scale(delta);
             base.Scale(delta);
         }
 
         public override void Rotate(float theta)
         {
             Point.Rotate(theta);
-            ConvexHull.Rotate(theta);
+            MarginPolygon.Rotate(theta);
             base.Rotate(theta);
         }
 
         public override void Rotate(Vector2 rotationCenter, float theta)
         {
             Point.Rotate(rotationCenter, theta);
-            ConvexHull.Rotate(rotationCenter, theta);
+            MarginPolygon.Rotate(rotationCenter, theta);
             base.Rotate(rotationCenter, theta);
         }
 
         public override void Skew(Vector2 delta)
         {
             Point.Skew(delta);
-            ConvexHull.Skew(delta);
+            MarginPolygon.Skew(delta);
             base.Skew(delta);
         }
 
@@ -84,19 +84,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = base.UpdateBoundingRectangle().Combine(ConvexHull.BoundingRectangle);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
             return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {
-            return component.CollidesWith(ConvexHull, collisionDetector) ||
+            return component.CollidesWith(MarginPolygon, collisionDetector) ||
                    base.CollidesWith(component, collisionDetector);
         }
 
         public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
         {
-            return primitive.CollidesWith(ConvexHull, collisionDetector) ||
+            return primitive.CollidesWith(MarginPolygon, collisionDetector) ||
                    base.CollidesWith(primitive, collisionDetector);
         }
 

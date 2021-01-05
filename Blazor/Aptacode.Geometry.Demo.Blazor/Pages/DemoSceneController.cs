@@ -22,7 +22,10 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         private void UserInteractionControllerOnOnMouseMoved(object? sender, Vector2 e)
         {
-            if (SelectedComponent == null) return;
+            if (SelectedComponent == null)
+            {
+                return;
+            }
 
             var delta = e - UserInteractionController.LastMousePosition;
 
@@ -32,7 +35,10 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         private void UserInteractionControllerOnOnMouseUp(object? sender, Vector2 e)
         {
-            foreach (var componentViewModel in Scene.Components) componentViewModel.BorderColor = Color.Black;
+            foreach (var componentViewModel in Scene.Components)
+            {
+                componentViewModel.BorderColor = Color.Black;
+            }
 
             SelectedComponent = null;
         }

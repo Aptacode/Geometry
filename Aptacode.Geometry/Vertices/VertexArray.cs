@@ -25,7 +25,10 @@ namespace Aptacode.Geometry.Vertices
 
             var Vertices = new Vector2[length];
             Vertices[0] = p1;
-            for (var i = 1; i < length; i++) Vertices[i] = vertices[i - 1];
+            for (var i = 1; i < length; i++)
+            {
+                Vertices[i] = vertices[i - 1];
+            }
 
             return new VertexArray(Vertices);
         }
@@ -37,7 +40,10 @@ namespace Aptacode.Geometry.Vertices
             var Vertices = new Vector2[length];
             Vertices[0] = p1;
             Vertices[1] = p2;
-            for (var i = 2; i < length; i++) Vertices[i] = vertices[i - 2];
+            for (var i = 2; i < length; i++)
+            {
+                Vertices[i] = vertices[i - 2];
+            }
 
             return new VertexArray(Vertices);
         }
@@ -50,7 +56,10 @@ namespace Aptacode.Geometry.Vertices
             Vertices[0] = p1;
             Vertices[1] = p2;
             Vertices[2] = p3;
-            for (var i = 3; i < length; i++) Vertices[i] = vertices[i - 3];
+            for (var i = 3; i < length; i++)
+            {
+                Vertices[i] = vertices[i - 3];
+            }
 
             return new VertexArray(Vertices);
         }
@@ -88,12 +97,18 @@ namespace Aptacode.Geometry.Vertices
 
         public static bool operator ==(VertexArray lhs, VertexArray rhs)
         {
-            if (lhs.Length != rhs.Length) return false;
+            if (lhs.Length != rhs.Length)
+            {
+                return false;
+            }
 
             for (var i = 0; i < lhs.Length; i++)
             {
                 var delta = lhs[i] - rhs[i];
-                if (Math.Abs(delta.X + delta.Y) > Constants.Tolerance) return false;
+                if (Math.Abs(delta.X + delta.Y) > Constants.Tolerance)
+                {
+                    return false;
+                }
             }
 
             return true;

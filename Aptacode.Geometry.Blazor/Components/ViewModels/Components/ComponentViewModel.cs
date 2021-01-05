@@ -42,7 +42,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             OldBoundingRectangle = BoundingRectangle;
             Invalidated = false;
 
-            if (!IsShown) return;
+            if (!IsShown)
+            {
+                return;
+            }
 
             ctx.fillStyle(FillColorName);
 
@@ -53,7 +56,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
             await CustomDraw(ctx);
 
-            foreach (var child in Children) await child.Draw(ctx);
+            foreach (var child in Children)
+            {
+                await child.Draw(ctx);
+            }
 
             if (!string.IsNullOrEmpty(Text))
             {
@@ -144,22 +150,36 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {
-            if (!component.BoundingRectangle.CollidesWith(BoundingRectangle)) return false;
+            if (!component.BoundingRectangle.CollidesWith(BoundingRectangle))
+            {
+                return false;
+            }
 
             foreach (var child in Children)
+            {
                 if (child.CollidesWith(component, collisionDetector))
+                {
                     return true;
+                }
+            }
 
             return false;
         }
 
         public virtual bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
         {
-            if (!BoundingRectangle.CollidesWith(primitive.BoundingRectangle)) return false;
+            if (!BoundingRectangle.CollidesWith(primitive.BoundingRectangle))
+            {
+                return false;
+            }
 
             foreach (var child in Children)
+            {
                 if (child.CollidesWith(primitive, collisionDetector))
+                {
                     return true;
+                }
+            }
 
             return false;
         }
@@ -170,7 +190,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Translate(Vector2 delta)
         {
-            foreach (var child in Children) child.Translate(delta);
+            foreach (var child in Children)
+            {
+                child.Translate(delta);
+            }
 
             UpdateBoundingRectangle();
 
@@ -179,7 +202,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Rotate(float theta)
         {
-            foreach (var child in Children) child.Rotate(theta);
+            foreach (var child in Children)
+            {
+                child.Rotate(theta);
+            }
 
             UpdateBoundingRectangle();
             Invalidated = true;
@@ -187,7 +213,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Rotate(Vector2 rotationCenter, float theta)
         {
-            foreach (var child in Children) child.Rotate(rotationCenter, theta);
+            foreach (var child in Children)
+            {
+                child.Rotate(rotationCenter, theta);
+            }
 
             UpdateBoundingRectangle();
             Invalidated = true;
@@ -195,7 +224,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Scale(Vector2 delta)
         {
-            foreach (var child in Children) child.Scale(delta);
+            foreach (var child in Children)
+            {
+                child.Scale(delta);
+            }
 
             UpdateBoundingRectangle();
             Invalidated = true;
@@ -203,7 +235,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void Skew(Vector2 delta)
         {
-            foreach (var child in Children) child.Skew(delta);
+            foreach (var child in Children)
+            {
+                child.Skew(delta);
+            }
 
             UpdateBoundingRectangle();
             Invalidated = true;
