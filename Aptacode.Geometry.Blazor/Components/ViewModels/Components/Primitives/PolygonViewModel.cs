@@ -11,15 +11,29 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
     public class PolygonViewModel : ComponentViewModel
     {
-        private Polygon _polygon;
+        #region Ctor
 
-        public PolygonViewModel(Polygon polygon)
+        public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
         {
-            Polygon = polygon;
-            OldBoundingRectangle = BoundingRectangle =
-                Children.ToBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
-        }
+            ctx.beginPath();
 
+            ctx.moveTo((int)Polygon.Vertices[0].X, (int)Polygon.Vertices[0].Y);
+            for (var i = 1; i < Polygon.Vertices.Length; i++)
+            {
+                var vertex = Polygon.Vertices[i];
+                ctx.lineTo((int)vertex.X, (int)vertex.Y);
+            }
+
+            ctx.closePath();
+            ctx.Fill();
+            ctx.Stroke();
+        }
+        
+        #endregion
+
+        #region Props
+
+        private Polygon _polygon;
         public Polygon Polygon
         {
             get => _polygon;
@@ -32,21 +46,18 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public Polygon MarginPolygon { get; set; }
 
-        public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
+        #endregion
+
+        #region Canvas
+
+        public PolygonViewModel(Polygon polygon)
         {
-            ctx.beginPath();
-
-            ctx.moveTo((int) Polygon.Vertices[0].X, (int) Polygon.Vertices[0].Y);
-            for (var i = 1; i < Polygon.Vertices.Length; i++)
-            {
-                var vertex = Polygon.Vertices[i];
-                ctx.lineTo((int) vertex.X, (int) vertex.Y);
-            }
-
-            ctx.closePath();
-            ctx.Fill();
-            ctx.Stroke();
+            Polygon = polygon;
+            OldBoundingRectangle = BoundingRectangle =
+                Children.ToBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
         }
+
+        #endregion
 
         #region Transformations
 

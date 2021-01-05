@@ -31,7 +31,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             var connectionPoint = new ConnectionPointViewModel(this, ellipse);
             ConnectionPoints.Add(connectionPoint);
 
-            Children.Add(connectionPoint);
+            Add(connectionPoint);
             return connectionPoint;
         }
 

@@ -18,7 +18,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
         public ComponentViewModel()
         {
             Id = Guid.NewGuid();
-            Children = new List<ComponentViewModel>();
             CollisionDetectionEnabled = true;
             Margin = DefaultMargin;
             Invalidated = true;
@@ -26,7 +25,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             BorderThickness = DefaultBorderThickness;
             BorderColor = Color.Black;
             FillColor = Color.Black;
-            OldBoundingRectangle = BoundingRectangle = Children.ToBoundingRectangle();
+            OldBoundingRectangle = BoundingRectangle = _children.ToBoundingRectangle();
         }
 
         #endregion
@@ -56,7 +55,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
             await CustomDraw(ctx);
 
-            foreach (var child in Children)
+            foreach (var child in _children)
             {
                 await child.Draw(ctx);
             }
@@ -73,17 +72,33 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         #region Children
 
-        public List<ComponentViewModel> Children { get; }
+        private readonly List<ComponentViewModel> _children = new();
 
+        public IEnumerable<ComponentViewModel> Children => _children;
+        
         public virtual BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = Children.ToBoundingRectangle();
+            BoundingRectangle = _children.ToBoundingRectangle();
             return BoundingRectangle;
         }
 
         public void Add(ComponentViewModel child)
         {
-            Children.Add(child);
+            _children.Add(child);
+            UpdateBoundingRectangle();
+        }
+        
+        public void AddRange(IEnumerable<ComponentViewModel> children)
+        {
+            foreach (var child in children)
+            {
+                _children.Add(child);
+            }
+            UpdateBoundingRectangle();
+        }
+        public void Remove(ComponentViewModel child)
+        {
+            _children.Add(child);
             UpdateBoundingRectangle();
         }
 

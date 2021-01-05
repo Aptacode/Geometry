@@ -11,7 +11,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
     public class EllipseViewModel : ComponentViewModel
     {
-        private Ellipse _ellipse;
 
         #region Ctor
 
@@ -24,6 +23,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         #endregion
 
+        #region Props
+
+        private Ellipse _ellipse;
         public Ellipse Ellipse
         {
             get => _ellipse;
@@ -37,15 +39,22 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public Ellipse MarginEllipse { get; set; }
 
+        #endregion
+
+        #region Canvase
+
         public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
         {
             ctx.beginPath();
 
-            ctx.ellipse((int) Ellipse.Position.X, (int) Ellipse.Position.Y, (int) Ellipse.Radii.X,
-                (int) Ellipse.Radii.Y, Ellipse.Rotation, 0, 2.0f * (float) Math.PI);
+            ctx.ellipse((int)Ellipse.Position.X, (int)Ellipse.Position.Y, (int)Ellipse.Radii.X,
+                (int)Ellipse.Radii.Y, Ellipse.Rotation, 0, 2.0f * (float)Math.PI);
             ctx.Fill();
             ctx.Stroke();
         }
+
+        #endregion
+
 
         #region Transformations
 

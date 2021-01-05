@@ -12,8 +12,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
     public class PointViewModel : ComponentViewModel
     {
-        private Point _point;
 
+        #region Ctor
+        
         public PointViewModel(Point point)
         {
             Point = point;
@@ -21,6 +22,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
                 Children.ToBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
         }
 
+        #endregion
+
+        #region Props
+
+        private Point _point;
         public Point Point
         {
             get => _point;
@@ -33,13 +39,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public Polygon MarginPolygon { get; set; }
 
+        #endregion
+
+        #region Canvas
+        
         public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
         {
             ctx.beginPath();
-            ctx.ellipse((int) Point.Position.X, (int) Point.Position.Y, 1, 1, 0, 0, 2 * (float) Math.PI);
+            ctx.ellipse((int)Point.Position.X, (int)Point.Position.Y, 1, 1, 0, 0, 2 * (float)Math.PI);
             ctx.Fill();
             ctx.Stroke();
         }
+
+        #endregion
 
         #region Transformations
 

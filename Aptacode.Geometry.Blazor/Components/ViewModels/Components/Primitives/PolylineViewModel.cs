@@ -11,7 +11,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
     public class PolylineViewModel : ComponentViewModel
     {
-        private PolyLine _polyLine;
+        #region Ctor
 
         public PolylineViewModel(PolyLine polyLine)
         {
@@ -20,6 +20,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
                 Children.ToBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
         }
 
+        #endregion
+
+        #region Props
+
+        private PolyLine _polyLine;
         public PolyLine PolyLine
         {
             get => _polyLine;
@@ -31,6 +36,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         }
 
         public Polygon MarginPolygon { get; set; }
+
+        #endregion
+
+        #region Canvas
 
         public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
         {
@@ -44,6 +53,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
             ctx.Stroke();
         }
+
+        #endregion
 
         #region Transformations
 

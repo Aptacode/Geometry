@@ -57,7 +57,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
             component.Text = _text;
             component.Margin = _margin;
 
-            component.Children.AddRange(_children);
+            component.AddRange(_children);
             component.UpdateBoundingRectangle();
 
             Reset();
