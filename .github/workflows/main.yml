@@ -14,7 +14,7 @@ jobs:
       with:
         dotnet-version: 5.0.100
     - name: Publish with dotnet
-      run: dotnet publish --configuration Release --output build
+      run: dotnet publish --configuration Release --output build --nologo
     - name: Deploy to Github Pages
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
