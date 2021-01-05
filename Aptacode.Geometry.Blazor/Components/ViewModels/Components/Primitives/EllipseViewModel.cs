@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using System.Threading.Tasks;
+using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
@@ -43,11 +44,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         #region Canvase
 
-        public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
+        public override async Task CustomDraw(BlazorCanvasInterop ctx)
         {
-            ctx.beginPath();
+            ctx.BeginPath();
 
-            ctx.ellipse((int)Ellipse.Position.X, (int)Ellipse.Position.Y, (int)Ellipse.Radii.X,
+            ctx.Ellipse((int)Ellipse.Position.X, (int)Ellipse.Position.Y, (int)Ellipse.Radii.X,
                 (int)Ellipse.Radii.Y, Ellipse.Rotation, 0, 2.0f * (float)Math.PI);
             ctx.Fill();
             ctx.Stroke();

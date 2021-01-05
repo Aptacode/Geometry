@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using System.Threading.Tasks;
+using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
@@ -13,18 +14,18 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
     {
         #region Ctor
 
-        public override async Task CustomDraw(IJSUnmarshalledRuntime ctx)
+        public override async Task CustomDraw(BlazorCanvasInterop ctx)
         {
-            ctx.beginPath();
+            ctx.BeginPath();
 
-            ctx.moveTo((int)Polygon.Vertices[0].X, (int)Polygon.Vertices[0].Y);
+            ctx.MoveTo((int)Polygon.Vertices[0].X, (int)Polygon.Vertices[0].Y);
             for (var i = 1; i < Polygon.Vertices.Length; i++)
             {
                 var vertex = Polygon.Vertices[i];
-                ctx.lineTo((int)vertex.X, (int)vertex.Y);
+                ctx.LineTo((int)vertex.X, (int)vertex.Y);
             }
 
-            ctx.closePath();
+            ctx.ClosePath();
             ctx.Fill();
             ctx.Stroke();
         }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using Aptacode.BlazorCanvas;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Collision;
@@ -58,7 +59,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         #endregion
 
-        public void SetRunTime(IJSUnmarshalledRuntime jsRuntime)
+        public void SetRunTime(BlazorCanvasInterop jsRuntime)
         {
             Scene.JSUnmarshalledRuntime = jsRuntime;
         }

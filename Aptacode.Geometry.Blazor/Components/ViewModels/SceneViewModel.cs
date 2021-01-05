@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
+using Aptacode.BlazorCanvas;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Collision.Rectangles;
@@ -21,7 +22,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         #endregion
 
-        public IJSUnmarshalledRuntime JSUnmarshalledRuntime { get; set; }
+        public BlazorCanvasInterop JSUnmarshalledRuntime { get; set; }
 
         #region Disposable
 
@@ -48,9 +49,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             _lastTick = currentTime;
 
             Console.WriteLine($"{frameRate}fps");
-            JSUnmarshalledRuntime.fillStyle(ComponentViewModel.DefaultFillColor);
-            JSUnmarshalledRuntime.strokeStyle(ComponentViewModel.DefaultBorderColor);
-            JSUnmarshalledRuntime.lineWidth(ComponentViewModel.DefaultBorderThickness);
+            JSUnmarshalledRuntime.FillStyle(ComponentViewModel.DefaultFillColor);
+            JSUnmarshalledRuntime.StrokeStyle(ComponentViewModel.DefaultBorderColor);
+            JSUnmarshalledRuntime.LineWidth(ComponentViewModel.DefaultBorderThickness);
 
             var invalidatedItems
                 = await InvalidateItems();
@@ -129,7 +130,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public async Task Invalidate(BoundingRectangle rectangle, float border)
         {
-            JSUnmarshalledRuntime.clearRect(rectangle.TopLeft.X - 4 * border, rectangle.TopLeft.Y - 4 * border,
+            JSUnmarshalledRuntime.ClearRect(rectangle.TopLeft.X - 4 * border, rectangle.TopLeft.Y - 4 * border,
                 rectangle.Size.X + 8 * border, rectangle.Size.Y + 8 * border);
         }
 

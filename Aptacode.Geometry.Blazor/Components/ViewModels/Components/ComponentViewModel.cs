@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
+using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
@@ -32,11 +33,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         #region Canvas
 
-        public virtual async Task CustomDraw(IJSUnmarshalledRuntime ctx)
+        public virtual async Task CustomDraw(BlazorCanvasInterop ctx)
         {
         }
 
-        public virtual async Task Draw(IJSUnmarshalledRuntime ctx)
+        public virtual async Task Draw(BlazorCanvasInterop ctx)
         {
             OldBoundingRectangle = BoundingRectangle;
             Invalidated = false;
@@ -46,11 +47,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
                 return;
             }
 
-            ctx.fillStyle(FillColorName);
+            ctx.FillStyle(FillColorName);
 
-            ctx.strokeStyle(BorderColorName);
+            ctx.StrokeStyle(BorderColorName);
 
-            ctx.lineWidth(BorderThickness);
+            ctx.LineWidth(BorderThickness);
 
 
             await CustomDraw(ctx);
@@ -62,9 +63,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
             if (!string.IsNullOrEmpty(Text))
             {
-                ctx.textAlign("center");
-                ctx.fillStyle("black");
-                ctx.fillText(Text, BoundingRectangle.Center.X, BoundingRectangle.Center.Y);
+                ctx.TextAlign("center");
+                ctx.FillStyle("black");
+                ctx.FillText(Text, BoundingRectangle.Center.X, BoundingRectangle.Center.Y);
             }
         }
 

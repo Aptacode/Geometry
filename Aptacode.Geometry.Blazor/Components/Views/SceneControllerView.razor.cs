@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
 using Aptacode.Geometry.Blazor.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -67,7 +68,7 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 
         protected ElementReference Container;
 
-        [Inject] public IJSUnmarshalledRuntime JSUnmarshalledRuntime { get; set; }
+        [Inject] public BlazorCanvasInterop JSUnmarshalledRuntime { get; set; }
 
         #endregion
     }

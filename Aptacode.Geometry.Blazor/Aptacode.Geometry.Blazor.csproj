@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aptacode.BlazorCanvas" Version="1.0.0-CI-20210105-183331" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
     <PackageReference Include="Aptacode.CSharp.Common.Utilities" Version="1.0.0.30" />
   </ItemGroup>

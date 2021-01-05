@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
 using Aptacode.Geometry.Blazor.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,13 +10,12 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 {
     public class SceneViewBase : ComponentBase, IAsyncDisposable
     {
-        [Inject] public IJSRuntime JsRuntime { get; set; }
+        #region Lifecycle
 
         public async ValueTask DisposeAsync()
         {
             await ViewModel.DisposeAsync();
         }
-
 
         protected override async Task OnInitializedAsync()
         {
@@ -26,18 +26,21 @@ namespace Aptacode.Geometry.Blazor.Components.Views
         {
             if (firstRender)
             {
-                await JsRuntime.InvokeVoidAsync("registerCanvas", SceneCanvas);
+                await BlazorCanvasInterop.Register(Canvas);
                 await ViewModel.RedrawAsync();
             }
 
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        #region Properties
+        #endregion
 
+        #region Properties
+        [Inject] public BlazorCanvasInterop BlazorCanvasInterop { get; set; }
+        
         [Parameter] public SceneViewModel ViewModel { get; set; }
 
-        public ElementReference SceneCanvas { get; set; }
+        public ElementReference Canvas { get; set; }
 
         public string Style { get; set; } =
             $"-moz-transform: scale({Scale.Value}); -moz-transform-origin: 0 0; zoom: {Scale.Value};";
