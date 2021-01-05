@@ -21,7 +21,7 @@ jobs:
 
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
-      run: dotnet publish Aptacode.Geometry.Demo.Blazor.csproj -c Release -o release --nologo
+      run: dotnet publish Blazor/Aptacode.Geometry.Demo.Blazor/Aptacode.Geometry.Demo.Blazor.csproj -c Release -o release --nologo
 
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
