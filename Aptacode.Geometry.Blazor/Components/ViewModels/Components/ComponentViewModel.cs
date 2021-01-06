@@ -120,6 +120,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public BoundingRectangle OldBoundingRectangle { get; protected set; }
         public BoundingRectangle BoundingRectangle { get; protected set; }
+        public Primitive MarginPrimitive { get; set; }
 
         public float Margin { get; set; }
 
@@ -160,6 +161,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
         #endregion
 
         #region CollisionDetection
+
+        public virtual void UpdateMargin()
+        {
+            
+        }
 
         public bool CollisionDetectionEnabled { get; set; }
         public bool Invalidated { get; set; }

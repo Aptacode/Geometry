@@ -20,7 +20,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         {
             Point = point;
             OldBoundingRectangle = BoundingRectangle =
-                Children.ToBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
+                Children.ToBoundingRectangle().Combine(MarginPrimitive.BoundingRectangle);
         }
 
         #endregion
@@ -34,16 +34,18 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             set
             {
                 _point = value;
-                MarginPolygon = new Polygon(_point.Vertices.ToConvexHull(Margin));
+                UpdateMargin();
             }
         }
+        public override void UpdateMargin()
+        {
+            MarginPrimitive = new Ellipse(_point.Position, new Vector2(Margin, Margin), 0);
 
-        public Polygon MarginPolygon { get; set; }
-
+        }
         #endregion
 
         #region Canvas
-        
+
         public override async Task CustomDraw(BlazorCanvasInterop ctx)
         {
             ctx.BeginPath();
@@ -59,35 +61,35 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Translate(Vector2 delta)
         {
             Point.Translate(delta);
-            MarginPolygon.Translate(delta);
+            MarginPrimitive.Translate(delta);
             base.Translate(delta);
         }
 
         public override void Scale(Vector2 delta)
         {
             Point.Scale(delta);
-            MarginPolygon.Scale(delta);
+            MarginPrimitive.Scale(delta);
             base.Scale(delta);
         }
 
         public override void Rotate(float theta)
         {
             Point.Rotate(theta);
-            MarginPolygon.Rotate(theta);
+            MarginPrimitive.Rotate(theta);
             base.Rotate(theta);
         }
 
         public override void Rotate(Vector2 rotationCenter, float theta)
         {
             Point.Rotate(rotationCenter, theta);
-            MarginPolygon.Rotate(rotationCenter, theta);
+            MarginPrimitive.Rotate(rotationCenter, theta);
             base.Rotate(rotationCenter, theta);
         }
 
         public override void Skew(Vector2 delta)
         {
             Point.Skew(delta);
-            MarginPolygon.Skew(delta);
+            MarginPrimitive.Skew(delta);
             base.Skew(delta);
         }
 
@@ -97,19 +99,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = base.UpdateBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(MarginPrimitive.BoundingRectangle);
             return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {
-            return component.CollidesWith(MarginPolygon, collisionDetector) ||
+            return component.CollidesWith(MarginPrimitive, collisionDetector) ||
                    base.CollidesWith(component, collisionDetector);
         }
 
         public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
         {
-            return primitive.CollidesWith(MarginPolygon, collisionDetector) ||
+            return primitive.CollidesWith(MarginPrimitive, collisionDetector) ||
                    base.CollidesWith(primitive, collisionDetector);
         }
 

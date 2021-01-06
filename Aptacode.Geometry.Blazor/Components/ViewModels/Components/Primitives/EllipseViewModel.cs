@@ -19,7 +19,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         {
             Ellipse = ellipse;
             OldBoundingRectangle = BoundingRectangle =
-                Children.ToBoundingRectangle().Combine(MarginEllipse.BoundingRectangle);
+                Children.ToBoundingRectangle().Combine(MarginPrimitive.BoundingRectangle);
         }
 
         #endregion
@@ -33,12 +33,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             set
             {
                 _ellipse = value;
-                MarginEllipse = new Ellipse(_ellipse.Position, _ellipse.Radii + new Vector2(Margin, Margin),
-                    _ellipse.Rotation);
+                UpdateMargin();
             }
         }
 
-        public Ellipse MarginEllipse { get; set; }
+        public override void UpdateMargin()
+        {
+            MarginPrimitive = new Ellipse(_ellipse.Position, _ellipse.Radii + new Vector2(Margin, Margin),
+                _ellipse.Rotation);
+        }
 
         #endregion
 
@@ -62,35 +65,35 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Translate(Vector2 delta)
         {
             Ellipse.Translate(delta);
-            MarginEllipse.Translate(delta);
+            MarginPrimitive.Translate(delta);
             base.Translate(delta);
         }
 
         public override void Scale(Vector2 delta)
         {
             Ellipse.Scale(delta);
-            MarginEllipse.Scale(delta);
+            MarginPrimitive.Scale(delta);
             base.Scale(delta);
         }
 
         public override void Rotate(float theta)
         {
             Ellipse.Rotate(theta);
-            MarginEllipse.Rotate(theta);
+            MarginPrimitive.Rotate(theta);
             base.Rotate(theta);
         }
 
         public override void Rotate(Vector2 rotationCenter, float theta)
         {
             Ellipse.Rotate(rotationCenter, theta);
-            MarginEllipse.Rotate(rotationCenter, theta);
+            MarginPrimitive.Rotate(rotationCenter, theta);
             base.Rotate(rotationCenter, theta);
         }
 
         public override void Skew(Vector2 delta)
         {
             Ellipse.Skew(delta);
-            MarginEllipse.Skew(delta);
+            MarginPrimitive.Skew(delta);
             base.Skew(delta);
         }
 
@@ -100,19 +103,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = base.UpdateBoundingRectangle().Combine(MarginEllipse.BoundingRectangle);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(MarginPrimitive.BoundingRectangle);
             return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {
-            return component.CollidesWith(MarginEllipse, collisionDetector) ||
+            return component.CollidesWith(MarginPrimitive, collisionDetector) ||
                    base.CollidesWith(component, collisionDetector);
         }
 
         public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
         {
-            return primitive.CollidesWith(MarginEllipse, collisionDetector) ||
+            return primitive.CollidesWith(MarginPrimitive, collisionDetector) ||
                    base.CollidesWith(primitive, collisionDetector);
         }
 

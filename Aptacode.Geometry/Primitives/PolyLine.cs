@@ -53,6 +53,11 @@ namespace Aptacode.Geometry.Primitives
             return new(VertexArray.Create(p1, p2, points));
         }
 
+        public static PolyLine Create(Vector2[] points)
+        {
+            return new(VertexArray.Create(points));
+        }
+
         #endregion
 
         #region Properties

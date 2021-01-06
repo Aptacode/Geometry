@@ -54,6 +54,11 @@ namespace Aptacode.Geometry.Primitives
             return new(VertexArray.Create(p1, p2, p3, points));
         }
 
+        public static Polygon Create(Vector2[] points)
+        {
+            return new(VertexArray.Create(points));
+        }
+
         #endregion
 
         #region Properties

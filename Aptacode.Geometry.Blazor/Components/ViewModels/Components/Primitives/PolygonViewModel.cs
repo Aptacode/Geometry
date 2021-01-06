@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
@@ -41,12 +42,23 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             set
             {
                 _polygon = value;
-                MarginPolygon = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
+                UpdateMargin();
             }
         }
-
-        public Polygon MarginPolygon { get; set; }
-
+        public override void UpdateMargin()
+        {
+            MarginPrimitive = Polygon.Create(_polygon.Vertices.Vertices.ToArray());
+            return;
+            
+            if (Margin > Constants.Tolerance)
+            {
+                MarginPrimitive = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
+            }
+            else
+            {
+                MarginPrimitive = Polygon.Create(_polygon.Vertices.Vertices.ToArray());
+            }
+        }
         #endregion
 
         #region Canvas
@@ -55,7 +67,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         {
             Polygon = polygon;
             OldBoundingRectangle = BoundingRectangle =
-                Children.ToBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
+                Children.ToBoundingRectangle().Combine(MarginPrimitive.BoundingRectangle);
         }
 
         #endregion
@@ -65,14 +77,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Translate(Vector2 delta)
         {
             Polygon.Translate(delta);
-            MarginPolygon.Translate(delta);
+            MarginPrimitive.Translate(delta);
             base.Translate(delta);
         }
 
         public override void Scale(Vector2 delta)
         {
             Polygon.Scale(delta);
-            MarginPolygon = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
+            UpdateMargin();
 
             base.Scale(delta);
         }
@@ -80,7 +92,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Rotate(float theta)
         {
             Polygon.Rotate(theta);
-            MarginPolygon = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
+            UpdateMargin();
 
             base.Rotate(theta);
         }
@@ -88,7 +100,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Rotate(Vector2 rotationCenter, float theta)
         {
             Polygon.Rotate(rotationCenter, theta);
-            MarginPolygon = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
+            UpdateMargin();
 
             base.Rotate(rotationCenter, theta);
         }
@@ -96,7 +108,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Skew(Vector2 delta)
         {
             Polygon.Skew(delta);
-            MarginPolygon = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
+            UpdateMargin();
             base.Skew(delta);
         }
 
@@ -106,19 +118,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = base.UpdateBoundingRectangle().Combine(MarginPolygon.BoundingRectangle);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(MarginPrimitive.BoundingRectangle);
             return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {
-            return component.CollidesWith(MarginPolygon, collisionDetector) ||
+            return component.CollidesWith(MarginPrimitive, collisionDetector) ||
                    base.CollidesWith(component, collisionDetector);
         }
 
         public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
         {
-            return primitive.CollidesWith(MarginPolygon, collisionDetector) ||
+            return primitive.CollidesWith(MarginPrimitive, collisionDetector) ||
                    base.CollidesWith(primitive, collisionDetector);
         }
 
