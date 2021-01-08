@@ -11,15 +11,10 @@ using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Point = Aptacode.Geometry.Primitives.Point;
+using Aptacode.Geometry.Primitives.Polygons;
 
 namespace Aptacode.Geometry.Demo.Blazor.Pages
 {
-    public enum ComponentType
-    {
-        None, Point, Line, Polygon, Ellipse, Group
-    }
     public class DemoSceneController : SceneControllerViewModel
     {
         public DemoSceneController(SceneViewModel scene) : base(scene)
@@ -29,34 +24,126 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             UserInteractionController.OnMouseDown += UserInteractionControllerOnOnMouseDown;
             UserInteractionController.OnMouseUp += UserInteractionControllerOnOnMouseUp;
             UserInteractionController.OnMouseMoved += UserInteractionControllerOnOnMouseMoved;
+            UserInteractionController.OnMouseClicked += UserInteractionControllerOnMouseClicked;
+            
             ComponentCreationMode = ComponentType.None;
+
+            AreaSelection = new SelectionComponent();
+
+            Scene.Components.Add(AreaSelection);
         }
 
-        public ComponentViewModel SelectedComponent { get; set; }
-
+        public readonly List<ComponentViewModel> SelectedComponents = new List<ComponentViewModel>();
+        public SelectionComponent AreaSelection { get; set; }
+        
+        private readonly ComponentBuilder componentBuilder = new();
         public ComponentType ComponentCreationMode { get; set; }
-
-        private void UserInteractionControllerOnOnMouseMoved(object? sender, Vector2 e)
+        private void UserInteractionControllerOnOnMouseDown(object? sender, Vector2 position)
         {
-            if (SelectedComponent == null)
+            Console.WriteLine("Mouse down");
+
+            if (ComponentCreationMode != ComponentType.None)
             {
-                return;
+                switch (ComponentCreationMode)
+                {
+                    case ComponentType.Point:
+                        AddVertex(position);
+                        EndComponent();
+                        break;
+                    case ComponentType.Line:
+                        AddVertex(position);
+                        break;
+                    case ComponentType.Polygon:
+                        AddVertex(position);
+                        break;
+                    case ComponentType.Ellipse:
+                        AddVertex(position);
+                        EndComponent();
+                        break;
+                    case ComponentType.Group:
+
+                        break;
+                }
             }
-
-            var delta = e - UserInteractionController.LastMousePosition;
-
-            Translate(SelectedComponent, delta, new List<ComponentViewModel> {SelectedComponent},
-                new CancellationTokenSource());
+            else
+            {
+                var collidingComponents = Scene.Components.CollidingWith(position, CollisionDetector).ToList();
+                if (collidingComponents.Any())
+                {
+                    Console.WriteLine(SelectedComponents.Count() + "Collide");
+                    if (!collidingComponents.Any(c => SelectedComponents.Contains(c)))
+                    {
+                        Console.WriteLine(SelectedComponents.Count() + "new selection");
+                        SelectedComponents.Clear();
+                        foreach (var componentViewModel in collidingComponents.ToArray())
+                        {
+                            componentViewModel.BorderColor = Color.Green;
+                            Scene.BringToFront(componentViewModel);
+                            SelectedComponents.Add(componentViewModel);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine(SelectedComponents.Count() + "selection");
+                    }
+                }
+                else
+                {
+                    SelectedComponents.Clear();
+                    AreaSelection.MouseDown(position);
+                }
+            }
         }
 
-        private void UserInteractionControllerOnOnMouseUp(object? sender, Vector2 e)
+        private void UserInteractionControllerOnOnMouseMoved(object? sender, Vector2 position)
         {
-            foreach (var componentViewModel in Scene.Components)
+            AreaSelection.MouseMove(position);
+            
+            if (SelectedComponents.Any() && UserInteractionController.IsMouseDown)
             {
-                componentViewModel.BorderColor = Color.Black;
+                var delta = position - UserInteractionController.LastMousePosition;
+                foreach (var componentViewModel in SelectedComponents.ToArray())
+                {
+                    Translate(componentViewModel, delta, SelectedComponents, new CancellationTokenSource());
+                }
             }
+        }
 
-            SelectedComponent = null;
+        private void UserInteractionControllerOnOnMouseUp(object? sender, Vector2 position)
+        {
+            Console.WriteLine("Mouse up");
+            if (AreaSelection.SelectionMade())
+            {
+                SelectedComponents.Clear();
+                Console.WriteLine("Selection" + AreaSelection.MarginPrimitive.BoundingRectangle.TopLeft+ " " + AreaSelection.MarginPrimitive.BoundingRectangle.Size);
+
+
+                var collidingComponents = Scene.Components.CollidingWith(AreaSelection, CollisionDetector);
+                Console.WriteLine("Selection" + collidingComponents.Count());
+                AreaSelection.Rectangle = Primitives.Polygons.Rectangle.Create(Vector2.Zero, Vector2.Zero);
+
+                if (collidingComponents.Any())
+                {
+                    foreach (var componentViewModel in collidingComponents.ToArray())
+                    {
+                        if (componentViewModel == AreaSelection)
+                        {
+                            continue;
+                        }
+                        componentViewModel.BorderColor = Color.Green;
+                        Scene.BringToFront(componentViewModel);
+                        SelectedComponents.Add(componentViewModel);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var componentViewModel in SelectedComponents)
+                {
+                    componentViewModel.BorderColor = Color.Black;
+                }
+                SelectedComponents.Clear();
+            }
         }
 
         #region Component Creation
@@ -70,7 +157,6 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         public void EndComponent()
         {
-            var componentBuilder = new ComponentBuilder();
             switch (ComponentCreationMode)
             {
                 case ComponentType.Point:
@@ -103,46 +189,9 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             _vertices.Clear();
         }
         #endregion
-
-        private void UserInteractionControllerOnOnMouseDown(object? sender, Vector2 position)
+        private void UserInteractionControllerOnMouseClicked(object? sender, Vector2 position)
         {
-            if (ComponentCreationMode != ComponentType.None)
-            {
-                switch (ComponentCreationMode)
-                {
-                    case ComponentType.Point:
-                        AddVertex(position);
-                        EndComponent();
-                        break;
-                    case ComponentType.Line:
-                        AddVertex(position);
-                        break;
-                    case ComponentType.Polygon:
-                        AddVertex(position);
-                        break;
-                    case ComponentType.Ellipse:
-                        AddVertex(position);
-                        EndComponent();
-                        break;
-                    case ComponentType.Group:
 
-                        break;
-                }
-            }
-
-
-            if (ComponentCreationMode == ComponentType.None)
-            {
-                SelectedComponent = null;
-
-                foreach (var componentViewModel in Scene.Components.CollidingWith(position, CollisionDetector))
-                {
-                    SelectedComponent = componentViewModel;
-                    componentViewModel.BorderColor = Color.Green;
-                }
-
-                Scene.BringToFront(SelectedComponent);
-            }
         }
 
         private void UserInteractionControllerOnOnKeyUp(object? sender, string key)

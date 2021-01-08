@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Numerics;
-using System.Threading.Tasks;
-using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives;
+﻿using System.Threading.Tasks;
 using Aptacode.Geometry.Blazor.Utilities;
-using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Vertices;
 using Microsoft.AspNetCore.Components;
-using Rectangle = Aptacode.Geometry.Primitives.Polygons.Rectangle;
 
 namespace Aptacode.Geometry.Demo.Blazor.Pages
 {

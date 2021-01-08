@@ -48,7 +48,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             var frameRate = 1.0f / delta.TotalSeconds;
             _lastTick = currentTime;
 
-            Console.WriteLine($"{frameRate}fps");
+            //Console.WriteLine($"{frameRate}fps");
             JSUnmarshalledRuntime.FillStyle(ComponentViewModel.DefaultFillColor);
             JSUnmarshalledRuntime.StrokeStyle(ComponentViewModel.DefaultBorderColor);
             JSUnmarshalledRuntime.LineWidth(ComponentViewModel.DefaultBorderThickness);
