@@ -12,6 +12,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public Vector2 MouseDownPosition { get; set; }
         public DateTime FirstMouseDownTime { get; set; }
         public DateTime SecondMouseDownTime { get; set; }
+        public bool IsMouseDown { get; private set; }
 
         #endregion
 
@@ -45,6 +46,13 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public void MouseDown(Vector2 position)
         {
+            if (IsMouseDown)
+            {
+                return;
+            }
+
+            IsMouseDown = true;
+            
             MouseDownPosition = position;
             MouseClickDown();
             OnMouseDown?.Invoke(this, position);
@@ -53,6 +61,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public void MouseUp(Vector2 position)
         {
+            IsMouseDown = false;
+
             OnMouseUp?.Invoke(this, position);
             LastMousePosition = position;
 
