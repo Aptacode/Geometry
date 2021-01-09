@@ -1,19 +1,22 @@
 ﻿@page "/"
 @inherits IndexBase
 <h1>Aptacode.Geometry Demo</h1>
-<dl>
-    <dt>Creation</dt>
-    <dd>a - Point</dd>
-    <dd>s - Line</dd>
-    <dd>d - Polygon</dd>
-    <dd>f - Ellipse</dd>
-    <dt>Transformation</dt>
-    <dd>Translate - Click and drag</dd>
-    <dd>Rotate - Todo</dd>
-    <dd>SceneScale - Todo</dd>
-    <dd>Skew - Todo</dd>
-</dl>
 
-<div style="border-color: black; border-style: solid; border-width: 5px;">
+
+<div style="width: 100%; margin: 0 auto; display: flex; justify-content: left;">
+    
+    <dl style="width: 200px; margin: 20px;">
+        <dt>Creation</dt>
+        <dd>a - Point</dd>
+        <dd>s - Line</dd>
+        <dd>d - Polygon</dd>
+        <dd>f - Ellipse</dd>
+        <dt>Transformation</dt>
+        <dd>Translate - Click and drag</dd>
+        <dd>Rotate - Todo</dd>
+        <dd>SceneScale - Todo</dd>
+        <dd>Skew - Todo</dd>
+    </dl>
+
     <SceneControllerView ViewModel="SceneController"/>
 </div>
