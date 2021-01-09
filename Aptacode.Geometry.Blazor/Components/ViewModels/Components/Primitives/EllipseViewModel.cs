@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
+using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
@@ -28,8 +29,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         {
             ctx.BeginPath();
 
-            ctx.Ellipse((int) Ellipse.Position.X, (int) Ellipse.Position.Y, (int) Ellipse.Radii.X,
-                (int) Ellipse.Radii.Y, Ellipse.Rotation, 0, 2.0f * (float) Math.PI);
+            ctx.Ellipse((int) Ellipse.Position.X * SceneScale.Value, (int) Ellipse.Position.Y * SceneScale.Value, (int) Ellipse.Radii.X * SceneScale.Value,
+                (int) Ellipse.Radii.Y * SceneScale.Value, Ellipse.Rotation, 0, 2.0f * (float) Math.PI);
             ctx.Fill();
             ctx.Stroke();
         }

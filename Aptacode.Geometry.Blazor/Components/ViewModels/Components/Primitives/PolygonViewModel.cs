@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
+using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
@@ -29,10 +30,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         {
             ctx.BeginPath();
 
-            ctx.MoveTo((int) Polygon.Vertices[0].X, (int) Polygon.Vertices[0].Y);
+            ctx.MoveTo((int) Polygon.Vertices[0].X * SceneScale.Value, (int) Polygon.Vertices[0].Y * SceneScale.Value);
             for (var i = 1; i < Polygon.Vertices.Length; i++)
             {
-                var vertex = Polygon.Vertices[i];
+                var vertex = Polygon.Vertices[i] * SceneScale.Value;
                 ctx.LineTo((int) vertex.X, (int) vertex.Y);
             }
 

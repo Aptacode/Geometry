@@ -196,12 +196,12 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                 case ComponentType.Point:
                     _componentBuilder
                         .SetBase(_vertices.Last().ToPoint().ToViewModel())
-                        .SetMargin(5.0f);
+                        .SetMargin(1.0f);
                     break;
                 case ComponentType.Line:
                     _componentBuilder
                         .SetBase(PolyLine.Create(_vertices.ToArray()).ToViewModel())
-                        .SetMargin(5.0f);
+                        .SetMargin(1.0f);
                     break;
                 case ComponentType.Polygon:
                     _componentBuilder
@@ -210,7 +210,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                     break;
                 case ComponentType.Ellipse:
                     _componentBuilder
-                        .SetBase(Ellipse.Create(_vertices.Last().X, _vertices.Last().Y, 20, 20, 0).ToViewModel())
+                        .SetBase(Ellipse.Create(_vertices.Last().X, _vertices.Last().Y, 2,2, 0).ToViewModel())
                         .SetMargin(0.0f);
 
                     break;

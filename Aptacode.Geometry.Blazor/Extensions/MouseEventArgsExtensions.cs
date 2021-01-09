@@ -9,7 +9,7 @@ namespace Aptacode.Geometry.Blazor.Extensions
         public static Vector2 FromScale(this MouseEventArgs args)
         {
             return new(
-                (float) args.OffsetX / Scale.Value, (float) args.OffsetY / Scale.Value);
+                (int)(args.OffsetX / SceneScale.Value), (int)(args.OffsetY / SceneScale.Value));
         }
     }
 }

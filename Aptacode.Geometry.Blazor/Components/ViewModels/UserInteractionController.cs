@@ -7,7 +7,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
     {
         #region State
 
-        public bool ConnectionPointSelected { get; set; }
         public Vector2 LastMousePosition { get; set; }
         public Vector2 MouseDownPosition { get; set; }
         public DateTime FirstMouseDownTime { get; set; }

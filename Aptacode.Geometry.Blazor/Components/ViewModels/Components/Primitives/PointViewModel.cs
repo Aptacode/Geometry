@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
+using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
@@ -27,7 +28,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override async Task CustomDraw(BlazorCanvasInterop ctx)
         {
             ctx.BeginPath();
-            ctx.Ellipse((int) Point.Position.X, (int) Point.Position.Y, 1, 1, 0, 0, 2 * (float) Math.PI);
+            ctx.Ellipse((int) Point.Position.X * SceneScale.Value, (int) Point.Position.Y * SceneScale.Value, 1 * SceneScale.Value, 1 * SceneScale.Value, 0, 0, 2 * (float) Math.PI);
             ctx.Fill();
             ctx.Stroke();
         }
