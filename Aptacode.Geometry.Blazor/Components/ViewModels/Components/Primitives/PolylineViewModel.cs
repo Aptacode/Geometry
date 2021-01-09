@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
+using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
@@ -28,10 +29,10 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override async Task CustomDraw(BlazorCanvasInterop ctx)
         {
             ctx.BeginPath();
-            ctx.MoveTo(PolyLine.Vertices[0].X, PolyLine.Vertices[0].Y);
+            ctx.MoveTo(PolyLine.Vertices[0].X * SceneScale.Value, PolyLine.Vertices[0].Y * SceneScale.Value);
             for (var i = 1; i < PolyLine.Vertices.Length; i++)
             {
-                var vertex = PolyLine.Vertices[i];
+                var vertex = PolyLine.Vertices[i] * SceneScale.Value;
                 ctx.LineTo(vertex.X, vertex.Y);
             }
 

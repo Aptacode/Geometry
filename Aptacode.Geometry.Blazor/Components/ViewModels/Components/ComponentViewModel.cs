@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
+using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
@@ -64,7 +65,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             {
                 ctx.TextAlign("center");
                 ctx.FillStyle("black");
-                ctx.FillText(Text, BoundingRectangle.Center.X, BoundingRectangle.Center.Y);
+                ctx.FillText(Text, BoundingRectangle.Center.X * SceneScale.Value, BoundingRectangle.Center.Y * SceneScale.Value);
             }
         }
 
@@ -110,8 +111,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public static readonly string DefaultBorderColor = Color.Black.ToKnownColor().ToString();
         public static readonly string DefaultFillColor = Color.Black.ToKnownColor().ToString();
-        public static readonly int DefaultBorderThickness = 5;
-        public static readonly float DefaultMargin = 20.0f;
+        public static readonly int DefaultBorderThickness = 1;
+        public static readonly float DefaultMargin = 1.0f;
 
         #endregion
 

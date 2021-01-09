@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
+using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Collision.Rectangles;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
@@ -129,8 +130,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public async Task Invalidate(BoundingRectangle rectangle, float border)
         {
-            JSUnmarshalledRuntime.ClearRect(rectangle.TopLeft.X - 4 * border, rectangle.TopLeft.Y - 4 * border,
-                rectangle.Size.X + 8 * border, rectangle.Size.Y + 8 * border);
+            JSUnmarshalledRuntime.ClearRect((rectangle.TopLeft.X - 4 * border) * SceneScale.Value, (rectangle.TopLeft.Y - 4 * border) * SceneScale.Value,
+                (rectangle.Size.X + 8 * border )* SceneScale.Value, (rectangle.Size.Y + 8 * border )* SceneScale.Value);
         }
 
         #endregion
@@ -140,6 +141,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public List<ComponentViewModel> Components { get; set; }
 
         public Vector2 Size { get; set; }
+        
+        public bool ShowGrid { get; set; } = true;
 
         #endregion
 
