@@ -7,7 +7,6 @@ using Aptacode.BlazorCanvas;
 using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Collision;
-using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {

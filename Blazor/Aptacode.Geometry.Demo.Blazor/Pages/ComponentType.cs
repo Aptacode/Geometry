@@ -2,6 +2,11 @@
 {
     public enum ComponentType
     {
-        None, Point, Line, Polygon, Ellipse, Group
+        None,
+        Point,
+        Line,
+        Polygon,
+        Ellipse,
+        Group
     }
 }

@@ -7,35 +7,46 @@ using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Vertices;
-using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
     public class PolygonViewModel : ComponentViewModel
     {
+        #region Canvas
+
+        public PolygonViewModel(Polygon polygon)
+        {
+            Polygon = polygon;
+            OldBoundingRectangle = BoundingRectangle =
+                Children.ToBoundingRectangle().Combine(BoundingPrimitive.BoundingRectangle);
+        }
+
+        #endregion
+
         #region Ctor
 
         public override async Task CustomDraw(BlazorCanvasInterop ctx)
         {
             ctx.BeginPath();
 
-            ctx.MoveTo((int)Polygon.Vertices[0].X, (int)Polygon.Vertices[0].Y);
+            ctx.MoveTo((int) Polygon.Vertices[0].X, (int) Polygon.Vertices[0].Y);
             for (var i = 1; i < Polygon.Vertices.Length; i++)
             {
                 var vertex = Polygon.Vertices[i];
-                ctx.LineTo((int)vertex.X, (int)vertex.Y);
+                ctx.LineTo((int) vertex.X, (int) vertex.Y);
             }
 
             ctx.ClosePath();
             ctx.Fill();
             ctx.Stroke();
         }
-        
+
         #endregion
 
         #region Props
 
         private Polygon _polygon;
+
         public Polygon Polygon
         {
             get => _polygon;
@@ -45,13 +56,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
                 UpdateMargin();
             }
         }
+
         public override void UpdateMargin()
         {
-            if(_polygon == null)
+            if (_polygon == null)
             {
                 return;
             }
-            
+
             if (Margin > Constants.Tolerance)
             {
                 BoundingPrimitive = new Polygon(_polygon.Vertices.ToConvexHull(Margin));
@@ -60,16 +72,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             {
                 BoundingPrimitive = Polygon.Create(_polygon.Vertices.Vertices.ToArray());
             }
-        }
-        #endregion
-
-        #region Canvas
-
-        public PolygonViewModel(Polygon polygon)
-        {
-            Polygon = polygon;
-            OldBoundingRectangle = BoundingRectangle =
-                Children.ToBoundingRectangle().Combine(BoundingPrimitive.BoundingRectangle);
         }
 
         #endregion

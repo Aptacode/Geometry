@@ -18,7 +18,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         #region Props
 
-        private bool _isMoving = false;
+        private bool _isMoving;
         private Vector2 _mouseDownPosition = Vector2.Zero;
 
         #endregion
@@ -56,6 +56,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             {
                 return false;
             }
+
             _isMoving = false;
             IsShown = false;
             Invalidated = true;
@@ -63,6 +64,5 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
         }
 
         #endregion
-
     }
 }

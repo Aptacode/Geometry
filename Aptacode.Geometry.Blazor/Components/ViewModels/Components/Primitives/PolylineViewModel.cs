@@ -7,7 +7,6 @@ using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Vertices;
-using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
@@ -20,32 +19,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             PolyLine = polyLine;
             OldBoundingRectangle = BoundingRectangle =
                 Children.ToBoundingRectangle().Combine(BoundingPrimitive.BoundingRectangle);
-        }
-
-        #endregion
-
-        #region Props
-
-        private PolyLine _polyLine;
-        public PolyLine PolyLine
-        {
-            get => _polyLine;
-            set
-            {
-                _polyLine = value;
-                UpdateMargin();
-            }
-        }
-        public override void UpdateMargin()
-        {
-            if (Margin > Constants.Tolerance)
-            {
-                BoundingPrimitive = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
-            }
-            else
-            {
-                BoundingPrimitive = PolyLine.Create(_polyLine.Vertices.Vertices.ToArray());
-            }
         }
 
         #endregion
@@ -63,6 +36,39 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             }
 
             ctx.Stroke();
+        }
+
+        #endregion
+
+        #region Props
+
+        private PolyLine _polyLine;
+
+        public PolyLine PolyLine
+        {
+            get => _polyLine;
+            set
+            {
+                _polyLine = value;
+                UpdateMargin();
+            }
+        }
+
+        public override void UpdateMargin()
+        {
+            if (_polyLine == null)
+            {
+                return;
+            }
+
+            if (Margin > Constants.Tolerance)
+            {
+                BoundingPrimitive = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
+            }
+            else
+            {
+                BoundingPrimitive = PolyLine.Create(_polyLine.Vertices.Vertices.ToArray());
+            }
         }
 
         #endregion

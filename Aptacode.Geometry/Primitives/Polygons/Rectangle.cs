@@ -57,21 +57,25 @@ namespace Aptacode.Geometry.Primitives.Polygons
         public Vector2 Size => BottomRight - TopLeft;
         public float Width => Size.X;
         public float Height => Size.Y;
+
         public Vector2 TopLeft
         {
             get => Vertices[0];
             set => Vertices[0] = value;
         }
+
         public Vector2 TopRight
         {
             get => Vertices[1];
             set => Vertices[1] = value;
         }
+
         public Vector2 BottomRight
         {
             get => Vertices[2];
             set => Vertices[2] = value;
         }
+
         public Vector2 BottomLeft
         {
             get => Vertices[3];

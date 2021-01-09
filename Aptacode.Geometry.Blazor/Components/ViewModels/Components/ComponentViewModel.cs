@@ -8,7 +8,6 @@ using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
-using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 {
@@ -76,7 +75,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
         private readonly List<ComponentViewModel> _children = new();
 
         public IEnumerable<ComponentViewModel> Children => _children;
-        
+
         public virtual BoundingRectangle UpdateBoundingRectangle()
         {
             BoundingRectangle = _children.ToBoundingRectangle();
@@ -88,15 +87,17 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             _children.Add(child);
             UpdateBoundingRectangle();
         }
-        
+
         public void AddRange(IEnumerable<ComponentViewModel> children)
         {
             foreach (var child in children)
             {
                 _children.Add(child);
             }
+
             UpdateBoundingRectangle();
         }
+
         public void Remove(ComponentViewModel child)
         {
             _children.Add(child);
@@ -174,7 +175,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual void UpdateMargin()
         {
-            
         }
 
         public bool CollisionDetectionEnabled { get; set; }

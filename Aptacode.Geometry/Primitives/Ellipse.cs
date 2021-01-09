@@ -21,6 +21,11 @@ namespace Aptacode.Geometry.Primitives
 
         public virtual bool Equals(Ellipse other)
         {
+            if (other is null)
+            {
+                return false;
+            }
+
             var delta = Position - other.Position;
             var radiusDelta = Radii - other.Radii;
             return Math.Abs(delta.X + delta.Y) < Constants.Tolerance &&

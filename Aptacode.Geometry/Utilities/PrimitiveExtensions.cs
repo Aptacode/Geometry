@@ -15,19 +15,19 @@ namespace Aptacode.Geometry.Utilities
             for (var i = 0; i < primitive.Vertices.Length - 1; i++)
             {
                 for (var j = i + 1; j < primitive.Vertices.Length; j++)
-            {
-                var p = primitive.Vertices[i];
-                var q = primitive.Vertices[j];
-                var length = (p - q).Length();
-                if (!(length > maxDistance))
+                {
+                    var p = primitive.Vertices[i];
+                    var q = primitive.Vertices[j];
+                    var length = (p - q).Length();
+                    if (!(length > maxDistance))
                     {
                         continue;
                     }
 
                     maxDistance = length;
-                p1 = p;
-                p2 = q;
-            }
+                    p1 = p;
+                    p2 = q;
+                }
             }
 
             return (p1, p2);
