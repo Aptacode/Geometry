@@ -140,6 +140,8 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         public List<ComponentViewModel> Components { get; set; }
 
         public Vector2 Size { get; set; }
+        
+        public bool ShowGrid { get; set; } = true;
 
         #endregion
 

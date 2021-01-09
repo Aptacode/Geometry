@@ -43,7 +43,7 @@ namespace Aptacode.Geometry.Blazor.Components.Views
         public ElementReference Canvas { get; set; }
 
         public string Style { get; set; } =
-            $"-moz-transform: scale({Scale.Value}); -moz-transform-origin: 0 0; zoom: {Scale.Value};";
+            $"position: absolute; -moz-transform: scale({Scale.Value}); -moz-transform-origin: 0 0; zoom: {Scale.Value};";
 
         #endregion
     }
