@@ -120,9 +120,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public BoundingRectangle OldBoundingRectangle { get; protected set; }
         public BoundingRectangle BoundingRectangle { get; protected set; }
-        public Primitive MarginPrimitive { get; set; }
+        public Primitive BoundingPrimitive { get; set; }
 
-        public float Margin { get; set; }
+        private float _margin;
+
+        public float Margin
+        {
+            get => _margin;
+            set
+            {
+                _margin = value;
+                UpdateMargin();
+            }
+        }
 
         public bool IsShown { get; set; }
 

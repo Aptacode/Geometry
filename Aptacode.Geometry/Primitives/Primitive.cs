@@ -14,7 +14,7 @@ namespace Aptacode.Geometry.Primitives
 
         public virtual bool Equals(Primitive other)
         {
-            return Vertices.Equals(other.Vertices);
+            return other is not null && Vertices.Equals(other.Vertices);
         }
 
         #endregion

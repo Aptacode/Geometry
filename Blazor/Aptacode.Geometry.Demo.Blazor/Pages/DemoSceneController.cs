@@ -115,7 +115,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             if (AreaSelection.SelectionMade())
             {
                 SelectedComponents.Clear();
-                Console.WriteLine("Selection" + AreaSelection.MarginPrimitive.BoundingRectangle.TopLeft+ " " + AreaSelection.MarginPrimitive.BoundingRectangle.Size);
+                Console.WriteLine("Selection" + AreaSelection.BoundingPrimitive.BoundingRectangle.TopLeft+ " " + AreaSelection.BoundingPrimitive.BoundingRectangle.Size);
 
 
                 var collidingComponents = Scene.Components.CollidingWith(AreaSelection, CollisionDetector);

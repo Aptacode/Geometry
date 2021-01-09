@@ -19,7 +19,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         {
             PolyLine = polyLine;
             OldBoundingRectangle = BoundingRectangle =
-                Children.ToBoundingRectangle().Combine(MarginPrimitive.BoundingRectangle);
+                Children.ToBoundingRectangle().Combine(BoundingPrimitive.BoundingRectangle);
         }
 
         #endregion
@@ -40,11 +40,11 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         {
             if (Margin > Constants.Tolerance)
             {
-                MarginPrimitive = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
+                BoundingPrimitive = new Polygon(_polyLine.Vertices.ToConvexHull(Margin));
             }
             else
             {
-                MarginPrimitive = PolyLine.Create(_polyLine.Vertices.Vertices.ToArray());
+                BoundingPrimitive = PolyLine.Create(_polyLine.Vertices.Vertices.ToArray());
             }
         }
 
@@ -72,7 +72,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
         public override void Translate(Vector2 delta)
         {
             PolyLine.Translate(delta);
-            MarginPrimitive.Translate(delta);
+            BoundingPrimitive.Translate(delta);
 
             base.Translate(delta);
         }
@@ -115,19 +115,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override BoundingRectangle UpdateBoundingRectangle()
         {
-            BoundingRectangle = base.UpdateBoundingRectangle().Combine(MarginPrimitive.BoundingRectangle);
+            BoundingRectangle = base.UpdateBoundingRectangle().Combine(BoundingPrimitive.BoundingRectangle);
             return BoundingRectangle;
         }
 
         public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {
-            return component.CollidesWith(MarginPrimitive, collisionDetector) ||
+            return component.CollidesWith(BoundingPrimitive, collisionDetector) ||
                    base.CollidesWith(component, collisionDetector);
         }
 
         public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
         {
-            return primitive.CollidesWith(MarginPrimitive, collisionDetector) ||
+            return primitive.CollidesWith(BoundingPrimitive, collisionDetector) ||
                    base.CollidesWith(primitive, collisionDetector);
         }
 
