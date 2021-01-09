@@ -1,14 +1,13 @@
-﻿using System.Numerics;
-using Aptacode.Geometry.Primitives.Polygons;
+﻿using Aptacode.Geometry.Primitives.Polygons;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
     public class RectangleViewModel : PolygonViewModel
     {
         #region Ctor
+
         public RectangleViewModel(Rectangle rectangle) : base(rectangle)
         {
-            
         }
 
         #endregion
@@ -17,7 +16,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public Rectangle Rectangle
         {
-            get => (Rectangle)Polygon;
+            get => (Rectangle) Polygon;
             set
             {
                 Polygon = value;
@@ -25,8 +24,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
                 Invalidated = true;
             }
         }
-       
-        #endregion
 
+        #endregion
     }
 }

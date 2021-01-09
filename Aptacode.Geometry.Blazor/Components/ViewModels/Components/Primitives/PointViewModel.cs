@@ -6,16 +6,13 @@ using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Vertices;
-using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
     public class PointViewModel : ComponentViewModel
     {
-
         #region Ctor
-        
+
         public PointViewModel(Point point)
         {
             Point = point;
@@ -25,9 +22,22 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         #endregion
 
+        #region Canvas
+
+        public override async Task CustomDraw(BlazorCanvasInterop ctx)
+        {
+            ctx.BeginPath();
+            ctx.Ellipse((int) Point.Position.X, (int) Point.Position.Y, 1, 1, 0, 0, 2 * (float) Math.PI);
+            ctx.Fill();
+            ctx.Stroke();
+        }
+
+        #endregion
+
         #region Props
 
         private Point _point;
+
         public Point Point
         {
             get => _point;
@@ -37,21 +47,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
                 UpdateMargin();
             }
         }
+
         public override void UpdateMargin()
         {
+            if (_point == null)
+            {
+                return;
+            }
+
             BoundingPrimitive = new Ellipse(_point.Position, new Vector2(Margin, Margin), 0);
-
-        }
-        #endregion
-
-        #region Canvas
-
-        public override async Task CustomDraw(BlazorCanvasInterop ctx)
-        {
-            ctx.BeginPath();
-            ctx.Ellipse((int)Point.Position.X, (int)Point.Position.Y, 1, 1, 0, 0, 2 * (float)Math.PI);
-            ctx.Fill();
-            ctx.Stroke();
         }
 
         #endregion

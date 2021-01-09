@@ -52,7 +52,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             }
 
             IsMouseDown = true;
-            
+
             MouseDownPosition = position;
             MouseClickDown();
             OnMouseDown?.Invoke(this, position);

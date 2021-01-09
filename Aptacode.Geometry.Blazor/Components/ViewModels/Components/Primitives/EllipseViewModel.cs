@@ -6,13 +6,11 @@ using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
-using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 {
     public class EllipseViewModel : ComponentViewModel
     {
-
         #region Ctor
 
         public EllipseViewModel(Ellipse ellipse)
@@ -24,9 +22,24 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         #endregion
 
+        #region Canvase
+
+        public override async Task CustomDraw(BlazorCanvasInterop ctx)
+        {
+            ctx.BeginPath();
+
+            ctx.Ellipse((int) Ellipse.Position.X, (int) Ellipse.Position.Y, (int) Ellipse.Radii.X,
+                (int) Ellipse.Radii.Y, Ellipse.Rotation, 0, 2.0f * (float) Math.PI);
+            ctx.Fill();
+            ctx.Stroke();
+        }
+
+        #endregion
+
         #region Props
 
         private Ellipse _ellipse;
+
         public Ellipse Ellipse
         {
             get => _ellipse;
@@ -39,22 +52,13 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override void UpdateMargin()
         {
+            if (_ellipse == null)
+            {
+                return;
+            }
+
             BoundingPrimitive = new Ellipse(_ellipse.Position, _ellipse.Radii + new Vector2(Margin, Margin),
                 _ellipse.Rotation);
-        }
-
-        #endregion
-
-        #region Canvase
-
-        public override async Task CustomDraw(BlazorCanvasInterop ctx)
-        {
-            ctx.BeginPath();
-
-            ctx.Ellipse((int)Ellipse.Position.X, (int)Ellipse.Position.Y, (int)Ellipse.Radii.X,
-                (int)Ellipse.Radii.Y, Ellipse.Rotation, 0, 2.0f * (float)Math.PI);
-            ctx.Fill();
-            ctx.Stroke();
         }
 
         #endregion

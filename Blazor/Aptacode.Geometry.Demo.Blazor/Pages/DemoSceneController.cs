@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -11,12 +10,16 @@ using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
-using Aptacode.Geometry.Primitives.Polygons;
+using Rectangle = Aptacode.Geometry.Primitives.Polygons.Rectangle;
 
 namespace Aptacode.Geometry.Demo.Blazor.Pages
 {
     public class DemoSceneController : SceneControllerViewModel
     {
+        private readonly ComponentBuilder _componentBuilder = new();
+
+        public readonly List<ComponentViewModel> SelectedComponents = new();
+
         public DemoSceneController(SceneViewModel scene) : base(scene)
         {
             UserInteractionController.OnKeyDown += UserInteractionControllerOnOnKeyDown;
@@ -25,7 +28,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             UserInteractionController.OnMouseUp += UserInteractionControllerOnOnMouseUp;
             UserInteractionController.OnMouseMoved += UserInteractionControllerOnOnMouseMoved;
             UserInteractionController.OnMouseClicked += UserInteractionControllerOnMouseClicked;
-            
+
             ComponentCreationMode = ComponentType.None;
 
             AreaSelection = new SelectionComponent();
@@ -33,15 +36,11 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             Scene.Components.Add(AreaSelection);
         }
 
-        public readonly List<ComponentViewModel> SelectedComponents = new List<ComponentViewModel>();
         public SelectionComponent AreaSelection { get; set; }
-        
-        private readonly ComponentBuilder componentBuilder = new();
         public ComponentType ComponentCreationMode { get; set; }
+
         private void UserInteractionControllerOnOnMouseDown(object? sender, Vector2 position)
         {
-            Console.WriteLine("Mouse down");
-
             if (ComponentCreationMode != ComponentType.None)
             {
                 switch (ComponentCreationMode)
@@ -70,10 +69,8 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                 var collidingComponents = Scene.Components.CollidingWith(position, CollisionDetector).ToList();
                 if (collidingComponents.Any())
                 {
-                    Console.WriteLine(SelectedComponents.Count() + "Collide");
                     if (!collidingComponents.Any(c => SelectedComponents.Contains(c)))
                     {
-                        Console.WriteLine(SelectedComponents.Count() + "new selection");
                         SelectedComponents.Clear();
                         foreach (var componentViewModel in collidingComponents.ToArray())
                         {
@@ -81,10 +78,6 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                             Scene.BringToFront(componentViewModel);
                             SelectedComponents.Add(componentViewModel);
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine(SelectedComponents.Count() + "selection");
                     }
                 }
                 else
@@ -98,7 +91,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
         private void UserInteractionControllerOnOnMouseMoved(object? sender, Vector2 position)
         {
             AreaSelection.MouseMove(position);
-            
+
             if (SelectedComponents.Any() && UserInteractionController.IsMouseDown)
             {
                 var delta = position - UserInteractionController.LastMousePosition;
@@ -111,16 +104,11 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         private void UserInteractionControllerOnOnMouseUp(object? sender, Vector2 position)
         {
-            Console.WriteLine("Mouse up");
             if (AreaSelection.SelectionMade())
             {
                 SelectedComponents.Clear();
-                Console.WriteLine("Selection" + AreaSelection.BoundingPrimitive.BoundingRectangle.TopLeft+ " " + AreaSelection.BoundingPrimitive.BoundingRectangle.Size);
-
-
                 var collidingComponents = Scene.Components.CollidingWith(AreaSelection, CollisionDetector);
-                Console.WriteLine("Selection" + collidingComponents.Count());
-                AreaSelection.Rectangle = Primitives.Polygons.Rectangle.Create(Vector2.Zero, Vector2.Zero);
+                AreaSelection.Rectangle = Rectangle.Create(Vector2.Zero, Vector2.Zero);
 
                 if (collidingComponents.Any())
                 {
@@ -130,6 +118,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                         {
                             continue;
                         }
+
                         componentViewModel.BorderColor = Color.Green;
                         Scene.BringToFront(componentViewModel);
                         SelectedComponents.Add(componentViewModel);
@@ -142,56 +131,13 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                 {
                     componentViewModel.BorderColor = Color.Black;
                 }
+
                 SelectedComponents.Clear();
             }
         }
 
-        #region Component Creation
-
-        private readonly List<Vector2> _vertices = new List<Vector2>();
-
-        public void AddVertex(Vector2 vertex)
-        {
-            _vertices.Add(vertex);
-        }
-
-        public void EndComponent()
-        {
-            switch (ComponentCreationMode)
-            {
-                case ComponentType.Point:
-                    componentBuilder
-                        .SetBase(_vertices.Last().ToPoint().ToViewModel());
-                    break;
-                case ComponentType.Line:
-                    componentBuilder
-                        .SetBase(PolyLine.Create(_vertices.ToArray()).ToViewModel());
-                    break;
-                case ComponentType.Polygon:
-                    componentBuilder
-                        .SetBase(Polygon.Create(_vertices.ToArray()).ToViewModel());
-                    break;
-                case ComponentType.Ellipse:
-                    componentBuilder
-                        .SetBase(Ellipse.Create(_vertices.Last().X, _vertices.Last().Y, 20,20,0).ToViewModel());
-                    break;
-                case ComponentType.Group:
-                default:
-                    return;
-            }
-
-            var newComponent = componentBuilder
-                .SetMargin(0.0f)
-                .SetFillColor(Color.Orange)
-                .SetBorderThickness(1).Build();
-
-            Scene.Components.Add(newComponent);
-            _vertices.Clear();
-        }
-        #endregion
         private void UserInteractionControllerOnMouseClicked(object? sender, Vector2 position)
         {
-
         }
 
         private void UserInteractionControllerOnOnKeyUp(object? sender, string key)
@@ -233,5 +179,54 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                     return ComponentType.None;
             }
         }
+
+        #region Component Creation
+
+        private readonly List<Vector2> _vertices = new();
+
+        public void AddVertex(Vector2 vertex)
+        {
+            _vertices.Add(vertex);
+        }
+
+        public void EndComponent()
+        {
+            switch (ComponentCreationMode)
+            {
+                case ComponentType.Point:
+                    _componentBuilder
+                        .SetBase(_vertices.Last().ToPoint().ToViewModel())
+                        .SetMargin(5.0f);
+                    break;
+                case ComponentType.Line:
+                    _componentBuilder
+                        .SetBase(PolyLine.Create(_vertices.ToArray()).ToViewModel())
+                        .SetMargin(5.0f);
+                    break;
+                case ComponentType.Polygon:
+                    _componentBuilder
+                        .SetBase(Polygon.Create(_vertices.ToArray()).ToViewModel())
+                        .SetMargin(0.0f);
+                    break;
+                case ComponentType.Ellipse:
+                    _componentBuilder
+                        .SetBase(Ellipse.Create(_vertices.Last().X, _vertices.Last().Y, 20, 20, 0).ToViewModel())
+                        .SetMargin(0.0f);
+
+                    break;
+                case ComponentType.Group:
+                default:
+                    return;
+            }
+
+            var newComponent = _componentBuilder
+                .SetFillColor(Color.Orange)
+                .SetBorderThickness(1).Build();
+
+            Scene.Components.Add(newComponent);
+            _vertices.Clear();
+        }
+
+        #endregion
     }
 }

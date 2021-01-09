@@ -4,7 +4,6 @@ using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
 using Aptacode.Geometry.Blazor.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace Aptacode.Geometry.Blazor.Components.Views
 {
@@ -36,8 +35,9 @@ namespace Aptacode.Geometry.Blazor.Components.Views
         #endregion
 
         #region Properties
+
         [Inject] public BlazorCanvasInterop BlazorCanvasInterop { get; set; }
-        
+
         [Parameter] public SceneViewModel ViewModel { get; set; }
 
         public ElementReference Canvas { get; set; }

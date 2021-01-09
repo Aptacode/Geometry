@@ -124,11 +124,11 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             for (var i = 0; i <= poly.BottomRight.X; i += 2)
             {
                 for (var j = 0; j <= poly.BottomRight.Y; j += 2)
-            {
-                var pointAsPoint = new Point(new Vector2(i, j));
-                var sut = pointAsPoint.CollidesWith(poly, _collisionDetector);
-                Assert.True(sut);
-            }
+                {
+                    var pointAsPoint = new Point(new Vector2(i, j));
+                    var sut = pointAsPoint.CollidesWith(poly, _collisionDetector);
+                    Assert.True(sut);
+                }
             }
         }
 
