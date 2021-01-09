@@ -35,6 +35,16 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual async Task CustomDraw(BlazorCanvasInterop ctx)
         {
+            
+        }
+        public virtual async Task DrawText(BlazorCanvasInterop ctx)
+        {
+            if (!string.IsNullOrEmpty(Text))
+            {
+                ctx.TextAlign("center");
+                ctx.FillStyle("black");
+                ctx.FillText(Text, BoundingRectangle.Center.X * SceneScale.Value, BoundingRectangle.Center.Y * SceneScale.Value);
+            }
         }
 
         public virtual async Task Draw(BlazorCanvasInterop ctx)
@@ -61,19 +71,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
                 await child.Draw(ctx);
             }
 
-            if (!string.IsNullOrEmpty(Text))
-            {
-                ctx.TextAlign("center");
-                ctx.FillStyle("black");
-                ctx.FillText(Text, BoundingRectangle.Center.X * SceneScale.Value, BoundingRectangle.Center.Y * SceneScale.Value);
-            }
+            await DrawText(ctx);
         }
-
+        
         #endregion
 
         #region Children
 
-        private readonly List<ComponentViewModel> _children = new();
+        protected readonly List<ComponentViewModel> _children = new();
 
         public IEnumerable<ComponentViewModel> Children => _children;
 
