@@ -47,7 +47,7 @@ steps:
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '1'
     minorVersion: '0'
-    patchVersion: '3'
+    patchVersion: '6'
     
 - task: DotNetCoreCLI@2
   displayName: "Pack"
@@ -59,7 +59,7 @@ steps:
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '1'
     minorVersion: '0'
-    patchVersion: '3'
+    patchVersion: '6'
 
 - task: NuGetCommand@2
   displayName: 'Push'
