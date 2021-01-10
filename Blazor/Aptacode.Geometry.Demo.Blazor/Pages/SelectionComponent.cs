@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Numerics;
+using System.Threading.Tasks;
+using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives;
+using Aptacode.Geometry.Blazor.Utilities;
 using Rectangle = Aptacode.Geometry.Primitives.Polygons.Rectangle;
 
 namespace Aptacode.Geometry.Demo.Blazor.Pages
@@ -12,6 +15,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
         {
             FillColor = Color.White;
             BorderColor = Color.Green;
+            BorderThickness = 0.5f;
             IsShown = false;
             CollisionDetectionEnabled = true;
         }
@@ -24,6 +28,17 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
         #endregion
 
         #region Methods
+
+        public override async Task CustomDraw(BlazorCanvasInterop ctx)
+        {
+            var vertices = new Vector2[Polygon.Vertices.Length];
+            for (var i = 0; i < Polygon.Vertices.Length; i++)
+            {
+                vertices[i] = Polygon.Vertices[i] * SceneScale.Value;
+            }
+            ctx.Polygon(vertices);
+            ctx.Stroke();
+        }
 
         public void MouseDown(Vector2 position)
         {
