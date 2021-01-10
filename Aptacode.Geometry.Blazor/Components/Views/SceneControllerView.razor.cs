@@ -19,7 +19,7 @@ namespace Aptacode.Geometry.Blazor.Components.Views
         protected override async Task OnInitializedAsync()
         {
             await JsRuntime.InvokeAsync<object>("initGame", DotNetObjectReference.Create(this));
-            ViewModel.SetRunTime(JSUnmarshalledRuntime);
+            ViewModel.Setup(BlazorCanvas);
             await base.OnInitializedAsync();
         }
 
@@ -62,13 +62,13 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 
         #region Properties
 
-        [Parameter] public SceneControllerViewModel ViewModel { get; set; }
+        [Parameter] public SceneController ViewModel { get; set; }
 
         [Inject] private IJSRuntime JsRuntime { get; set; }
 
         protected ElementReference Container;
 
-        [Inject] public BlazorCanvasInterop JSUnmarshalledRuntime { get; set; }
+        [Inject] public BlazorCanvasInterop BlazorCanvas { get; set; }
 
         #endregion
     }

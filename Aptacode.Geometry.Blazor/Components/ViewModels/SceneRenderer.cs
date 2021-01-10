@@ -1,65 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
-using Aptacode.CSharp.Common.Utilities.Mvvm;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Collision.Rectangles;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
-    public class SceneViewModel : BindableBase, IAsyncDisposable
+    public class SceneRenderer
     {
         #region Ctor
 
-        public SceneViewModel(Vector2 size)
+        public SceneRenderer(BlazorCanvasInterop canvas, Scene scene)
         {
-            Components = new List<ComponentViewModel>();
-            Size = size;
+            _canvas = canvas;
+            _scene = scene;
         }
 
         #endregion
+        
+        #region Props
 
-        public BlazorCanvasInterop JSUnmarshalledRuntime { get; set; }
-
-        #region Disposable
-
-        public async ValueTask DisposeAsync()
-        {
-        }
+        private readonly BlazorCanvasInterop _canvas;
+        private readonly Scene _scene;
 
         #endregion
 
         #region Redraw
 
-        private DateTime _lastTick = DateTime.Now;
-
-        public async Task RedrawAsync()
+        public async Task Redraw()
         {
-            if (JSUnmarshalledRuntime == null)
-            {
-                return;
-            }
+            _canvas.FillStyle(ComponentViewModel.DefaultFillColor);
+            _canvas.StrokeStyle(ComponentViewModel.DefaultBorderColor);
+            _canvas.LineWidth(ComponentViewModel.DefaultBorderThickness);
 
-            var currentTime = DateTime.Now;
-            var delta = currentTime - _lastTick;
-            var frameRate = 1.0f / delta.TotalSeconds;
-            _lastTick = currentTime;
-
-            //Console.WriteLine($"{frameRate}fps");
-            JSUnmarshalledRuntime.FillStyle(ComponentViewModel.DefaultFillColor);
-            JSUnmarshalledRuntime.StrokeStyle(ComponentViewModel.DefaultBorderColor);
-            JSUnmarshalledRuntime.LineWidth(ComponentViewModel.DefaultBorderThickness);
-
-            var invalidatedItems
-                = await InvalidateItems();
+            var invalidatedItems = await InvalidateItems();
 
             for (var i = 0; i < invalidatedItems.Count; i++)
             {
                 var component = invalidatedItems[i];
-                await component.Draw(JSUnmarshalledRuntime);
+                await component.Draw(_canvas);
             }
         }
 
@@ -68,9 +50,9 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             var validItems = new List<ComponentViewModel>();
             var invalidItems = new List<ComponentViewModel>();
 
-            for (var i = 0; i < Components.Count; i++)
+            for (var i = 0; i < _scene.Components.Count(); i++)
             {
-                var component = Components[i];
+                var component = _scene.Components.ElementAt(i);
                 if (component.Invalidated)
                 {
                     invalidItems.Add(component);
@@ -130,68 +112,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
 
         public async Task Invalidate(BoundingRectangle rectangle, float border)
         {
-            JSUnmarshalledRuntime.ClearRect((rectangle.TopLeft.X - 4 * border) * SceneScale.Value, (rectangle.TopLeft.Y - 4 * border) * SceneScale.Value,
-                (rectangle.Size.X + 8 * border )* SceneScale.Value, (rectangle.Size.Y + 8 * border )* SceneScale.Value);
+            _canvas.ClearRect((rectangle.TopLeft.X - 4 * border) * SceneScale.Value, (rectangle.TopLeft.Y - 4 * border) * SceneScale.Value,
+                (rectangle.Size.X + 8 * border) * SceneScale.Value, (rectangle.Size.Y + 8 * border) * SceneScale.Value);
         }
 
         #endregion
 
-        #region Properties
 
-        public List<ComponentViewModel> Components { get; set; }
-
-        public Vector2 Size { get; set; }
-        
-        public bool ShowGrid { get; set; } = true;
-
-        #endregion
-
-        #region Layering
-
-        public void BringToFront(ComponentViewModel componentViewModel)
-        {
-            if (!Components.Remove(componentViewModel))
-            {
-                return;
-            }
-
-            Components.Add(componentViewModel);
-        }
-
-        public void SendToBack(ComponentViewModel componentViewModel)
-        {
-            if (!Components.Remove(componentViewModel))
-            {
-                return;
-            }
-
-            Components.Insert(0, componentViewModel);
-        }
-
-        public void BringForward(ComponentViewModel componentViewModel)
-        {
-            var index = Components.IndexOf(componentViewModel);
-            if (index == Components.Count - 1)
-            {
-                return;
-            }
-
-            Components.RemoveAt(index);
-            Components.Insert(index + 1, componentViewModel);
-        }
-
-        public void SendBackward(ComponentViewModel componentViewModel)
-        {
-            var index = Components.IndexOf(componentViewModel);
-            if (index == 0)
-            {
-                return;
-            }
-
-            Components.RemoveAt(index);
-            Components.Insert(index - 1, componentViewModel);
-        }
-
-        #endregion
     }
 }

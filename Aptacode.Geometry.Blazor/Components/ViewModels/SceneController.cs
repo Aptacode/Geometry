@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
@@ -10,14 +11,18 @@ using Aptacode.Geometry.Collision;
 
 namespace Aptacode.Geometry.Blazor.Components.ViewModels
 {
-    public class SceneControllerViewModel : BindableBase
+    public class SceneController : BindableBase
     {
-        public SceneControllerViewModel(SceneViewModel scene)
+        #region Ctor
+
+        public SceneController(Scene scene)
         {
             Scene = scene;
             CollisionDetector = new HybridCollisionDetector();
             UserInteractionController = new UserInteractionController();
         }
+
+        #endregion
 
         #region Movement
 
@@ -50,24 +55,33 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
         #endregion
 
         #region Events
+        
+        private DateTime _lastTick = DateTime.Now;
 
         public virtual async Task Tick()
         {
-            await Scene.RedrawAsync();
+            var currentTime = DateTime.Now;
+            var delta = currentTime - _lastTick;
+            var frameRate = 1.0f / delta.TotalSeconds;
+            _lastTick = currentTime;
+            Console.WriteLine($"{frameRate}fps");
+
+            await Renderer.Redraw();
         }
 
         #endregion
 
-        public void SetRunTime(BlazorCanvasInterop jsRuntime)
+        public void Setup(BlazorCanvasInterop canvas)
         {
-            Scene.JSUnmarshalledRuntime = jsRuntime;
+            Renderer = new SceneRenderer(canvas, Scene);
         }
 
         #region Properties
 
-        public SceneViewModel Scene { get; set; }
-        public UserInteractionController UserInteractionController { get; set; }
-        public CollisionDetector CollisionDetector { get; set; }
+        public SceneRenderer Renderer { get; private set; }
+        public Scene Scene { get; private set; }
+        public UserInteractionController UserInteractionController { get; private set; }
+        public CollisionDetector CollisionDetector { get; private set; }
 
         public string Cursor { get; set; }
 

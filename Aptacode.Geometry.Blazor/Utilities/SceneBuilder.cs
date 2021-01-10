@@ -29,13 +29,13 @@ namespace Aptacode.Geometry.Blazor.Utilities
             return this;
         }
 
-        public SceneViewModel Build()
+        public Scene Build()
         {
-            var scene = new SceneViewModel(new Vector2(_width, _height));
+            var scene = new Scene(new Vector2(_width, _height));
 
             foreach (var componentViewModel in _components)
             {
-                scene.Components.Add(componentViewModel);
+                scene.Add(componentViewModel);
             }
 
             Reset();
