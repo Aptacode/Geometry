@@ -46,6 +46,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             {
                 _point = value;
                 UpdateMargin();
+                Invalidated = true;
             }
         }
 
