@@ -28,16 +28,13 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override async Task CustomDraw(BlazorCanvasInterop ctx)
         {
-            ctx.BeginPath();
-
-            ctx.MoveTo((int) Polygon.Vertices[0].X * SceneScale.Value, (int) Polygon.Vertices[0].Y * SceneScale.Value);
-            for (var i = 1; i < Polygon.Vertices.Length; i++)
+            var vertices = new Vector2[Polygon.Vertices.Length];
+            for (var i = 0; i < Polygon.Vertices.Length; i++)
             {
-                var vertex = Polygon.Vertices[i] * SceneScale.Value;
-                ctx.LineTo((int) vertex.X, (int) vertex.Y);
+                vertices[i] = Polygon.Vertices[i] * SceneScale.Value;
             }
-
-            ctx.ClosePath();
+            ctx.Polygon(vertices);
+            
             ctx.Fill();
             ctx.Stroke();
         }
