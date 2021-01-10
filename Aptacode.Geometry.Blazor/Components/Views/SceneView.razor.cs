@@ -7,14 +7,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Aptacode.Geometry.Blazor.Components.Views
 {
-    public class SceneViewBase : ComponentBase, IAsyncDisposable
+    public class SceneViewBase : ComponentBase
     {
         #region Lifecycle
-
-        public async ValueTask DisposeAsync()
-        {
-            await ViewModel.DisposeAsync();
-        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -25,8 +20,7 @@ namespace Aptacode.Geometry.Blazor.Components.Views
         {
             if (firstRender)
             {
-                await BlazorCanvasInterop.Register(Canvas);
-                await ViewModel.RedrawAsync();
+                await BlazorCanvas.Register(Canvas);
             }
 
             await base.OnAfterRenderAsync(firstRender);
@@ -36,9 +30,9 @@ namespace Aptacode.Geometry.Blazor.Components.Views
 
         #region Properties
 
-        [Inject] public BlazorCanvasInterop BlazorCanvasInterop { get; set; }
+        [Inject] public BlazorCanvasInterop BlazorCanvas { get; set; }
 
-        [Parameter] public SceneViewModel ViewModel { get; set; }
+        [Parameter] public Scene ViewModel { get; set; }
 
         public ElementReference Canvas { get; set; }
 

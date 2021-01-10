@@ -14,13 +14,13 @@ using Rectangle = Aptacode.Geometry.Primitives.Polygons.Rectangle;
 
 namespace Aptacode.Geometry.Demo.Blazor.Pages
 {
-    public class DemoSceneController : SceneControllerViewModel
+    public class DemoSceneController : SceneController
     {
         private readonly ComponentBuilder _componentBuilder = new();
 
         public readonly List<ComponentViewModel> SelectedComponents = new();
 
-        public DemoSceneController(SceneViewModel scene) : base(scene)
+        public DemoSceneController(Scene scene) : base(scene)
         {
             UserInteractionController.OnKeyDown += UserInteractionControllerOnOnKeyDown;
             UserInteractionController.OnKeyUp += UserInteractionControllerOnOnKeyUp;
@@ -33,7 +33,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
             AreaSelection = new SelectionComponent();
 
-            Scene.Components.Add(AreaSelection);
+            Scene.Add(AreaSelection);
         }
 
         public SelectionComponent AreaSelection { get; set; }
@@ -223,7 +223,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                 .SetFillColor(Color.Orange)
                 .SetBorderThickness(1).Build();
 
-            Scene.Components.Add(newComponent);
+            Scene.Add(newComponent);
             _vertices.Clear();
         }
 
