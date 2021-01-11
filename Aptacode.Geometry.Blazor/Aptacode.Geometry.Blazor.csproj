@@ -5,9 +5,14 @@
     <LangVersion>9.0</LangVersion>
     <Authors>Aptacode</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.10</Version>
-    <AssemblyVersion>1.0.10</AssemblyVersion>
-    <FileVersion>1.0.10</FileVersion>
+    <Version>1.0.11</Version>
+    <AssemblyVersion>1.0.11</AssemblyVersion>
+    <FileVersion>1.0.11</FileVersion>
+    <PackageIcon>Logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Aptacode/Geometry</RepositoryUrl>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <Description>High performance .net 5 graphics library for Blazor</Description>
+    <PackageProjectUrl>https://github.com/Aptacode/Geometry</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +27,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Aptacode.Geometry\Aptacode.Geometry.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Resources\Images\Logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
