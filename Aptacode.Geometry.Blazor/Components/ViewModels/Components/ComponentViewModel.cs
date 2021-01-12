@@ -21,12 +21,12 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             Id = Guid.NewGuid();
             CollisionDetectionEnabled = true;
             Margin = DefaultMargin;
-            Invalidated = true;
             IsShown = true;
             BorderThickness = DefaultBorderThickness;
             BorderColor = Color.Black;
-            FillColor = Color.Black;
+            FillColor = Color.White;
             OldBoundingRectangle = BoundingRectangle = _children.ToBoundingRectangle();
+            Invalidated = true;
         }
 
         #endregion
@@ -61,8 +61,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
             ctx.StrokeStyle(BorderColorName);
 
-            ctx.LineWidth(BorderThickness);
-
+            ctx.LineWidth(BorderThickness * SceneScale.Value);
 
             await CustomDraw(ctx);
 
@@ -76,9 +75,15 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         #endregion
 
-        #region Children
-
+        #region Prop
+        
         private readonly List<ComponentViewModel> _children = new();
+        public bool CollisionDetectionEnabled { get; set; }
+        public bool Invalidated { get; set; }
+
+        #endregion
+
+        #region Children
 
         public IEnumerable<ComponentViewModel> Children => _children;
 
@@ -92,6 +97,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
         {
             _children.Add(child);
             UpdateBoundingRectangle();
+            Invalidated = true;
         }
 
         public void AddRange(IEnumerable<ComponentViewModel> children)
@@ -102,12 +108,14 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             }
 
             UpdateBoundingRectangle();
+            Invalidated = true;
         }
 
         public void Remove(ComponentViewModel child)
         {
             _children.Add(child);
             UpdateBoundingRectangle();
+            Invalidated = true;
         }
 
         #endregion
@@ -116,7 +124,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public static readonly string DefaultBorderColor = Color.Black.ToKnownColor().ToString();
         public static readonly string DefaultFillColor = Color.Black.ToKnownColor().ToString();
-        public static readonly int DefaultBorderThickness = 1;
+        public static readonly float DefaultBorderThickness = 0.1f;
         public static readonly float DefaultMargin = 1.0f;
 
         #endregion
@@ -138,15 +146,33 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             {
                 _margin = value;
                 UpdateMargin();
+                Invalidated = true;
             }
         }
 
-        public bool IsShown { get; set; }
-
-        public string Text { get; set; }
+        private bool _isShown;
+        public bool IsShown
+        {
+            get => _isShown;
+            set
+            {
+                _isShown = value;
+                Invalidated = true;
+            }
+        }
+        
+        private string _text;
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                _text = value;
+                Invalidated = true;
+            }
+        }
 
         private Color _borderColor;
-
         public Color BorderColor
         {
             get => _borderColor;
@@ -154,13 +180,13 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             {
                 _borderColor = value;
                 BorderColorName = value.ToKnownColor().ToString();
+                Invalidated = true;
             }
         }
 
-        public string? BorderColorName { get; set; }
+        public string? BorderColorName { get; private set; }
 
         private Color _fillColor;
-
         public Color FillColor
         {
             get => _fillColor;
@@ -168,12 +194,22 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             {
                 _fillColor = value;
                 FillColorName = value.ToKnownColor().ToString();
+                Invalidated = true;
             }
         }
 
-        public string FillColorName { get; set; }
-
-        public int BorderThickness { get; set; }
+        public string FillColorName { get; private set; }
+        
+        private float _borderThickness;
+        public float BorderThickness
+        {
+            get => _borderThickness;
+            set
+            {
+                _borderThickness = value;
+                Invalidated = true;
+            }
+        }
 
         #endregion
 
@@ -182,9 +218,6 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
         public virtual void UpdateMargin()
         {
         }
-
-        public bool CollisionDetectionEnabled { get; set; }
-        public bool Invalidated { get; set; }
 
         public virtual bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
         {

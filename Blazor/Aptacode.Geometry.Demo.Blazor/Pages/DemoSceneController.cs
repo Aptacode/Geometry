@@ -221,7 +221,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
             var newComponent = _componentBuilder
                 .SetFillColor(Color.Orange)
-                .SetBorderThickness(1).Build();
+                .Build();
 
             Scene.Add(newComponent);
             _vertices.Clear();

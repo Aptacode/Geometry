@@ -48,6 +48,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             {
                 _ellipse = value;
                 UpdateMargin();
+                Invalidated = true;
             }
         }
 

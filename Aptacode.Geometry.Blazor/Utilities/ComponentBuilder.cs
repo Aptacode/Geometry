@@ -6,7 +6,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
 {
     public class ComponentBuilder
     {
-        public ComponentBuilder SetBorderThickness(int borderThickness)
+        public ComponentBuilder SetBorderThickness(float borderThickness)
         {
             _borderThickness = borderThickness;
             return this;
@@ -70,7 +70,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
             _children.Clear();
             _borderColor = Color.Black;
             _fillColor = Color.White;
-            _borderThickness = 1;
+            _borderThickness = ComponentViewModel.DefaultBorderThickness;
             _margin = ComponentViewModel.DefaultMargin;
             _text = "";
         }
@@ -83,7 +83,7 @@ namespace Aptacode.Geometry.Blazor.Utilities
 
         private Color _fillColor = Color.White;
         private Color _borderColor = Color.Black;
-        private int _borderThickness = 1;
+        private float _borderThickness = ComponentViewModel.DefaultBorderThickness;
         private float _margin = ComponentViewModel.DefaultMargin;
         private string _text = "";
         private readonly List<ComponentViewModel> _children = new();

@@ -5,9 +5,14 @@
     <LangVersion>9.0</LangVersion>
     <Authors>Aptacode</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.9</Version>
-    <AssemblyVersion>1.0.9</AssemblyVersion>
-    <FileVersion>1.0.9</FileVersion>
+    <Version>1.0.11</Version>
+    <AssemblyVersion>1.0.11</AssemblyVersion>
+    <FileVersion>1.0.11</FileVersion>
+    <PackageIcon>Logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Aptacode/Geometry</RepositoryUrl>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <Description>High performance .net 5 graphics library for Blazor</Description>
+    <PackageProjectUrl>https://github.com/Aptacode/Geometry</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,13 +20,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aptacode.BlazorCanvas" Version="1.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.1" />
+    <PackageReference Include="Aptacode.BlazorCanvas" Version="1.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.2" />
     <PackageReference Include="Aptacode.CSharp.Common.Utilities" Version="1.0.0.30" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Aptacode.Geometry\Aptacode.Geometry.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Resources\Images\Logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

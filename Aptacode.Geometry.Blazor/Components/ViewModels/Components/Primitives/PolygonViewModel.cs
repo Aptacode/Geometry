@@ -52,6 +52,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             {
                 _polygon = value;
                 UpdateMargin();
+                Invalidated = true;
             }
         }
 
