@@ -352,9 +352,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
         public virtual bool HandleMouseEvent(BaseMouseEvent mouseEvent)
         {
-            
-            //if(CollidesWith())
-            
+            //Tunnel
             foreach (var child in Children)
             {
                 if (child.HandleMouseEvent(mouseEvent))
@@ -363,6 +361,23 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
                 }
             }
 
+            if (CollidesWith(mouseEvent.Position))
+            {
+                switch (mouseEvent)
+                {
+                    case MouseDownEvent mouseDownEvent:
+                        OnMouseDown?.Invoke(this, mouseDownEvent);
+                        break;
+                    case MouseUpEvent mouseUpEvent:
+                        OnMouseUp?.Invoke(this, mouseUpEvent);
+                        break;
+                    case MouseClickEvent mouseClickEvent:
+                        OnMouseClick?.Invoke(this, mouseClickEvent); 
+                        break;
+                }
+                return true;
+            }
+            
             return false;
         }
 
