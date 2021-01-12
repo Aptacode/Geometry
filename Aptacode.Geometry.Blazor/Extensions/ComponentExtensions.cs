@@ -63,7 +63,7 @@ namespace Aptacode.Geometry.Blazor.Extensions
             Vector2 point)
         {
             return components.Where(c =>
-                c.CollisionDetectionEnabled && c.CollidesWith(point.ToPoint()));
+                c.CollisionDetectionEnabled && c.CollidesWith(point));
         }
 
         public static IEnumerable<ComponentViewModel> CollidingWith(this IEnumerable<ComponentViewModel> components,

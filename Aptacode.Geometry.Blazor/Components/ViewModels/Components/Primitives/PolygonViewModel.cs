@@ -127,16 +127,16 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
 
         public override bool CollidesWith(ComponentViewModel component)
         {
-            return base.CollidesWith(component) && component.CollidesWith(Polygon);
+            return base.CollidesWith(component) || component.CollidesWith(Polygon);
         }
         public override bool CollidesWith(Primitive component)
         {
-            return base.CollidesWith(component) && Polygon.CollidesWith(component);
+            return base.CollidesWith(component) || Polygon.CollidesWith(component);
         }
 
         public override bool CollidesWith(Vector2 point)
         {
-            return base.CollidesWith(point) && Polygon.Contains(point);
+            return base.CollidesWith(point) || Polygon.Contains(point);
         }
 
         #endregion
