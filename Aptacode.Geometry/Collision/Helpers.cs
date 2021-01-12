@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aptacode.Geometry.Utilities;
+using System;
 using System.Numerics;
 
 namespace Aptacode.Geometry.Collision
@@ -12,6 +13,21 @@ namespace Aptacode.Geometry.Collision
             var lineLength = (line.B - line.A).Length();
             var delta = d1 + d2;
             return Math.Abs(delta - lineLength) < Constants.Tolerance;
+        }
+
+        public static bool newOnLineSegment(this (Vector2 A, Vector2 B) line, Vector2 point)
+        {
+            var minVector = Vector2.Min(line.A, line.B);
+            var maxVector = Vector2.Max(line.A, line.B);
+            if(point.X >= minVector.X && point.X <= maxVector.X && point.Y >= minVector.Y && point.Y <= maxVector.Y)
+            {
+                var perpDot = Vector2.Dot((line.A - line.B).Perp(), point);
+                if (perpDot == 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static bool LineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)

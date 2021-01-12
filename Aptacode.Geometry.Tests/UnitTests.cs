@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Numerics;
+using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
+using Aptacode.Geometry.Utilities;
 using Xunit;
 
 namespace Aptacode.Geometry.Tests
@@ -97,6 +99,27 @@ namespace Aptacode.Geometry.Tests
             var sut = Ellipse.QuarticHasRealRoots(q0, q1, q2, q3, q4);
 
             Assert.False(sut);
+        }
+
+        [Fact]
+
+        public void Perp_Test()
+        {
+            var a = new Vector2(6, 12);
+            var b = a.Perp();
+
+            Assert.Equal(new Vector2(12, -6), b);
+        }
+
+        [Fact]
+        public void OnLineSegment_Test()
+        {
+            var a = new Vector2(0, 0);
+            var b = new Vector2(6, 2);
+            var c = new Vector2(3, 1);
+
+            Assert.True(Helpers.newOnLineSegment((a, b), c));
+
         }
     }
 }

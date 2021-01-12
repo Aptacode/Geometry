@@ -245,7 +245,10 @@ namespace Aptacode.Geometry.Collision
                     }
                 }
             }
-
+            if(CollidesWith(p1.Vertices[0].ToPoint(), p2) || CollidesWith(p1.Vertices[0].ToPoint(), p2)) //If they don't intersect but one point is inside the other one then that polygon must contain the other.
+            {
+                return true;
+            }
             return false;
         }
 
