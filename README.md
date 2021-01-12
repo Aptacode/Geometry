@@ -1,7 +1,7 @@
-# Geometry
-
 <p align="center">
-  <img width="640" height="320" src="https://raw.githubusercontent.com/Aptacode/Geometry/Production/Resources/Images/Banner.jpg">
+   <div style="width:640;height:320">
+       <img style="width: inherit" src="https://raw.githubusercontent.com/Aptacode/Geometry/Development/Resources/Banner.png">
+</div>
 </p>
 
 [Live Demo](https://aptacode.github.io/Geometry/)
