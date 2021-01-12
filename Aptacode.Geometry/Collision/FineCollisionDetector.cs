@@ -113,6 +113,10 @@ namespace Aptacode.Geometry.Collision
                 }
             }
 
+            if (CollidesWith(p1.Vertices[0].ToPoint(), p2)) //If they don't intersect but a point of the polyline is inside the polygon then that polygon must contain the polyline
+            {
+                return true;
+            }
             return false;
         }
 
@@ -226,7 +230,10 @@ namespace Aptacode.Geometry.Collision
                     }
                 }
             }
-
+            if (CollidesWith(p2.Vertices[0].ToPoint(), p1)) //If they don't intersect but a point of the polyline is inside the polygon then that polygon must contain the polyline.
+            {
+                return true;
+            }
             return false;
         }
 
@@ -244,7 +251,7 @@ namespace Aptacode.Geometry.Collision
                     }
                 }
             }
-            if(CollidesWith(p1.Vertices[0].ToPoint(), p2) || CollidesWith(p1.Vertices[0].ToPoint(), p2)) //If they don't intersect but one point is inside the other one then that polygon must contain the other.
+            if(CollidesWith(p1.Vertices[0].ToPoint(), p2) || CollidesWith(p2.Vertices[0].ToPoint(), p1)) //If they don't intersect but one point is inside the other one then that polygon must contain the other.
             {
                 return true;
             }

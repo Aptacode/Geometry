@@ -29,7 +29,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndCircle_FineCollision_Test()
         {
             //Arrange
-            var ellipse = new Ellipse(new Vector2(50, 45), new Vector2(15, 10), 0.0f);
+            var ellipse = new Ellipse(new Vector2(45, 45), new Vector2(15, 10), 0.0f);
             var circle = new Ellipse(new Vector2(25, 25), new Vector2(15, 15), 0.0f);
             //Act
             var sut = _collisionDetector.CollidesWith(circle, ellipse);
