@@ -41,8 +41,7 @@ namespace Aptacode.Geometry.Collision
                     collision = !collision;
                 }
             }
-
-
+            
             return collision;
         }
 

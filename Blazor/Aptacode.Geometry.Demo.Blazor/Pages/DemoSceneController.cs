@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
 using Aptacode.Geometry.Blazor.Components.ViewModels;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
+using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Events;
 using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives;
 using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Blazor.Utilities;
@@ -138,6 +140,11 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
 
         private void UserInteractionControllerOnMouseClicked(object? sender, Vector2 position)
         {
+            var mouseClickEvent = new MouseClickEvent(position);
+            foreach (var componentViewModel in Scene.Components)
+            {
+                componentViewModel.Handle(mouseClickEvent);
+            }
         }
 
         private void UserInteractionControllerOnOnKeyUp(object? sender, string key)
@@ -222,6 +229,12 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             var newComponent = _componentBuilder
                 .SetFillColor(Color.Orange)
                 .Build();
+
+            newComponent.OnMouseClick += (object? sender, MouseClickEvent mouseClickEvent) =>
+            {
+                Console.WriteLine("Clicked: " + mouseClickEvent.Position);
+            };
+
 
             Scene.Add(newComponent);
             _vertices.Clear();
