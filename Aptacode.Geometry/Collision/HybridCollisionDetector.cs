@@ -8,6 +8,7 @@ namespace Aptacode.Geometry.Collision
 
         public readonly CollisionDetector CoarseCollisionDetector;
         public readonly CollisionDetector FineCollisionDetector;
+        public static readonly CollisionDetector CollisionDetector = CoarseRectangleCollisionDetector();
 
         #endregion
 

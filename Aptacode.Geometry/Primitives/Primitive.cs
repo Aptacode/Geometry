@@ -55,9 +55,9 @@ namespace Aptacode.Geometry.Primitives
         public BoundingRectangle BoundingRectangle =>
             _boundingRectangle ?? (_boundingRectangle = this.MinimumBoundingRectangle()).Value;
 
-        public virtual bool CollidesWith(Primitive p, CollisionDetector detector)
+        public virtual bool CollidesWith(Primitive p)
         {
-            return detector.CollidesWith(this, p);
+            return HybridCollisionDetector.CollisionDetector.CollidesWith(this, p);
         }
 
         #endregion

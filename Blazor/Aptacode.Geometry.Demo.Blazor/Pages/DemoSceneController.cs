@@ -66,7 +66,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             }
             else
             {
-                var collidingComponents = Scene.Components.CollidingWith(position, CollisionDetector).ToList();
+                var collidingComponents = Scene.Components.CollidingWith(position).ToList();
                 if (collidingComponents.Any())
                 {
                     if (!collidingComponents.Any(c => SelectedComponents.Contains(c)))
@@ -107,7 +107,7 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
             if (AreaSelection.SelectionMade())
             {
                 SelectedComponents.Clear();
-                var collidingComponents = Scene.Components.CollidingWith(AreaSelection, CollisionDetector);
+                var collidingComponents = Scene.Components.CollidingWith(AreaSelection);
                 AreaSelection.Rectangle = Rectangle.Create(Vector2.Zero, Vector2.Zero);
 
                 if (collidingComponents.Any())

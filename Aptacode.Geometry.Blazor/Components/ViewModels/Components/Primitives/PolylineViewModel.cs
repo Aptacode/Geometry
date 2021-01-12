@@ -124,19 +124,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             BoundingRectangle = base.UpdateBoundingRectangle().Combine(BoundingPrimitive.BoundingRectangle);
             return BoundingRectangle;
         }
-
-        public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
+        public override bool CollidesWith(ComponentViewModel component)
         {
-            return component.CollidesWith(BoundingPrimitive, collisionDetector) ||
-                   base.CollidesWith(component, collisionDetector);
+            return base.CollidesWith(component) && component.CollidesWith(PolyLine);
+        }
+        public override bool CollidesWith(Primitive component)
+        {
+            return base.CollidesWith(component) && PolyLine.CollidesWith(component);
         }
 
-        public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
+        public override bool CollidesWith(Vector2 point)
         {
-            return primitive.CollidesWith(BoundingPrimitive, collisionDetector) ||
-                   base.CollidesWith(primitive, collisionDetector);
+            return base.CollidesWith(point) && PolyLine.Contains(point);
         }
-
         #endregion
     }
 }

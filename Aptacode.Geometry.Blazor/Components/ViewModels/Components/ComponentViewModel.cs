@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
+using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Events;
 using Aptacode.Geometry.Blazor.Extensions;
 using Aptacode.Geometry.Blazor.Utilities;
 using Aptacode.Geometry.Collision;
@@ -219,7 +221,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
         {
         }
 
-        public virtual bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
+        public virtual bool CollidesWith(ComponentViewModel component)
         {
             if (!component.BoundingRectangle.CollidesWith(BoundingRectangle))
             {
@@ -228,7 +230,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
             foreach (var child in Children)
             {
-                if (child.CollidesWith(component, collisionDetector))
+                if (child.CollidesWith(component))
                 {
                     return true;
                 }
@@ -237,7 +239,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             return false;
         }
 
-        public virtual bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
+        public virtual bool CollidesWith(Primitive primitive)
         {
             if (!BoundingRectangle.CollidesWith(primitive.BoundingRectangle))
             {
@@ -246,7 +248,25 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
 
             foreach (var child in Children)
             {
-                if (child.CollidesWith(primitive, collisionDetector))
+                if (child.CollidesWith(primitive))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public virtual bool CollidesWith(Vector2 point)
+        {
+            if (!BoundingRectangle.Contains(point))
+            {
+                return false;
+            }
+
+            foreach (var child in Children)
+            {
+                if (child.CollidesWith(point))
                 {
                     return true;
                 }
@@ -314,6 +334,55 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components
             UpdateBoundingRectangle();
             Invalidated = true;
         }
+
+        #endregion
+
+        #region Events
+
+        public bool Handle(BaseUIEvent uiEvent)
+        {
+            switch (uiEvent)
+            {    
+                case BaseMouseEvent mouseEvent:
+                    return HandleMouseEvent(mouseEvent);
+                default:
+                    return HandleCustomEvent(uiEvent);
+            }
+        }
+
+        public virtual bool HandleMouseEvent(BaseMouseEvent mouseEvent)
+        {
+            
+            //if(CollidesWith())
+            
+            foreach (var child in Children)
+            {
+                if (child.HandleMouseEvent(mouseEvent))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public virtual bool HandleCustomEvent(BaseUIEvent customEvent)
+        {
+            foreach (var child in Children)
+            {
+                if (child.HandleCustomEvent(customEvent))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+        public event EventHandler<MouseDownEvent> OnMouseDown;
+        public event EventHandler<MouseUpEvent> OnMouseUp;
+        public event EventHandler<MouseClickEvent> OnMouseClick;
 
         #endregion
     }

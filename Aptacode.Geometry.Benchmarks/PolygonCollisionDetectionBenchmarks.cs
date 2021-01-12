@@ -27,25 +27,25 @@ namespace Aptacode.Geometry.Benchmarks
         [Benchmark]
         public bool PointCollision()
         {
-            return _polygon.CollidesWith(_collidingPoint, _collisionDetector);
+            return _collisionDetector.CollidesWith(_collidingPoint, _polygon);
         }
 
         [Benchmark]
         public bool PolylineCollision()
         {
-            return _polygon.CollidesWith(_collidingPolyline, _collisionDetector);
+            return _collisionDetector.CollidesWith(_collidingPolyline, _polygon);
         }
 
         [Benchmark]
         public bool PolygonCollision()
         {
-            return _polygon.CollidesWith(_collidingPolygon, _collisionDetector);
+            return _collisionDetector.CollidesWith(_collidingPolygon, _polygon);
         }
 
         [Benchmark]
         public bool CircleCollision()
         {
-            return _polygon.CollidesWith(_collidingEllipse, _collisionDetector);
+            return _collisionDetector.CollidesWith(_collidingEllipse, _polygon);
         }
     }
 }

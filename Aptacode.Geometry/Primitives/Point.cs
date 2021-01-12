@@ -16,9 +16,9 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
-        public override bool CollidesWith(Primitive p, CollisionDetector detector)
+        public override bool CollidesWith(Primitive p)
         {
-            return detector.CollidesWith(this, p);
+            return HybridCollisionDetector.CollisionDetector.CollidesWith(this, p);
         }
 
         #endregion
