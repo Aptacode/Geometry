@@ -235,7 +235,6 @@ namespace Aptacode.Geometry.Demo.Blazor.Pages
                 Console.WriteLine("Clicked: " + mouseClickEvent.Position);
             };
 
-
             Scene.Add(newComponent);
             _vertices.Clear();
         }
