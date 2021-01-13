@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Aptacode.BlazorCanvas;
 using Aptacode.Geometry.Blazor.Extensions;
@@ -109,16 +110,19 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives
             return BoundingRectangle;
         }
 
-        public override bool CollidesWith(ComponentViewModel component, CollisionDetector collisionDetector)
+
+        public override bool CollidesWith(ComponentViewModel component)
         {
-            return component.CollidesWith(BoundingPrimitive, collisionDetector) ||
-                   base.CollidesWith(component, collisionDetector);
+            return base.CollidesWith(component) || component.CollidesWith(Point);
+        }
+        public override bool CollidesWith(Primitive component)
+        {
+            return base.CollidesWith(component) || Point.CollidesWith(component);
         }
 
-        public override bool CollidesWith(Primitive primitive, CollisionDetector collisionDetector)
+        public override bool CollidesWith(Vector2 point)
         {
-            return primitive.CollidesWith(BoundingPrimitive, collisionDetector) ||
-                   base.CollidesWith(primitive, collisionDetector);
+            return base.CollidesWith(point) || Point.Contains(point);
         }
 
         #endregion

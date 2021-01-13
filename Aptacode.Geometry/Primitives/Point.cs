@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
@@ -14,11 +15,24 @@ namespace Aptacode.Geometry.Primitives
 
         #endregion
 
+        #region IEquatable
+
+        public virtual bool Equals(Point other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+            return (Math.Abs(Position.X - other.Position.X) <= Constants.Tolerance && Math.Abs(Position.Y - other.Position.Y) <= Constants.Tolerance);
+        }
+
+        #endregion
+
         #region Collision Detection
 
-        public override bool CollidesWith(Primitive p, CollisionDetector detector)
+        public override bool CollidesWith(Primitive p)
         {
-            return detector.CollidesWith(this, p);
+            return HybridCollisionDetector.CollisionDetector.CollidesWith(this, p);
         }
 
         #endregion

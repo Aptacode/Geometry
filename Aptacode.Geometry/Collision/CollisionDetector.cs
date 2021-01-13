@@ -16,6 +16,7 @@ namespace Aptacode.Geometry.Collision
             };
         }
 
+
         #region Point
 
         public bool CollidesWith(Point p1, Primitive p2)

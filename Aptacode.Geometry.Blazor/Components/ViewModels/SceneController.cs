@@ -37,7 +37,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             component.Translate(delta);
 
             var collidingItems = unselectedItems
-                .Where(i => i.CollidesWith(component, CollisionDetector)).ToList();
+                .Where(i => i.CollidesWith(component)).ToList();
 
             movingComponents.AddRange(collidingItems);
 
@@ -64,7 +64,7 @@ namespace Aptacode.Geometry.Blazor.Components.ViewModels
             var delta = currentTime - _lastTick;
             var frameRate = 1.0f / delta.TotalSeconds;
             _lastTick = currentTime;
-            Console.WriteLine($"{frameRate}fps");
+            //Console.WriteLine($"{frameRate}fps");
 
             await Renderer.Redraw();
         }

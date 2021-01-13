@@ -60,16 +60,16 @@ namespace Aptacode.Geometry.Blazor.Extensions
         #region CollisionDetection
 
         public static IEnumerable<ComponentViewModel> CollidingWith(this IEnumerable<ComponentViewModel> components,
-            Vector2 point, CollisionDetector collisionDetector)
+            Vector2 point)
         {
             return components.Where(c =>
-                c.CollisionDetectionEnabled && c.CollidesWith(point.ToPoint(), collisionDetector));
+                c.CollisionDetectionEnabled && c.CollidesWith(point));
         }
 
         public static IEnumerable<ComponentViewModel> CollidingWith(this IEnumerable<ComponentViewModel> components,
-            ComponentViewModel component, CollisionDetector collisionDetector)
+            ComponentViewModel component)
         {
-            return components.Where(c => c.CollisionDetectionEnabled && c.CollidesWith(component, collisionDetector));
+            return components.Where(c => c.CollisionDetectionEnabled && c.CollidesWith(component));
         }
 
         #endregion
