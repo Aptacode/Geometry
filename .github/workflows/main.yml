@@ -2,7 +2,7 @@ name: .NET Core deploy to GitHub pages
 
 env:
   dotnet_version: 5.0.100
-  project_name: "Blazor/Aptacode.Geometry.Demo.Blazor/Aptacode.Geometry.Demo.Blazor.csproj"
+  project_name: "Demo/Demo.csproj"
   base_href: /Geometry/
   target_framework: net5.0
 

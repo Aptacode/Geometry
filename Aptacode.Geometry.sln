@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry", "Aptacode.Geometry\Aptacode.Geometry.csproj", "{58F7181D-CAAB-4FA7-A142-459992E700E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry", "Geometry\Geometry.csproj", "{58F7181D-CAAB-4FA7-A142-459992E700E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Aptacode.Geometry.Tests\Tests.csproj", "{40711C6F-9A32-486C-8D58-C9BF09B2575C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{40711C6F-9A32-486C-8D58-C9BF09B2575C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Blazor\Aptacode.Geometry.Demo.Blazor\Demo.csproj", "{C5276D7B-A40D-490F-960F-B796F6504783}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Demo\Demo.csproj", "{C5276D7B-A40D-490F-960F-B796F6504783}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Aptacode.Geometry.Benchmarks\Benchmarks.csproj", "{76A3A35B-5558-4E03-A9D5-05379369834B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{76A3A35B-5558-4E03-A9D5-05379369834B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
