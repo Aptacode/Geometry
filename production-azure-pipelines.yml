@@ -13,8 +13,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  project: '**/Aptacode.Geometry.csproj'
-  project2: '**/Aptacode.Geometry.Blazor.csproj'
+  project: '**/Geometry.csproj'
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
 steps:
 
@@ -29,13 +28,6 @@ steps:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
     projects: '$(project)'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build'
-  inputs:
-    command: 'build'
-    arguments: '--configuration $(buildConfiguration)'
-    projects: '$(project2)'
     
 - task: DotNetCoreCLI@2
   displayName: "Pack"
@@ -45,14 +37,6 @@ steps:
     packagesToPack: '$(project)'
     nobuild: true
     
-- task: DotNetCoreCLI@2
-  displayName: "Pack"
-  inputs:
-    command: 'pack'
-    arguments: '--configuration $(buildConfiguration)'
-    packagesToPack: '$(project2)'
-    nobuild: true
-
 - task: NuGetCommand@2
   displayName: 'Push'
   inputs:
