@@ -12,6 +12,7 @@
     <RepositoryUrl>https://github.com/Aptacode/Geometry</RepositoryUrl>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
     <PackageProjectUrl>https://github.com/Aptacode/Geometry</PackageProjectUrl>
+    <Description>High performance .net 5 geometry library</Description>
   </PropertyGroup>
 
   <ItemGroup>

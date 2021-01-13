@@ -5,6 +5,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
     <Description>High performance .net 5 graphics library for Blazor</Description>
+    <AssemblyName>Aptacode.Geometry.Benchmarks</AssemblyName>
+    <RootNamespace>Aptacode.Geometry.Benchmarks</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

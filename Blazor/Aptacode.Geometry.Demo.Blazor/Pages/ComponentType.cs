@@ -1,4 +1,4 @@
-﻿namespace Aptacode.Geometry.Demo.Blazor.Pages
+﻿namespace Aptacode.Geometry.Demo.Pages
 {
     public enum ComponentType
     {

@@ -5,6 +5,8 @@
     <LangVersion>9.0</LangVersion>
     <IsPackable>false</IsPackable>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <AssemblyName>Aptacode.Geometry.Tests</AssemblyName>
+    <RootNamespace>Aptacode.Geometry.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

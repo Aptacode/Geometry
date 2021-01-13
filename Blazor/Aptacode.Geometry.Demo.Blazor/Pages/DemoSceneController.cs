@@ -4,17 +4,17 @@ using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
-using Aptacode.Geometry.Blazor.Components.ViewModels;
-using Aptacode.Geometry.Blazor.Components.ViewModels.Components;
-using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Events;
-using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives;
-using Aptacode.Geometry.Blazor.Extensions;
-using Aptacode.Geometry.Blazor.Utilities;
+using Aptacode.AppFramework.Components;
+using Aptacode.AppFramework.Components.Events;
+using Aptacode.AppFramework.Components.Primitives;
+using Aptacode.AppFramework.Extensions;
+using Aptacode.AppFramework.Scene;
+using Aptacode.AppFramework.Utilities;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
 using Rectangle = Aptacode.Geometry.Primitives.Polygons.Rectangle;
 
-namespace Aptacode.Geometry.Demo.Blazor.Pages
+namespace Aptacode.Geometry.Demo.Pages
 {
     public class DemoSceneController : SceneController
     {

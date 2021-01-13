@@ -2,12 +2,12 @@
 using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
+using Aptacode.AppFramework.Components.Primitives;
+using Aptacode.AppFramework.Utilities;
 using Aptacode.BlazorCanvas;
-using Aptacode.Geometry.Blazor.Components.ViewModels.Components.Primitives;
-using Aptacode.Geometry.Blazor.Utilities;
 using Rectangle = Aptacode.Geometry.Primitives.Polygons.Rectangle;
 
-namespace Aptacode.Geometry.Demo.Blazor.Pages
+namespace Aptacode.Geometry.Demo.Pages
 {
     public class SelectionComponent : RectangleViewModel
     {

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Aptacode.Geometry.Blazor.Utilities;
+using Aptacode.AppFramework.Utilities;
 using Microsoft.AspNetCore.Components;
 
-namespace Aptacode.Geometry.Demo.Blazor.Pages
+namespace Aptacode.Geometry.Demo.Pages
 {
     public class IndexBase : ComponentBase
     {
