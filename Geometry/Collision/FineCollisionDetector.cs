@@ -4,6 +4,7 @@ using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
+using Aptacode.Geometry.Primitives.Polygons;
 
 namespace Aptacode.Geometry.Collision
 {
@@ -23,6 +24,14 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Point p1, Polygon p2)
         {
+            if (p2 is Rectangle rectangle)
+            {
+                return rectangle.TopLeft.X <= p1.Position.X &&
+                       rectangle.TopLeft.Y <= p1.Position.Y &&
+                       rectangle.BottomRight.X >= p1.Position.X &&
+                       rectangle.BottomRight.Y >= p1.Position.Y;
+            }
+            
             var collision = false;
             var edges = p2.Edges;
             var point = p1.Position;
@@ -193,6 +202,14 @@ namespace Aptacode.Geometry.Collision
 
         public override bool CollidesWith(Polygon p1, Point p2)
         {
+            if (p1 is Rectangle rectangle)
+            {
+                return rectangle.TopLeft.X <= p2.Position.X &&
+                       rectangle.TopLeft.Y <= p2.Position.Y &&
+                       rectangle.BottomRight.X >= p2.Position.X &&
+                       rectangle.BottomRight.Y >= p2.Position.Y;
+            }
+            
             var collision = false;
             var edges = p1.Edges;
             var point = p2.Position;
