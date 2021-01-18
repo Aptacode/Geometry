@@ -93,7 +93,7 @@ namespace Aptacode.Geometry.Tests
         //    var original = Polygon.Create(new Vector2(3, 3), new Vector2(7, 3), new Vector2(7, 5), new Vector2(3, 5));
         //    var sut = Polygon.Create(new Vector2(3, 3), new Vector2(7, 3), new Vector2(7, 5), new Vector2(3, 5));
         //    //Act
-        //    sut.Rotate((float) Math.PI / 2);
+        //    sut.Rotate((float)Math.PI / 2);
         //    var expectedVertices = VertexArray.Create(new Vector2(4, 2), new Vector2(6, 2), new Vector2(6, 6),
         //        new Vector2(4, 6));
         //    var expectedBoundingCircleCenter = original.BoundingCircle.Center;
