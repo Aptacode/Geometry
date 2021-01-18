@@ -24,7 +24,6 @@ namespace Aptacode.Geometry.Collision
             SLSq.Clear();
             vertexEventQueue.Clear();
 
-
             PopulateVertexEventQueue(P, Q);
             var pVertices = P.Vertices.Vertices;
             var qVertices = Q.Vertices.Vertices;
@@ -83,7 +82,7 @@ namespace Aptacode.Geometry.Collision
                     for (var j = 0; j < SLSq.Count; j++)
                     {
                         var qEdge = SLSq[j];
-                        if(Helpers.newLineSegmentIntersection(pEdge, qEdge))
+                        if(pEdge.newLineSegmentIntersection(qEdge))
                         {
                             return true;
                         }
@@ -109,7 +108,7 @@ namespace Aptacode.Geometry.Collision
             var polyVertices = polygon.Vertices.Vertices;
             for (var i = 0; i < polyVertices.Length; i++)
             {
-                if (vertexEventQueue.TryGetValue(polyVertices[i].X, out List<Vector2> vertices))
+                if (vertexEventQueue.TryGetValue(polyVertices[i].X, out var vertices))
                 {
                     vertices.Add(polyVertices[i]);
                 }

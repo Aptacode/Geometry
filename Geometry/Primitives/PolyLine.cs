@@ -14,7 +14,12 @@ namespace Aptacode.Geometry.Primitives
         {
             return Vertices.ToBoundingRectangle();
         }
-        
+
+        public override bool CollidesWith(Vector2 p)
+        {
+            return Vector2CollisionDetector.CollidesWith(this, p);
+        }
+
         public override bool CollidesWith(Point p)
         {
             return CollisionDetectorMethods.CollidesWith(this, p);

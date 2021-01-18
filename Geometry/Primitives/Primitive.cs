@@ -43,6 +43,7 @@ namespace Aptacode.Geometry.Primitives
 
         public abstract BoundingRectangle MinimumBoundingRectangle();
 
+        public abstract bool CollidesWith(Vector2 p);
         public abstract bool CollidesWith(Point p);
         public abstract bool CollidesWith(Ellipse p);
         public abstract bool CollidesWith(PolyLine p);
@@ -61,11 +62,12 @@ namespace Aptacode.Geometry.Primitives
             };
         }
         
-        public bool HybridCollidesWith(Point p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
-        public bool HybridCollidesWith(Ellipse p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
-        public bool HybridCollidesWith(PolyLine p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
-        public bool HybridCollidesWith(Rectangle p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
-        public bool HybridCollidesWith(Polygon p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
+        public bool HybridCollidesWith(Vector2 p) => BoundingRectangle.Contains(p) && CollidesWith(p);
+        public bool HybridCollidesWith(Point p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
+        public bool HybridCollidesWith(Ellipse p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
+        public bool HybridCollidesWith(PolyLine p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
+        public bool HybridCollidesWith(Rectangle p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
+        public bool HybridCollidesWith(Polygon p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
         public bool HybridCollidesWithPrimitive(Primitive p)
         {
             return p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWithPrimitive(p);
