@@ -14,15 +14,8 @@ namespace Aptacode.Geometry.Primitives.Polygons
         {
         }
 
-        protected Rectangle(VertexArray vertices, BoundingRectangle? boundingRectangle)
-            : base(vertices, boundingRectangle)
-        {
-        }
-
-
-        public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft,
-            BoundingRectangle? boundingRectangle) : base(
-            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft), boundingRectangle)
+        protected Rectangle(VertexArray vertices)
+            : base(vertices)
         {
         }
 

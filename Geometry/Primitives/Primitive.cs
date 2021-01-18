@@ -23,12 +23,6 @@ namespace Aptacode.Geometry.Primitives
             Vertices = vertices;
         }
 
-        protected Primitive(VertexArray vertices, BoundingRectangle? boundingRectangle)
-        {
-            Vertices = vertices;
-            _boundingRectangle = boundingRectangle;
-        }
-
         #region Collision Detection
 
         protected BoundingRectangle? _boundingRectangle;
@@ -63,11 +57,11 @@ namespace Aptacode.Geometry.Primitives
         }
         
         public bool HybridCollidesWith(Vector2 p) => BoundingRectangle.Contains(p) && CollidesWith(p);
-        public bool HybridCollidesWith(Point p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
-        public bool HybridCollidesWith(Ellipse p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
-        public bool HybridCollidesWith(PolyLine p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
-        public bool HybridCollidesWith(Rectangle p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
-        public bool HybridCollidesWith(Polygon p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWith(p);
+        public bool HybridCollidesWith(Point p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+        public bool HybridCollidesWith(Ellipse p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+        public bool HybridCollidesWith(PolyLine p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+        public bool HybridCollidesWith(Rectangle p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+        public bool HybridCollidesWith(Polygon p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
         public bool HybridCollidesWithPrimitive(Primitive p)
         {
             return p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWithPrimitive(p);

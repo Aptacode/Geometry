@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives.Polygons;
 using Aptacode.Geometry.Vertices;
@@ -15,7 +14,7 @@ namespace Aptacode.Geometry.Primitives
             return Vertices.ToBoundingRectangle();
         }
 
-        public override bool CollidesWith(Vector2 p)
+        public override bool CollidesWith(Vector2 p) 
         {
             return Vector2CollisionDetector.CollidesWith(this, p);
         }
@@ -69,11 +68,6 @@ namespace Aptacode.Geometry.Primitives
             }
 
             return new PolyLine(VertexArray.Create(vertices));
-        }
-
-        public PolyLine(VertexArray vertices, BoundingRectangle? boundingRectangle) :
-            base(vertices, boundingRectangle)
-        {
         }
 
         public static readonly PolyLine Zero = Create(Vector2.Zero, Vector2.Zero);

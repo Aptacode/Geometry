@@ -24,7 +24,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
             TopRight = topRight;
             BottomRight = bottomRight;
             BottomLeft = bottomLeft;
-            Size = BottomRight - TopLeft;
+            Size = Vector2.Abs(BottomRight - TopLeft);
             Center = TopLeft + Size / 2.0f;
         }
 

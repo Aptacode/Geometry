@@ -1,33 +1,29 @@
 ﻿using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Vertices;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Aptacode.Geometry.Collision
 {
     public class SweepingLine
     {
 
-        private List<(Vector2, Vector2)> SLSp = new();
-        private List<(Vector2, Vector2)> SLSq = new();
+        private readonly List<(Vector2, Vector2)> _slSp = new();
+        private readonly List<(Vector2, Vector2)> _slSq = new();
 
-        private readonly SortedDictionary<float, List<Vector2>> vertexEventQueue = new(); //Sorted by X coord of the vertex that is the value of the first item of the tuple in the list.
+        private readonly SortedDictionary<float, List<Vector2>> _vertexEventQueue = new(); //Sorted by X coord of the vertex that is the value of the first item of the tuple in the list.
         
 
         public bool RunSweepingLine(Polygon P, Polygon Q)
         {
-            SLSp.Clear();
-            SLSq.Clear();
-            vertexEventQueue.Clear();
+            _slSp.Clear();
+            _slSq.Clear();
+            _vertexEventQueue.Clear();
 
             PopulateVertexEventQueue(P, Q);
             var pVertices = P.Vertices.Vertices;
             var qVertices = Q.Vertices.Vertices;
-            foreach(var vertexEvent in vertexEventQueue) //Sweep along the X axis
+            foreach(var vertexEvent in _vertexEventQueue) //Sweep along the X axis
             {
                 for(var i = 0; i < vertexEvent.Value.Count; i++) //For every vertex we hit along this sweepline (probably gunna be 1 at most usually in our case) we update the SweepLineStatus accordingly.
                 {
@@ -42,14 +38,14 @@ namespace Aptacode.Geometry.Collision
                         var previousPVertex = pVertices[(pIndex - 1 + pVertices.Length) % pVertices.Length];
                         if(currentPVertex.X <= nextPVertex.X) //Add edge if the current Vertex is the start of the edge (Also includes vertical edges)
                         {
-                            SLSp.Add((currentPVertex, nextPVertex));
+                            _slSp.Add((currentPVertex, nextPVertex));
                         }
-                        SLSp.Remove((nextPVertex, currentPVertex)); //Remove the edge if this is the end point.
+                        _slSp.Remove((nextPVertex, currentPVertex)); //Remove the edge if this is the end point.
                         if(currentPVertex.X <= previousPVertex.X)
                         {
-                            SLSp.Add((currentPVertex, previousPVertex));
+                            _slSp.Add((currentPVertex, previousPVertex));
                         }
-                        SLSp.Remove((previousPVertex, currentPVertex));
+                        _slSp.Remove((previousPVertex, currentPVertex));
                     }
                     if (qIndex != -1)//only one of these should have values unless the polygons have a shared point.
                     {
@@ -58,30 +54,30 @@ namespace Aptacode.Geometry.Collision
                         var previousQVertex = qVertices[(qIndex - 1 + qVertices.Length) % qVertices.Length];
                         if(currentQVertex.X <= nextQVertex.X) //Add edge if the current Vertex is the start of the edge (Also includes vertical edges)
                         {
-                            SLSq.Add((currentQVertex, nextQVertex));
+                            _slSq.Add((currentQVertex, nextQVertex));
                         }
-                        SLSq.Remove((nextQVertex, currentQVertex)); //Remove the edge if this is the end point.
+                        _slSq.Remove((nextQVertex, currentQVertex)); //Remove the edge if this is the end point.
                         if(currentQVertex.X <= previousQVertex.X)
                         {
-                            SLSq.Add((currentQVertex, previousQVertex));
+                            _slSq.Add((currentQVertex, previousQVertex));
                         }
-                        SLSp.Remove((previousQVertex, currentQVertex));
+                        _slSp.Remove((previousQVertex, currentQVertex));
                     }                       
                 }
 
-                if(SLSp.Count == 0 || SLSq.Count == 0)//No need to check intersection on empty lists.
+                if(_slSp.Count == 0 || _slSq.Count == 0)//No need to check intersection on empty lists.
                 {
-                    SLSp.RemoveAll(e => Math.Abs(e.Item1.X - e.Item2.X) < Constants.Tolerance); //Now remove the vertical edges.
-                    SLSq.RemoveAll(e => Math.Abs(e.Item1.X - e.Item2.X) < Constants.Tolerance);
+                    _slSp.RemoveAll(e => Math.Abs(e.Item1.X - e.Item2.X) < Constants.Tolerance); //Now remove the vertical edges.
+                    _slSq.RemoveAll(e => Math.Abs(e.Item1.X - e.Item2.X) < Constants.Tolerance);
                     continue;
                 }
 
-                for (var i = 0; i < SLSp.Count; i++) //Now just check the relevant edges
+                for (var i = 0; i < _slSp.Count; i++) //Now just check the relevant edges
                 {
-                    var pEdge = SLSp[i];
-                    for (var j = 0; j < SLSq.Count; j++)
+                    var pEdge = _slSp[i];
+                    for (var j = 0; j < _slSq.Count; j++)
                     {
-                        var qEdge = SLSq[j];
+                        var qEdge = _slSq[j];
                         if(pEdge.newLineSegmentIntersection(qEdge))
                         {
                             return true;
@@ -89,8 +85,8 @@ namespace Aptacode.Geometry.Collision
                     }
                 }
 
-                SLSp.RemoveAll(e => Math.Abs(e.Item1.X - e.Item2.X) < Constants.Tolerance); //Now remove the vertical edges.
-                SLSq.RemoveAll(e => Math.Abs(e.Item1.X - e.Item2.X) < Constants.Tolerance);
+                _slSp.RemoveAll(e => Math.Abs(e.Item1.X - e.Item2.X) < Constants.Tolerance); //Now remove the vertical edges.
+                _slSq.RemoveAll(e => Math.Abs(e.Item1.X - e.Item2.X) < Constants.Tolerance);
                 
                 
             }
@@ -108,13 +104,13 @@ namespace Aptacode.Geometry.Collision
             var polyVertices = polygon.Vertices.Vertices;
             for (var i = 0; i < polyVertices.Length; i++)
             {
-                if (vertexEventQueue.TryGetValue(polyVertices[i].X, out var vertices))
+                if (_vertexEventQueue.TryGetValue(polyVertices[i].X, out var vertices))
                 {
                     vertices.Add(polyVertices[i]);
                 }
                 else
                 {
-                    vertexEventQueue.Add(polyVertices[i].X, new List<Vector2>() { polyVertices[i] });
+                    _vertexEventQueue.Add(polyVertices[i].X, new List<Vector2>() { polyVertices[i] });
                 }
             }
         }

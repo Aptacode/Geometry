@@ -19,7 +19,15 @@ namespace Aptacode.Geometry.Collision
 
         public static bool CollidesWith( Point p1, PolyLine p2)
         {
-            return p2.LineSegments.Any(line => line.OnLineSegment(p1.Position));
+            for (int i = 0; i < p2.LineSegments.Length; i++)
+            {
+                if (p2.LineSegments[i].OnLineSegment(p1.Position))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static bool CollidesWith( Point p1, Polygon p2)

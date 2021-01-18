@@ -5,10 +5,10 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using Aptacode.AppFramework.Components;
-using Aptacode.AppFramework.Components.Events;
 using Aptacode.AppFramework.Components.Primitives;
 using Aptacode.AppFramework.Extensions;
 using Aptacode.AppFramework.Scene;
+using Aptacode.AppFramework.Scene.Events;
 using Aptacode.AppFramework.Utilities;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
@@ -24,18 +24,45 @@ namespace Aptacode.Geometry.Demo.Pages
 
         public DemoSceneController(Scene scene) : base(scene)
         {
-            UserInteractionController.OnKeyDown += UserInteractionControllerOnOnKeyDown;
-            UserInteractionController.OnKeyUp += UserInteractionControllerOnOnKeyUp;
-            UserInteractionController.OnMouseDown += UserInteractionControllerOnOnMouseDown;
-            UserInteractionController.OnMouseUp += UserInteractionControllerOnOnMouseUp;
-            UserInteractionController.OnMouseMoved += UserInteractionControllerOnOnMouseMoved;
-            UserInteractionController.OnMouseClicked += UserInteractionControllerOnMouseClicked;
-
+            UserInteractionController.OnMouseEvent += UserInteractionControllerOnOnMouseEvent;
+            UserInteractionController.OnKeyboardEvent += UserInteractionControllerOnOnKeyboardEvent;
             ComponentCreationMode = ComponentType.None;
 
             AreaSelection = new SelectionComponent();
 
             Scene.Add(AreaSelection);
+        }
+
+        private void UserInteractionControllerOnOnKeyboardEvent(object? sender, KeyboardEvent e)
+        {
+            switch (e)
+            {
+                case KeyDownEvent mouseMove:
+                    UserInteractionControllerOnOnKeyDown(this, mouseMove.Key);
+                    break;
+                case KeyUpEvent mouseUp:
+                    UserInteractionControllerOnOnKeyUp(this, mouseUp.Key);
+                    break;
+            }
+        }
+
+        private void UserInteractionControllerOnOnMouseEvent(object? sender, MouseEvent e)
+        {
+            switch (e)
+            {
+                case MouseMoveEvent mouseMove:
+                    UserInteractionControllerOnOnMouseMoved(this, mouseMove.Position);
+                    break;
+                case MouseUpEvent mouseUp:
+                    UserInteractionControllerOnOnMouseUp(this, mouseUp.Position);
+                    break;
+                case MouseDownEvent mouseDown:
+                    UserInteractionControllerOnOnMouseDown(this, mouseDown.Position);
+                    break;
+                case MouseClickEvent mouseDown:
+                    UserInteractionControllerOnMouseClicked(this, mouseDown.Position);
+                    break;
+            }
         }
 
         public SelectionComponent AreaSelection { get; set; }

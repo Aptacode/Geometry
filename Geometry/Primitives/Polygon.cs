@@ -51,12 +51,6 @@ namespace Aptacode.Geometry.Primitives
         {
         }
 
-        public Polygon(VertexArray vertices, BoundingRectangle? boundingRectangle) :
-            base(vertices, boundingRectangle)
-        {
-        }
-
-
         public static Polygon Create(params float[] points)
         {
             if (points.Length < 3)
