@@ -2,6 +2,7 @@
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
+using Aptacode.Geometry.Primitives.Polygons;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
@@ -10,9 +11,29 @@ namespace Aptacode.Geometry.Primitives
     {
         #region Collision Detection
 
-        public override bool CollidesWith(Primitive p)
+        public override bool CollidesWith(Point p)
         {
-            return HybridCollisionDetector.CollisionDetector.CollidesWith(this, p);
+            return CollisionDetectorMethods.CollidesWith(this, p);
+        }
+
+        public override bool CollidesWith(Ellipse p)
+        {
+            return CollisionDetectorMethods.CollidesWith(this, p);
+        }
+
+        public override bool CollidesWith(PolyLine p)
+        {
+            return CollisionDetectorMethods.CollidesWith(this, p);
+        }
+
+        public override bool CollidesWith(Rectangle p)
+        {
+            return CollisionDetectorMethods.CollidesWith(this, p);
+        }
+
+        public override bool CollidesWith(Polygon p)
+        {
+            return CollisionDetectorMethods.CollidesWith(this, p);
         }
 
         #endregion

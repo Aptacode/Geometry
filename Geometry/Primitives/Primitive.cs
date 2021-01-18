@@ -2,6 +2,7 @@
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
+using Aptacode.Geometry.Primitives.Polygons;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
@@ -19,8 +20,6 @@ namespace Aptacode.Geometry.Primitives
 
         #endregion
 
-        #region Collision Detection
-
         protected Primitive(VertexArray vertices)
         {
             Vertices = vertices;
@@ -34,13 +33,14 @@ namespace Aptacode.Geometry.Primitives
             _boundingRectangle = boundingRectangle;
         }
 
+        #region Collision Detection
+
         protected BoundingCircle? _boundingCircle;
 
         public BoundingCircle BoundingCircle =>
             _boundingCircle ?? (_boundingCircle = this.MinimumBoundingCircle()).Value;
 
         protected BoundingRectangle? _boundingRectangle;
-
 
         public void ResetCircle()
         {
@@ -55,11 +55,24 @@ namespace Aptacode.Geometry.Primitives
         public BoundingRectangle BoundingRectangle =>
             _boundingRectangle ?? (_boundingRectangle = this.MinimumBoundingRectangle()).Value;
 
-        public virtual bool CollidesWith(Primitive p)
+        public abstract bool CollidesWith(Point p);
+        public abstract bool CollidesWith(Ellipse p);
+        public abstract bool CollidesWith(PolyLine p);
+        public abstract bool CollidesWith(Rectangle p);
+        public abstract bool CollidesWith(Polygon p);
+        public virtual bool CollidesWithPrimitive(Primitive p)
         {
-            return HybridCollisionDetector.CollisionDetector.CollidesWith(this, p);
+            return p switch
+            {
+                Point point => CollidesWith(point),
+                Ellipse ellipse => CollidesWith(ellipse),
+                PolyLine polyline => CollidesWith(polyline),
+                Rectangle rectangle => CollidesWith(rectangle),
+                Polygon polygon => CollidesWith(polygon),
+                _ => false
+            };
         }
-
+        
         #endregion
 
         #region Transformations
