@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Primitives.Polygons;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Collision.Rectangles
@@ -73,18 +72,6 @@ namespace Aptacode.Geometry.Collision.Rectangles
                 Vector2.Transform(rectangle.TopRight, rotationMatrix),
                 Vector2.Transform(rectangle.BottomRight, rotationMatrix),
                 Vector2.Transform(rectangle.BottomLeft, rotationMatrix));
-        }
-
-        public static BoundingRectangle MinimumBoundingRectangle(this Primitive p)
-        {
-            return p switch
-            {
-                Point point => new BoundingRectangle(point.Position, point.Position, point.Position, point.Position),
-                Ellipse ellipse => ellipse.EllipseExtrema.ToBoundingRectangle(),
-                Rectangle rectangle => new BoundingRectangle(rectangle.TopLeft, rectangle.TopRight,
-                    rectangle.BottomRight, rectangle.BottomLeft),
-                _ => p.Vertices.ToBoundingRectangle()
-            };
         }
 
         #region Creation

@@ -10,6 +10,10 @@ namespace Aptacode.Geometry.Primitives
     public record Polygon : Primitive
     {
         #region Collision Detection
+        public override BoundingRectangle MinimumBoundingRectangle()
+        {
+            return Vertices.ToBoundingRectangle();
+        }
         
         public override bool CollidesWith(Point p)
         {
@@ -44,8 +48,8 @@ namespace Aptacode.Geometry.Primitives
         {
         }
 
-        public Polygon(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) :
-            base(vertices, boundingCircle, boundingRectangle)
+        public Polygon(VertexArray vertices, BoundingRectangle? boundingRectangle) :
+            base(vertices, boundingRectangle)
         {
         }
 

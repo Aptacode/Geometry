@@ -17,6 +17,10 @@ namespace Aptacode.Geometry.Primitives
         public VertexArray EllipseVertices => GetEllipseVertices();
         public VertexArray EllipseExtrema => GetEllipseExtrema();
 
+        protected BoundingCircle? _boundingCircle;
+
+        public BoundingCircle BoundingCircle =>
+            _boundingCircle ?? (_boundingCircle = this.MinimumBoundingCircle()).Value;
 
         #region IEquatable
 
@@ -89,6 +93,10 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
+        public override BoundingRectangle MinimumBoundingRectangle()
+        {
+            return EllipseExtrema.ToBoundingRectangle();
+        }
 
         public override bool CollidesWith(Point p)
         {
@@ -216,9 +224,8 @@ namespace Aptacode.Geometry.Primitives
             return new(new Vector2(x, y), new Vector2(a, b), rotation);
         }
 
-        public Ellipse(Vector2 position, Vector2 radii, float rotation, BoundingCircle? boundingCircle,
-            BoundingRectangle? boundingRectangle) : base(VertexArray.Create(position), boundingCircle,
-            boundingRectangle)
+        public Ellipse(Vector2 position, Vector2 radii, float rotation,
+            BoundingRectangle? boundingRectangle) : base(VertexArray.Create(position), boundingRectangle)
         {
             Radii = radii;
             Rotation = rotation;

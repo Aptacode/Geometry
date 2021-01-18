@@ -10,7 +10,11 @@ namespace Aptacode.Geometry.Primitives
     public record PolyLine : Primitive
     {
         #region Collision Detection
-
+        public override BoundingRectangle MinimumBoundingRectangle()
+        {
+            return Vertices.ToBoundingRectangle();
+        }
+        
         public override bool CollidesWith(Point p)
         {
             return CollisionDetectorMethods.CollidesWith(this, p);
@@ -62,8 +66,8 @@ namespace Aptacode.Geometry.Primitives
             return new PolyLine(VertexArray.Create(vertices));
         }
 
-        public PolyLine(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) :
-            base(vertices, boundingCircle, boundingRectangle)
+        public PolyLine(VertexArray vertices, BoundingRectangle? boundingRectangle) :
+            base(vertices, boundingRectangle)
         {
         }
 

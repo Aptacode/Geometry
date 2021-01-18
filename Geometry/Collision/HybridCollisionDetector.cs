@@ -27,11 +27,6 @@ namespace Aptacode.Geometry.Collision
             FineCollisionDetector = fineCollisionDetector;
         }
 
-        public static HybridCollisionDetector CoarseCircleCollisionDetector()
-        {
-            return new(new BoundingCircleCollisionDetector(), new FineCollisionDetector());
-        }
-
         public static HybridCollisionDetector CoarseRectangleCollisionDetector()
         {
             return new(new BoundingRectangleCollisionDetector(), new FineCollisionDetector());

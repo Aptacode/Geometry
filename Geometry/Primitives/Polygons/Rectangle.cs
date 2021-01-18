@@ -14,15 +14,15 @@ namespace Aptacode.Geometry.Primitives.Polygons
         {
         }
 
-        protected Rectangle(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle)
-            : base(vertices, boundingCircle, boundingRectangle)
+        protected Rectangle(VertexArray vertices, BoundingRectangle? boundingRectangle)
+            : base(vertices, boundingRectangle)
         {
         }
 
 
         public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft,
-            BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) : base(
-            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft), boundingCircle, boundingRectangle)
+            BoundingRectangle? boundingRectangle) : base(
+            VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft), boundingRectangle)
         {
         }
 
@@ -80,6 +80,15 @@ namespace Aptacode.Geometry.Primitives.Polygons
         {
             get => Vertices[3];
             set => Vertices[3] = value;
+        }
+
+        #endregion
+
+        #region Collision Detection
+
+        public override BoundingRectangle MinimumBoundingRectangle()
+        {
+            return new(TopLeft, TopRight, BottomRight, BottomLeft);
         }
 
         #endregion

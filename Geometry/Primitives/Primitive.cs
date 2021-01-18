@@ -1,6 +1,4 @@
 ﻿using System.Numerics;
-using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives.Polygons;
 using Aptacode.Geometry.Vertices;
@@ -23,29 +21,17 @@ namespace Aptacode.Geometry.Primitives
         protected Primitive(VertexArray vertices)
         {
             Vertices = vertices;
-            _boundingCircle = null;
         }
 
-        protected Primitive(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle)
+        protected Primitive(VertexArray vertices, BoundingRectangle? boundingRectangle)
         {
             Vertices = vertices;
-            _boundingCircle = boundingCircle;
             _boundingRectangle = boundingRectangle;
         }
 
         #region Collision Detection
 
-        protected BoundingCircle? _boundingCircle;
-
-        public BoundingCircle BoundingCircle =>
-            _boundingCircle ?? (_boundingCircle = this.MinimumBoundingCircle()).Value;
-
         protected BoundingRectangle? _boundingRectangle;
-
-        public void ResetCircle()
-        {
-            _boundingCircle = null;
-        }
 
         public void ResetRectangle()
         {
@@ -53,7 +39,9 @@ namespace Aptacode.Geometry.Primitives
         }
 
         public BoundingRectangle BoundingRectangle =>
-            _boundingRectangle ?? (_boundingRectangle = this.MinimumBoundingRectangle()).Value;
+            _boundingRectangle ?? (_boundingRectangle = MinimumBoundingRectangle()).Value;
+
+        public abstract BoundingRectangle MinimumBoundingRectangle();
 
         public abstract bool CollidesWith(Point p);
         public abstract bool CollidesWith(Ellipse p);
@@ -73,6 +61,16 @@ namespace Aptacode.Geometry.Primitives
             };
         }
         
+        public bool HybridCollidesWith(Point p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
+        public bool HybridCollidesWith(Ellipse p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
+        public bool HybridCollidesWith(PolyLine p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
+        public bool HybridCollidesWith(Rectangle p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
+        public bool HybridCollidesWith(Polygon p) => p.BoundingRectangle.CollidesWith(BoundingRectangle) && HybridCollidesWith(p);
+        public bool HybridCollidesWithPrimitive(Primitive p)
+        {
+            return p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWithPrimitive(p);
+        }
+        
         #endregion
 
         #region Transformations
@@ -80,14 +78,13 @@ namespace Aptacode.Geometry.Primitives
         public virtual Primitive Translate(Vector2 delta)
         {
             Vertices.Translate(delta);
-            _boundingCircle = _boundingCircle?.Translate(delta);
             _boundingRectangle = _boundingRectangle?.Translate(delta);
             return this;
         }
 
         public virtual Primitive Rotate(float theta)
         {
-            var center = BoundingCircle.Center;
+            var center = BoundingRectangle.Center;
 
             Vertices.Rotate(center, theta);
             _boundingRectangle = null;
@@ -103,11 +100,10 @@ namespace Aptacode.Geometry.Primitives
 
         public virtual Primitive Scale(Vector2 delta)
         {
-            var oldPosition = BoundingCircle.Center;
+            var oldPosition = BoundingRectangle.Center;
             Vertices.Scale(oldPosition, delta);
             Vertices.Translate(oldPosition * delta - oldPosition);
 
-            _boundingCircle = null;
             _boundingRectangle = null;
             return this;
         }
@@ -115,7 +111,6 @@ namespace Aptacode.Geometry.Primitives
         public virtual Primitive Skew(Vector2 delta)
         {
             Vertices.Skew(delta);
-            _boundingCircle = null;
             _boundingRectangle = null;
             return this;
         }

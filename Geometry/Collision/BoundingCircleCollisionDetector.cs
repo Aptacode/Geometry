@@ -1,113 +1,113 @@
-﻿using Aptacode.Geometry.Primitives;
+﻿//using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Collision
-{
-    public class BoundingCircleCollisionDetector : CollisionDetector
-    {
-        public static bool CoarseCollision(Primitive p1, Primitive p2)
-        {
-            var p1Center = p1.BoundingCircle.Center;
-            var p1Radius = p1.BoundingCircle.Radius;
-            var p2Center = p2.BoundingCircle.Center;
-            var p2Radius = p2.BoundingCircle.Radius;
+//namespace Aptacode.Geometry.Collision
+//{
+//    public class BoundingCircleCollisionDetector : CollisionDetector
+//    {
+//        public static bool CoarseCollision(Primitive p1, Primitive p2)
+//        {
+//            var p1Center = p1.Center;
+//            var p1Radius = p1.Radius;
+//            var p2Center = p2.Center;
+//            var p2Radius = p2.Radius;
 
-            return (p1Center - p2Center).Length() <= p1Radius + p2Radius;
-        }
+//            return (p1Center - p2Center).Length() <= p1Radius + p2Radius;
+//        }
 
-        #region Point
+//        #region Point
 
-        public override bool CollidesWith(Point p1, Point p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Point p1, Point p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(Point p1, PolyLine p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Point p1, PolyLine p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(Point p1, Polygon p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Point p1, Polygon p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(Point p1, Ellipse p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Point p1, Ellipse p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        #endregion
+//        #endregion
 
-        #region PolyLine
+//        #region PolyLine
 
-        public override bool CollidesWith(PolyLine p1, Point p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(PolyLine p1, Point p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(PolyLine p1, PolyLine p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(PolyLine p1, PolyLine p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(PolyLine p1, Polygon p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(PolyLine p1, Polygon p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(PolyLine p1, Ellipse p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(PolyLine p1, Ellipse p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Polygon
+//        #region Polygon
 
-        public override bool CollidesWith(Polygon p1, Point p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Polygon p1, Point p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(Polygon p1, PolyLine p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Polygon p1, PolyLine p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(Polygon p1, Polygon p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Polygon p1, Polygon p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(Polygon p1, Ellipse p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Polygon p1, Ellipse p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Circle
+//        #region Circle
 
-        public override bool CollidesWith(Ellipse p1, Point p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Ellipse p1, Point p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(Ellipse p1, PolyLine p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Ellipse p1, PolyLine p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(Ellipse p1, Polygon p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Ellipse p1, Polygon p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        public override bool CollidesWith(Ellipse p1, Ellipse p2)
-        {
-            return CoarseCollision(p1, p2);
-        }
+//        public override bool CollidesWith(Ellipse p1, Ellipse p2)
+//        {
+//            return CoarseCollision(p1, p2);
+//        }
 
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}

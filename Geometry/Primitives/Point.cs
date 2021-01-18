@@ -30,7 +30,11 @@ namespace Aptacode.Geometry.Primitives
         #endregion
 
         #region Collision Detection
-
+        public override BoundingRectangle MinimumBoundingRectangle()
+        {
+            return new BoundingRectangle(Position, Position, Position, Position);
+        }
+        
         public override bool CollidesWith(Point p)
         {
            return CollisionDetectorMethods.CollidesWith(this, p);
@@ -68,8 +72,8 @@ namespace Aptacode.Geometry.Primitives
         {
         }
 
-        public Point(Vector2 position, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) : base(
-            VertexArray.Create(position), boundingCircle, boundingRectangle)
+        public Point(Vector2 position, BoundingRectangle? boundingRectangle) : base(
+            VertexArray.Create(position), boundingRectangle)
         {
         }
 

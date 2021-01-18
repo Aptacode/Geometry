@@ -18,15 +18,14 @@ namespace Aptacode.Geometry.Primitives.Polygons
             }
         }
 
-        protected Triangle(VertexArray vertices, BoundingCircle? boundingCircle, BoundingRectangle? boundingRectangle) :
-            base(vertices, boundingCircle, boundingRectangle)
+        protected Triangle(VertexArray vertices, BoundingRectangle? boundingRectangle) :
+            base(vertices, boundingRectangle)
         {
         }
 
 
-        public Triangle(Vector2 p1, Vector2 p2, Vector2 p3, BoundingCircle? boundingCircle,
-            BoundingRectangle? boundingRectangle) : base(
-            VertexArray.Create(p1, p2, p3), boundingCircle, boundingRectangle)
+        public Triangle(Vector2 p1, Vector2 p2, Vector2 p3, BoundingRectangle? boundingRectangle) : base(
+            VertexArray.Create(p1, p2, p3), boundingRectangle)
         {
         }
 
