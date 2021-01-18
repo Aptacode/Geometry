@@ -18,5 +18,10 @@ namespace Aptacode.Geometry.Utilities
         {
             return Vector2.Transform(a, new Matrix3x2(0, -1, 1, 0, 0, 0));
         }
+
+        public static float PerpDot(this Vector2 a, Vector2 b) //This is worse than the VectorCross method performance wise for the same result.
+        {
+            return Vector2.Dot(a.Perp(), b);
+        }
     }
 }
