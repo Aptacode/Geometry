@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
+using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Vertices;
 using BenchmarkDotNet.Attributes;
 
@@ -7,45 +8,40 @@ namespace Aptacode.Geometry.Benchmarks
 {
     public class OtherBenchmarks
     {
-        private readonly Vector2 A = new(10, 10);
-        private readonly Vector2 B = new(20, 20);
-        private readonly Vector2 C = new(15, 15);
-
+        private readonly FineCollisionDetector _cd = new(); 
+        private readonly SweepingLine _sl = new();
+        private readonly Polygon _poly1 = Polygon.Create(10, 10, 10, 15, 15, 20, 20, 15, 20, 10);
+        private readonly Polygon _poly2 = Polygon.Create(25, 10, 25, 15, 30, 20, 35, 15, 35, 10);
 
         [Benchmark]
         public bool Old()
         {
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-           Helpers.OnLineSegment((A, B), C);
-            return Helpers.OnLineSegment((A, B), C);
+            _cd.CollidesWith(_poly1, _poly2);
+            _cd.CollidesWith(_poly1, _poly2);
+            _cd.CollidesWith(_poly1, _poly2);
+            _cd.CollidesWith(_poly1, _poly2);
+            _cd.CollidesWith(_poly1, _poly2);
+            _cd.CollidesWith(_poly1, _poly2);
+            _cd.CollidesWith(_poly1, _poly2);
+            _cd.CollidesWith(_poly1, _poly2);
+            _cd.CollidesWith(_poly1, _poly2);
+            return _cd.CollidesWith(_poly1, _poly2);
+
         }
 
         [Benchmark]
         public bool New()
         {
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            Helpers.newOnLineSegment((A, B), C);
-            return Helpers.newOnLineSegment((A, B), C);
+            _sl.RunSweepingLine(_poly1, _poly2);
+            _sl.RunSweepingLine(_poly1, _poly2);
+            _sl.RunSweepingLine(_poly1, _poly2);
+            _sl.RunSweepingLine(_poly1, _poly2);
+            _sl.RunSweepingLine(_poly1, _poly2);
+            _sl.RunSweepingLine(_poly1, _poly2);
+            _sl.RunSweepingLine(_poly1, _poly2);
+            _sl.RunSweepingLine(_poly1, _poly2);
+            _sl.RunSweepingLine(_poly1, _poly2);
+            return _sl.RunSweepingLine(_poly1, _poly2);
         }
 
     }

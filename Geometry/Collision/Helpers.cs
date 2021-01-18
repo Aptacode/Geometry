@@ -19,7 +19,7 @@ namespace Aptacode.Geometry.Collision
         {
             var minVector = Vector2.Min(line.A, line.B);
             var maxVector = Vector2.Max(line.A, line.B);
-            if(point.X >= minVector.X && point.X <= maxVector.X && point.Y >= minVector.Y && point.Y <= maxVector.Y)
+            if (point.X >= minVector.X && point.X <= maxVector.X && point.Y >= minVector.Y && point.Y <= maxVector.Y)
             {
                 var perpDot = Vector2.Dot((line.A - line.B).Perp(), point);
                 if (perpDot == 0)
@@ -68,6 +68,31 @@ namespace Aptacode.Geometry.Collision
             var m = (end.Y - start.Y) / (end.X - start.X);
             var c = -m * start.X + start.Y;
             return (m, c);
+        }
+
+        public static bool newLineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)
+        {
+            var line1AsVector = line1.Item2 - line1.Item1;
+            var line2ACross = line1AsVector.VectorCross(line2.Item1 - line1.Item1);
+            var line2BCross = line1AsVector.VectorCross(line2.Item2 - line1.Item1);
+
+            if ((line2ACross > 0 && line2BCross > 0) || (line2ACross < 0 && line2BCross < 0)) //if both points of one line segment are above or below the other then they cannot intersect.
+            {
+                return false;
+            }
+
+            //If not intersection is not guaranteed so now we check the other way round
+
+            var line2AsVector = line2.Item2 - line2.Item1;
+            var line1ACross = line2AsVector.VectorCross(line1.Item1 - line2.Item1);
+            var line1BCross = line2AsVector.VectorCross(line1.Item2 - line2.Item1);
+
+            if ((line1ACross > 0 && line1BCross > 0) || (line1ACross < 0 && line2BCross < 0))
+            {
+                return false;
+            }
+
+            return true; //we have that one of each of the points of the line segements lies above and below the other line segment, aka they intersect.
         }
     }
 }
