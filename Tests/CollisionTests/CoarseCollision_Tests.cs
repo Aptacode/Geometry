@@ -8,8 +8,6 @@ namespace Aptacode.Geometry.Tests.CollisionTests
 {
     public class CoarseCollision_Tests
     {
-        private readonly CollisionDetector _collisionDetector = new BoundingRectangleCollisionDetector();
-
         #region Ellipse
 
         [Fact]
@@ -19,7 +17,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var circle1 = new Ellipse(new Vector2(2, 2), new Vector2(2, 2), 0);
             var circle2 = new Ellipse(new Vector2(2, 3), new Vector2(2, 2), 0);
             //Act
-            var sut = _collisionDetector.CollidesWith(circle2, circle1);
+            var sut = circle1.CollidesWith(circle2);
             //Assert
             Assert.True(sut);
         }
@@ -31,7 +29,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var ellipse1 = new Ellipse(new Vector2(4, 2), new Vector2(2, 2), 0);
             var ellipse2 = new Ellipse(new Vector2(4, 5), new Vector2(4, 2), 0);
             //Act
-            var sut = _collisionDetector.CollidesWith(ellipse2, ellipse1);
+            var sut = ellipse1.CollidesWith(ellipse2);
             //Assert
             Assert.True(sut);
         }
@@ -43,7 +41,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var ellipse = new Ellipse(new Vector2(2, 2), new Vector2(2, 1), 0.0f);
             var point = new Point(new Vector2(2, 0));
             //Act
-            var sut = _collisionDetector.CollidesWith(point, ellipse);
+            var sut = ellipse.CollidesWith(point);
             //Assert
             Assert.True(sut);
         }
@@ -55,7 +53,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 5), 0.0f);
             var polygon = Triangle.Create(new Vector2(7, 7), new Vector2(9, 11), new Vector2(11, 7));
             //Act
-            var sut = _collisionDetector.CollidesWith(polygon, ellipse);
+            var sut = ellipse.CollidesWith(polygon);
             //Assert
             Assert.True(sut);
         }
@@ -67,7 +65,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var ellipse = new Ellipse(new Vector2(2, 2), new Vector2(2, 1), 0.0f);
             var polyLine = PolyLine.Create(new Vector2(4, 0), new Vector2(4, 4));
             //Act
-            var sut = _collisionDetector.CollidesWith(polyLine, ellipse);
+            var sut = ellipse.CollidesWith(polyLine);
             //Assert
             Assert.True(sut);
         }
@@ -83,7 +81,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var point = new Point(new Vector2(3, 3));
             var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(5, 1), 0.0f);
             //Act
-            var sut = _collisionDetector.CollidesWith(ellipse, point);
+            var sut = point.CollidesWith(ellipse);
             //Assert
             Assert.True(sut);
         }
@@ -95,7 +93,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var p1 = new Point(new Vector2(1, 1));
             var p2 = new Point(new Vector2(1, 1));
             //Act
-            var sut = _collisionDetector.CollidesWith(p2, p1);
+            var sut = p1.CollidesWith(p2);
             //Assert
             Assert.True(sut);
         }
@@ -107,7 +105,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var point = new Point(new Vector2(2, 2));
             var poly = new Triangle(new Vector2(0, 0), new Vector2(2, 4), new Vector2(0, 4));
             //Act
-            var sut = _collisionDetector.CollidesWith(poly, point);
+            var sut = point.CollidesWith(poly);
             //Assert
             Assert.True(sut);
         }
@@ -119,7 +117,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var point = new Point(new Vector2(2, 2));
             var polyLine = PolyLine.Create(new Vector2(0, 2), new Vector2(4, 2));
             //Act
-            var sut = _collisionDetector.CollidesWith(polyLine, point);
+            var sut = point.CollidesWith(polyLine);
             //Assert
             Assert.True(sut);
         }
@@ -135,7 +133,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 5), 0.0f);
             var polygon = Triangle.Create(new Vector2(7, 7), new Vector2(9, 11), new Vector2(11, 7));
             //Act
-            var sut = _collisionDetector.CollidesWith(ellipse, polygon);
+            var sut = polygon.CollidesWith(ellipse);
             //Assert
             Assert.True(sut);
         }
@@ -147,7 +145,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var polygon = Triangle.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(4, 0));
             var point = new Point(new Vector2(4, 0));
             //Act
-            var sut = _collisionDetector.CollidesWith(point, polygon);
+            var sut = polygon.CollidesWith(point);
             //Assert
             Assert.True(sut);
         }
@@ -159,7 +157,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var polygon1 = Triangle.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(4, 0));
             var polygon2 = Rectangle.Create(new Vector2(0, 0), new Vector2(4, 4));
             //Act
-            var sut = _collisionDetector.CollidesWith(polygon2, polygon1);
+            var sut = polygon1.CollidesWith(polygon2);
             //Assert
             Assert.True(sut);
         }
@@ -171,7 +169,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var polygon = Triangle.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(4, 0));
             var polyLine = PolyLine.Create(new Vector2(0, 0), new Vector2(4, 4));
             //Act
-            var sut = _collisionDetector.CollidesWith(polyLine, polygon);
+            var sut = polygon.CollidesWith(polyLine);
             //Assert
             Assert.True(sut);
         }
@@ -187,8 +185,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var polyLine = PolyLine.Create(new Vector2(0, 5), new Vector2(4, 5));
             var circle = new Ellipse(new Vector2(3, 3), new Vector2(4, 1), 0.0f);
             //Act
-            var sut = _collisionDetector.CollidesWith(circle,
-                polyLine); //These primitives do not actually collide, just their bounding circles
+            var sut = polyLine.CollidesWith(circle); //These primitives do not actually collide, just their bounding circles
             //Assert
             Assert.True(sut);
         }
@@ -200,8 +197,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var polyLine = PolyLine.Create(new Vector2(0, 2), new Vector2(4, 2));
             var point = new Point(new Vector2(2, 1));
             //Act
-            var sut = _collisionDetector.CollidesWith(point,
-                polyLine); //These primitives do not actually collide, just their bounding circles
+            var sut = polyLine.CollidesWith(point); //These primitives do not actually collide, just their bounding circles
             //Assert
             Assert.True(sut);
         }
@@ -213,8 +209,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var polyLine = PolyLine.Create(new Vector2(0, 5), new Vector2(4, 5));
             var polygon = Triangle.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(0, 4));
             //Act
-            var sut = _collisionDetector.CollidesWith(polygon,
-                polyLine); //These primitives do not actually collide, just their bounding circles
+            var sut = polyLine.CollidesWith(polygon); //These primitives do not actually collide, just their bounding circles
             //Assert
             Assert.True(sut);
         }
@@ -226,8 +221,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var polyLine1 = PolyLine.Create(new Vector2(0, 2), new Vector2(4, 2));
             var polyLine2 = PolyLine.Create(new Vector2(0, 3), new Vector2(4, 3));
             //Act
-            var sut = _collisionDetector.CollidesWith(polyLine2,
-                polyLine1); //These primitives do not actually collide, just their bounding circles
+            var sut = polyLine1.CollidesWith(polyLine2); //These primitives do not actually collide, just their bounding circles
             //Assert
             Assert.True(sut);
         }

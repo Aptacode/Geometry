@@ -12,7 +12,6 @@ namespace Aptacode.Geometry.Benchmarks
         private readonly Point _collidingPoint;
         private readonly Polygon _collidingPolygon;
         private readonly PolyLine _collidingPolyline;
-        private readonly CollisionDetector _collisionDetector = new FineCollisionDetector();
         private readonly Polygon _polygon;
 
         public PolygonCollisionDetectionBenchmarks()
@@ -27,25 +26,25 @@ namespace Aptacode.Geometry.Benchmarks
         [Benchmark]
         public bool PointCollision()
         {
-            return _collisionDetector.CollidesWith(_collidingPoint, _polygon);
+            return _collidingPoint.CollidesWith(_polygon);
         }
 
         [Benchmark]
         public bool PolylineCollision()
         {
-            return _collisionDetector.CollidesWith(_collidingPolyline, _polygon);
+            return _collidingPolyline.CollidesWith(_polygon);
         }
 
         [Benchmark]
         public bool PolygonCollision()
         {
-            return _collisionDetector.CollidesWith(_collidingPolygon, _polygon);
+            return _collidingPolygon.CollidesWith(_polygon);
         }
 
         [Benchmark]
         public bool CircleCollision()
         {
-            return _collisionDetector.CollidesWith(_collidingEllipse, _polygon);
+            return _collidingEllipse.CollidesWith(_polygon);
         }
     }
 }

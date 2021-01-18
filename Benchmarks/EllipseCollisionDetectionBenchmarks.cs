@@ -12,7 +12,6 @@ namespace Aptacode.Geometry.Benchmarks
         private readonly Point _collidingPoint;
         private readonly Polygon _collidingPolygon;
         private readonly PolyLine _collidingPolyline;
-        private readonly CollisionDetector _collisionDetector = new FineCollisionDetector();
         private readonly Ellipse _ellipse;
 
         public EllipseCollisionDetectionBenchmarks()
