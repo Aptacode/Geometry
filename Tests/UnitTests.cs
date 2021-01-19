@@ -120,7 +120,7 @@ namespace Aptacode.Geometry.Tests
             var perpDot = a.PerpDot(b);
             var cross = a.VectorCross(b);
 
-            Assert.True(perpDot == cross);
+            Assert.True(perpDot == -cross);
         }
 
         [Fact]
