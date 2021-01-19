@@ -22,16 +22,19 @@ namespace Aptacode.Geometry.Demo.Pages
 
         public readonly List<ComponentViewModel> SelectedComponents = new();
 
-        public DemoSceneController(Scene scene) : base(scene)
+        public DemoSceneController(Vector2 size)
         {
             UserInteractionController.OnMouseEvent += UserInteractionControllerOnOnMouseEvent;
             UserInteractionController.OnKeyboardEvent += UserInteractionControllerOnOnKeyboardEvent;
             ComponentCreationMode = ComponentType.None;
 
+            GeometryScene = new Scene(size);
             AreaSelection = new SelectionComponent();
-
-            Scene.Add(AreaSelection);
+            GeometryScene.Add(AreaSelection);
+            Scenes.Add(GeometryScene);
         }
+        
+        public Scene GeometryScene { get; set; }
 
         private void UserInteractionControllerOnOnKeyboardEvent(object? sender, KeyboardEvent e)
         {
@@ -95,7 +98,7 @@ namespace Aptacode.Geometry.Demo.Pages
             }
             else
             {
-                var collidingComponents = Scene.Components.CollidingWith(position).ToList();
+                var collidingComponents = GeometryScene.Components.CollidingWith(position).ToList();
                 if (collidingComponents.Any())
                 {
                     if (!collidingComponents.Any(c => SelectedComponents.Contains(c)))
@@ -104,7 +107,7 @@ namespace Aptacode.Geometry.Demo.Pages
                         foreach (var componentViewModel in collidingComponents.ToArray())
                         {
                             componentViewModel.BorderColor = Color.Green;
-                            Scene.BringToFront(componentViewModel);
+                            GeometryScene.BringToFront(componentViewModel);
                             SelectedComponents.Add(componentViewModel);
                         }
                     }
@@ -126,7 +129,7 @@ namespace Aptacode.Geometry.Demo.Pages
                 var delta = position - UserInteractionController.LastMousePosition;
                 foreach (var componentViewModel in SelectedComponents.ToArray())
                 {
-                    Translate(componentViewModel, delta, SelectedComponents, new CancellationTokenSource());
+                    GeometryScene.Translate(componentViewModel, delta, SelectedComponents, new CancellationTokenSource());
                 }
             }
         }
@@ -136,7 +139,7 @@ namespace Aptacode.Geometry.Demo.Pages
             if (AreaSelection.SelectionMade())
             {
                 SelectedComponents.Clear();
-                var collidingComponents = Scene.Components.CollidingWith(AreaSelection);
+                var collidingComponents = GeometryScene.Components.CollidingWith(AreaSelection);
                 AreaSelection.Rectangle = Rectangle.Create(Vector2.Zero, Vector2.Zero);
 
                 if (collidingComponents.Any())
@@ -149,7 +152,7 @@ namespace Aptacode.Geometry.Demo.Pages
                         }
 
                         componentViewModel.BorderColor = Color.Green;
-                        Scene.BringToFront(componentViewModel);
+                        GeometryScene.BringToFront(componentViewModel);
                         SelectedComponents.Add(componentViewModel);
                     }
                 }
@@ -168,7 +171,7 @@ namespace Aptacode.Geometry.Demo.Pages
         private void UserInteractionControllerOnMouseClicked(object? sender, Vector2 position)
         {
             var mouseClickEvent = new MouseClickEvent(position);
-            foreach (var componentViewModel in Scene.Components)
+            foreach (var componentViewModel in GeometryScene.Components)
             {
                 componentViewModel.Handle(mouseClickEvent);
             }
@@ -262,7 +265,7 @@ namespace Aptacode.Geometry.Demo.Pages
                 Console.WriteLine("Clicked: " + mouseClickEvent.Position);
             };
 
-            Scene.Add(newComponent);
+            GeometryScene.Add(newComponent);
             _vertices.Clear();
         }
 

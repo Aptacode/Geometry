@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Aptacode.AppFramework.Utilities;
+﻿using System.Numerics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
 namespace Aptacode.Geometry.Demo.Pages
@@ -11,8 +11,7 @@ namespace Aptacode.Geometry.Demo.Pages
         protected override async Task OnInitializedAsync()
         {
             //Scene
-            var scene = new SceneBuilder().SetWidth(200).SetHeight(100).Build();
-            SceneController = new DemoSceneController(scene);
+            SceneController = new DemoSceneController(new Vector2(200, 100));
             await base.OnInitializedAsync();
         }
     }
