@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Primitives;
 
@@ -10,11 +11,13 @@ namespace Aptacode.Geometry.Collision
     {
         #region Vector2
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(this Point p2, Vector2 p1)
         {
             return (Math.Abs(p1.X - p2.Position.X) <= Constants.Tolerance && Math.Abs(p1.Y - p2.Position.Y) <= Constants.Tolerance);
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(this PolyLine p2, Vector2 p1 )
         {
             for(int i = 0; i < p2.LineSegments.Length; i++)
@@ -27,7 +30,8 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(this Polygon p2, Vector2 p1 )
         {
             var collision = false;
@@ -52,6 +56,7 @@ namespace Aptacode.Geometry.Collision
             return collision;
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(this Ellipse p2, Vector2 p1)
         {
             var f1dist = (p2.Foci.Item1 - p1).Length();
