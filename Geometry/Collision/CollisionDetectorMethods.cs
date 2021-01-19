@@ -33,19 +33,20 @@ namespace Aptacode.Geometry.Collision
         public static bool CollidesWith( Point p1, Polygon p2)
         {
             var collision = false;
-            var edges = p2.Edges;
+            var vertices = p2.Vertices.Vertices;
             var point = p1.Position;
 
-            foreach (var (a, b) in edges)
+            for(int i = 0, j = vertices.Length - 1; i < vertices.Length; j = i++)
             {
+                var a = vertices[i];
+                var b = vertices[j];
                 if ((a, b).OnLineSegment(point))
                 {
                     return true;
                 }
 
-                if ((a.Y >= point.Y && b.Y <= point.Y ||
-                     a.Y <= point.Y && b.Y >= point.Y) &&
-                    point.X <= (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
+                if ((a.Y > point.Y) != (b.Y > point.Y) &&
+                    point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
                     collision = !collision;
                 }
@@ -203,23 +204,24 @@ namespace Aptacode.Geometry.Collision
         public static bool CollidesWith( Polygon p1, Point p2)
         {
             var collision = false;
-            var edges = p1.Edges;
+            var vertices = p1.Vertices.Vertices;
             var point = p2.Position;
-            foreach (var (a, b) in edges)
+
+            for (int i = 0, j = vertices.Length - 1; i < vertices.Length; j = i++)
             {
+                var a = vertices[i];
+                var b = vertices[j];
                 if ((a, b).OnLineSegment(point))
                 {
                     return true;
                 }
 
-                if ((a.Y >= point.Y && b.Y <= point.Y ||
-                     a.Y <= point.Y && b.Y >= point.Y) &&
-                    point.X <= (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
+                if ((a.Y > point.Y) != (b.Y > point.Y) &&
+                    point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
                     collision = !collision;
                 }
             }
-
 
             return collision;
         }
