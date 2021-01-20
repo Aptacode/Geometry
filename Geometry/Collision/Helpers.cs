@@ -1,5 +1,6 @@
 ﻿using Aptacode.Geometry.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace Aptacode.Geometry.Collision
@@ -93,6 +94,17 @@ namespace Aptacode.Geometry.Collision
             }
 
             return true; //we have that one of each of the points of the line segements lies above and below the other line segment, aka they intersect.
+        }
+
+        public static Vector2[] MakeLargeVertexList(int start, int Xtranslate)
+        {
+            var vertexList = new List<Vector2>();
+            for (int i = start; i < 50; i++)
+            {
+                vertexList.Add(new Vector2(i + Xtranslate, i));
+            }
+            vertexList.Add(new Vector2(50 + Xtranslate, start));
+            return vertexList.ToArray();
         }
     }
 }
