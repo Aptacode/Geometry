@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Vertices;
@@ -8,9 +9,10 @@ namespace Aptacode.Geometry.Benchmarks
 {
     public class OtherBenchmarks
     {
+
         private readonly SweepingLine _sl = new();
-        private readonly Polygon _poly1 = Polygon.Create(10, 10, 10, 15, 15, 20, 20, 15, 20, 10);
-        private readonly Polygon _poly2 = Polygon.Create(25, 10, 25, 15, 30, 20, 35, 15, 35, 10);
+        private readonly Polygon _poly1 = Polygon.Create(Helpers.MakeLargeVertexList(5, 0));
+        private readonly Polygon _poly2 = Polygon.Create(Helpers.MakeLargeVertexList(5, 10));
 
         [Benchmark]
         public bool Old()

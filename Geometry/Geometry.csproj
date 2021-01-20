@@ -5,9 +5,9 @@
     <LangVersion>9.0</LangVersion>
     <Authors>Aptacode</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.19</Version>
-    <AssemblyVersion>1.0.19</AssemblyVersion>
-    <FileVersion>1.0.19</FileVersion>
+    <Version>1.0.20</Version>
+    <AssemblyVersion>1.0.20</AssemblyVersion>
+    <FileVersion>1.0.20</FileVersion>
     <PackageIcon>Logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/Aptacode/Geometry</RepositoryUrl>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
@@ -18,6 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="OptimizedPriorityQueue" Version="5.0.0" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
   </ItemGroup>
 
