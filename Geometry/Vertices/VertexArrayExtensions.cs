@@ -162,18 +162,17 @@ namespace Aptacode.Geometry.Vertices
         public static VertexArray OrderClockwiseFromLeastX(this VertexArray vertexArray)
         {
             var minX = float.MaxValue;
-            int minXindex = -1;
-            for (int i = 0; i < vertexArray.Length; i++)
+            var minXindex = -1;
+            for (var i = 0; i < vertexArray.Length; i++)
             {
-                if(vertexArray[i].X <= minX)
+                if (vertexArray[i].X <= minX)
                 {
-                    if(!(Math.Abs(vertexArray[i].X - minX) < Constants.Tolerance))
+                    if (!(Math.Abs(vertexArray[i].X - minX) < Constants.Tolerance))
                     {
                         minX = vertexArray[i].X;
                         minXindex = i;
-                        continue;
                     }
-                    else if(vertexArray[i].Y < vertexArray[minXindex].Y) //Two points may lie on a horizontal line, we want the one with the lesser y coord then.
+                    else if (vertexArray[i].Y < vertexArray[minXindex].Y) //Two points may lie on a horizontal line, we want the one with the lesser y coord then.
                     {
                         minX = vertexArray[i].X;
                         minXindex = i;
@@ -182,11 +181,13 @@ namespace Aptacode.Geometry.Vertices
             }
 
             var clockwiseArray = new Vector2[vertexArray.Length];
-            for (int i = 0; i < clockwiseArray.Length; i++) //cyclically permute the vertexArray elements so that the vertex with the least X is first.
-            {                                               //probably a better way to do this though.
+            for (var i = 0; i < clockwiseArray.Length; i++) //cyclically permute the vertexArray elements so that the vertex with the least X is first.
+            {
+                //probably a better way to do this though.
                 var j = (minXindex + i) % clockwiseArray.Length; //Need to check this
                 clockwiseArray[i] = vertexArray[j];
             }
+
             return new VertexArray(clockwiseArray);
         }
 

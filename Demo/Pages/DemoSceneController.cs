@@ -33,8 +33,11 @@ namespace Aptacode.Geometry.Demo.Pages
             GeometryScene.Add(AreaSelection);
             Scenes.Add(GeometryScene);
         }
-        
+
         public Scene GeometryScene { get; set; }
+
+        public SelectionComponent AreaSelection { get; set; }
+        public ComponentType ComponentCreationMode { get; set; }
 
         private void UserInteractionControllerOnOnKeyboardEvent(object? sender, KeyboardEvent e)
         {
@@ -67,9 +70,6 @@ namespace Aptacode.Geometry.Demo.Pages
                     break;
             }
         }
-
-        public SelectionComponent AreaSelection { get; set; }
-        public ComponentType ComponentCreationMode { get; set; }
 
         private void UserInteractionControllerOnOnMouseDown(object? sender, Vector2 position)
         {
@@ -247,7 +247,7 @@ namespace Aptacode.Geometry.Demo.Pages
                     break;
                 case ComponentType.Ellipse:
                     _componentBuilder
-                        .SetBase(Ellipse.Create(_vertices.Last().X, _vertices.Last().Y, 2,2, 0).ToViewModel())
+                        .SetBase(Ellipse.Create(_vertices.Last().X, _vertices.Last().Y, 2, 2, 0).ToViewModel())
                         .SetMargin(0.0f);
 
                     break;
@@ -260,10 +260,7 @@ namespace Aptacode.Geometry.Demo.Pages
                 .SetFillColor(Color.Orange)
                 .Build();
 
-            newComponent.OnMouseClick += (object? sender, MouseClickEvent mouseClickEvent) =>
-            {
-                Console.WriteLine("Clicked: " + mouseClickEvent.Position);
-            };
+            newComponent.OnMouseClick += (sender, mouseClickEvent) => { Console.WriteLine("Clicked: " + mouseClickEvent.Position); };
 
             GeometryScene.Add(newComponent);
             _vertices.Clear();

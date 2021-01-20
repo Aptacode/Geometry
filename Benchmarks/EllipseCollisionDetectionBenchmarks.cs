@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Polygons;
 using BenchmarkDotNet.Attributes;

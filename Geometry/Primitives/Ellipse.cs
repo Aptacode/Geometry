@@ -11,15 +11,16 @@ namespace Aptacode.Geometry.Primitives
     public record Ellipse : Primitive
     {
         public readonly float Rotation;
+
+        protected BoundingCircle? _boundingCircle;
         public Vector2 Radii; //The x width(height) and the y height(width)
         public Vector2 Position => Vertices[0];
         public (Vector2, Vector2) Foci => GetFoci();
         public VertexArray EllipseVertices => GetEllipseVertices();
         public VertexArray EllipseExtrema => GetEllipseExtrema();
 
-        protected BoundingCircle? _boundingCircle;
+        public BoundingCircle BoundingCircle => _boundingCircle ?? (_boundingCircle = this.MinimumBoundingCircle()).Value;
 
-        public BoundingCircle BoundingCircle => this.MinimumBoundingCircle();
 
         #region IEquatable
 
@@ -89,43 +90,6 @@ namespace Aptacode.Geometry.Primitives
 
             return (Position, Position);
         }
-
-        #region Collision Detection
-
-        public override BoundingRectangle MinimumBoundingRectangle()
-        {
-            return EllipseExtrema.ToBoundingRectangle();
-        }
-        public override bool CollidesWith(Vector2 p)
-        {
-            return Vector2CollisionDetector.CollidesWith(this, p);
-        }
-        public override bool CollidesWith(Point p)
-        {
-            return CollisionDetectorMethods.CollidesWith(this, p);
-        }
-
-        public override bool CollidesWith(Ellipse p)
-        {
-            return CollisionDetectorMethods.CollidesWith(this, p);
-        }
-
-        public override bool CollidesWith(PolyLine p)
-        {
-            return CollisionDetectorMethods.CollidesWith(this, p);
-        }
-
-        public override bool CollidesWith(Rectangle p)
-        {
-            return CollisionDetectorMethods.CollidesWith(this, p);
-        }
-
-        public override bool CollidesWith(Polygon p)
-        {
-            return CollisionDetectorMethods.CollidesWith(this, p);
-        }
-
-        #endregion
 
         public static (double u0, double u1, double u2, double u3, double u4) GetResultantPolynomial(double A1,
             double B1, double C1, double D1, double E1, double F1, double A2, double B2, double C2, double D2,
@@ -206,6 +170,45 @@ namespace Aptacode.Geometry.Primitives
 
             return true;
         }
+
+        #region Collision Detection
+
+        public override BoundingRectangle MinimumBoundingRectangle()
+        {
+            return EllipseExtrema.ToBoundingRectangle();
+        }
+
+        public override bool CollidesWith(Vector2 p)
+        {
+            return Vector2CollisionDetector.CollidesWith(this, p);
+        }
+
+        public override bool CollidesWith(Point p)
+        {
+            return CollisionDetectorMethods.CollidesWith(this, p);
+        }
+
+        public override bool CollidesWith(Ellipse p)
+        {
+            return CollisionDetectorMethods.CollidesWith(this, p);
+        }
+
+        public override bool CollidesWith(PolyLine p)
+        {
+            return CollisionDetectorMethods.CollidesWith(this, p);
+        }
+
+        public override bool CollidesWith(Rectangle p)
+        {
+            return CollisionDetectorMethods.CollidesWith(this, p);
+        }
+
+        public override bool CollidesWith(Polygon p)
+        {
+            return CollisionDetectorMethods.CollidesWith(this, p);
+        }
+
+        #endregion
 
         #region Construction
 

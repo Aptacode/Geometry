@@ -1,7 +1,7 @@
-﻿using Aptacode.Geometry.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision
 {
@@ -16,7 +16,7 @@ namespace Aptacode.Geometry.Collision
             return Math.Abs(delta - lineLength) < Constants.Tolerance;
         }
 
-        public static bool newOnLineSegment(this (Vector2 A, Vector2 B) line, Vector2 point)
+        public static bool NewOnLineSegment(this (Vector2 A, Vector2 B) line, Vector2 point)
         {
             var minVector = Vector2.Min(line.A, line.B);
             var maxVector = Vector2.Max(line.A, line.B);
@@ -28,6 +28,7 @@ namespace Aptacode.Geometry.Collision
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -71,13 +72,13 @@ namespace Aptacode.Geometry.Collision
             return (m, c);
         }
 
-        public static bool newLineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)
+        public static bool NewLineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)
         {
             var line1AsVector = line1.Item2 - line1.Item1;
             var line2ACross = line1AsVector.VectorCross(line2.Item1 - line1.Item1);
             var line2BCross = line1AsVector.VectorCross(line2.Item2 - line1.Item1);
 
-            if ((line2ACross > 0 && line2BCross > 0) || (line2ACross < 0 && line2BCross < 0)) //if both points of one line segment are above or below the other then they cannot intersect.
+            if (line2ACross > 0 && line2BCross > 0 || line2ACross < 0 && line2BCross < 0) //if both points of one line segment are above or below the other then they cannot intersect.
             {
                 return false;
             }
@@ -88,7 +89,7 @@ namespace Aptacode.Geometry.Collision
             var line1ACross = line2AsVector.VectorCross(line1.Item1 - line2.Item1);
             var line1BCross = line2AsVector.VectorCross(line1.Item2 - line2.Item1);
 
-            if ((line1ACross > 0 && line1BCross > 0) || (line1ACross < 0 && line2BCross < 0))
+            if (line1ACross > 0 && line1BCross > 0 || line1ACross < 0 && line2BCross < 0)
             {
                 return false;
             }
@@ -96,14 +97,15 @@ namespace Aptacode.Geometry.Collision
             return true; //we have that one of each of the points of the line segements lies above and below the other line segment, aka they intersect.
         }
 
-        public static Vector2[] MakeLargeVertexList(int start, int Xtranslate)
+        public static Vector2[] MakeLargeVertexList(int start, int xtranslate)
         {
             var vertexList = new List<Vector2>();
-            for (int i = start; i < 50; i++)
+            for (var i = start; i < 50; i++)
             {
-                vertexList.Add(new Vector2(i + Xtranslate, i));
+                vertexList.Add(new Vector2(i + xtranslate, i));
             }
-            vertexList.Add(new Vector2(50 + Xtranslate, start));
+
+            vertexList.Add(new Vector2(50 + xtranslate, start));
             return vertexList.ToArray();
         }
     }
