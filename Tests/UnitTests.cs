@@ -2,7 +2,6 @@
 using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
-using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
 using Aptacode.Geometry.Utilities;
@@ -102,7 +101,6 @@ namespace Aptacode.Geometry.Tests
         }
 
         [Fact]
-
         public void Perp_Test()
         {
             var a = new Vector2(6, 12);
@@ -130,8 +128,7 @@ namespace Aptacode.Geometry.Tests
             var b = new Vector2(6, 2);
             var c = new Vector2(3, 1);
 
-            Assert.True(Helpers.newOnLineSegment((a, b), c));
-
+            Assert.True((a, b).NewOnLineSegment(c));
         }
 
         [Fact]
@@ -143,19 +140,17 @@ namespace Aptacode.Geometry.Tests
             var B1 = new Vector2(15, 10);
             var B2 = new Vector2(15, 15);
 
-            Assert.True(Helpers.newLineSegmentIntersection((A1, A2), (B1, B2)));
+            Assert.True((A1, A2).NewLineSegmentIntersection((B1, B2)));
         }
 
 
         [Fact]
         public void SweepingLine_Test()
         {
-            var sweepingLine = new SweepingLine();
-
             var poly1 = Polygon.Create(10, 10, 10, 15, 15, 20, 20, 15, 20, 10);
             var poly2 = Polygon.Create(15, 10, 15, 15, 20, 20, 25, 15, 25, 10);
 
-            var collision = sweepingLine.RunSweepingLine(poly1, poly2);
+            var collision = SweepingLine.CheckCollision(poly1, poly2);
 
             Assert.True(collision);
         }

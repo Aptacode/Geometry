@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
@@ -11,18 +9,28 @@ namespace Aptacode.Geometry.Collision
 {
     public static class CollisionDetectorMethods
     {
+        #region Rectangle
+
+        public static bool CollidesWith(Rectangle p1, Point p2)
+        {
+            return p1.TopLeft.X <= p2.Position.X &&
+                   p1.TopLeft.Y <= p2.Position.Y &&
+                   p1.BottomRight.X >= p2.Position.X &&
+                   p1.BottomRight.Y >= p2.Position.Y;
+        }
+
+        #endregion
+
         #region Point
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
         public static bool CollidesWith(Point p1, Point p2)
         {
             return p1.Equals(p2);
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
         public static bool CollidesWith(Point p1, PolyLine p2)
         {
-            for (int i = 0; i < p2.LineSegments.Length; i++)
+            for (var i = 0; i < p2.LineSegments.Length; i++)
             {
                 if (p2.LineSegments[i].OnLineSegment(p1.Position))
                 {
@@ -32,15 +40,14 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( Point p1, Polygon p2)
+
+        public static bool CollidesWith(Point p1, Polygon p2)
         {
             var collision = false;
             var vertices = p2.Vertices.Vertices;
             var point = p1.Position;
 
-            for(int i = 0, j = vertices.Length - 1; i < vertices.Length; j = i++)
+            for (int i = 0, j = vertices.Length - 1; i < vertices.Length; j = i++)
             {
                 var a = vertices[i];
                 var b = vertices[j];
@@ -49,17 +56,16 @@ namespace Aptacode.Geometry.Collision
                     return true;
                 }
 
-                if ((a.Y > point.Y) != (b.Y > point.Y) &&
+                if (a.Y > point.Y != b.Y > point.Y &&
                     point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
                     collision = !collision;
                 }
             }
-            
+
             return collision;
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
         public static bool CollidesWith(Point p1, Ellipse p2)
         {
             var f1dist = (p2.Foci.Item1 - p1.Position).Length();
@@ -80,9 +86,8 @@ namespace Aptacode.Geometry.Collision
         #endregion
 
         #region PolyLine
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( PolyLine p1, Point p2)
+
+        public static bool CollidesWith(PolyLine p1, Point p2)
         {
             for (var i = 0; i < p1.LineSegments.Length; i++)
             {
@@ -95,9 +100,8 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( PolyLine p1, PolyLine p2)
+
+        public static bool CollidesWith(PolyLine p1, PolyLine p2)
         {
             for (var i = 0; i < p1.LineSegments.Length; i++)
             {
@@ -114,9 +118,8 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( PolyLine p1, Polygon p2)
+
+        public static bool CollidesWith(PolyLine p1, Polygon p2)
         {
             for (var i = 0; i < p1.LineSegments.Length; i++)
             {
@@ -135,11 +138,11 @@ namespace Aptacode.Geometry.Collision
             {
                 return true;
             }
+
             return false;
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( PolyLine p1, Ellipse p2)
+
+        public static bool CollidesWith(PolyLine p1, Ellipse p2)
         {
             if (p2.Radii.X == p2.Radii.Y)
             {
@@ -209,9 +212,8 @@ namespace Aptacode.Geometry.Collision
         #endregion
 
         #region Polygon
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( Polygon p1, Point p2)
+
+        public static bool CollidesWith(Polygon p1, Point p2)
         {
             var collision = false;
             var vertices = p1.Vertices.Vertices;
@@ -226,7 +228,7 @@ namespace Aptacode.Geometry.Collision
                     return true;
                 }
 
-                if ((a.Y > point.Y) != (b.Y > point.Y) &&
+                if (a.Y > point.Y != b.Y > point.Y &&
                     point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 {
                     collision = !collision;
@@ -236,8 +238,7 @@ namespace Aptacode.Geometry.Collision
             return collision;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( Polygon p1, PolyLine p2)
+        public static bool CollidesWith(Polygon p1, PolyLine p2)
         {
             for (var i = 0; i < p1.Edges.Length; i++)
             {
@@ -251,14 +252,15 @@ namespace Aptacode.Geometry.Collision
                     }
                 }
             }
+
             if (CollidesWith(p2.Vertices[0].ToPoint(), p1)) //If they don't intersect but a point of the polyline is inside the polygon then that polygon must contain the polyline.
             {
                 return true;
             }
+
             return false;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(Polygon p1, Polygon p2)
         {
             for (var i = 0; i < p1.Edges.Length; i++)
@@ -273,15 +275,16 @@ namespace Aptacode.Geometry.Collision
                     }
                 }
             }
-            if(CollidesWith(p1.Vertices[0].ToPoint(), p2) || CollidesWith(p2.Vertices[0].ToPoint(), p1)) //If they don't intersect but one point is inside the other one then that polygon must contain the other.
+
+            if (CollidesWith(p1.Vertices[0].ToPoint(), p2) || CollidesWith(p2.Vertices[0].ToPoint(), p1)) //If they don't intersect but one point is inside the other one then that polygon must contain the other.
             {
                 return true;
             }
+
             return false;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( Polygon p1, Ellipse p2)
+        public static bool CollidesWith(Polygon p1, Ellipse p2)
         {
             if (p2.Radii.X == p2.Radii.Y)
             {
@@ -350,24 +353,9 @@ namespace Aptacode.Geometry.Collision
 
         #endregion
 
-
-        #region Rectangle
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith(Rectangle p1, Point p2)
-        {
-            return p1.TopLeft.X <= p2.Position.X &&
-                   p1.TopLeft.Y <= p2.Position.Y &&
-                   p1.BottomRight.X >= p2.Position.X &&
-                   p1.BottomRight.Y >= p2.Position.Y;
-        }
-
-        #endregion
-
-
         #region Ellipse
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( Ellipse p1, Point p2)
+
+        public static bool CollidesWith(Ellipse p1, Point p2)
         {
             var f1dist = (p1.Foci.Item1 - p2.Position).Length();
             var f2dist = (p1.Foci.Item2 - p2.Position).Length();
@@ -383,9 +371,8 @@ namespace Aptacode.Geometry.Collision
 
             return p1.BoundingCircle.Contains(p2.Position);
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( Ellipse p1, PolyLine p2)
+
+        public static bool CollidesWith(Ellipse p1, PolyLine p2)
         {
             if (p1.Radii.X == p1.Radii.Y) //The ellipse is a circle
             {
@@ -453,9 +440,8 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( Ellipse p1, Polygon p2)
+
+        public static bool CollidesWith(Ellipse p1, Polygon p2)
         {
             if (p1.Radii.X == p1.Radii.Y) //The ellipse is a circle
             {
@@ -522,9 +508,8 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CollidesWith( Ellipse p1, Ellipse p2)
+
+        public static bool CollidesWith(Ellipse p1, Ellipse p2)
         {
             if (p1.Radii.X == p1.Radii.Y && p2.Radii.X == p2.Radii.Y
             ) //Then both ellipses are actually circles and  is definitely(?) faster

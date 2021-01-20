@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
@@ -7,6 +6,15 @@ namespace Aptacode.Geometry.Primitives.Polygons
 {
     public record Rectangle : Polygon
     {
+        #region Collision Detection
+
+        public override BoundingRectangle MinimumBoundingRectangle()
+        {
+            return new(TopLeft, TopRight, BottomRight, BottomLeft);
+        }
+
+        #endregion
+
         #region Construction
 
         public Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft) : base(
@@ -73,15 +81,6 @@ namespace Aptacode.Geometry.Primitives.Polygons
         {
             get => Vertices[3];
             set => Vertices[3] = value;
-        }
-
-        #endregion
-
-        #region Collision Detection
-
-        public override BoundingRectangle MinimumBoundingRectangle()
-        {
-            return new(TopLeft, TopRight, BottomRight, BottomLeft);
         }
 
         #endregion

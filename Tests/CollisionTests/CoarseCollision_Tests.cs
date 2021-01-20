@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Polygons;
 using Xunit;
@@ -185,7 +184,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var polyLine = PolyLine.Create(new Vector2(0, 0), new Vector2(5, 5));
             var circle = new Ellipse(new Vector2(3, 3), new Vector2(4, 1), 0.0f);
             //Act
-            var sut = polyLine.CollidesWith(circle); 
+            var sut = polyLine.CollidesWith(circle);
             //Assert
             Assert.True(sut);
         }
@@ -209,7 +208,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             var polyLine = PolyLine.Create(new Vector2(0, 0), new Vector2(1, 5));
             var polygon = Triangle.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(0, 4));
             //Act
-            var sut = polyLine.CollidesWith(polygon); 
+            var sut = polyLine.CollidesWith(polygon);
             //Assert
             Assert.True(sut);
         }

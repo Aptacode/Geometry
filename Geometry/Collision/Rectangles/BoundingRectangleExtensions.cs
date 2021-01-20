@@ -7,21 +7,18 @@ namespace Aptacode.Geometry.Collision.Rectangles
 {
     public static class BoundingRectangleExtensions
     {
+        #region Collision
+
         public static bool CollidesWith(this BoundingRectangle p1, BoundingRectangle p2)
         {
-            var l1 = p1.TopLeft;
-            var r1 = p1.BottomRight;
-            var l2 = p2.TopLeft;
-            var r2 = p2.BottomRight;
-
             // If one rectangle is on left side of other 
-            if (l1.X > r2.X || l2.X > r1.X)
+            if (p1.TopLeft.X > p2.BottomRight.X || p2.TopLeft.X > p1.BottomRight.X)
             {
                 return false;
             }
 
             // If one rectangle is above other 
-            if (l1.Y > r2.Y || l2.Y > r1.Y)
+            if (p1.TopLeft.Y > p2.BottomRight.Y || p2.TopLeft.Y > p1.BottomRight.Y)
             {
                 return false;
             }
@@ -36,6 +33,10 @@ namespace Aptacode.Geometry.Collision.Rectangles
                    rectangle.BottomRight.X >= point.X &&
                    rectangle.BottomRight.Y >= point.Y;
         }
+
+        #endregion
+
+        #region Transformation
 
         public static BoundingRectangle Translate(this BoundingRectangle rectangle, Vector2 delta)
         {
@@ -73,6 +74,8 @@ namespace Aptacode.Geometry.Collision.Rectangles
                 Vector2.Transform(rectangle.BottomRight, rotationMatrix),
                 Vector2.Transform(rectangle.BottomLeft, rotationMatrix));
         }
+
+        #endregion
 
         #region Creation
 

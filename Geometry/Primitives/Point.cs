@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives.Polygons;
 using Aptacode.Geometry.Vertices;
@@ -24,23 +23,27 @@ namespace Aptacode.Geometry.Primitives
             {
                 return false;
             }
-            return (Math.Abs(Position.X - other.Position.X) <= Constants.Tolerance && Math.Abs(Position.Y - other.Position.Y) <= Constants.Tolerance);
+
+            return Math.Abs(Position.X - other.Position.X) <= Constants.Tolerance && Math.Abs(Position.Y - other.Position.Y) <= Constants.Tolerance;
         }
 
         #endregion
 
         #region Collision Detection
+
         public override BoundingRectangle MinimumBoundingRectangle()
         {
             return new(Position, Position, Position, Position);
         }
+
         public override bool CollidesWith(Vector2 p)
         {
             return Vector2CollisionDetector.CollidesWith(this, p);
         }
+
         public override bool CollidesWith(Point p)
         {
-           return CollisionDetectorMethods.CollidesWith(this, p);
+            return CollisionDetectorMethods.CollidesWith(this, p);
         }
 
         public override bool CollidesWith(Ellipse p)

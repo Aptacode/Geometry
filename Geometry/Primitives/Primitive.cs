@@ -9,6 +9,11 @@ namespace Aptacode.Geometry.Primitives
     {
         public readonly VertexArray Vertices;
 
+        protected Primitive(VertexArray vertices)
+        {
+            Vertices = vertices;
+        }
+
         #region IEquatable
 
         public virtual bool Equals(Primitive other)
@@ -17,11 +22,6 @@ namespace Aptacode.Geometry.Primitives
         }
 
         #endregion
-
-        protected Primitive(VertexArray vertices)
-        {
-            Vertices = vertices;
-        }
 
         #region Collision Detection
 
@@ -43,6 +43,7 @@ namespace Aptacode.Geometry.Primitives
         public abstract bool CollidesWith(PolyLine p);
         public abstract bool CollidesWith(Rectangle p);
         public abstract bool CollidesWith(Polygon p);
+
         public virtual bool CollidesWithPrimitive(Primitive p)
         {
             return p switch
@@ -55,18 +56,42 @@ namespace Aptacode.Geometry.Primitives
                 _ => false
             };
         }
-        
-        public bool HybridCollidesWith(Vector2 p) => BoundingRectangle.Contains(p) && CollidesWith(p);
-        public bool HybridCollidesWith(Point p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
-        public bool HybridCollidesWith(Ellipse p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
-        public bool HybridCollidesWith(PolyLine p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
-        public bool HybridCollidesWith(Rectangle p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
-        public bool HybridCollidesWith(Polygon p) => BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+
+        public bool HybridCollidesWith(Vector2 p)
+        {
+            return BoundingRectangle.Contains(p) && CollidesWith(p);
+        }
+
+        public bool HybridCollidesWith(Point p)
+        {
+            return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+        }
+
+        public bool HybridCollidesWith(Ellipse p)
+        {
+            return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+        }
+
+        public bool HybridCollidesWith(PolyLine p)
+        {
+            return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+        }
+
+        public bool HybridCollidesWith(Rectangle p)
+        {
+            return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+        }
+
+        public bool HybridCollidesWith(Polygon p)
+        {
+            return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
+        }
+
         public bool HybridCollidesWithPrimitive(Primitive p)
         {
             return p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWithPrimitive(p);
         }
-        
+
         #endregion
 
         #region Transformations

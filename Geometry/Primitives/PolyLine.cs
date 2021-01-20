@@ -9,12 +9,13 @@ namespace Aptacode.Geometry.Primitives
     public record PolyLine : Primitive
     {
         #region Collision Detection
+
         public override BoundingRectangle MinimumBoundingRectangle()
         {
             return Vertices.ToBoundingRectangle();
         }
 
-        public override bool CollidesWith(Vector2 p) 
+        public override bool CollidesWith(Vector2 p)
         {
             return Vector2CollisionDetector.CollidesWith(this, p);
         }

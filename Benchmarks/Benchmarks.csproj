@@ -6,7 +6,7 @@
     <ApplicationIcon>Logo.ico</ApplicationIcon>
     <Description>High performance .net 5 graphics library for Blazor</Description>
     <AssemblyName>Benchmarks</AssemblyName>
-    <RootNamespace>Benchmarks</RootNamespace>
+    <RootNamespace>Aptacode.Geometry.Benchmarks</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

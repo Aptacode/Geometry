@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace Aptacode.Geometry.Utilities
 {
@@ -11,7 +6,7 @@ namespace Aptacode.Geometry.Utilities
     {
         public static float VectorCross(this Vector2 a, Vector2 b)
         {
-            return (a.X * b.Y) - (a.Y * b.X);
+            return a.X * b.Y - a.Y * b.X;
         }
 
         public static Vector2 Perp(this Vector2 a)

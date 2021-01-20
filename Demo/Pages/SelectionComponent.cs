@@ -36,6 +36,7 @@ namespace Aptacode.Geometry.Demo.Pages
             {
                 vertices[i] = Polygon.Vertices[i] * SceneScale.Value;
             }
+
             ctx.Polygon(vertices);
             ctx.Stroke();
         }
