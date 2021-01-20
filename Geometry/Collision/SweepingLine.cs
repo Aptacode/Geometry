@@ -10,10 +10,15 @@ namespace Aptacode.Geometry.Collision
     {
         public static bool CheckCollision(Polygon p, Polygon q)
         {
+            if (p.Vertices.Length < 10 && q.Vertices.Length < 10)
+            {
+                return CollisionDetectorMethods.CollidesWith(p, q);
+            }
+            
             List<(Vector2, Vector2)> slSp = new();
             List<(Vector2, Vector2)> slSq = new();
 
-            FastPriorityQueue<VertexEvent> vertexEventQueue = new(100); //Sorted by X coord of the vertex that is the value of the first item of the tuple in the list.
+            FastPriorityQueue<VertexEvent> vertexEventQueue = new(p.Vertices.Length + q.Vertices.Length + 1); //Sorted by X coord of the vertex that is the value of the first item of the tuple in the list.
             vertexEventQueue.AddVertexEvents(p);
             vertexEventQueue.AddVertexEvents(q);
 
