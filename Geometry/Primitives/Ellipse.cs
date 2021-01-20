@@ -173,7 +173,7 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
-        public override BoundingRectangle MinimumBoundingRectangle()
+        public override BoundingRectangle GetBoundingRectangle()
         {
             return EllipseExtrema.ToBoundingRectangle();
         }

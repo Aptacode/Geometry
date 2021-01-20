@@ -8,7 +8,7 @@ namespace Aptacode.Geometry.Primitives.Polygons
     {
         #region Collision Detection
 
-        public override BoundingRectangle MinimumBoundingRectangle()
+        public override BoundingRectangle GetBoundingRectangle()
         {
             return new(TopLeft, TopRight, BottomRight, BottomLeft);
         }

@@ -40,7 +40,7 @@ namespace Aptacode.Geometry.Tests
             //Arrange
             var ellipse = Ellipse.Create(15, 15, 10, 5, 0.0f);
             //Act
-            var sut = ellipse.MinimumBoundingRectangle();
+            var sut = ellipse.GetBoundingRectangle();
             //Assert
             Assert.Equal(new Vector2(5, 10), sut.TopLeft);
         }

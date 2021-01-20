@@ -33,16 +33,16 @@ namespace Aptacode.Geometry.Primitives
         }
 
         public BoundingRectangle BoundingRectangle =>
-            _boundingRectangle ?? (_boundingRectangle = MinimumBoundingRectangle()).Value;
+            _boundingRectangle ?? (_boundingRectangle = GetBoundingRectangle()).Value;
 
-        public abstract BoundingRectangle MinimumBoundingRectangle();
+        public abstract BoundingRectangle GetBoundingRectangle();
 
         public abstract bool CollidesWith(Vector2 p);
         public abstract bool CollidesWith(Point p);
         public abstract bool CollidesWith(Ellipse p);
         public abstract bool CollidesWith(PolyLine p);
-        public abstract bool CollidesWith(Rectangle p);
         public abstract bool CollidesWith(Polygon p);
+        public abstract bool CollidesWith(Rectangle p);
 
         public virtual bool CollidesWithPrimitive(Primitive p)
         {

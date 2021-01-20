@@ -10,7 +10,7 @@ namespace Aptacode.Geometry.Primitives
     {
         #region Collision Detection
 
-        public override BoundingRectangle MinimumBoundingRectangle()
+        public override BoundingRectangle GetBoundingRectangle()
         {
             return Vertices.ToBoundingRectangle();
         }
@@ -87,7 +87,7 @@ namespace Aptacode.Geometry.Primitives
 
         #region Properties
 
-        private (Vector2 p1, Vector2 p2)[] CalculateLineSegments()
+        private (Vector2 p1, Vector2 p2)[] GetLineSegments()
         {
             var lineSegments = new (Vector2 p1, Vector2 p2)[Vertices.Length - 1];
             for (var i = 0; i < Vertices.Length - 1; i++)
@@ -99,7 +99,7 @@ namespace Aptacode.Geometry.Primitives
         }
 
         private (Vector2 p1, Vector2 p2)[] _lineSegments;
-        public (Vector2 p1, Vector2 p2)[] LineSegments => _lineSegments ??= CalculateLineSegments();
+        public (Vector2 p1, Vector2 p2)[] LineSegments => _lineSegments ??= GetLineSegments();
 
         #endregion
 
@@ -107,7 +107,14 @@ namespace Aptacode.Geometry.Primitives
 
         public override PolyLine Translate(Vector2 delta)
         {
-            _lineSegments = null;
+            if (_lineSegments != null)
+            {
+                for (var i = 0; i < _lineSegments.Length; i++)
+                {
+                    var (p1, p2) = _lineSegments[i];
+                    _lineSegments[i] = (p1 + delta, p2 + delta);
+                }
+            }
             base.Translate(delta);
             return this;
         }

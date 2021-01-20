@@ -31,7 +31,7 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
-        public override BoundingRectangle MinimumBoundingRectangle()
+        public override BoundingRectangle GetBoundingRectangle()
         {
             return new(Position, Position, Position, Position);
         }
@@ -68,8 +68,8 @@ namespace Aptacode.Geometry.Primitives
 
         #endregion
 
-        #region Ctor
-
+        #region Construction
+        
         public Point(Vector2 position) : base(VertexArray.Create(position))
         {
         }
@@ -82,10 +82,6 @@ namespace Aptacode.Geometry.Primitives
         {
             return new(new Vector2(x, y));
         }
-
-        #endregion
-
-        #region Construction
 
         public static readonly Point Zero = new(Vector2.Zero);
         public static readonly Point Unit = new(Vector2.One);
