@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision
@@ -68,6 +69,14 @@ namespace Aptacode.Geometry.Collision
             return p2.BoundingCircle.Contains(p1);
         }
 
+
+        public static bool CollidesWith(this BoundingRectangle p2, Vector2 p1)
+        {
+            return p2.TopLeft.X <= p1.X &&
+                   p2.TopLeft.Y <= p1.Y &&
+                   p2.BottomRight.X >= p1.X &&
+                   p2.BottomRight.Y >= p1.Y;
+        }
         #endregion
     }
 }

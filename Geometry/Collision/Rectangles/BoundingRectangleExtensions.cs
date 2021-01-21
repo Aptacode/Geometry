@@ -1,41 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
+using Aptacode.Geometry.Utilities;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Collision.Rectangles
 {
     public static class BoundingRectangleExtensions
     {
-        #region Collision
-
-        public static bool CollidesWith(this BoundingRectangle p1, BoundingRectangle p2)
-        {
-            // If one rectangle is on left side of other 
-            if (p1.TopLeft.X > p2.BottomRight.X || p2.TopLeft.X > p1.BottomRight.X)
-            {
-                return false;
-            }
-
-            // If one rectangle is above other 
-            if (p1.TopLeft.Y > p2.BottomRight.Y || p2.TopLeft.Y > p1.BottomRight.Y)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public static bool Contains(this BoundingRectangle rectangle, Vector2 point)
-        {
-            return rectangle.TopLeft.X <= point.X &&
-                   rectangle.TopLeft.Y <= point.Y &&
-                   rectangle.BottomRight.X >= point.X &&
-                   rectangle.BottomRight.Y >= point.Y;
-        }
-
-        #endregion
-
         #region Transformation
 
         public static BoundingRectangle Translate(this BoundingRectangle rectangle, Vector2 delta)

@@ -42,7 +42,7 @@ namespace Aptacode.Geometry.Primitives
         public abstract bool CollidesWith(Ellipse p);
         public abstract bool CollidesWith(PolyLine p);
         public abstract bool CollidesWith(Polygon p);
-        public abstract bool CollidesWith(Rectangle p);
+        public abstract bool CollidesWith(BoundingRectangle p);
 
         public virtual bool CollidesWithPrimitive(Primitive p)
         {

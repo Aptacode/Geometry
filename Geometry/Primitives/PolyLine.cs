@@ -22,7 +22,7 @@ namespace Aptacode.Geometry.Primitives
 
         public override bool CollidesWith(Point p)
         {
-            return CollisionDetectorMethods.CollidesWith(this, p);
+            return CollisionDetectorMethods.CollidesWith(p, this);
         }
 
         public override bool CollidesWith(Ellipse p)
@@ -35,9 +35,9 @@ namespace Aptacode.Geometry.Primitives
             return CollisionDetectorMethods.CollidesWith(this, p);
         }
 
-        public override bool CollidesWith(Rectangle p)
+        public override bool CollidesWith(BoundingRectangle p)
         {
-            return CollisionDetectorMethods.CollidesWith(this, p);
+            return BoundingRectangleCollisionDetector.CollidesWith(p, this);
         }
 
         public override bool CollidesWith(Polygon p)

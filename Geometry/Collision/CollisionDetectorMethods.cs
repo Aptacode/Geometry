@@ -1,26 +1,16 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
 using Aptacode.Geometry.Primitives.Polygons;
+using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision
 {
     public static class CollisionDetectorMethods
     {
-        #region Rectangle
-
-        public static bool CollidesWith(Rectangle p1, Point p2)
-        {
-            return p1.TopLeft.X <= p2.Position.X &&
-                   p1.TopLeft.Y <= p2.Position.Y &&
-                   p1.BottomRight.X >= p2.Position.X &&
-                   p1.BottomRight.Y >= p2.Position.Y;
-        }
-
-        #endregion
-
         #region Point
 
         public static bool CollidesWith(Point p1, Point p2)
@@ -87,20 +77,6 @@ namespace Aptacode.Geometry.Collision
 
         #region PolyLine
 
-        public static bool CollidesWith(PolyLine p1, Point p2)
-        {
-            for (var i = 0; i < p1.LineSegments.Length; i++)
-            {
-                var edge = p1.LineSegments[i];
-                if (edge.OnLineSegment(p2.Position))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public static bool CollidesWith(PolyLine p1, PolyLine p2)
         {
             for (var i = 0; i < p1.LineSegments.Length; i++)
@@ -134,7 +110,7 @@ namespace Aptacode.Geometry.Collision
                 }
             }
 
-            if (CollidesWith(p1.Vertices[0].ToPoint(), p2)) //If they don't intersect but a point of the polyline is inside the polygon then that polygon must contain the polyline
+            if (p2.CollidesWith(p1.Vertices[0])) //If they don't intersect but a point of the polyline is inside the polygon then that polygon must contain the polyline
             {
                 return true;
             }
@@ -178,88 +154,23 @@ namespace Aptacode.Geometry.Collision
                 var stdform = p2.GetStandardForm();
                 foreach (var (v1, v2) in p1.LineSegments)
                 {
-                    if (CollidesWith(p2, v1.ToPoint()) || CollidesWith(p2, v2.ToPoint()))
+                    if (p2.CollidesWith(v1) || p2.CollidesWith(v2))
                     {
                         return true;
                     }
 
-                    var dx = v2.X - v1.X;
-                    var dy = v2.Y - v1.Y;
-
-                    var a = stdform.A * dx * dx + stdform.B * dx * dy + stdform.C * dy * dy;
-                    var b = 2 * stdform.A * v1.X * dx + stdform.B * v1.X * dy + 2 * stdform.C * v1.Y * dy +
-                            stdform.D * dx + stdform.E * dy;
-                    var c = stdform.A * v1.X * v1.X + stdform.B * v1.X * v1.Y + stdform.C * v1.Y * v1.Y +
-                            stdform.D * v1.X + stdform.E * v1.Y + stdform.F;
-
-                    var det = b * b - 4 * a * c;
-                    if (det >= 0
-                    ) //There are solutions on the ray cast by the line segment, now to see if they are on the line segment
-                    {
-                        var t1 = (-b + Math.Sqrt(det)) / (2 * a);
-                        var t2 = (-b - Math.Sqrt(det)) / (2 * a);
-                        if (t1 >= 0 && t1 <= 1 || t2 >= 0 && t2 <= 1)
-                        {
-                            return true;
-                        }
-                    }
+                    return Helpers.LineSegmentEllipseIntersection((v1, v2), stdform);
                 }
             }
 
             return false;
         }
+
+
 
         #endregion
 
         #region Polygon
-
-        public static bool CollidesWith(Polygon p1, Point p2)
-        {
-            var collision = false;
-            var vertices = p1.Vertices.Vertices;
-            var point = p2.Position;
-
-            for (int i = 0, j = vertices.Length - 1; i < vertices.Length; j = i++)
-            {
-                var a = vertices[i];
-                var b = vertices[j];
-                if ((a, b).OnLineSegment(point))
-                {
-                    return true;
-                }
-
-                if (a.Y > point.Y != b.Y > point.Y &&
-                    point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
-                {
-                    collision = !collision;
-                }
-            }
-
-            return collision;
-        }
-
-        public static bool CollidesWith(Polygon p1, PolyLine p2)
-        {
-            for (var i = 0; i < p1.Edges.Length; i++)
-            {
-                var edge = p1.Edges[i];
-                for (var j = 0; j < p2.LineSegments.Length; j++)
-                {
-                    var lineSegment = p2.LineSegments[j];
-                    if (lineSegment.LineSegmentIntersection(edge))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            if (CollidesWith(p2.Vertices[0].ToPoint(), p1)) //If they don't intersect but a point of the polyline is inside the polygon then that polygon must contain the polyline.
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         public static bool CollidesWith(Polygon p1, Polygon p2)
         {
@@ -276,7 +187,7 @@ namespace Aptacode.Geometry.Collision
                 }
             }
 
-            if (CollidesWith(p1.Vertices[0].ToPoint(), p2) || CollidesWith(p2.Vertices[0].ToPoint(), p1)) //If they don't intersect but one point is inside the other one then that polygon must contain the other.
+            if (p2.CollidesWith(p1.Vertices[0]) || p1.CollidesWith(p2.Vertices[0])) //If they don't intersect but one point is inside the other one then that polygon must contain the other.
             {
                 return true;
             }
@@ -317,197 +228,29 @@ namespace Aptacode.Geometry.Collision
             }
             else
             {
+                if(p1.CollidesWith(p2.Position)) //This checks containment
+                {
+                    return true;
+                }
                 var stdform = p2.GetStandardForm();
                 foreach (var (v1, v2) in p1.Edges)
                 {
-                    if (CollidesWith(p2, v1.ToPoint()) || CollidesWith(p2, v2.ToPoint()))
+                    if (p2.CollidesWith(v1) || p2.CollidesWith(v2))
                     {
                         return true;
                     }
 
-                    var dx = v2.X - v1.X;
-                    var dy = v2.Y - v1.Y;
-
-                    var a = stdform.A * dx * dx + stdform.B * dx * dy + stdform.C * dy * dy;
-                    var b = 2 * stdform.A * v1.X * dx + stdform.B * v1.X * dy + 2 * stdform.C * v1.Y * dy +
-                            stdform.D * dx + stdform.E * dy;
-                    var c = stdform.A * v1.X * v1.X + stdform.B * v1.X * v1.Y + stdform.C * v1.Y * v1.Y +
-                            stdform.D * v1.X + stdform.E * v1.Y + stdform.F;
-
-                    var det = b * b - 4 * a * c;
-                    if (det >= 0
-                    ) //There are solutions on the ray cast by the line segment, now to see if they are on the line segment
-                    {
-                        var t1 = (-b + Math.Sqrt(det)) / (2 * a);
-                        var t2 = (-b - Math.Sqrt(det)) / (2 * a);
-                        if (t1 >= 0 && t1 <= 1 || t2 >= 0 && t2 <= 1)
-                        {
-                            return true;
-                        }
-                    }
+                    Helpers.LineSegmentEllipseIntersection((v1, v2), stdform);
                 }
             }
 
             return false;
         }
+
 
         #endregion
 
         #region Ellipse
-
-        public static bool CollidesWith(Ellipse p1, Point p2)
-        {
-            var f1dist = (p1.Foci.Item1 - p2.Position).Length();
-            var f2dist = (p1.Foci.Item2 - p2.Position).Length();
-            if (p1.Radii.X > p1.Radii.Y) //X is the major axis
-            {
-                return f1dist + f2dist <= 2 * p1.Radii.X;
-            }
-
-            if (p1.Radii.Y > p1.Radii.X) //Y is the major axis
-            {
-                return f1dist + f2dist <= 2 * p1.Radii.Y;
-            }
-
-            return p1.BoundingCircle.Contains(p2.Position);
-        }
-
-        public static bool CollidesWith(Ellipse p1, PolyLine p2)
-        {
-            if (p1.Radii.X == p1.Radii.Y) //The ellipse is a circle
-            {
-                foreach (var (v1, v2) in p2.LineSegments)
-                {
-                    if (p1.BoundingCircle.Contains(v1) || p1.BoundingCircle.Contains(v2))
-                    {
-                        return true;
-                    }
-
-                    var dot = ((p1.Position.X - v1.X) * (v2.X - v1.X) + (p1.Position.Y - v1.Y) * (v2.Y - v1.Y)) /
-                              (v2 - v1).LengthSquared();
-                    var closestX = v1.X + dot * (v2.X - v1.X);
-                    var closestY = v1.Y + dot * (v2.Y - v1.Y);
-                    var closestPoint =
-                        new Vector2(closestX,
-                            closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
-                    if (!(v1, v2).OnLineSegment(closestPoint)
-                    ) //Closest intersection point may be beyond the ends of the line segment.
-                    {
-                        continue;
-                    }
-
-                    if (p1.BoundingCircle.Contains(closestPoint)
-                    ) //Closest intersection point is inside the circle means circle intersects the line.
-                    {
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                var stdform = p1.GetStandardForm();
-                foreach (var (v1, v2) in p2.LineSegments)
-                {
-                    if (CollidesWith(p1, v1.ToPoint()) || CollidesWith(p1, v2.ToPoint()))
-                    {
-                        return true;
-                    }
-
-                    var dx = v2.X - v1.X;
-                    var dy = v2.Y - v1.Y;
-
-
-                    var a = stdform.A * dx * dx + stdform.B * dx * dy + stdform.C * dy * dy;
-                    var b = 2 * stdform.A * v1.X * dx + stdform.B * v1.X * dy + 2 * stdform.C * v1.Y * dy +
-                            stdform.D * dx + stdform.E * dy;
-                    var c = stdform.A * v1.X * v1.X + stdform.B * v1.X * v1.Y + stdform.C * v1.Y * v1.Y +
-                            stdform.D * v1.X + stdform.E * v1.Y + stdform.F;
-
-                    var det = b * b - 4 * a * c;
-                    if (det >= 0
-                    ) //There are solutions on the ray cast by the line segment, now to see if they are on the line segment
-                    {
-                        var t1 = (-b + Math.Sqrt(det)) / (2 * a);
-                        var t2 = (-b - Math.Sqrt(det)) / (2 * a);
-                        if (t1 >= 0 && t1 <= 1 || t2 >= 0 && t2 <= 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-
-
-            return false;
-        }
-
-        public static bool CollidesWith(Ellipse p1, Polygon p2)
-        {
-            if (p1.Radii.X == p1.Radii.Y) //The ellipse is a circle
-            {
-                foreach (var (v1, v2) in p2.Edges)
-                {
-                    if (p1.BoundingCircle.Contains(v1) || p1.BoundingCircle.Contains(v2))
-                    {
-                        return true;
-                    }
-
-                    var dot = ((p1.Position.X - v1.X) * (v2.X - v1.X) + (p1.Position.Y - v1.Y) * (v2.Y - v1.Y)) /
-                              (v2 - v1).LengthSquared();
-                    var closestX = v1.X + dot * (v2.X - v1.X);
-                    var closestY = v1.Y + dot * (v2.Y - v1.Y);
-                    var closestPoint =
-                        new Vector2(closestX,
-                            closestY); //The point of intersection of a line from the center of the circle perpendicular to the edge (possibly the ray) with the line segment (or ray).
-                    if (!(v1, v2).OnLineSegment(closestPoint)
-                    ) //Closest intersection point may be beyond the ends of the edge.
-                    {
-                        continue;
-                    }
-
-                    if (p1.BoundingCircle.Contains(closestPoint)
-                    ) //Closest intersection point is inside the circle means circle intersects the edge.
-                    {
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                var stdform = p1.GetStandardForm();
-                foreach (var (v1, v2) in p2.Edges)
-                {
-                    if (CollidesWith(p1, v1.ToPoint()) || CollidesWith(p1, v2.ToPoint()))
-                    {
-                        return true;
-                    }
-
-                    var dx = v2.X - v1.X;
-                    var dy = v2.Y - v1.Y;
-
-                    var a = stdform.A * dx * dx + stdform.B * dx * dy + stdform.C * dy * dy;
-                    var b = 2 * stdform.A * v1.X * dx + stdform.B * v1.X * dy + stdform.B * v1.Y * dx +
-                            2 * stdform.C * v1.Y * dy + stdform.D * dx + stdform.E * dy;
-                    var c = stdform.A * v1.X * v1.X + stdform.B * v1.X * v1.Y + stdform.C * v1.Y * v1.Y +
-                            stdform.D * v1.X + stdform.E * v1.Y + stdform.F;
-
-                    var det = b * b - 4 * a * c;
-                    if (det >= 0
-                    ) //There are solutions on the ray cast by the line segment, now to see if they are on the line segment
-                    {
-                        var t1 = (-b + Math.Sqrt(det)) / (2 * a);
-                        var t2 = (-b - Math.Sqrt(det)) / (2 * a);
-                        if (t1 >= 0 && t1 <= 1 || t2 >= 0 && t2 <= 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-
-
-            return false;
-        }
 
         public static bool CollidesWith(Ellipse p1, Ellipse p2)
         {
@@ -528,7 +271,7 @@ namespace Aptacode.Geometry.Collision
                 return true;
             }
 
-            if (CollidesWith(p1, p2.Position.ToPoint()) || CollidesWith(p2, p1.Position.ToPoint())
+            if (p1.CollidesWith(p2) || p2.CollidesWith(p1)
             ) //This means one ellipse is contained within the other entirely
             {
                 return true;
@@ -536,6 +279,8 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
+
+
 
         #endregion
     }

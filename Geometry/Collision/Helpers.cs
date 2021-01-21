@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Aptacode.Geometry.Primitives;
+using Aptacode.Geometry.Primitives.Extensions;
 using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision
@@ -95,6 +97,33 @@ namespace Aptacode.Geometry.Collision
             }
 
             return true; //we have that one of each of the points of the line segements lies above and below the other line segment, aka they intersect.
+        }
+
+        public static bool LineSegmentEllipseIntersection(this(Vector2 v1, Vector2 v2) line, (double A, double B, double C, double D, double E, double F) stdform)
+        {
+            var v2 = line.v2;
+            var v1 = line.v1;
+            var dx = v2.X - v1.X;
+            var dy = v2.Y - v1.Y;
+
+            var a = stdform.A * dx * dx + stdform.B * dx * dy + stdform.C * dy * dy;
+            var b = 2 * stdform.A * v1.X * dx + stdform.B * v1.X * dy + 2 * stdform.C * v1.Y * dy +
+                    stdform.D * dx + stdform.E * dy;
+            var c = stdform.A * v1.X * v1.X + stdform.B * v1.X * v1.Y + stdform.C * v1.Y * v1.Y +
+                    stdform.D * v1.X + stdform.E * v1.Y + stdform.F;
+
+            var det = b * b - 4 * a * c;
+            if (det >= 0
+            ) //There are solutions on the ray cast by the line segment, now to see if they are on the line segment
+            {
+                var t1 = (-b + Math.Sqrt(det)) / (2 * a);
+                var t2 = (-b - Math.Sqrt(det)) / (2 * a);
+                if (t1 >= 0 && t1 <= 1 || t2 >= 0 && t2 <= 1)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static Vector2[] MakeLargeVertexList(int start, int xtranslate)
