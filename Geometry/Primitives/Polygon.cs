@@ -48,11 +48,14 @@ namespace Aptacode.Geometry.Primitives
 
         #region Construction
 
+        public Polygon(params Vector2[] points) : base(VertexArray.Create(points))
+        {
+        }
         public Polygon(VertexArray vertices) : base(vertices)
         {
         }
 
-        public static readonly Polygon Zero = Polygon.Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);
+        public static readonly Polygon Zero = new(Vector2.Zero, Vector2.Zero, Vector2.Zero);
 
         public static Polygon Create(params float[] points)
         {
@@ -72,24 +75,34 @@ namespace Aptacode.Geometry.Primitives
             return new Polygon(VertexArray.Create(vertices));
         }
 
-        public static Polygon Create(params Vector2[] points)
+        public static class Rectangle
         {
-            return new(VertexArray.Create(points));
+            public static Polygon Create(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft)
+            {
+                return new(VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft));
+            }
+            public static Polygon FromTwoPoints(Vector2 topLeft, Vector2 bottomRight)
+            {
+                var topRight = new Vector2(bottomRight.X, topLeft.Y);
+                var bottomLeft = new Vector2(topLeft.X, bottomRight.Y);
+
+                return Create(topLeft, topRight, bottomRight, bottomLeft);
+            }
+            public static Polygon FromPositionAndSize(Vector2 topLeft, Vector2 size)
+            {
+                var bottomRight = topLeft + size;
+                return FromTwoPoints(topLeft, bottomRight);
+            }
         }
 
-        public static Polygon Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft)
+        public static class Triangle
         {
-            return new(VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft));
+            public static Polygon Create(Vector2 a, Vector2 b, Vector2 c)
+            {
+                return new(VertexArray.Create(a, b, c));
+            }
         }
-        public static Polygon Rectangle(Vector2 topLeft, Vector2 bottomRight)
-        {
-            return new(VertexArray.Create(topLeft, new Vector2(bottomRight.X, topLeft.Y), bottomRight, new Vector2(topLeft.X, bottomRight.Y)));
-        }
-        public static Polygon Triangle(Vector2 a, Vector2 b, Vector2 c)
-        {
-            return new(VertexArray.Create(a,b,c));
-        }
-
+        
         #endregion
 
         #region Properties
