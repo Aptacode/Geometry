@@ -76,7 +76,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         {
             //Arrange
             var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float) Math.PI / 4f);
-            var polygon = Polygon.Create(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3));
+            var polygon = new Polygon(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3));
             //Act
             var sut = ellipse.CollidesWith(polygon);
             //Assert
