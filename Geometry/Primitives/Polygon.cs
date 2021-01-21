@@ -52,11 +52,13 @@ namespace Aptacode.Geometry.Primitives
         {
         }
 
+        public static readonly Polygon Zero = Polygon.Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);
+
         public static Polygon Create(params float[] points)
         {
             if (points.Length < 3)
             {
-                return Zero;
+                return Polygon.Zero;
             }
 
             var vertices = new Vector2[points.Length / 2];
@@ -70,16 +72,22 @@ namespace Aptacode.Geometry.Primitives
             return new Polygon(VertexArray.Create(vertices));
         }
 
-        public static readonly Polygon Zero = Create(Vector2.Zero, Vector2.Zero, Vector2.Zero);
-
-        public static Polygon Create(Vector2 p1, Vector2 p2, Vector2 p3, params Vector2[] points)
-        {
-            return new(VertexArray.Create(p1, p2, p3, points));
-        }
-
-        public static Polygon Create(Vector2[] points)
+        public static Polygon Create(params Vector2[] points)
         {
             return new(VertexArray.Create(points));
+        }
+
+        public static Polygon Rectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft)
+        {
+            return new(VertexArray.Create(topLeft, topRight, bottomRight, bottomLeft));
+        }
+        public static Polygon Rectangle(Vector2 topLeft, Vector2 bottomRight)
+        {
+            return new(VertexArray.Create(topLeft, new Vector2(bottomRight.X, topLeft.Y), bottomRight, new Vector2(topLeft.X, bottomRight.Y)));
+        }
+        public static Polygon Triangle(Vector2 a, Vector2 b, Vector2 c)
+        {
+            return new(VertexArray.Create(a,b,c));
         }
 
         #endregion
