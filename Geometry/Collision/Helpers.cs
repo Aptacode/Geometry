@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Primitives.Extensions;
 using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision
@@ -99,7 +97,7 @@ namespace Aptacode.Geometry.Collision
             return true; //we have that one of each of the points of the line segements lies above and below the other line segment, aka they intersect.
         }
 
-        public static bool LineSegmentEllipseIntersection(this(Vector2 v1, Vector2 v2) line, (double A, double B, double C, double D, double E, double F) stdform)
+        public static bool LineSegmentEllipseIntersection(this (Vector2 v1, Vector2 v2) line, (double A, double B, double C, double D, double E, double F) stdform)
         {
             var v2 = line.v2;
             var v1 = line.v1;
@@ -123,6 +121,7 @@ namespace Aptacode.Geometry.Collision
                     return true;
                 }
             }
+
             return false;
         }
 

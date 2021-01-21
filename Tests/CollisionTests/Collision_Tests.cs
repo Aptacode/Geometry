@@ -45,7 +45,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-        
+
         [Fact]
         public void CircleAndCircle_ContainmentCollision_Test()
         {

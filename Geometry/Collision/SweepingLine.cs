@@ -14,7 +14,7 @@ namespace Aptacode.Geometry.Collision
             {
                 return CollisionDetectorMethods.CollidesWith(p, q);
             }
-            
+
             List<(Vector2, Vector2)> slSp = new();
             List<(Vector2, Vector2)> slSq = new();
 

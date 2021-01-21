@@ -77,6 +77,7 @@ namespace Aptacode.Geometry.Collision
                    p2.BottomRight.X >= p1.X &&
                    p2.BottomRight.Y >= p1.Y;
         }
+
         #endregion
     }
 }

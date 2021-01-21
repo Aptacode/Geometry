@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
-using Aptacode.Geometry.Primitives.Polygons;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
@@ -115,6 +114,7 @@ namespace Aptacode.Geometry.Primitives
                     _lineSegments[i] = (p1 + delta, p2 + delta);
                 }
             }
+
             base.Translate(delta);
             return this;
         }

@@ -1,16 +1,45 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Circles;
-using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
-using Aptacode.Geometry.Primitives.Polygons;
-using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision
 {
     public static class CollisionDetectorMethods
     {
+        #region Ellipse
+
+        public static bool CollidesWith(Ellipse p1, Ellipse p2)
+        {
+            if (Math.Abs(p1.Radii.X - p1.Radii.Y) < Constants.Tolerance && Math.Abs(p2.Radii.X - p2.Radii.Y) < Constants.Tolerance
+            ) //Then both ellipses are actually circles and  is definitely(?) faster
+            {
+                var d = (p2.Position - p1.Position).Length();
+                return d < p1.Radii.X + p2.Radii.X;
+            }
+
+            var f1 = p1.GetStandardForm();
+            var f2 = p2.GetStandardForm();
+            var (u0, u1, u2, u3, u4) = Ellipse.GetResultantPolynomial(f1.A, f1.B, f1.C, f1.D, f1.E, f1.F, f2.A, f2.B,
+                f2.C, f2.D, f2.E, f2.F);
+
+            if (Ellipse.QuarticHasRealRoots(u0, u1, u2, u3, u4))
+            {
+                return true;
+            }
+
+            if (p1.CollidesWith(p2) || p2.CollidesWith(p1)
+            ) //This means one ellipse is contained within the other entirely
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
         #region Point
 
         public static bool CollidesWith(Point p1, Point p2)
@@ -159,14 +188,12 @@ namespace Aptacode.Geometry.Collision
                         return true;
                     }
 
-                    return Helpers.LineSegmentEllipseIntersection((v1, v2), stdform);
+                    return (v1, v2).LineSegmentEllipseIntersection(stdform);
                 }
             }
 
             return false;
         }
-
-
 
         #endregion
 
@@ -228,10 +255,11 @@ namespace Aptacode.Geometry.Collision
             }
             else
             {
-                if(p1.CollidesWith(p2.Position)) //This checks containment
+                if (p1.CollidesWith(p2.Position)) //This checks containment
                 {
                     return true;
                 }
+
                 var stdform = p2.GetStandardForm();
                 foreach (var (v1, v2) in p1.Edges)
                 {
@@ -240,47 +268,12 @@ namespace Aptacode.Geometry.Collision
                         return true;
                     }
 
-                    Helpers.LineSegmentEllipseIntersection((v1, v2), stdform);
+                    (v1, v2).LineSegmentEllipseIntersection(stdform);
                 }
             }
 
             return false;
         }
-
-
-        #endregion
-
-        #region Ellipse
-
-        public static bool CollidesWith(Ellipse p1, Ellipse p2)
-        {
-            if (p1.Radii.X == p1.Radii.Y && p2.Radii.X == p2.Radii.Y
-            ) //Then both ellipses are actually circles and  is definitely(?) faster
-            {
-                var d = (p2.Position - p1.Position).Length();
-                return d < p1.Radii.X + p2.Radii.X;
-            }
-
-            var f1 = p1.GetStandardForm();
-            var f2 = p2.GetStandardForm();
-            var (u0, u1, u2, u3, u4) = Ellipse.GetResultantPolynomial(f1.A, f1.B, f1.C, f1.D, f1.E, f1.F, f2.A, f2.B,
-                f2.C, f2.D, f2.E, f2.F);
-
-            if (Ellipse.QuarticHasRealRoots(u0, u1, u2, u3, u4))
-            {
-                return true;
-            }
-
-            if (p1.CollidesWith(p2) || p2.CollidesWith(p1)
-            ) //This means one ellipse is contained within the other entirely
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-
 
         #endregion
     }

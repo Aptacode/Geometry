@@ -91,12 +91,14 @@ namespace Aptacode.Geometry.Collision.Rectangles
                 var b = (topRight - lineSeg.Item1).VectorCross(lineAsVector);
                 var c = (bottomRight - lineSeg.Item1).VectorCross(lineAsVector);
                 var d = (bottomLeft - lineSeg.Item2).VectorCross(lineAsVector);
-                if ((a > 0 && b > 0 && c > 0 && d > 0) || (a < 0 && b < 0 && c < 0 && d < 0))
+                if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0)
                 {
                     continue;
                 }
+
                 return true;
             }
+
             return false;
         }
 
@@ -115,12 +117,14 @@ namespace Aptacode.Geometry.Collision.Rectangles
                 var b = (topRight - edge.Item1).VectorCross(lineAsVector);
                 var c = (bottomRight - edge.Item1).VectorCross(lineAsVector);
                 var d = (bottomLeft - edge.Item2).VectorCross(lineAsVector);
-                if ((a > 0 && b > 0 && c > 0 && d > 0) || (a < 0 && b < 0 && c < 0 && d < 0))
+                if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0)
                 {
                     continue;
                 }
+
                 return true;
             }
+
             return false;
         }
 
@@ -148,6 +152,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
                 {
                     return true;
                 }
+
                 return false;
             }
 
@@ -157,24 +162,30 @@ namespace Aptacode.Geometry.Collision.Rectangles
                 {
                     return true;
                 }
+
                 return false;
             }
+
             if (testX <= 0 && testY > 0) //if it's in the bottom left quadrant
             {
                 if (ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(BottomLeft) || ellipse.CollidesWith(BottomRight) || leftEdge.LineSegmentEllipseIntersection(stdform) || bottomEdge.LineSegmentEllipseIntersection(stdform))
                 {
                     return true;
                 }
+
                 return false;
             }
+
             if (testX > 0 && testY > 0) //if it's in the bottom right quadrant
             {
                 if (ellipse.CollidesWith(BottomLeft) || ellipse.CollidesWith(TopRight) || ellipse.CollidesWith(BottomRight) || rightEdge.LineSegmentEllipseIntersection(stdform) || bottomEdge.LineSegmentEllipseIntersection(stdform))
                 {
                     return true;
                 }
+
                 return false;
             }
+
             return false; //not sure we'll ever reach here
         }
 
