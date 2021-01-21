@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 using Xunit;
 
@@ -123,60 +124,13 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         #region Point
 
         [Fact]
-        public void PointAndEllipse_FineCollision_Test()
-        {
-            //Arrange
-            var point = new Point(new Vector2(4, 4));
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 7), (float) Math.PI / 16f);
-            //Act
-            var sut = point.CollidesWith(ellipse);
-            //Assert
-            Assert.True(sut);
-        }
-
-        [Fact]
-        public void PointAndPoint_FineCollision_Test()
+        public void PointAndPoint_Collision_Test()
         {
             //Arrange
             var p1 = new Point(new Vector2(1, 1));
             var p2 = new Point(new Vector2(1, 1));
             //Act
             var sut = p1.CollidesWith(p2);
-            //Assert
-            Assert.True(sut);
-        }
-
-        [Fact]
-        public void PointAndPolygon_FineCollision_Test()
-        {
-            //Arrange
-            var topLeft = new Vector2(0, 0);
-            var topRight = new Vector2(20, 0);
-            var bottomRight = new Vector2(20, 10);
-            var bottomLeft = new Vector2(0, 10);
-            var poly = Polygon.Create(new[] { topLeft, topRight, bottomRight, bottomLeft });
-            
-            var points = poly.Vertices;
-            //Act
-            for (var i = 0; i <= bottomRight.X; i += 2)
-            {
-                for (var j = 0; j <= bottomRight.Y; j += 2)
-                {
-                    var pointAsPoint = new Point(new Vector2(i, j));
-                    var sut = pointAsPoint.CollidesWith(poly);
-                    Assert.True(sut);
-                }
-            }
-        }
-
-        [Fact]
-        public void PointAndPolyLine_FineCollision_Test()
-        {
-            //Arrange
-            var point = new Point(new Vector2(2, 2));
-            var polyLine = PolyLine.Create(new Vector2(0, 2), new Vector2(4, 2));
-            //Act
-            var sut = point.CollidesWith(polyLine);
             //Assert
             Assert.True(sut);
         }
@@ -286,5 +240,172 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         }
 
         #endregion
+
+        #region Vector2
+
+        [Fact]
+        public void Vector2AndPoint_Collision_Test()
+        {
+            //Arrange
+            var point = Point.Create(1, 1);
+            var vector = new Vector2(1, 1);
+            //Act
+            var sut = point.CollidesWith(vector);
+            //Assert
+            Assert.True(sut);
+        }
+
+        [Fact]
+        public void Vector2AndPolyLine_Collision_Test()
+        {
+            //Arrange
+            var polyline = PolyLine.Create(1, 1, 3, 3);
+            var vector = new Vector2(2, 2);
+            //Act
+            var sut = polyline.CollidesWith(vector);
+            //Assert
+            Assert.True(sut);
+        }
+
+        [Fact]
+        public void Vector2AndPolygon_Collision_Test()
+        {
+            //Arrange
+            var polygon = Polygon.Create(1, 1, 3, 3, 3, 1);
+            var vector = new Vector2(3, 3);
+            //Act
+            var sut = polygon.CollidesWith(vector);
+            //Assert
+            Assert.True(sut);
+        }
+        
+        [Fact]
+        public void Vector2AndEllipse_Collision_Test()
+        {
+            //Arrange
+            var ellipse = Ellipse.Create(3, 3, 4, 2, 0.0f);
+            var vector = new Vector2(3, 3);
+            //Act
+            var sut = ellipse.CollidesWith(vector);
+            //Assert
+            Assert.True(sut);
+        }
+
+        #endregion
+
+        #region BoundingRectangle
+
+        [Fact]
+        public void BoundingRectangleAndBoundingRectangle_IntersectionCollision_Test()
+        {
+            //Arrange
+            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
+            var boundingRect2 = BoundingRectangle.FromTwoPoints(new Vector2(20, 15), new Vector2(40, 35));
+            //Act
+            var sut = boundingRect1.CollidesWith(boundingRect2);
+            //Assert
+            Assert.True(sut);
+        }
+
+        [Fact]
+        public void BoundingRectangleAndBoundingRectangle_ContainmentCollision_Test()
+        {
+            //Arrange
+            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
+            var boundingRect2 = BoundingRectangle.FromTwoPoints(new Vector2(15, 15), new Vector2(25, 25));
+            //Act
+            var sut = boundingRect1.CollidesWith(boundingRect2);
+            //Assert
+            Assert.True(sut);
+        }
+
+        [Fact]
+        public void BoundingRectangleAndPoint_Collision_Test()
+        {
+            //Arrange
+            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
+            var point = Point.Create(20, 20);
+            //Act
+            var sut = boundingRect1.CollidesWith(point);
+            //Assert
+            Assert.True(sut);
+        }
+
+        [Fact]
+        public void BoundingRectangleAndPolyLine_IntersectionCollision_Test()
+        {
+            //Arrange
+            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
+            var polyline = PolyLine.Create(5, 5, 35, 35);
+            //Act
+            var sut = boundingRect1.CollidesWith(polyline);
+            //Assert
+            Assert.True(sut);
+        }
+
+        [Fact]
+        public void BoundingRectangleAndPolyLine_ContainmentCollision_Test()
+        {
+            //Arrange
+            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
+            var polyline = PolyLine.Create(15, 15, 25, 25);
+            //Act
+            var sut = boundingRect1.CollidesWith(polyline);
+            //Assert
+            Assert.True(sut);
+        }
+        
+        [Fact]
+        public void BoundingRectangleAndPolygon_IntersectionCollision_Test()
+        {
+            //Arrange
+            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
+            var polyline = Polygon.Create(5, 5, 15, 35, 35, 5);
+            //Act
+            var sut = boundingRect1.CollidesWith(polyline);
+            //Assert
+            Assert.True(sut);
+        }
+        
+        [Fact]
+        public void BoundingRectangleAndPolygon_ContainmentCollision_Test()
+        {
+            //Arrange
+            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
+            var polyline = Polygon.Create(12, 12, 20, 20, 28, 12);
+            //Act
+            var sut = boundingRect1.CollidesWith(polyline);
+            //Assert
+            Assert.True(sut);
+        }
+        
+        [Fact]
+        public void BoundingRectangleAndEllipse_IntersectionCollision_Test()
+        {
+            //Arrange
+            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
+            var ellipse = Ellipse.Create(20, 20, 12, 15, 0.0f);
+            //Act
+            var sut = boundingRect1.CollidesWith(ellipse);
+            //Assert
+            Assert.True(sut);
+        }
+                
+        [Fact]
+        public void BoundingRectangleAndEllipse_ContainmentCollision_Test()
+        {
+            //Arrange
+            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
+            var ellipse = Ellipse.Create(20, 20, 4, 6, 0.0f);
+            //Act
+            var sut = boundingRect1.CollidesWith(ellipse);
+            //Assert
+            Assert.True(sut);
+        }
+
+
+
+        #endregion
+
     }
 }

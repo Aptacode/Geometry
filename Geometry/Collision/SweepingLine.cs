@@ -84,7 +84,7 @@ namespace Aptacode.Geometry.Collision
                     for (var j = 0; j < slSq.Count; j++)
                     {
                         var qEdge = slSq[j];
-                        if (pEdge.NewLineSegmentIntersection(qEdge))
+                        if (pEdge.LineSegmentIntersection(qEdge))
                         {
                             return true;
                         }
