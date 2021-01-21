@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Aptacode.AppFramework.Components.Primitives;
 using Aptacode.AppFramework.Utilities;
 using Aptacode.BlazorCanvas;
-using Rectangle = Aptacode.Geometry.Primitives.Polygons.Rectangle;
+using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Demo.Pages
 {
-    public class SelectionComponent : RectangleViewModel
+    public class SelectionComponent : PolygonViewModel
     {
-        public SelectionComponent() : base(Rectangle.Create(Vector2.Zero, Vector2.Zero))
+        public SelectionComponent() : base(Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.Zero))
         {
             FillColor = Color.White;
             BorderColor = Color.Green;
@@ -63,7 +63,7 @@ namespace Aptacode.Geometry.Demo.Pages
             var y = position.Y >= _mouseDownPosition.Y ? _mouseDownPosition.Y : position.Y;
             var width = Math.Abs(delta.X);
             var height = Math.Abs(delta.Y);
-            Rectangle = Rectangle.Create(new Vector2(x, y), new Vector2(width, height));
+            Polygon = Polygon.Rectangle.FromPositionAndSize(new Vector2(x, y), new Vector2(width, height));
         }
 
         public bool SelectionMade()

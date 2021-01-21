@@ -12,7 +12,6 @@ using Aptacode.AppFramework.Scene.Events;
 using Aptacode.AppFramework.Utilities;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Primitives.Extensions;
-using Rectangle = Aptacode.Geometry.Primitives.Polygons.Rectangle;
 
 namespace Aptacode.Geometry.Demo.Pages
 {
@@ -141,7 +140,7 @@ namespace Aptacode.Geometry.Demo.Pages
             {
                 SelectedComponents.Clear();
                 var collidingComponents = GeometryScene.Components.CollidingWith(AreaSelection);
-                AreaSelection.Rectangle = Rectangle.Create(Vector2.Zero, Vector2.Zero);
+                AreaSelection.Polygon = Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.Zero);
 
                 if (collidingComponents.Any())
                 {
@@ -243,7 +242,7 @@ namespace Aptacode.Geometry.Demo.Pages
                     break;
                 case ComponentType.Polygon:
                     _componentBuilder
-                        .SetBase(Polygon.Create(_vertices.ToArray()).ToViewModel())
+                        .SetBase(new Polygon(_vertices.ToArray()).ToViewModel())
                         .SetMargin(0.0f);
                     break;
                 case ComponentType.Ellipse:
