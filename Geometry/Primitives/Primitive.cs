@@ -59,7 +59,7 @@ namespace Aptacode.Geometry.Primitives
 
         public bool HybridCollidesWith(Vector2 p)
         {
-            return BoundingRectangle.Contains(p) && CollidesWith(p);
+            return BoundingRectangle.CollidesWith(p) && CollidesWith(p);
         }
 
         public bool HybridCollidesWith(Point p)

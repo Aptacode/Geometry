@@ -74,14 +74,14 @@ namespace Aptacode.Geometry.Tests
         //    //Assert
         //    foreach (var vertex in expectedVertices.Vertices)
         //    {
-        //        Assert.Contains(vertex, sut.Vertices.Vertices);
+        //        Assert.CollidesWith(vertex, sut.Vertices.Vertices);
         //    }
 
         //    Assert.Equal(expectedBoundingCircleCenter, sut.BoundingCircle.Center);
         //    Assert.Equal(expectedBoundingCircleRadius, sut.BoundingCircle.Radius);
         //    foreach (var edge in expectedEdges)
         //    {
-        //        Assert.Contains(edge, sut.Edges);
+        //        Assert.CollidesWith(edge, sut.Edges);
         //    }
         //}
 
@@ -105,14 +105,14 @@ namespace Aptacode.Geometry.Tests
         //    //Assert
         //    foreach (var vertex in expectedVertices.Vertices)
         //    {
-        //        Assert.Contains(vertex, sut.Vertices.Vertices);
+        //        Assert.CollidesWith(vertex, sut.Vertices.Vertices);
         //    }
 
         //    Assert.Equal(expectedBoundingCircleCenter, sut.BoundingCircle.Center);
         //    Assert.Equal(expectedBoundingCircleRadius, sut.BoundingCircle.Radius);
         //    foreach (var edge in expectedEdges)
         //    {
-        //        Assert.Contains(edge, sut.Edges);
+        //        Assert.CollidesWith(edge, sut.Edges);
         //    }
         //}
     }

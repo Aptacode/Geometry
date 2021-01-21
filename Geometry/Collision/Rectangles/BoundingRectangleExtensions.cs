@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Utilities;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Collision.Rectangles

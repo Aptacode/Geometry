@@ -37,7 +37,7 @@ namespace Aptacode.Geometry.Primitives
 
         public override bool CollidesWith(BoundingRectangle p)
         {
-            return BoundingRectangleCollisionDetector.CollidesWith(p, this);
+            return p.CollidesWith(this);
         }
 
         public override bool CollidesWith(Polygon p)
