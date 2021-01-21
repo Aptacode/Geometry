@@ -140,7 +140,7 @@ namespace Aptacode.Geometry.Tests
             var B1 = new Vector2(15, 10);
             var B2 = new Vector2(15, 15);
 
-            Assert.True((A1, A2).NewLineSegmentIntersection((B1, B2)));
+            Assert.True((A1, A2).LineSegmentIntersection((B1, B2)));
         }
 
 

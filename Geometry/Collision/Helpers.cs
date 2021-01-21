@@ -32,33 +32,7 @@ namespace Aptacode.Geometry.Collision
             return false;
         }
 
-        public static bool LineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)
-        {
-            var (line1A, line1B) = line1;
-            var (line2A, line2B) = line2;
 
-            if (line1A == line2A || line1B == line2B || line1A == line2B || line1B == line1A
-            ) //These lines has at least one of the same endpoints
-            {
-                return true;
-            }
-
-            var det = (line2B.Y - line2A.Y) * (line1B.X - line1A.X) - (line2B.X - line2A.X) * (line1B.Y - line1A.Y);
-            if (det == 0) //These lines are parallel and do not intersect
-            {
-                return false;
-            }
-
-            var A = ((line2B.X - line2A.X) * (line1A.Y - line2A.Y) - (line2B.Y - line2A.Y) * (line1A.X - line2A.X)) /
-                    det;
-            var B = ((line1B.X - line1A.X) * (line1A.Y - line2A.Y) - (line1B.Y - line1A.Y) * (line1A.X - line2A.X)) /
-                    det;
-
-            return A >= 0 && A <= 1 && B >= 0 && B <= 1;
-
-            //var xIntersect = l1.Item1.X + A * (l1.Item2.X - l1.Item1.X)
-            //var yIntersect = l1.Item1.Y + B * (l1.Item2.Y - l1.Item1.Y)
-        }
 
         public static (float m, float c) ToLineEquation(Vector2 start, Vector2 end)
         {
@@ -72,13 +46,13 @@ namespace Aptacode.Geometry.Collision
             return (m, c);
         }
 
-        public static bool NewLineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)
+        public static bool LineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)
         {
             var line1AsVector = line1.Item2 - line1.Item1;
             var line2ACross = line1AsVector.VectorCross(line2.Item1 - line1.Item1);
             var line2BCross = line1AsVector.VectorCross(line2.Item2 - line1.Item1);
 
-            if (line2ACross > 0 && line2BCross > 0 || line2ACross < 0 && line2BCross < 0) //if both points of one line segment are above or below the other then they cannot intersect.
+            if ((line2ACross > 0 && line2BCross > 0) || (line2ACross < 0 && line2BCross < 0)) //if both points of one line segment are above or below the other then they cannot intersect.
             {
                 return false;
             }
@@ -89,7 +63,7 @@ namespace Aptacode.Geometry.Collision
             var line1ACross = line2AsVector.VectorCross(line1.Item1 - line2.Item1);
             var line1BCross = line2AsVector.VectorCross(line1.Item2 - line2.Item1);
 
-            if (line1ACross > 0 && line1BCross > 0 || line1ACross < 0 && line2BCross < 0)
+            if ((line1ACross > 0 && line1BCross > 0) || (line1ACross < 0 && line1BCross < 0))
             {
                 return false;
             }
