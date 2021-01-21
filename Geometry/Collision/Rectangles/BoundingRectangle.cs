@@ -37,6 +37,12 @@ namespace Aptacode.Geometry.Collision.Rectangles
 
             return new BoundingRectangle(topLeft, topRight, bottomRight, bottomLeft);
         }
+        
+        public static BoundingRectangle FromPositionAndSize(Vector2 topLeft, Vector2 size)
+        {
+            var bottomRight = topLeft + size;
+            return BoundingRectangle.FromTwoPoints(topLeft, bottomRight);
+        }
 
         public static readonly BoundingRectangle Zero = FromTwoPoints(Vector2.Zero, Vector2.Zero);
 

@@ -22,8 +22,9 @@ namespace Aptacode.Geometry.Demo.Pages
 
         public readonly List<ComponentViewModel> SelectedComponents = new();
 
-        public DemoSceneController(Vector2 size)
+        public DemoSceneController(Vector2 size) : base(size)
         {
+            ShowGrid = true;
             UserInteractionController.OnMouseEvent += UserInteractionControllerOnOnMouseEvent;
             UserInteractionController.OnKeyboardEvent += UserInteractionControllerOnOnKeyboardEvent;
             ComponentCreationMode = ComponentType.None;
