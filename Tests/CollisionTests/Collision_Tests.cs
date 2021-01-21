@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Primitives.Polygons;
 using Xunit;
 
 namespace Aptacode.Geometry.Tests.CollisionTests
@@ -151,12 +150,17 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void PointAndPolygon_FineCollision_Test()
         {
             //Arrange
-            var poly = new Rectangle(new Vector2(0, 0), new Vector2(20, 0), new Vector2(20, 10), new Vector2(0, 10));
+            var topLeft = new Vector2(0, 0);
+            var topRight = new Vector2(20, 0);
+            var bottomRight = new Vector2(20, 10);
+            var bottomLeft = new Vector2(0, 10);
+            var poly = Polygon.Create(new[] { topLeft, topRight, bottomRight, bottomLeft });
+            
             var points = poly.Vertices;
             //Act
-            for (var i = 0; i <= poly.BottomRight.X; i += 2)
+            for (var i = 0; i <= bottomRight.X; i += 2)
             {
-                for (var j = 0; j <= poly.BottomRight.Y; j += 2)
+                for (var j = 0; j <= bottomRight.Y; j += 2)
                 {
                     var pointAsPoint = new Point(new Vector2(i, j));
                     var sut = pointAsPoint.CollidesWith(poly);

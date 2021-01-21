@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Primitives.Polygons;
 
 namespace Aptacode.Geometry.Collision.Circles
 {
@@ -43,8 +42,6 @@ namespace Aptacode.Geometry.Collision.Circles
                         ellipse.EllipseVertices[1])
                     : BoundingCircle.FromTwoPoints(ellipse.EllipseVertices[2],
                         ellipse.EllipseVertices[3]),
-                Triangle triangle => BoundingCircle.FromThreePoints(triangle.P1, triangle.P2, triangle.P3),
-                Rectangle rectangle => BoundingCircle.FromTwoPoints(rectangle.TopLeft, rectangle.BottomRight),
                 _ => WelzlAlgorithm.Compute(new Span<Vector2>(p.Vertices.Vertices),
                     new Span<Vector2>(new[] {Vector2.Zero, Vector2.Zero, Vector2.Zero}), p.Vertices.Length, 0)
             };

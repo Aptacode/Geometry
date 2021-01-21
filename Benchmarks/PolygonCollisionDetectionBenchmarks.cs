@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Primitives.Polygons;
 using BenchmarkDotNet.Attributes;
 
 namespace Aptacode.Geometry.Benchmarks
@@ -15,10 +14,8 @@ namespace Aptacode.Geometry.Benchmarks
 
         public PolygonCollisionDetectionBenchmarks()
         {
-            _polygon = Triangle.Create(new Vector2(0, 0), new Vector2(2, 4), new Vector2(4, 0));
             _collidingEllipse = new Ellipse(new Vector2(2, 2), new Vector2(2, 2), 0);
             _collidingPoint = new Point(new Vector2(4, 0));
-            _collidingPolygon = Rectangle.Create(new Vector2(0, 0), new Vector2(4, 4));
             _collidingPolyline = PolyLine.Create(new Vector2(0, 0), new Vector2(4, 4));
         }
 

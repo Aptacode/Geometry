@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
-using Aptacode.Geometry.Primitives.Polygons;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives
@@ -51,7 +50,6 @@ namespace Aptacode.Geometry.Primitives
                 Point point => CollidesWith(point),
                 Ellipse ellipse => CollidesWith(ellipse),
                 PolyLine polyline => CollidesWith(polyline),
-                Rectangle rectangle => CollidesWith(rectangle),
                 Polygon polygon => CollidesWith(polygon),
                 _ => false
             };
@@ -73,11 +71,6 @@ namespace Aptacode.Geometry.Primitives
         }
 
         public bool HybridCollidesWith(PolyLine p)
-        {
-            return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
-        }
-
-        public bool HybridCollidesWith(Rectangle p)
         {
             return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
         }
