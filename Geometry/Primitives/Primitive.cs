@@ -8,9 +8,10 @@ namespace Aptacode.Geometry.Primitives
     {
         public readonly VertexArray Vertices;
 
-        protected Primitive(VertexArray vertices)
+        protected Primitive(VertexArray vertices, BoundingRectangle boundingRectangle)
         {
             Vertices = vertices;
+            BoundingRectangle = boundingRectangle;
         }
 
         #region IEquatable
@@ -24,17 +25,7 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
-        protected BoundingRectangle? _boundingRectangle;
-
-        public void ResetRectangle()
-        {
-            _boundingRectangle = null;
-        }
-
-        public BoundingRectangle BoundingRectangle =>
-            _boundingRectangle ?? (_boundingRectangle = GetBoundingRectangle()).Value;
-
-        public abstract BoundingRectangle GetBoundingRectangle();
+        public BoundingRectangle BoundingRectangle { get; protected set; }
 
         public abstract bool CollidesWith(Vector2 p);
         public abstract bool CollidesWith(Point p);
@@ -91,24 +82,20 @@ namespace Aptacode.Geometry.Primitives
 
         public virtual Primitive Translate(Vector2 delta)
         {
-            Vertices.Translate(delta);
-            _boundingRectangle = _boundingRectangle?.Translate(delta);
+            BoundingRectangle = Vertices.Translate(delta);
             return this;
         }
 
         public virtual Primitive Rotate(float theta)
         {
             var center = BoundingRectangle.Center;
-
-            Vertices.Rotate(center, theta);
-            _boundingRectangle = null;
+            BoundingRectangle = Vertices.Rotate(center, theta);
             return this;
         }
 
         public virtual Primitive Rotate(Vector2 rotationCenter, float theta)
         {
-            Vertices.Rotate(rotationCenter, theta);
-            _boundingRectangle = _boundingRectangle?.Rotate(rotationCenter, theta);
+            BoundingRectangle = Vertices.Rotate(rotationCenter, theta);
             return this;
         }
 
@@ -116,16 +103,13 @@ namespace Aptacode.Geometry.Primitives
         {
             var oldPosition = BoundingRectangle.Center;
             Vertices.Scale(oldPosition, delta);
-            Vertices.Translate(oldPosition * delta - oldPosition);
-
-            _boundingRectangle = null;
+            BoundingRectangle = Vertices.Translate(oldPosition * delta - oldPosition);
             return this;
         }
 
         public virtual Primitive Skew(Vector2 delta)
         {
-            Vertices.Skew(delta);
-            _boundingRectangle = null;
+            BoundingRectangle = Vertices.Skew(delta);
             return this;
         }
 

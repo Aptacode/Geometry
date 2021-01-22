@@ -33,7 +33,6 @@ namespace Aptacode.Geometry.Collision
         }
 
 
-
         public static (float m, float c) ToLineEquation(Vector2 start, Vector2 end)
         {
             if (Math.Abs(end.X - start.X) < Constants.Tolerance)
@@ -52,7 +51,7 @@ namespace Aptacode.Geometry.Collision
             var line2ACross = line1AsVector.VectorCross(line2.Item1 - line1.Item1);
             var line2BCross = line1AsVector.VectorCross(line2.Item2 - line1.Item1);
 
-            if ((line2ACross > 0 && line2BCross > 0) || (line2ACross < 0 && line2BCross < 0)) //if both points of one line segment are above or below the other then they cannot intersect.
+            if (line2ACross > 0 && line2BCross > 0 || line2ACross < 0 && line2BCross < 0) //if both points of one line segment are above or below the other then they cannot intersect.
             {
                 return false;
             }
@@ -63,7 +62,7 @@ namespace Aptacode.Geometry.Collision
             var line1ACross = line2AsVector.VectorCross(line1.Item1 - line2.Item1);
             var line1BCross = line2AsVector.VectorCross(line1.Item2 - line2.Item1);
 
-            if ((line1ACross > 0 && line1BCross > 0) || (line1ACross < 0 && line1BCross < 0))
+            if (line1ACross > 0 && line1BCross > 0 || line1ACross < 0 && line1BCross < 0)
             {
                 return false;
             }

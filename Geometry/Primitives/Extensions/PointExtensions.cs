@@ -6,7 +6,7 @@ namespace Aptacode.Geometry.Primitives.Extensions
     {
         public static Point ToPoint(this Vector2 position)
         {
-            return new(position);
+            return Point.Create(position);
         }
     }
 }

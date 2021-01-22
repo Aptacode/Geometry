@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Aptacode.Geometry.Collision.Rectangles;
 
 namespace Aptacode.Geometry.Vertices
 {
@@ -68,6 +69,7 @@ namespace Aptacode.Geometry.Vertices
         {
             var newVertices = new Vector2[vertexArray.Length * 4];
             var count = 0;
+
             for (var i = 0; i < vertexArray.Length; i++)
             {
                 var vertex = vertexArray[i];
@@ -97,7 +99,7 @@ namespace Aptacode.Geometry.Vertices
             return val > 0 ? 1 : 2; // clock or counterclock wise 
         }
 
-        // Prints convex hull of a set of n points. 
+        // finds the Vector2 array that defines the convex hull of a set of n points. 
         public static Vector2[] ToConvexHull(this Vector2[] points, int n)
         {
             // There must be at least 3 points 
@@ -193,48 +195,139 @@ namespace Aptacode.Geometry.Vertices
 
         #region Transformation
 
-        public static VertexArray Translate(this VertexArray vertexArray, Vector2 delta)
+        public static BoundingRectangle Translate(this VertexArray vertexArray, Vector2 delta)
         {
+            var minX = float.MaxValue;
+            var maxX = float.MinValue;
+            var minY = float.MaxValue;
+            var maxY = float.MinValue;
+
             var translationMatrix = Matrix3x2.CreateTranslation(delta);
             for (var i = 0; i < vertexArray.Length; i++)
             {
-                vertexArray[i] = Vector2.Transform(vertexArray[i], translationMatrix);
+                var vertex = Vector2.Transform(vertexArray[i], translationMatrix);
+                vertexArray[i] = vertex;
+                if (vertex.X < minX)
+                {
+                    minX = vertex.X;
+                }
+                else if (vertex.X > maxX)
+                {
+                    maxX = vertex.X;
+                }
+
+                if (vertex.Y < minY)
+                {
+                    minY = vertex.Y;
+                }
+                else if (vertex.Y > maxY)
+                {
+                    maxY = vertex.Y;
+                }
             }
 
-            return vertexArray;
+            return BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY));
         }
 
-        public static VertexArray Rotate(this VertexArray vertexArray, Vector2 rotationCenter, float theta)
+        public static BoundingRectangle Rotate(this VertexArray vertexArray, Vector2 rotationCenter, float theta)
         {
+            var minX = float.MaxValue;
+            var maxX = float.MinValue;
+            var minY = float.MaxValue;
+            var maxY = float.MinValue;
+
             var rotationMatrix = Matrix3x2.CreateRotation(theta, rotationCenter);
             for (var i = 0; i < vertexArray.Length; i++)
             {
-                vertexArray[i] = Vector2.Transform(vertexArray[i], rotationMatrix);
+                var vertex = Vector2.Transform(vertexArray[i], rotationMatrix);
+                vertexArray[i] = vertex;
+                if (vertex.X < minX)
+                {
+                    minX = vertex.X;
+                }
+                else if (vertex.X > maxX)
+                {
+                    maxX = vertex.X;
+                }
+
+                if (vertex.Y < minY)
+                {
+                    minY = vertex.Y;
+                }
+                else if (vertex.Y > maxY)
+                {
+                    maxY = vertex.Y;
+                }
             }
 
-            return vertexArray;
+            return BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY));
         }
 
-        public static VertexArray Scale(this VertexArray vertexArray, Vector2 scaleCenter, Vector2 delta)
+        public static BoundingRectangle Scale(this VertexArray vertexArray, Vector2 scaleCenter, Vector2 delta)
         {
+            var minX = float.MaxValue;
+            var maxX = float.MinValue;
+            var minY = float.MaxValue;
+            var maxY = float.MinValue;
+
             var scaleMatrix = Matrix3x2.CreateScale(delta, scaleCenter);
             for (var i = 0; i < vertexArray.Length; i++)
             {
-                vertexArray[i] = Vector2.Transform(vertexArray[i], scaleMatrix);
+                var vertex = Vector2.Transform(vertexArray[i], scaleMatrix);
+                vertexArray[i] = vertex;
+                if (vertex.X < minX)
+                {
+                    minX = vertex.X;
+                }
+                else if (vertex.X > maxX)
+                {
+                    maxX = vertex.X;
+                }
+
+                if (vertex.Y < minY)
+                {
+                    minY = vertex.Y;
+                }
+                else if (vertex.Y > maxY)
+                {
+                    maxY = vertex.Y;
+                }
             }
 
-            return vertexArray;
+            return BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY));
         }
 
-        public static VertexArray Skew(this VertexArray vertexArray, Vector2 delta)
+        public static BoundingRectangle Skew(this VertexArray vertexArray, Vector2 delta)
         {
+            var minX = float.MaxValue;
+            var maxX = float.MinValue;
+            var minY = float.MaxValue;
+            var maxY = float.MinValue;
+
             var shearMatrix = new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0); //Not 100% on this one.
             for (var i = 0; i < vertexArray.Length; i++)
             {
-                vertexArray[i] = Vector2.Transform(vertexArray[i], shearMatrix);
+                var vertex = Vector2.Transform(vertexArray[i], shearMatrix);
+                if (vertex.X < minX)
+                {
+                    minX = vertex.X;
+                }
+                else if (vertex.X > maxX)
+                {
+                    maxX = vertex.X;
+                }
+
+                if (vertex.Y < minY)
+                {
+                    minY = vertex.Y;
+                }
+                else if (vertex.Y > maxY)
+                {
+                    maxY = vertex.Y;
+                }
             }
 
-            return vertexArray;
+            return BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY));
         }
 
         #endregion

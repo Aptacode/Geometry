@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Aptacode.Geometry.Vertices
@@ -14,20 +16,19 @@ namespace Aptacode.Geometry.Vertices
             Vertices = vertices;
         }
 
-        public static VertexArray Create(Vector2[] vertices)
+        public static VertexArray Create(params Vector2[] vertices)
         {
             return new(vertices);
         }
 
-        public static VertexArray Create(Vector2 p1, params Vector2[] vertices)
+        public static VertexArray Create(IEnumerable<Vector2> vertices)
         {
-            var length = vertices.Length + 1;
-
-            var Vertices = new Vector2[length];
-            Vertices[0] = p1;
-            for (var i = 1; i < length; i++)
+            var Vertices = new Vector2[vertices.Count()];
+            for (var i = 0; i < vertices.Count(); i++)
             {
-                Vertices[i] = vertices[i - 1];
+                var vertex = vertices.ElementAt(i);
+
+                Vertices[i] = vertex;
             }
 
             return new VertexArray(Vertices);

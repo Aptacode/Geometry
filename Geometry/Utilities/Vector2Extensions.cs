@@ -4,7 +4,7 @@ namespace Aptacode.Geometry.Utilities
 {
     public static class Vector2Extensions
     {
-        private static readonly Matrix3x2 _rotationMatrix = new Matrix3x2(0, -1, 1, 0, 0, 0);
+        private static readonly Matrix3x2 _rotationMatrix = new(0, -1, 1, 0, 0, 0);
 
         public static float VectorCross(this Vector2 a, Vector2 b)
         {

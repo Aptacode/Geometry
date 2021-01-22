@@ -24,19 +24,22 @@ namespace Aptacode.Geometry.Benchmarks
         [Benchmark]
         public VertexArray Translate1()
         {
-            return _vertexArray1.Translate(_translation);
+            _vertexArray1.Translate(_translation);
+            return _vertexArray1;
         }
 
         [Benchmark]
         public VertexArray Translate4()
         {
-            return _vertexArray4.Translate(_translation);
+            _vertexArray4.Translate(_translation);
+            return _vertexArray4;
         }
 
         [Benchmark]
         public VertexArray Translate20()
         {
-            return _vertexArray20.Translate(_translation);
+            _vertexArray20.Translate(_translation);
+            return _vertexArray20;
         }
     }
 }

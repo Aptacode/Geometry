@@ -76,7 +76,7 @@ namespace Aptacode.Geometry.Tests
         [Fact]
         public void StandardFormEllipse_Test()
         {
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(5, 3), 0);
+            var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(5, 3), 0);
             var sut = ellipse.GetStandardForm();
             Assert.True(Math.Abs(9 / 225f - sut.A) < Constants.Tolerance);
             Assert.True(Math.Abs(25 / 225f - sut.C) < Constants.Tolerance);

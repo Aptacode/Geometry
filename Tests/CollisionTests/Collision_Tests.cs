@@ -8,14 +8,30 @@ namespace Aptacode.Geometry.Tests.CollisionTests
 {
     public class Collision_Tests
     {
+        #region Point
+
+        [Fact]
+        public void PointAndPoint_Collision_Test()
+        {
+            //Arrange
+            var p1 = Point.Create(new Vector2(1, 1));
+            var p2 = Point.Create(new Vector2(1, 1));
+            //Act
+            var sut = p1.CollidesWith(p2);
+            //Assert
+            Assert.True(sut);
+        }
+
+        #endregion
+
         #region Ellipse
 
         [Fact]
         public void EllipseAndEllipse_IntersectionCollision_Test()
         {
             //Arrange
-            var ellipse1 = new Ellipse(new Vector2(8, 5), new Vector2(3, 2), 0.0f);
-            var ellipse2 = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
+            var ellipse1 = Ellipse.Create(new Vector2(8, 5), new Vector2(3, 2), 0.0f);
+            var ellipse2 = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
             //Act
             var sut = ellipse1.CollidesWith(ellipse2);
             //Assert
@@ -26,8 +42,8 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndEllipse_ContainmentCollision_Test()
         {
             //Arrange
-            var ellipse1 = new Ellipse(new Vector2(5, 5), new Vector2(1.5f, 1), 0.0f);
-            var ellipse2 = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
+            var ellipse1 = Ellipse.Create(new Vector2(5, 5), new Vector2(1.5f, 1), 0.0f);
+            var ellipse2 = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
             //Act
             var sut = ellipse1.CollidesWith(ellipse2);
             //Assert
@@ -38,8 +54,8 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void CircleAndCircle_IntersectionCollision_Test()
         {
             //Arrange
-            var circle1 = new Ellipse(new Vector2(45, 45), new Vector2(15, 15), 0.0f);
-            var circle2 = new Ellipse(new Vector2(25, 25), new Vector2(15, 15), 0.0f);
+            var circle1 = Ellipse.Create(new Vector2(45, 45), new Vector2(15, 15), 0.0f);
+            var circle2 = Ellipse.Create(new Vector2(25, 25), new Vector2(15, 15), 0.0f);
             //Act
             var sut = circle1.CollidesWith(circle2);
             //Assert
@@ -50,8 +66,8 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void CircleAndCircle_ContainmentCollision_Test()
         {
             //Arrange
-            var circle1 = new Ellipse(new Vector2(25, 25), new Vector2(10, 10), 0.0f);
-            var circle2 = new Ellipse(new Vector2(25, 25), new Vector2(15, 15), 0.0f);
+            var circle1 = Ellipse.Create(new Vector2(25, 25), new Vector2(10, 10), 0.0f);
+            var circle2 = Ellipse.Create(new Vector2(25, 25), new Vector2(15, 15), 0.0f);
             //Act
             var sut = circle1.CollidesWith(circle2);
             //Assert
@@ -63,8 +79,8 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndPoint_ContainmentCollision_Test()
         {
             //Arrange
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float) Math.PI / 4f);
-            var point = new Point(new Vector2(7, 7));
+            var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), (float) Math.PI / 4f);
+            var point = Point.Create(new Vector2(7, 7));
             //Act
             var sut = ellipse.CollidesWith(point);
             //Assert
@@ -75,8 +91,8 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndPolygon_IntersectionCollision_Test()
         {
             //Arrange
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), (float) Math.PI / 4f);
-            var polygon = new Polygon(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3));
+            var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), (float) Math.PI / 4f);
+            var polygon = Polygon.Create(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3));
             //Act
             var sut = ellipse.CollidesWith(polygon);
             //Assert
@@ -99,7 +115,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndPolyLine_IntersectionCollision_Test()
         {
             //Arrange
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
+            var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
             var polyLine = PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7));
             //Act
             var sut = ellipse.CollidesWith(polyLine);
@@ -111,26 +127,10 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void EllipseAndPolyLine_ContainmentCollision_Test()
         {
             //Arrange
-            var ellipse = new Ellipse(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
+            var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
             var polyLine = PolyLine.Create(new Vector2(4, 5), new Vector2(6, 5));
             //Act
             var sut = ellipse.CollidesWith(polyLine);
-            //Assert
-            Assert.True(sut);
-        }
-
-        #endregion
-
-        #region Point
-
-        [Fact]
-        public void PointAndPoint_Collision_Test()
-        {
-            //Arrange
-            var p1 = new Point(new Vector2(1, 1));
-            var p2 = new Point(new Vector2(1, 1));
-            //Act
-            var sut = p1.CollidesWith(p2);
             //Assert
             Assert.True(sut);
         }
@@ -144,7 +144,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         {
             //Arrange
             var polygon = Polygon.Create(20, 20, 40, 20, 40, 40, 20, 40);
-            var ellipse = new Ellipse(new Vector2(30, 30), new Vector2(3, 2), (float) Math.PI / 4f);
+            var ellipse = Ellipse.Create(new Vector2(30, 30), new Vector2(3, 2), (float) Math.PI / 4f);
             //Act
             var sut = polygon.CollidesWith(ellipse);
             //Assert
@@ -156,7 +156,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         {
             //Arrange
             var polygon = Polygon.Create(20, 20, 40, 20, 40, 40, 20, 40);
-            var point = new Point(new Vector2(30, 30));
+            var point = Point.Create(new Vector2(30, 30));
             //Act
             var sut = polygon.CollidesWith(point);
             //Assert
@@ -220,7 +220,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         {
             //Arrange
             var polyLine = PolyLine.Create(new Vector2(0, 2), new Vector2(4, 2));
-            var point = new Point(new Vector2(2, 2));
+            var point = Point.Create(new Vector2(2, 2));
             //Act
             var sut = polyLine.CollidesWith(point);
             //Assert
@@ -278,7 +278,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-        
+
         [Fact]
         public void Vector2AndEllipse_Collision_Test()
         {
@@ -354,7 +354,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-        
+
         [Fact]
         public void BoundingRectangleAndPolygon_IntersectionCollision_Test()
         {
@@ -366,7 +366,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-        
+
         [Fact]
         public void BoundingRectangleAndPolygon_ContainmentCollision_Test()
         {
@@ -378,7 +378,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-        
+
         [Fact]
         public void BoundingRectangleAndEllipse_IntersectionCollision_Test()
         {
@@ -390,7 +390,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Assert
             Assert.True(sut);
         }
-                
+
         [Fact]
         public void BoundingRectangleAndEllipse_ContainmentCollision_Test()
         {
@@ -403,9 +403,6 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             Assert.True(sut);
         }
 
-
-
         #endregion
-
     }
 }

@@ -20,7 +20,6 @@ namespace Aptacode.Geometry.Primitives
 
         public BoundingCircle BoundingCircle => _boundingCircle ?? (_boundingCircle = this.MinimumBoundingCircle()).Value;
 
-
         #region IEquatable
 
         public virtual bool Equals(Ellipse other)
@@ -172,7 +171,7 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
-        public override BoundingRectangle GetBoundingRectangle()
+        public BoundingRectangle GetBoundingRectangle()
         {
             return EllipseExtrema.ToBoundingRectangle();
         }
@@ -211,13 +210,7 @@ namespace Aptacode.Geometry.Primitives
 
         #region Construction
 
-        public Ellipse(Vector2 position, Vector2 radii, float rotation) : base(VertexArray.Create(position))
-        {
-            Radii = radii;
-            Rotation = rotation;
-        }
-
-        protected Ellipse(VertexArray vertexArray, Vector2 radii, float rotation) : base(vertexArray)
+        protected Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation) : base(vertexArray, boundingRectangle)
         {
             Radii = radii;
             Rotation = rotation;
@@ -225,11 +218,26 @@ namespace Aptacode.Geometry.Primitives
 
         public static Ellipse Create(float x, float y, float a, float b, float rotation)
         {
-            return new(new Vector2(x, y), new Vector2(a, b), rotation);
+            var position = new Vector2(x, y);
+            var radii = new Vector2(a, b);
+            var vertexArray = VertexArray.Create(position);
+            //Todo actually create bounding rectangle
+            var boundingRectangle = BoundingRectangle.FromTwoPoints(position + radii, position - radii);
+
+            return new Ellipse(vertexArray, boundingRectangle, radii, rotation);
         }
 
-        public static readonly Ellipse Zero = new(Vector2.Zero, Vector2.Zero, 0.0f);
-        public static readonly Ellipse Unit = new(Vector2.Zero, Vector2.One, 0.0f); //This is a circle
+        public static Ellipse Create(Vector2 position, Vector2 radii, float rotation)
+        {
+            var vertexArray = VertexArray.Create(position);
+            //Todo actually create bounding rectangle
+            var boundingRectangle = BoundingRectangle.FromTwoPoints(position + radii, position - radii);
+
+            return new Ellipse(vertexArray, boundingRectangle, radii, rotation);
+        }
+
+        public static readonly Ellipse Zero = Create(Vector2.Zero, Vector2.Zero, 0.0f);
+        public static readonly Ellipse Unit = Create(Vector2.Zero, Vector2.One, 0.0f); //This is a circle
 
         #endregion
     }

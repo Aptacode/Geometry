@@ -7,12 +7,13 @@ namespace Aptacode.Geometry.Primitives
 {
     public record PolyLine : Primitive
     {
-        #region Collision Detection
+        #region Properties
 
-        public override BoundingRectangle GetBoundingRectangle()
-        {
-            return Vertices.ToBoundingRectangle();
-        }
+        public (Vector2 p1, Vector2 p2)[] LineSegments { get; protected set; }
+
+        #endregion
+
+        #region Collision Detection
 
         public override bool CollidesWith(Vector2 p)
         {
@@ -48,9 +49,9 @@ namespace Aptacode.Geometry.Primitives
 
         #region Construction
 
-        public PolyLine(VertexArray vertices) : base(vertices)
+        protected PolyLine(VertexArray vertices, BoundingRectangle boundingRectangle, (Vector2 p1, Vector2 p2)[] lineSegments) : base(vertices, boundingRectangle)
         {
-            _lineSegments = null;
+            LineSegments = lineSegments;
         }
 
         public static PolyLine Create(params float[] points)
@@ -60,45 +61,98 @@ namespace Aptacode.Geometry.Primitives
                 return Zero;
             }
 
-            var vertices = new Vector2[points.Length / 2];
+            var minX = float.MaxValue;
+            var maxX = float.MinValue;
+            var minY = float.MaxValue;
+            var maxY = float.MinValue;
+
+            var vertexCount = points.Length / 2;
+            var vertices = new Vector2[vertexCount];
+            var lineSegments = new (Vector2 p1, Vector2 p2)[vertexCount - 1];
+
             var count = 0;
+            var lastVertex = Vector2.Zero;
             for (var i = 0; i < points.Length; i += 2)
             {
-                vertices[count++] = new Vector2(points[i], points[i + 1]);
+                var vertex = vertices[count++] = new Vector2(points[i], points[i + 1]);
+
+                if (count > 1)
+                {
+                    lineSegments[count - 2] = (lastVertex, vertex);
+                }
+
+                lastVertex = vertex;
+
+                if (vertex.X < minX)
+                {
+                    minX = vertex.X;
+                }
+                else if (vertex.X > maxX)
+                {
+                    maxX = vertex.X;
+                }
+
+                if (vertex.Y < minY)
+                {
+                    minY = vertex.Y;
+                }
+                else if (vertex.Y > maxY)
+                {
+                    maxY = vertex.Y;
+                }
             }
 
-            return new PolyLine(VertexArray.Create(vertices));
+            return new PolyLine(VertexArray.Create(vertices),
+                BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
+                lineSegments);
         }
 
         public static readonly PolyLine Zero = Create(Vector2.Zero, Vector2.Zero);
 
-        public static PolyLine Create(Vector2 p1, Vector2 p2, params Vector2[] points)
+        public static PolyLine Create(params Vector2[] points)
         {
-            return new(VertexArray.Create(p1, p2, points));
-        }
+            var minX = float.MaxValue;
+            var maxX = float.MinValue;
+            var minY = float.MaxValue;
+            var maxY = float.MinValue;
 
-        public static PolyLine Create(Vector2[] points)
-        {
-            return new(VertexArray.Create(points));
-        }
+            var lineSegments = new (Vector2 p1, Vector2 p2)[points.Length - 1];
 
-        #endregion
-
-        #region Properties
-
-        private (Vector2 p1, Vector2 p2)[] GetLineSegments()
-        {
-            var lineSegments = new (Vector2 p1, Vector2 p2)[Vertices.Length - 1];
-            for (var i = 0; i < Vertices.Length - 1; i++)
+            var lastVertex = Vector2.Zero;
+            for (var i = 0; i < points.Length; i++)
             {
-                lineSegments[i] = (Vertices[i], Vertices[i + 1]);
+                var vertex = points[i];
+
+                if (i > 0)
+                {
+                    lineSegments[i - 1] = (lastVertex, vertex);
+                }
+
+                lastVertex = vertex;
+
+                if (vertex.X < minX)
+                {
+                    minX = vertex.X;
+                }
+                else if (vertex.X > maxX)
+                {
+                    maxX = vertex.X;
+                }
+
+                if (vertex.Y < minY)
+                {
+                    minY = vertex.Y;
+                }
+                else if (vertex.Y > maxY)
+                {
+                    maxY = vertex.Y;
+                }
             }
 
-            return lineSegments;
+            return new PolyLine(VertexArray.Create(points),
+                BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
+                lineSegments);
         }
-
-        private (Vector2 p1, Vector2 p2)[] _lineSegments;
-        public (Vector2 p1, Vector2 p2)[] LineSegments => _lineSegments ??= GetLineSegments();
 
         #endregion
 
@@ -106,13 +160,10 @@ namespace Aptacode.Geometry.Primitives
 
         public override PolyLine Translate(Vector2 delta)
         {
-            if (_lineSegments != null)
+            for (var i = 0; i < LineSegments.Length; i++)
             {
-                for (var i = 0; i < _lineSegments.Length; i++)
-                {
-                    var (p1, p2) = _lineSegments[i];
-                    _lineSegments[i] = (p1 + delta, p2 + delta);
-                }
+                var (p1, p2) = LineSegments[i];
+                LineSegments[i] = (p1 + delta, p2 + delta);
             }
 
             base.Translate(delta);
@@ -121,28 +172,28 @@ namespace Aptacode.Geometry.Primitives
 
         public override PolyLine Scale(Vector2 delta)
         {
-            _lineSegments = null;
+            //Todo Scale LineSegments
             base.Scale(delta);
             return this;
         }
 
         public virtual PolyLine Rotate(float theta)
         {
-            _lineSegments = null;
+            //Todo Rotate LineSegments
             base.Rotate(theta);
             return this;
         }
 
         public virtual PolyLine Rotate(Vector2 rotationCenter, float theta)
         {
-            _lineSegments = null;
+            //Todo Rotate LineSegments
             base.Rotate(rotationCenter, theta);
             return this;
         }
 
         public virtual PolyLine Skew(Vector2 delta)
         {
-            _lineSegments = null;
+            //Todo Skew LineSegments
             base.Skew(delta);
             return this;
         }

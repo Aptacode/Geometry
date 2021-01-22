@@ -37,7 +37,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
 
             return new BoundingRectangle(topLeft, topRight, bottomRight, bottomLeft);
         }
-        
+
         public static BoundingRectangle FromPositionAndSize(Vector2 topLeft, Vector2 size)
         {
             var bottomRight = topLeft + size;
@@ -89,7 +89,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
             {
                 return false;
             }
-            
+
             var topLeft = TopLeft;
             var topRight = TopRight;
             var bottomRight = BottomRight;
@@ -120,7 +120,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
             {
                 return false;
             }
-            
+
             var topLeft = TopLeft;
             var topRight = TopRight;
             var bottomRight = BottomRight;

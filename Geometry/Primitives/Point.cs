@@ -30,11 +30,6 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
-        public override BoundingRectangle GetBoundingRectangle()
-        {
-            return new(Position, Position, Position, Position);
-        }
-
         public override bool CollidesWith(Vector2 p)
         {
             return Vector2CollisionDetector.CollidesWith(this, p);
@@ -69,21 +64,22 @@ namespace Aptacode.Geometry.Primitives
 
         #region Construction
 
-        public Point(Vector2 position) : base(VertexArray.Create(position))
-        {
-        }
-
-        protected Point(VertexArray vertexArray) : base(vertexArray)
+        protected Point(VertexArray vertexArray, BoundingRectangle boundingRectangle) : base(vertexArray, boundingRectangle)
         {
         }
 
         public static Point Create(float x, float y)
         {
-            return new(new Vector2(x, y));
+            return Create(new Vector2(x, y));
         }
 
-        public static readonly Point Zero = new(Vector2.Zero);
-        public static readonly Point Unit = new(Vector2.One);
+        public static Point Create(Vector2 position)
+        {
+            return new(VertexArray.Create(position), new BoundingRectangle(position, position, position, position));
+        }
+
+        public static readonly Point Zero = Create(Vector2.Zero);
+        public static readonly Point Unit = Create(Vector2.One);
 
         #endregion
     }
