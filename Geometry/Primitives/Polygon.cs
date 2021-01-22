@@ -9,7 +9,7 @@ namespace Aptacode.Geometry.Primitives
     {
         #region Properties
 
-        public (Vector2 p1, Vector2 p2)[] Edges { get; protected set; }
+        public readonly (Vector2 p1, Vector2 p2)[] Edges;
 
         #endregion
 
@@ -62,16 +62,17 @@ namespace Aptacode.Geometry.Primitives
             var maxY = float.MinValue;
 
             var edges = new (Vector2 p1, Vector2 p2)[vertices.Length];
-            var vertexArray = new Vector2[vertices.Length];
             var lastVertex = Vector2.Zero;
             for (var i = 0; i < vertices.Length; i++)
             {
-                var vertex = vertexArray[i] = vertices[i];
+                var vertex = vertices[i];
 
                 if (i > 0)
                 {
                     edges[i - 1] = (lastVertex, vertex);
                 }
+
+                lastVertex = vertex;
 
                 if (vertex.X < minX)
                 {
@@ -91,8 +92,10 @@ namespace Aptacode.Geometry.Primitives
                     maxY = vertex.Y;
                 }
             }
+            
+            edges[^1] = (lastVertex, vertices[0]);
 
-            return new Polygon(VertexArray.Create(vertexArray),
+            return new Polygon(VertexArray.Create(vertices),
                 BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
                 edges);
         }
@@ -105,7 +108,7 @@ namespace Aptacode.Geometry.Primitives
             var maxY = float.MinValue;
 
             var vertexArray = new Vector2[points.Length / 2];
-            var edges = new (Vector2 p1, Vector2 p2)[points.Length / 2];
+            var edges = new (Vector2 p1, Vector2 p2)[points.Length];
             var lastVertex = Vector2.Zero;
 
             var vertexIndex = 0;
@@ -117,6 +120,8 @@ namespace Aptacode.Geometry.Primitives
                 {
                     edges[vertexIndex - 1] = (lastVertex, vertex);
                 }
+
+                lastVertex = vertex;
 
                 if (vertex.X < minX)
                 {
@@ -136,6 +141,8 @@ namespace Aptacode.Geometry.Primitives
                     maxY = vertex.Y;
                 }
             }
+
+            edges[^1] = (lastVertex, vertexArray[0]);
 
             return new Polygon(VertexArray.Create(vertexArray),
                 BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
@@ -176,43 +183,56 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        public override Polygon Translate(Vector2 delta)
+        private void UpdateEdges()
         {
-            for (var i = 0; i < Edges.Length; i++)
+            var vertexIndex = 0;
+            var lastVertex = Vector2.Zero;
+            for (var i = 0; i < Vertices.Length; i++)
             {
-                var (p1, p2) = Edges[i];
-                Edges[i] = (p1 + delta, p2 + delta);
+                var vertex = Vertices[i];
+                if (vertexIndex > 0)
+                {
+                    Edges[vertexIndex - 1] = (lastVertex, vertex);
+                }
+
+                lastVertex = vertex;
             }
 
+            Edges[vertexIndex] = (lastVertex, Vertices[0]);
+        }
+
+        public override Polygon Translate(Vector2 delta)
+        {
             base.Translate(delta);
+            UpdateEdges();
             return this;
         }
 
         public override Polygon Scale(Vector2 delta)
         {
-            //ToDo Scale Edges
             base.Scale(delta);
+            UpdateEdges();
             return this;
         }
 
         public virtual Polygon Rotate(float theta)
         {
-            //ToDo Rotate Edges
             base.Rotate(theta);
+            UpdateEdges();
             return this;
         }
 
         public virtual Polygon Rotate(Vector2 rotationCenter, float theta)
         {
-            //ToDo Rotate Edges
             base.Rotate(rotationCenter, theta);
+            UpdateEdges();
             return this;
         }
 
         public virtual Polygon Skew(Vector2 delta)
         {
-            //ToDo Skew Edges
             base.Skew(delta);
+            UpdateEdges();
             return this;
         }
 

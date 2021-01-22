@@ -66,9 +66,8 @@ namespace Aptacode.Geometry.Collision
                 return f1dist + f2dist <= 2 * p2.Radii.Y;
             }
 
-            return p2.BoundingCircle.Contains(p1);
+            return p2.CollidesWith(p1);
         }
-
 
         public static bool CollidesWith(this BoundingRectangle p2, Vector2 p1)
         {

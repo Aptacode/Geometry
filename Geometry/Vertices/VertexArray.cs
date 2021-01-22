@@ -34,37 +34,6 @@ namespace Aptacode.Geometry.Vertices
             return new VertexArray(Vertices);
         }
 
-        public static VertexArray Create(Vector2 p1, Vector2 p2, params Vector2[] vertices)
-        {
-            var length = vertices.Length + 2;
-
-            var Vertices = new Vector2[length];
-            Vertices[0] = p1;
-            Vertices[1] = p2;
-            for (var i = 2; i < length; i++)
-            {
-                Vertices[i] = vertices[i - 2];
-            }
-
-            return new VertexArray(Vertices);
-        }
-
-        public static VertexArray Create(Vector2 p1, Vector2 p2, Vector2 p3, params Vector2[] vertices)
-        {
-            var length = vertices.Length + 3;
-
-            var Vertices = new Vector2[length];
-            Vertices[0] = p1;
-            Vertices[1] = p2;
-            Vertices[2] = p3;
-            for (var i = 3; i < length; i++)
-            {
-                Vertices[i] = vertices[i - 3];
-            }
-
-            return new VertexArray(Vertices);
-        }
-
         #endregion
 
         #region List

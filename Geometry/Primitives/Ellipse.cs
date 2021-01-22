@@ -11,14 +11,11 @@ namespace Aptacode.Geometry.Primitives
     {
         public readonly float Rotation;
 
-        protected BoundingCircle? _boundingCircle;
         public Vector2 Radii; //The x width(height) and the y height(width)
         public Vector2 Position => Vertices[0];
         public (Vector2, Vector2) Foci => GetFoci();
         public VertexArray EllipseVertices => GetEllipseVertices();
         public VertexArray EllipseExtrema => GetEllipseExtrema();
-
-        public BoundingCircle BoundingCircle => _boundingCircle ?? (_boundingCircle = this.MinimumBoundingCircle()).Value;
 
         #region IEquatable
 
@@ -170,11 +167,6 @@ namespace Aptacode.Geometry.Primitives
         }
 
         #region Collision Detection
-
-        public BoundingRectangle GetBoundingRectangle()
-        {
-            return EllipseExtrema.ToBoundingRectangle();
-        }
 
         public override bool CollidesWith(Vector2 p)
         {

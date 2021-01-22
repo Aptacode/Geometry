@@ -99,7 +99,7 @@ namespace Aptacode.Geometry.Collision
                 return f1dist + f2dist <= 2 * p2.Radii.Y;
             }
 
-            return p2.BoundingCircle.Contains(p1.Position);
+            return p2.CollidesWith(p1.Position);
         }
 
         #endregion
@@ -153,7 +153,7 @@ namespace Aptacode.Geometry.Collision
             {
                 foreach (var (v1, v2) in p1.LineSegments)
                 {
-                    if (p2.BoundingCircle.Contains(v1) || p2.BoundingCircle.Contains(v2))
+                    if (p2.CollidesWith(v1) || p2.CollidesWith(v2))
                     {
                         return true;
                     }
@@ -171,7 +171,7 @@ namespace Aptacode.Geometry.Collision
                         continue;
                     }
 
-                    if (p2.BoundingCircle.Contains(closestPoint)
+                    if (p2.CollidesWith(closestPoint)
                     ) //Closest intersection point is inside the circle means circle intersects the line.
                     {
                         return true;
@@ -228,7 +228,7 @@ namespace Aptacode.Geometry.Collision
             {
                 foreach (var (v1, v2) in p1.Edges)
                 {
-                    if (p2.BoundingCircle.Contains(v1) || p2.BoundingCircle.Contains(v2))
+                    if (p2.CollidesWith(v1) || p2.CollidesWith(v2))
                     {
                         return true;
                     }
@@ -246,7 +246,7 @@ namespace Aptacode.Geometry.Collision
                         continue;
                     }
 
-                    if (p2.BoundingCircle.Contains(closestPoint)
+                    if (p2.CollidesWith(closestPoint)
                     ) //Closest intersection point is inside the circle means circle intersects the edge.
                     {
                         return true;

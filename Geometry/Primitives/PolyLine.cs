@@ -9,7 +9,7 @@ namespace Aptacode.Geometry.Primitives
     {
         #region Properties
 
-        public (Vector2 p1, Vector2 p2)[] LineSegments { get; protected set; }
+        public readonly (Vector2 p1, Vector2 p2)[] LineSegments;
 
         #endregion
 
