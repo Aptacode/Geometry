@@ -85,6 +85,11 @@ namespace Aptacode.Geometry.Collision.Rectangles
 
         public bool CollidesWith(PolyLine polyLine)
         {
+            if (!polyLine.BoundingRectangle.CollidesWith(this))
+            {
+                return false;
+            }
+            
             var topLeft = TopLeft;
             var topRight = TopRight;
             var bottomRight = BottomRight;
@@ -111,6 +116,11 @@ namespace Aptacode.Geometry.Collision.Rectangles
 
         public bool CollidesWith(Polygon polygon)
         {
+            if (!polygon.BoundingRectangle.CollidesWith(this))
+            {
+                return false;
+            }
+            
             var topLeft = TopLeft;
             var topRight = TopRight;
             var bottomRight = BottomRight;
