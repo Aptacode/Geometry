@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace Aptacode.Geometry.Vertices
 {
@@ -16,6 +17,7 @@ namespace Aptacode.Geometry.Vertices
             Vertices = vertices;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static VertexArray Create(params Vector2[] vertices)
         {
             return new(vertices);
@@ -26,9 +28,7 @@ namespace Aptacode.Geometry.Vertices
             var Vertices = new Vector2[vertices.Count()];
             for (var i = 0; i < vertices.Count(); i++)
             {
-                var vertex = vertices.ElementAt(i);
-
-                Vertices[i] = vertex;
+                Vertices[i] = vertices.ElementAt(i);
             }
 
             return new VertexArray(Vertices);

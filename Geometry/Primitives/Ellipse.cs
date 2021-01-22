@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
@@ -168,6 +167,11 @@ namespace Aptacode.Geometry.Primitives
 
         #region Collision Detection
 
+        public override Primitive GetBoundingPrimitive(float margin)
+        {
+            return Create(Position, Radii + new Vector2(margin, margin), Rotation);
+        }
+
         public override bool CollidesWith(Vector2 p)
         {
             return Vector2CollisionDetector.CollidesWith(this, p);
@@ -230,6 +234,54 @@ namespace Aptacode.Geometry.Primitives
 
         public static readonly Ellipse Zero = Create(Vector2.Zero, Vector2.Zero, 0.0f);
         public static readonly Ellipse Unit = Create(Vector2.Zero, Vector2.One, 0.0f); //This is a circle
+
+        #endregion
+
+
+        #region Transformations
+
+        private BoundingRectangle GetBoundingRectangle()
+        {
+            return BoundingRectangle.FromTwoPoints(Position + Radii, Position - Radii);
+        }
+        
+        public override Ellipse Translate(Vector2 delta)
+        {
+            Vertices.Translate(delta);
+            BoundingRectangle = BoundingRectangle.Translate(delta);
+            return this;
+        }
+
+        public override Ellipse Scale(Vector2 delta)
+        {
+            Radii *= delta;
+            BoundingRectangle = GetBoundingRectangle();
+            return this;
+        }
+
+        public virtual Ellipse Rotate(float theta)
+        {
+            //Todo
+            
+            BoundingRectangle = GetBoundingRectangle();
+            return this;
+        }
+
+        public virtual Ellipse Rotate(Vector2 rotationCenter, float theta)
+        {
+            //Todo
+            
+            BoundingRectangle = GetBoundingRectangle();
+            return this;
+        }
+
+        public virtual Ellipse Skew(Vector2 delta)
+        {
+            //Todo
+            
+            BoundingRectangle = GetBoundingRectangle();
+            return this;
+        }
 
         #endregion
     }

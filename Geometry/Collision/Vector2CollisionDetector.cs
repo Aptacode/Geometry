@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using Aptacode.Geometry.Collision.Circles;
+using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 
@@ -9,12 +9,14 @@ namespace Aptacode.Geometry.Collision
     public static class Vector2CollisionDetector
     {
         #region Vector2
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(this Point p2, Vector2 p1)
         {
             return Math.Abs(p1.X - p2.Position.X) <= Constants.Tolerance && Math.Abs(p1.Y - p2.Position.Y) <= Constants.Tolerance;
         }
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(this PolyLine p2, Vector2 p1)
         {
             for (var i = 0; i < p2.LineSegments.Length; i++)
@@ -27,7 +29,8 @@ namespace Aptacode.Geometry.Collision
 
             return false;
         }
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(this Polygon p2, Vector2 p1)
         {
             var collision = false;
@@ -51,7 +54,8 @@ namespace Aptacode.Geometry.Collision
 
             return collision;
         }
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(this Ellipse p2, Vector2 p1)
         {
             var f1dist = (p2.Foci.Item1 - p1).Length();
@@ -68,7 +72,8 @@ namespace Aptacode.Geometry.Collision
 
             return p2.CollidesWith(p1);
         }
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CollidesWith(this BoundingRectangle p2, Vector2 p1)
         {
             return p2.TopLeft.X <= p1.X &&

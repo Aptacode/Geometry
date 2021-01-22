@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
@@ -14,6 +15,11 @@ namespace Aptacode.Geometry.Primitives
         #endregion
 
         #region Collision Detection
+
+        public override Primitive GetBoundingPrimitive(float margin)
+        {
+            return Create(Vertices.ToConvexHull(margin).Vertices);
+        }
 
         public override bool CollidesWith(Vector2 p)
         {
@@ -183,6 +189,7 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void UpdateEdges()
         {
             var vertexIndex = 0;

@@ -23,6 +23,12 @@ namespace Aptacode.Geometry.Primitives
 
         #endregion
 
+        #region Methods
+
+        public abstract Primitive GetBoundingPrimitive(float margin);
+
+        #endregion
+
         #region Collision Detection
 
         public BoundingRectangle BoundingRectangle { get; protected set; }

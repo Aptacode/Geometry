@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
@@ -14,6 +15,11 @@ namespace Aptacode.Geometry.Primitives
         #endregion
 
         #region Collision Detection
+
+        public override Primitive GetBoundingPrimitive(float margin)
+        {
+            return Create(Vertices.ToConvexHull(margin).Vertices);
+        }
 
         public override bool CollidesWith(Vector2 p)
         {
@@ -158,6 +164,23 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void UpdateLineSegments()
+        {
+            var vertexIndex = 0;
+            var lastVertex = Vector2.Zero;
+            for (var i = 0; i < Vertices.Length; i++)
+            {
+                var vertex = Vertices[i];
+                if (vertexIndex > 0)
+                {
+                    LineSegments[vertexIndex - 1] = (lastVertex, vertex);
+                }
+
+                lastVertex = vertex;
+            }
+        }
+
         public override PolyLine Translate(Vector2 delta)
         {
             for (var i = 0; i < LineSegments.Length; i++)
@@ -167,34 +190,35 @@ namespace Aptacode.Geometry.Primitives
             }
 
             base.Translate(delta);
+            UpdateLineSegments();
             return this;
         }
 
         public override PolyLine Scale(Vector2 delta)
         {
-            //Todo Scale LineSegments
             base.Scale(delta);
+            UpdateLineSegments();
             return this;
         }
 
         public virtual PolyLine Rotate(float theta)
         {
-            //Todo Rotate LineSegments
             base.Rotate(theta);
+            UpdateLineSegments();
             return this;
         }
 
         public virtual PolyLine Rotate(Vector2 rotationCenter, float theta)
         {
-            //Todo Rotate LineSegments
             base.Rotate(rotationCenter, theta);
+            UpdateLineSegments();
             return this;
         }
 
         public virtual PolyLine Skew(Vector2 delta)
         {
-            //Todo Skew LineSegments
             base.Skew(delta);
+            UpdateLineSegments();
             return this;
         }
 

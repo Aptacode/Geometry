@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Aptacode.Geometry.Primitives.Extensions
 {
     public static class EllipseExtensions
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (double A, double B, double C, double D, double E, double F)
             GetStandardForm(
                 this Ellipse ellipse) //Returns the coefficents of the ellipse in the form Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0.

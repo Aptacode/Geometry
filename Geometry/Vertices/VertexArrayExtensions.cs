@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision.Rectangles;
 
 namespace Aptacode.Geometry.Vertices
@@ -87,6 +88,7 @@ namespace Aptacode.Geometry.Vertices
         // 0 --> p, q and r are colinear 
         // 1 --> Clockwise 
         // 2 --> Counterclockwise 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Orientation(Vector2 p, Vector2 q, Vector2 r)
         {
             var val = (q.Y - p.Y) * (r.X - q.X) - (q.X - p.X) * (r.Y - q.Y);
@@ -161,6 +163,7 @@ namespace Aptacode.Geometry.Vertices
             return hull.ToArray();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static VertexArray OrderClockwiseFromLeastX(this VertexArray vertexArray)
         {
             var minX = float.MaxValue;
