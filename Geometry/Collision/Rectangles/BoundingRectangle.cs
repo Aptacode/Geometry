@@ -101,7 +101,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
                 var a = (topLeft - lineSeg.Item1).VectorCross(lineAsVector);
                 var b = (topRight - lineSeg.Item1).VectorCross(lineAsVector);
                 var c = (bottomRight - lineSeg.Item1).VectorCross(lineAsVector);
-                var d = (bottomLeft - lineSeg.Item2).VectorCross(lineAsVector);
+                var d = (bottomLeft - lineSeg.Item1).VectorCross(lineAsVector);
                 if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0)
                 {
                     continue;
@@ -132,7 +132,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
                 var a = (topLeft - edge.Item1).VectorCross(lineAsVector);
                 var b = (topRight - edge.Item1).VectorCross(lineAsVector);
                 var c = (bottomRight - edge.Item1).VectorCross(lineAsVector);
-                var d = (bottomLeft - edge.Item2).VectorCross(lineAsVector);
+                var d = (bottomLeft - edge.Item1).VectorCross(lineAsVector);
                 if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0)
                 {
                     continue;

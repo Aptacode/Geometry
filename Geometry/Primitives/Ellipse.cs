@@ -14,7 +14,6 @@ namespace Aptacode.Geometry.Primitives
         public Vector2 Position => Vertices[0];
         public (Vector2, Vector2) Foci => GetFoci();
         public VertexArray EllipseVertices => GetEllipseVertices();
-        public VertexArray EllipseExtrema => GetEllipseExtrema();
 
         #region IEquatable
 
@@ -32,27 +31,6 @@ namespace Aptacode.Geometry.Primitives
         }
 
         #endregion
-
-        private VertexArray GetEllipseExtrema()
-        {
-            var asquared = Radii.X * Radii.X;
-            var bsquared = Radii.Y * Radii.Y;
-
-            var costheta = Math.Cos(Rotation);
-            var costhetasquared = costheta * costheta;
-
-            var sintheta = Math.Sin(Rotation);
-            var sinthetasquared = sintheta * sintheta;
-
-            var xdelta = (float) Math.Sqrt(asquared * costhetasquared + bsquared * sinthetasquared);
-            var ydelta = (float) Math.Sqrt(asquared * sinthetasquared + bsquared * costhetasquared);
-
-            var topLeft = Position - new Vector2(xdelta, ydelta);
-            var topRight = Position + new Vector2(xdelta, -ydelta);
-            var bottomLeft = Position + new Vector2(-xdelta, ydelta);
-            var bottomRight = Position + new Vector2(xdelta, ydelta);
-            return new VertexArray(new[] {topLeft, topRight, bottomRight, bottomLeft});
-        }
 
         private VertexArray GetEllipseVertices()
         {
@@ -218,7 +196,7 @@ namespace Aptacode.Geometry.Primitives
             var radii = new Vector2(a, b);
             var vertexArray = VertexArray.Create(position);
             //Todo actually create bounding rectangle
-            var boundingRectangle = BoundingRectangle.FromTwoPoints(position + radii, position - radii);
+            var boundingRectangle = GetBoundingRectangle(position, radii, rotation);
 
             return new Ellipse(vertexArray, boundingRectangle, radii, rotation);
         }
@@ -240,9 +218,24 @@ namespace Aptacode.Geometry.Primitives
 
         #region Transformations
 
-        private BoundingRectangle GetBoundingRectangle()
+        private static BoundingRectangle GetBoundingRectangle(Vector2 Position, Vector2 Radii, float Rotation)
         {
-            return BoundingRectangle.FromTwoPoints(Position + Radii, Position - Radii);
+            var asquared = Radii.X * Radii.X;
+            var bsquared = Radii.Y * Radii.Y;
+
+            var costheta = Math.Cos(Rotation);
+            var costhetasquared = costheta * costheta;
+
+            var sintheta = Math.Sin(Rotation);
+            var sinthetasquared = sintheta * sintheta;
+
+            var xdelta = (float)Math.Sqrt(asquared * costhetasquared + bsquared * sinthetasquared);
+            var ydelta = (float)Math.Sqrt(asquared * sinthetasquared + bsquared * costhetasquared);
+
+            var topLeft = Position - new Vector2(xdelta, ydelta);
+            var bottomRight = Position + new Vector2(xdelta, ydelta);
+
+            return BoundingRectangle.FromTwoPoints(topLeft, bottomRight);
         }
         
         public override Ellipse Translate(Vector2 delta)
@@ -255,7 +248,7 @@ namespace Aptacode.Geometry.Primitives
         public override Ellipse Scale(Vector2 delta)
         {
             Radii *= delta;
-            BoundingRectangle = GetBoundingRectangle();
+            BoundingRectangle = GetBoundingRectangle(Position, Radii, Rotation);
             return this;
         }
 
@@ -263,7 +256,7 @@ namespace Aptacode.Geometry.Primitives
         {
             //Todo
             
-            BoundingRectangle = GetBoundingRectangle();
+            BoundingRectangle = GetBoundingRectangle(Position, Radii, Rotation);
             return this;
         }
 
@@ -271,7 +264,7 @@ namespace Aptacode.Geometry.Primitives
         {
             //Todo
             
-            BoundingRectangle = GetBoundingRectangle();
+            BoundingRectangle = GetBoundingRectangle(Position, Radii, Rotation);
             return this;
         }
 
@@ -279,7 +272,7 @@ namespace Aptacode.Geometry.Primitives
         {
             //Todo
             
-            BoundingRectangle = GetBoundingRectangle();
+            BoundingRectangle = GetBoundingRectangle(Position, Radii, Rotation);
             return this;
         }
 
