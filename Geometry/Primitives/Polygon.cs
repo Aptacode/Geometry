@@ -222,6 +222,20 @@ namespace Aptacode.Geometry.Primitives
             return this;
         }
 
+        public virtual Primitive ScaleAboutTopLeft(Vector2 delta)
+        {
+            base.ScaleAboutTopLeft(delta);
+            UpdateEdges(); 
+            return this;
+        }
+
+        public virtual Primitive Scale(Vector2 scaleCenter, Vector2 delta)
+        {
+            base.Scale(scaleCenter, delta);
+            UpdateEdges();
+            return this;
+        }
+
         public virtual Polygon Rotate(float theta)
         {
             base.Rotate(theta);
