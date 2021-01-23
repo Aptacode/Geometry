@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 using Xunit;
 
@@ -51,6 +52,18 @@ namespace Aptacode.Geometry.Tests
             {
                 Assert.Contains(vertex, vertexArray.Vertices);
             }
+        }
+
+        [Fact]
+        public void VertexArray_BoundingRectangle_Scale_Test()
+        {
+            //Arrange
+            var vertexArray = VertexArray.Create(new Vector2(10, 10), new Vector2(30, 10), new Vector2(30, 30), new Vector2(10, 30));
+            var expectedBoundedRectangle = BoundingRectangle.FromTwoPoints(new Vector2(0, 0), new Vector2(40,40));
+            //Act
+            var actualBoundedRectangle = vertexArray.Scale(new Vector2(20, 20), new Vector2(2, 2));
+            //Assert
+            Assert.Equal(expectedBoundedRectangle, actualBoundedRectangle);
         }
 
 

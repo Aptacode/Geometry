@@ -105,11 +105,21 @@ namespace Aptacode.Geometry.Primitives
             return this;
         }
 
-        public virtual Primitive Scale(Vector2 delta)
+        public virtual Primitive ScaleAboutCenter(Vector2 delta)
         {
-            var oldPosition = BoundingRectangle.Center;
-            Vertices.Scale(oldPosition, delta);
-            BoundingRectangle = Vertices.Translate(oldPosition * delta - oldPosition);
+            BoundingRectangle = Vertices.Scale(BoundingRectangle.Center, delta);
+            return this;
+        }
+
+        public virtual Primitive ScaleAboutTopLeft(Vector2 delta)
+        {
+            BoundingRectangle = Vertices.Scale(BoundingRectangle.TopLeft, delta);
+            return this;
+        }
+
+        public virtual Primitive Scale(Vector2 scaleCenter, Vector2 delta)
+        {
+            BoundingRectangle = Vertices.Scale(scaleCenter, delta);
             return this;
         }
 

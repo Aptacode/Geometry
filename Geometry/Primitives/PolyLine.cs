@@ -194,9 +194,9 @@ namespace Aptacode.Geometry.Primitives
             return this;
         }
 
-        public override PolyLine Scale(Vector2 delta)
+        public override PolyLine ScaleAboutCenter(Vector2 delta)
         {
-            base.Scale(delta);
+            base.ScaleAboutCenter(delta);
             UpdateLineSegments();
             return this;
         }

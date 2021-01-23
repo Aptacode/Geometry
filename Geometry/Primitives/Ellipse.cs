@@ -245,7 +245,7 @@ namespace Aptacode.Geometry.Primitives
             return this;
         }
 
-        public override Ellipse Scale(Vector2 delta)
+        public override Ellipse ScaleAboutCenter(Vector2 delta)
         {
             Radii *= delta;
             BoundingRectangle = GetBoundingRectangle(Position, Radii, Rotation);

@@ -215,9 +215,9 @@ namespace Aptacode.Geometry.Primitives
             return this;
         }
 
-        public override Polygon Scale(Vector2 delta)
+        public override Polygon ScaleAboutCenter(Vector2 delta)
         {
-            base.Scale(delta);
+            base.ScaleAboutCenter(delta);
             UpdateEdges();
             return this;
         }
