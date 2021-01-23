@@ -192,20 +192,19 @@ namespace Aptacode.Geometry.Primitives
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void UpdateEdges()
         {
-            var vertexIndex = 0;
             var lastVertex = Vector2.Zero;
             for (var i = 0; i < Vertices.Length; i++)
             {
                 var vertex = Vertices[i];
-                if (vertexIndex > 0)
+                if (i > 0)
                 {
-                    Edges[vertexIndex - 1] = (lastVertex, vertex);
+                    Edges[i - 1] = (lastVertex, vertex);
                 }
 
                 lastVertex = vertex;
             }
 
-            Edges[vertexIndex] = (lastVertex, Vertices[0]);
+            Edges[^1] = (lastVertex, Vertices[0]);
         }
 
         public override Polygon Translate(Vector2 delta)

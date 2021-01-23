@@ -167,14 +167,13 @@ namespace Aptacode.Geometry.Primitives
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void UpdateLineSegments()
         {
-            var vertexIndex = 0;
             var lastVertex = Vector2.Zero;
             for (var i = 0; i < Vertices.Length; i++)
             {
                 var vertex = Vertices[i];
-                if (vertexIndex > 0)
+                if (i > 0)
                 {
-                    LineSegments[vertexIndex - 1] = (lastVertex, vertex);
+                    LineSegments[i - 1] = (lastVertex, vertex);
                 }
 
                 lastVertex = vertex;
