@@ -31,10 +31,10 @@ namespace Aptacode.Geometry.Demo.Pages
 
         public override async Task CustomDraw(BlazorCanvasInterop ctx)
         {
-            var vertices = new Vector2[Polygon.Vertices.Length];
-            for (var i = 0; i < Polygon.Vertices.Length; i++)
+            var vertices = new Vector2[Primitive.Vertices.Length];
+            for (var i = 0; i < Primitive.Vertices.Length; i++)
             {
-                vertices[i] = Polygon.Vertices[i] * SceneScale.Value;
+                vertices[i] = Primitive.Vertices[i] * SceneScale.Value;
             }
 
             ctx.Polygon(vertices);
@@ -63,7 +63,7 @@ namespace Aptacode.Geometry.Demo.Pages
             var y = position.Y >= _mouseDownPosition.Y ? _mouseDownPosition.Y : position.Y;
             var width = Math.Abs(delta.X);
             var height = Math.Abs(delta.Y);
-            Polygon = Polygon.Rectangle.FromPositionAndSize(new Vector2(x, y), new Vector2(width, height));
+            Primitive = Polygon.Rectangle.FromPositionAndSize(new Vector2(x, y), new Vector2(width, height));
         }
 
         public bool SelectionMade()

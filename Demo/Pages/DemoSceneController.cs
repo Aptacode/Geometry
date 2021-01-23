@@ -140,7 +140,7 @@ namespace Aptacode.Geometry.Demo.Pages
             {
                 SelectedComponents.Clear();
                 var collidingComponents = GeometryScene.Components.CollidingWith(AreaSelection);
-                AreaSelection.Polygon = Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.Zero);
+                AreaSelection.Primitive = Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.Zero);
 
                 if (collidingComponents.Any())
                 {
@@ -242,7 +242,7 @@ namespace Aptacode.Geometry.Demo.Pages
                     break;
                 case ComponentType.Polygon:
                     _componentBuilder
-                        .SetBase(new Polygon(_vertices.ToArray()).ToViewModel())
+                        .SetBase(Polygon.Create(_vertices.ToArray()).ToViewModel())
                         .SetMargin(0.0f);
                     break;
                 case ComponentType.Ellipse:
