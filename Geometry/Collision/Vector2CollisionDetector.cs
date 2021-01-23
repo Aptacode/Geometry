@@ -60,7 +60,7 @@ namespace Aptacode.Geometry.Collision
         {
             var f1dist = (p2.Foci.Item1 - p1).Length();
             var f2dist = (p2.Foci.Item2 - p1).Length();
-            if (p2.Radii.X > p2.Radii.Y) //X is the major axis
+            if (p2.Radii.X >= p2.Radii.Y) //X is the major axis
             {
                 return f1dist + f2dist <= 2 * p2.Radii.X;
             }
@@ -70,7 +70,7 @@ namespace Aptacode.Geometry.Collision
                 return f1dist + f2dist <= 2 * p2.Radii.Y;
             }
 
-            return p2.CollidesWith(p1);
+            return false;
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
