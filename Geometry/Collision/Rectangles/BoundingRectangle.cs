@@ -13,8 +13,8 @@ namespace Aptacode.Geometry.Collision.Rectangles
         public readonly Vector2 TopRight;
         public readonly Vector2 BottomRight;
         public readonly Vector2 BottomLeft;
-        public readonly Vector2 Size;
-        public readonly Vector2 Center;
+        public Vector2 Size => Vector2.Abs(BottomRight - TopLeft);
+        public Vector2 Center => TopLeft + Size / 2.0f;
 
         #endregion
 
@@ -26,8 +26,6 @@ namespace Aptacode.Geometry.Collision.Rectangles
             TopRight = topRight;
             BottomRight = bottomRight;
             BottomLeft = bottomLeft;
-            Size = Vector2.Abs(BottomRight - TopLeft);
-            Center = TopLeft + Size / 2.0f;
         }
 
         public static BoundingRectangle FromTwoPoints(Vector2 topLeft, Vector2 bottomRight)
@@ -206,6 +204,12 @@ namespace Aptacode.Geometry.Collision.Rectangles
         }
 
         #endregion
+
+        public Primitive GetBoundingPrimitive(float margin)
+        {
+            var marginDelta = new Vector2(margin, margin);
+            return Polygon.Rectangle.FromTwoPoints(TopLeft - marginDelta, BottomRight + marginDelta);
+        }
 
         public override string ToString()
         {
