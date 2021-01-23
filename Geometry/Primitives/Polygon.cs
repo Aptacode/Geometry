@@ -18,6 +18,7 @@ namespace Aptacode.Geometry.Primitives
 
         public override Primitive GetBoundingPrimitive(float margin)
         {
+            //Todo scale polygon instead of creating convex hull
             return Create(Vertices.ToConvexHull(margin).Vertices);
         }
 

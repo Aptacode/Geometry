@@ -206,5 +206,10 @@ namespace Aptacode.Geometry.Collision.Rectangles
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return $"{TopLeft},{TopRight},{BottomRight},{BottomLeft}";
+        }
     }
 }
