@@ -200,22 +200,36 @@ namespace Aptacode.Geometry.Primitives
             UpdateLineSegments();
             return this;
         }
+        
+        public override Primitive ScaleAboutTopLeft(Vector2 delta)
+        {
+            base.ScaleAboutTopLeft(delta);
+            UpdateLineSegments();
+            return this;
+        }
 
-        public virtual PolyLine Rotate(float theta)
+        public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
+        {
+            base.Scale(scaleCenter, delta);
+            UpdateLineSegments();
+            return this;
+        }
+        
+        public override PolyLine Rotate(float theta)
         {
             base.Rotate(theta);
             UpdateLineSegments();
             return this;
         }
 
-        public virtual PolyLine Rotate(Vector2 rotationCenter, float theta)
+        public override PolyLine Rotate(Vector2 rotationCenter, float theta)
         {
             base.Rotate(rotationCenter, theta);
             UpdateLineSegments();
             return this;
         }
 
-        public virtual PolyLine Skew(Vector2 delta)
+        public override PolyLine Skew(Vector2 delta)
         {
             base.Skew(delta);
             UpdateLineSegments();

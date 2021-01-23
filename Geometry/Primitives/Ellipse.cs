@@ -252,7 +252,7 @@ namespace Aptacode.Geometry.Primitives
             return this;
         }
 
-        public virtual Ellipse Rotate(float theta)
+        public override Ellipse Rotate(float theta)
         {
             //Todo
             
@@ -260,7 +260,7 @@ namespace Aptacode.Geometry.Primitives
             return this;
         }
 
-        public virtual Ellipse Rotate(Vector2 rotationCenter, float theta)
+        public override Ellipse Rotate(Vector2 rotationCenter, float theta)
         {
             //Todo
             
@@ -268,7 +268,7 @@ namespace Aptacode.Geometry.Primitives
             return this;
         }
 
-        public virtual Ellipse Skew(Vector2 delta)
+        public override Ellipse Skew(Vector2 delta)
         {
             //Todo
             
