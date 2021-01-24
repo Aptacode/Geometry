@@ -15,6 +15,10 @@ namespace Aptacode.Geometry.Collision.Rectangles
         public readonly Vector2 BottomLeft;
         public Vector2 Size => Vector2.Abs(BottomRight - TopLeft);
         public Vector2 Center => TopLeft + Size / 2.0f;
+        public float X => TopLeft.X;
+        public float Y => TopLeft.Y;
+        public float Width => Size.X;
+        public float Height => Size.Y;
 
         #endregion
 
