@@ -14,6 +14,7 @@ namespace Aptacode.Geometry.Primitives
         public Vector2 Position => Vertices[0];
         public (Vector2, Vector2) Foci => GetFoci();
         public VertexArray EllipseVertices => GetEllipseVertices();
+        public (double A, double B, double C, double D, double E, double F) StandardForm;
 
         #region IEquatable
 
@@ -184,10 +185,11 @@ namespace Aptacode.Geometry.Primitives
 
         #region Construction
 
-        protected Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation) : base(vertexArray, boundingRectangle)
+        protected Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation, (double A, double B, double C, double D, double E, double F) standardForm) : base(vertexArray, boundingRectangle)
         {
             Radii = radii;
             Rotation = rotation;
+            StandardForm = standardForm;
         }
 
         public static Ellipse Create(float x, float y, float a, float b, float rotation)
@@ -195,19 +197,18 @@ namespace Aptacode.Geometry.Primitives
             var position = new Vector2(x, y);
             var radii = new Vector2(a, b);
             var vertexArray = VertexArray.Create(position);
-            //Todo actually create bounding rectangle
             var boundingRectangle = GetBoundingRectangle(position, radii, rotation);
+            var standardForm = GetStandardForm(position, radii, rotation);
 
-            return new Ellipse(vertexArray, boundingRectangle, radii, rotation);
+            return new Ellipse(vertexArray, boundingRectangle, radii, rotation, standardForm);
         }
 
         public static Ellipse Create(Vector2 position, Vector2 radii, float rotation)
         {
             var vertexArray = VertexArray.Create(position);
-            //Todo actually create bounding rectangle
-            var boundingRectangle = BoundingRectangle.FromTwoPoints(position + radii, position - radii);
-
-            return new Ellipse(vertexArray, boundingRectangle, radii, rotation);
+            var boundingRectangle = GetBoundingRectangle(position, radii, rotation);
+            var standardForm = GetStandardForm(position, radii, rotation);
+            return new Ellipse(vertexArray, boundingRectangle, radii, rotation, standardForm);
         }
 
         public static readonly Ellipse Zero = Create(Vector2.Zero, Vector2.Zero, 0.0f);
@@ -237,7 +238,42 @@ namespace Aptacode.Geometry.Primitives
 
             return BoundingRectangle.FromTwoPoints(topLeft, bottomRight);
         }
-        
+
+        public static (double A, double B, double C, double D, double E, double F)
+            GetStandardForm(
+        Vector2 Position, Vector2 Radii, float Rotation) //Returns the coefficents of the ellipse in the form Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0.
+        {
+            var a = Radii.X;
+            var b = Radii.Y;
+            if (Radii.Y > Radii.X)
+            {
+                a = Radii.Y;
+                b = Radii.X;
+            }
+
+            var px = Position.X;
+            var py = Position.Y;
+            var cos = Math.Cos(Rotation);
+            var sin = Math.Sin(Rotation);
+            var sin2 = Math.Sin(2 * Rotation);
+
+            var d1 = cos * cos / (a * a);
+            var d2 = cos * cos / (b * b);
+            var d3 = sin * sin / (a * a);
+            var d4 = sin * sin / (b * b);
+            var d5 = sin2 / (a * a);
+            var d6 = sin2 / (b * b);
+
+            var A = d1 + d4;
+            var B = d5 - d6;
+            var C = d3 + d2;
+            var D = -2 * px * d1 - py * d5 - 2 * px * d4 + py * d6;
+            var E = -1 * px * d5 - 2 * py * d3 + px * d6 - 2 * py * d2;
+            var F = px * px * d1 + px * py * d5 + py * py * d3 + px * px * d4 - px * py * d6 + py * py * d2 - 1;
+
+            return (A, B, C, D, E, F);
+        }
+
         public override Ellipse Translate(Vector2 delta)
         {
             Vertices.Translate(delta);

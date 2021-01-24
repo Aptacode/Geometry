@@ -20,8 +20,8 @@ namespace Aptacode.Geometry.Collision
                 return d < p1.Radii.X + p2.Radii.X;
             }
 
-            var f1 = p1.GetStandardForm();
-            var f2 = p2.GetStandardForm();
+            var f1 = p1.StandardForm;
+            var f2 = p2.StandardForm;
             var (u0, u1, u2, u3, u4) = Ellipse.GetResultantPolynomial(f1.A, f1.B, f1.C, f1.D, f1.E, f1.F, f2.A, f2.B,
                 f2.C, f2.D, f2.E, f2.F);
 
@@ -188,7 +188,7 @@ namespace Aptacode.Geometry.Collision
             }
             else
             {
-                var stdform = p2.GetStandardForm();
+                var stdform = p2.StandardForm;
                 foreach (var (v1, v2) in p1.LineSegments)
                 {
                     if (p2.CollidesWith(v1) || p2.CollidesWith(v2))
@@ -270,7 +270,7 @@ namespace Aptacode.Geometry.Collision
                     return true;
                 }
 
-                var stdform = p2.GetStandardForm();
+                var stdform = p2.StandardForm;
                 foreach (var (v1, v2) in p1.Edges)
                 {
                     if (p2.CollidesWith(v1) || p2.CollidesWith(v2))

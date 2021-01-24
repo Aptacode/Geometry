@@ -76,15 +76,15 @@ namespace Aptacode.Geometry.Primitives
             var vertices = new Vector2[vertexCount];
             var lineSegments = new (Vector2 p1, Vector2 p2)[vertexCount - 1];
 
-            var count = 0;
+            var vertexIndex = 0;
             var lastVertex = Vector2.Zero;
-            for (var i = 0; i < points.Length; i += 2)
+            for (var i = 0; i < points.Length; i++)
             {
-                var vertex = vertices[count++] = new Vector2(points[i], points[i + 1]);
+                var vertex = vertices[vertexIndex++] = new Vector2(points[i], points[++i]);
 
-                if (count > 1)
+                if (vertexIndex > 1)
                 {
-                    lineSegments[count - 2] = (lastVertex, vertex);
+                    lineSegments[vertexIndex - 2] = (lastVertex, vertex);
                 }
 
                 lastVertex = vertex;

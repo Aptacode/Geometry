@@ -157,7 +157,7 @@ namespace Aptacode.Geometry.Collision.Rectangles
             var leftEdge = (TopLeft, BottomLeft);
             var rightEdge = (TopRight, BottomRight);
             var bottomEdge = (BottomLeft, BottomRight);
-            var stdform = ellipse.GetStandardForm();
+            var stdform = ellipse.StandardForm;
 
             //Otherwise using these values we check which of up to two edges (if any) collide with the ellipse.
             if (testX <= 0 && testY <= 0) //if it's in the top left quadrant

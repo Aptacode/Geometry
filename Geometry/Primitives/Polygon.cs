@@ -115,17 +115,17 @@ namespace Aptacode.Geometry.Primitives
             var maxY = float.MinValue;
 
             var vertexArray = new Vector2[points.Length / 2];
-            var edges = new (Vector2 p1, Vector2 p2)[points.Length];
+            var edges = new (Vector2 p1, Vector2 p2)[vertexArray.Length];
             var lastVertex = Vector2.Zero;
 
             var vertexIndex = 0;
-            for (var i = 0; i < vertexArray.Length; i++)
+            for (var i = 0; i < points.Length; i++)
             {
-                var vertex = vertexArray[vertexIndex++] = new Vector2(points[i], points[i++]);
+                var vertex = vertexArray[vertexIndex++] = new Vector2(points[i], points[++i]);
 
-                if (vertexIndex > 0)
+                if (vertexIndex > 1)
                 {
-                    edges[vertexIndex - 1] = (lastVertex, vertex);
+                    edges[vertexIndex - 2] = (lastVertex, vertex);
                 }
 
                 lastVertex = vertex;
