@@ -129,6 +129,19 @@ namespace Aptacode.Geometry.Primitives
             return this;
         }
 
+        public virtual Primitive SetSize(Vector2 delta)
+        {
+            var scaleFactor = delta / BoundingRectangle.Size;
+            ScaleAboutTopLeft(scaleFactor);
+            return this;
+        }
+
+        public virtual Primitive SetPosition(Vector2 position)
+        {
+            Translate(position - BoundingRectangle.TopLeft);
+            return this;
+        }
+
         #endregion
     }
 }

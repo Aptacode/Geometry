@@ -397,6 +397,7 @@ namespace Aptacode.Geometry.Tests.CollisionTests
             //Arrange
             var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
             var ellipse = Ellipse.Create(20, 20, 4, 6, 0.0f);
+
             //Act
             var sut = boundingRect1.CollidesWith(ellipse);
             //Assert
