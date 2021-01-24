@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using Aptacode.AppFramework.Components;
+using Aptacode.AppFramework.Components.Controls;
 using Aptacode.AppFramework.Components.Primitives;
 using Aptacode.AppFramework.Extensions;
 using Aptacode.AppFramework.Scene;
@@ -29,13 +30,18 @@ namespace Aptacode.Geometry.Demo.Pages
             ComponentCreationMode = ComponentType.None;
 
             GeometryScene = new Scene(size);
+            DragBox = new DragBox(Polygon.Rectangle.FromTwoPoints(Vector2.Zero, size));
+            DragBox.FillColor = Color.Transparent;
+            
+            GeometryScene.Add(DragBox);
+
             AreaSelection = new SelectionComponent();
             GeometryScene.Add(AreaSelection);
             Scenes.Add(GeometryScene);
         }
 
         public Scene GeometryScene { get; set; }
-
+        public DragBox DragBox { get; set; }
         public SelectionComponent AreaSelection { get; set; }
         public ComponentType ComponentCreationMode { get; set; }
 
@@ -56,12 +62,6 @@ namespace Aptacode.Geometry.Demo.Pages
         {
             switch (e)
             {
-                case MouseMoveEvent mouseMove:
-                    UserInteractionControllerOnOnMouseMoved(this, mouseMove.Position);
-                    break;
-                case MouseUpEvent mouseUp:
-                    UserInteractionControllerOnOnMouseUp(this, mouseUp.Position);
-                    break;
                 case MouseDownEvent mouseDown:
                     UserInteractionControllerOnOnMouseDown(this, mouseDown.Position);
                     break;
@@ -117,54 +117,6 @@ namespace Aptacode.Geometry.Demo.Pages
                     SelectedComponents.Clear();
                     AreaSelection.MouseDown(position);
                 }
-            }
-        }
-
-        private void UserInteractionControllerOnOnMouseMoved(object? sender, Vector2 position)
-        {
-            AreaSelection.MouseMove(position);
-
-            if (SelectedComponents.Any() && UserInteractionController.IsMouseDown)
-            {
-                var delta = position - UserInteractionController.LastMousePosition;
-                foreach (var componentViewModel in SelectedComponents.ToArray())
-                {
-                    GeometryScene.Translate(componentViewModel, delta, SelectedComponents, new CancellationTokenSource());
-                }
-            }
-        }
-
-        private void UserInteractionControllerOnOnMouseUp(object? sender, Vector2 position)
-        {
-            if (AreaSelection.SelectionMade())
-            {
-                SelectedComponents.Clear();
-                var collidingComponents = GeometryScene.Components.CollidingWith(AreaSelection);
-                AreaSelection.Primitive = Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.Zero);
-
-                if (collidingComponents.Any())
-                {
-                    foreach (var componentViewModel in collidingComponents.ToArray())
-                    {
-                        if (componentViewModel == AreaSelection)
-                        {
-                            continue;
-                        }
-
-                        componentViewModel.BorderColor = Color.Green;
-                        GeometryScene.BringToFront(componentViewModel);
-                        SelectedComponents.Add(componentViewModel);
-                    }
-                }
-            }
-            else
-            {
-                foreach (var componentViewModel in SelectedComponents)
-                {
-                    componentViewModel.BorderColor = Color.Black;
-                }
-
-                SelectedComponents.Clear();
             }
         }
 
@@ -262,7 +214,7 @@ namespace Aptacode.Geometry.Demo.Pages
 
             newComponent.OnMouseClick += (sender, mouseClickEvent) => { Console.WriteLine("Clicked: " + mouseClickEvent.Position); };
 
-            GeometryScene.Add(newComponent);
+            DragBox.Add(newComponent);
             _vertices.Clear();
         }
 
