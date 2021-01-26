@@ -335,8 +335,8 @@ namespace Aptacode.Geometry.Tests.CollisionTests
         public void BoundingRectangleAndPolyLine_IntersectionCollision_Test()
         {
             //Arrange
-            var boundingRect1 = BoundingRectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(30, 30));
-            var polyline = PolyLine.Create(5, 5, 35, 35);
+            var boundingRect1 = BoundingRectangle.FromPositionAndSize(new Vector2(18, 18), new Vector2(10, 10));
+            var polyline = PolyLine.Create(24, 28, 24, 16);
             //Act
             var sut = boundingRect1.CollidesWith(polyline);
             //Assert

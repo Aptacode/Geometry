@@ -52,22 +52,18 @@ namespace Aptacode.Geometry.Collision.Rectangles
 
         #region Collision
 
-        public bool CollidesWith(BoundingRectangle p2)
+        public bool CollidesWith(BoundingRectangle rect)
         {
-            // If one rectangle is on left side of other 
-            if (TopLeft.X > p2.BottomRight.X || p2.TopLeft.X > BottomRight.X)
+            if (TopLeft.X < rect.TopRight.X &&
+                TopRight.X > rect.TopLeft.X &&
+                TopLeft.Y < rect.BottomRight.Y &&
+                BottomRight.Y > rect.TopLeft.Y)
             {
-                return false;
+                return true;
             }
-
-            // If one rectangle is above other 
-            if (TopLeft.Y > p2.BottomRight.Y || p2.TopLeft.Y > BottomRight.Y)
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
+
 
         public bool CollidesWith(Vector2 point)
         {
