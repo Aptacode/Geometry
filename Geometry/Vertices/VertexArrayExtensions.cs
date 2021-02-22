@@ -214,7 +214,7 @@ namespace Aptacode.Geometry.Vertices
                 {
                     minX = vertex.X;
                 }
-                else if (vertex.X > maxX)
+                if (vertex.X > maxX)
                 {
                     maxX = vertex.X;
                 }
@@ -223,7 +223,7 @@ namespace Aptacode.Geometry.Vertices
                 {
                     minY = vertex.Y;
                 }
-                else if (vertex.Y > maxY)
+                if (vertex.Y > maxY)
                 {
                     maxY = vertex.Y;
                 }
@@ -248,7 +248,7 @@ namespace Aptacode.Geometry.Vertices
                 {
                     minX = vertex.X;
                 }
-                else if (vertex.X > maxX)
+                if (vertex.X > maxX)
                 {
                     maxX = vertex.X;
                 }
@@ -257,7 +257,7 @@ namespace Aptacode.Geometry.Vertices
                 {
                     minY = vertex.Y;
                 }
-                else if (vertex.Y > maxY)
+                if (vertex.Y > maxY)
                 {
                     maxY = vertex.Y;
                 }
@@ -282,7 +282,7 @@ namespace Aptacode.Geometry.Vertices
                 {
                     minX = vertex.X;
                 }
-                else if (vertex.X > maxX)
+                if (vertex.X > maxX)
                 {
                     maxX = vertex.X;
                 }
@@ -291,7 +291,7 @@ namespace Aptacode.Geometry.Vertices
                 {
                     minY = vertex.Y;
                 }
-                else if (vertex.Y > maxY)
+                if (vertex.Y > maxY)
                 {
                     maxY = vertex.Y;
                 }
@@ -315,7 +315,7 @@ namespace Aptacode.Geometry.Vertices
                 {
                     minX = vertex.X;
                 }
-                else if (vertex.X > maxX)
+                if (vertex.X > maxX)
                 {
                     maxX = vertex.X;
                 }
@@ -324,7 +324,7 @@ namespace Aptacode.Geometry.Vertices
                 {
                     minY = vertex.Y;
                 }
-                else if (vertex.Y > maxY)
+                if (vertex.Y > maxY)
                 {
                     maxY = vertex.Y;
                 }

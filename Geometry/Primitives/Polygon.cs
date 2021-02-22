@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
@@ -18,8 +19,13 @@ namespace Aptacode.Geometry.Primitives
 
         public override Primitive GetBoundingPrimitive(float margin)
         {
+            var deltaX = (margin + BoundingRectangle.Size.X) / BoundingRectangle.Size.X;
+            var deltaY = (margin + BoundingRectangle.Size.Y) / BoundingRectangle.Size.Y;
+            var scaleFactor = new Vector2(deltaX, deltaY);
+            Vertices.Scale(BoundingRectangle.Center, scaleFactor);
+
             //Todo scale polygon instead of creating convex hull
-            return Create(Vertices.ToConvexHull(margin).Vertices);
+            return Create(Vertices.Vertices);
         }
 
         public override bool CollidesWith(Vector2 p)
