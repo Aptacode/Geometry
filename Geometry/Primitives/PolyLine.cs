@@ -18,7 +18,13 @@ namespace Aptacode.Geometry.Primitives
 
         public override Primitive GetBoundingPrimitive(float margin)
         {
-            return Create(Vertices.ToConvexHull(margin).Vertices);
+            if(margin < Constants.Tolerance)
+            {
+                return this;
+            }
+            var boundingRectangle = Vertices.ToBoundingRectangle();
+            var marginDelta = new Vector2(margin, margin);
+            return Polygon.Rectangle.FromTwoPoints(boundingRectangle.TopLeft - marginDelta, boundingRectangle.BottomRight + marginDelta);
         }
 
         public override bool CollidesWith(Vector2 p)
