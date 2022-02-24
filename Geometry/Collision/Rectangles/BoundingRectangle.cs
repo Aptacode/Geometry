@@ -1,219 +1,189 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Primitives.Extensions;
 using Aptacode.Geometry.Utilities;
 
-namespace Aptacode.Geometry.Collision.Rectangles
+namespace Aptacode.Geometry.Collision.Rectangles;
+
+public readonly struct BoundingRectangle
 {
-    public readonly struct BoundingRectangle
+    #region Properties
+
+    public readonly Vector2 TopLeft;
+    public readonly Vector2 TopRight;
+    public readonly Vector2 BottomRight;
+    public readonly Vector2 BottomLeft;
+    public Vector2 Size => Vector2.Abs(BottomRight - TopLeft);
+    public Vector2 Center => TopLeft + Size / 2.0f;
+    public float X => TopLeft.X;
+    public float Y => TopLeft.Y;
+    public float Width => Size.X;
+    public float Height => Size.Y;
+
+    #endregion
+
+    #region Ctor
+
+    public BoundingRectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft)
     {
-        #region Properties
+        TopLeft = topLeft;
+        TopRight = topRight;
+        BottomRight = bottomRight;
+        BottomLeft = bottomLeft;
+    }
 
-        public readonly Vector2 TopLeft;
-        public readonly Vector2 TopRight;
-        public readonly Vector2 BottomRight;
-        public readonly Vector2 BottomLeft;
-        public Vector2 Size => Vector2.Abs(BottomRight - TopLeft);
-        public Vector2 Center => TopLeft + Size / 2.0f;
-        public float X => TopLeft.X;
-        public float Y => TopLeft.Y;
-        public float Width => Size.X;
-        public float Height => Size.Y;
+    public static BoundingRectangle FromTwoPoints(Vector2 topLeft, Vector2 bottomRight)
+    {
+        var topRight = new Vector2(bottomRight.X, topLeft.Y);
+        var bottomLeft = new Vector2(topLeft.X, bottomRight.Y);
 
-        #endregion
+        return new BoundingRectangle(topLeft, topRight, bottomRight, bottomLeft);
+    }
 
-        #region Ctor
+    public static BoundingRectangle FromPositionAndSize(Vector2 topLeft, Vector2 size)
+    {
+        var bottomRight = topLeft + size;
+        return FromTwoPoints(topLeft, bottomRight);
+    }
 
-        public BoundingRectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft)
+    public static readonly BoundingRectangle Zero = FromTwoPoints(Vector2.Zero, Vector2.Zero);
+
+    #endregion
+
+    #region Collision
+
+    public bool CollidesWith(BoundingRectangle rect)
+    {
+        if (TopLeft.X < rect.TopRight.X &&
+            TopRight.X > rect.TopLeft.X &&
+            TopLeft.Y < rect.BottomRight.Y &&
+            BottomRight.Y > rect.TopLeft.Y)
+            return true;
+        return false;
+    }
+
+
+    public bool CollidesWith(Vector2 point)
+    {
+        return TopLeft.X <= point.X &&
+               TopLeft.Y <= point.Y &&
+               BottomRight.X >= point.X &&
+               BottomRight.Y >= point.Y;
+    }
+
+    public bool CollidesWith(Point point)
+    {
+        return TopLeft.X <= point.Position.X &&
+               TopLeft.Y <= point.Position.Y &&
+               BottomRight.X >= point.Position.X &&
+               BottomRight.Y >= point.Position.Y;
+    }
+
+    public bool CollidesWith(PolyLine polyLine)
+    {
+        if (!polyLine.BoundingRectangle.CollidesWith(this)) return false;
+
+        var topLeft = TopLeft;
+        var topRight = TopRight;
+        var bottomRight = BottomRight;
+        var bottomLeft = BottomLeft;
+        for (var i = 0; i < polyLine.LineSegments.Length; i++)
         {
-            TopLeft = topLeft;
-            TopRight = topRight;
-            BottomRight = bottomRight;
-            BottomLeft = bottomLeft;
+            var lineSeg = polyLine.LineSegments[i];
+            var lineAsVector = lineSeg.Item2 - lineSeg.Item1;
+            var a = (topLeft - lineSeg.Item1).VectorCross(lineAsVector);
+            var b = (topRight - lineSeg.Item1).VectorCross(lineAsVector);
+            var c = (bottomRight - lineSeg.Item1).VectorCross(lineAsVector);
+            var d = (bottomLeft - lineSeg.Item1).VectorCross(lineAsVector);
+            if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0) continue;
+
+            return true;
         }
 
-        public static BoundingRectangle FromTwoPoints(Vector2 topLeft, Vector2 bottomRight)
-        {
-            var topRight = new Vector2(bottomRight.X, topLeft.Y);
-            var bottomLeft = new Vector2(topLeft.X, bottomRight.Y);
+        return false;
+    }
 
-            return new BoundingRectangle(topLeft, topRight, bottomRight, bottomLeft);
+
+    public bool CollidesWith(Polygon polygon)
+    {
+        if (!polygon.BoundingRectangle.CollidesWith(this)) return false;
+
+        var topLeft = TopLeft;
+        var topRight = TopRight;
+        var bottomRight = BottomRight;
+        var bottomLeft = BottomLeft;
+        for (var i = 0; i < polygon.Edges.Length; i++)
+        {
+            var edge = polygon.Edges[i];
+            var lineAsVector = edge.Item2 - edge.Item1;
+            var a = (topLeft - edge.Item1).VectorCross(lineAsVector);
+            var b = (topRight - edge.Item1).VectorCross(lineAsVector);
+            var c = (bottomRight - edge.Item1).VectorCross(lineAsVector);
+            var d = (bottomLeft - edge.Item1).VectorCross(lineAsVector);
+            if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0) continue;
+
+            return true;
         }
 
-        public static BoundingRectangle FromPositionAndSize(Vector2 topLeft, Vector2 size)
+        return false;
+    }
+
+    public bool CollidesWith(Ellipse ellipse)
+    {
+        if (CollidesWith(ellipse.Position)
+           ) //If the center of the ellipse is inside the Bounding rectangle then there is a collision.
+            return true;
+
+        var testDistance = ellipse.Position - Center;
+        var testX = testDistance.X;
+        var testY = testDistance.Y;
+        var topEdge = (TopLeft, TopRight);
+        var leftEdge = (TopLeft, BottomLeft);
+        var rightEdge = (TopRight, BottomRight);
+        var bottomEdge = (BottomLeft, BottomRight);
+        var stdform = ellipse.StandardForm;
+
+        //Otherwise using these values we check which of up to two edges (if any) collide with the ellipse.
+        if (testX <= 0 && testY <= 0) //if it's in the top left quadrant
         {
-            var bottomRight = topLeft + size;
-            return FromTwoPoints(topLeft, bottomRight);
+            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) || ellipse.CollidesWith(BottomLeft) ||
+                   leftEdge.LineSegmentEllipseIntersection(stdform) ||
+                   topEdge.LineSegmentEllipseIntersection(stdform);
         }
 
-        public static readonly BoundingRectangle Zero = FromTwoPoints(Vector2.Zero, Vector2.Zero);
-
-        #endregion
-
-        #region Collision
-
-        public bool CollidesWith(BoundingRectangle rect)
+        if (testX > 0 && testY <= 0) //if it's in the top right quadrant
         {
-            if (TopLeft.X < rect.TopRight.X &&
-                TopRight.X > rect.TopLeft.X &&
-                TopLeft.Y < rect.BottomRight.Y &&
-                BottomRight.Y > rect.TopLeft.Y)
-            {
-                return true;
-            }
-            return false;
+            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) || ellipse.CollidesWith(BottomRight) ||
+                   rightEdge.LineSegmentEllipseIntersection(stdform) ||
+                   topEdge.LineSegmentEllipseIntersection(stdform);
         }
 
-
-        public bool CollidesWith(Vector2 point)
+        if (testX <= 0 && testY > 0) //if it's in the bottom left quadrant
         {
-            return TopLeft.X <= point.X &&
-                   TopLeft.Y <= point.Y &&
-                   BottomRight.X >= point.X &&
-                   BottomRight.Y >= point.Y;
+            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(BottomLeft) ||
+                   ellipse.CollidesWith(BottomRight) || leftEdge.LineSegmentEllipseIntersection(stdform) ||
+                   bottomEdge.LineSegmentEllipseIntersection(stdform);
         }
 
-        public bool CollidesWith(Point point)
+        if (testX > 0 && testY > 0) //if it's in the bottom right quadrant
         {
-            return TopLeft.X <= point.Position.X &&
-                   TopLeft.Y <= point.Position.Y &&
-                   BottomRight.X >= point.Position.X &&
-                   BottomRight.Y >= point.Position.Y;
+            return ellipse.CollidesWith(BottomLeft) || ellipse.CollidesWith(TopRight) ||
+                   ellipse.CollidesWith(BottomRight) || rightEdge.LineSegmentEllipseIntersection(stdform) ||
+                   bottomEdge.LineSegmentEllipseIntersection(stdform);
         }
 
-        public bool CollidesWith(PolyLine polyLine)
-        {
-            if (!polyLine.BoundingRectangle.CollidesWith(this))
-            {
-                return false;
-            }
+        return false; //not sure we'll ever reach here
+    }
 
-            var topLeft = TopLeft;
-            var topRight = TopRight;
-            var bottomRight = BottomRight;
-            var bottomLeft = BottomLeft;
-            for (var i = 0; i < polyLine.LineSegments.Length; i++)
-            {
-                var lineSeg = polyLine.LineSegments[i];
-                var lineAsVector = lineSeg.Item2 - lineSeg.Item1;
-                var a = (topLeft - lineSeg.Item1).VectorCross(lineAsVector);
-                var b = (topRight - lineSeg.Item1).VectorCross(lineAsVector);
-                var c = (bottomRight - lineSeg.Item1).VectorCross(lineAsVector);
-                var d = (bottomLeft - lineSeg.Item1).VectorCross(lineAsVector);
-                if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0)
-                {
-                    continue;
-                }
+    #endregion
 
-                return true;
-            }
+    public Primitive GetBoundingPrimitive(float margin)
+    {
+        var marginDelta = new Vector2(margin, margin);
+        return Polygon.Rectangle.FromTwoPoints(TopLeft - marginDelta, BottomRight + marginDelta);
+    }
 
-            return false;
-        }
-
-
-        public bool CollidesWith(Polygon polygon)
-        {
-            if (!polygon.BoundingRectangle.CollidesWith(this))
-            {
-                return false;
-            }
-
-            var topLeft = TopLeft;
-            var topRight = TopRight;
-            var bottomRight = BottomRight;
-            var bottomLeft = BottomLeft;
-            for (var i = 0; i < polygon.Edges.Length; i++)
-            {
-                var edge = polygon.Edges[i];
-                var lineAsVector = edge.Item2 - edge.Item1;
-                var a = (topLeft - edge.Item1).VectorCross(lineAsVector);
-                var b = (topRight - edge.Item1).VectorCross(lineAsVector);
-                var c = (bottomRight - edge.Item1).VectorCross(lineAsVector);
-                var d = (bottomLeft - edge.Item1).VectorCross(lineAsVector);
-                if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0)
-                {
-                    continue;
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool CollidesWith(Ellipse ellipse)
-        {
-            if (CollidesWith(ellipse.Position)
-            ) //If the center of the ellipse is inside the Bounding rectangle then there is a collision.
-            {
-                return true;
-            }
-
-            var testDistance = ellipse.Position - Center;
-            var testX = testDistance.X;
-            var testY = testDistance.Y;
-            var topEdge = (TopLeft, TopRight);
-            var leftEdge = (TopLeft, BottomLeft);
-            var rightEdge = (TopRight, BottomRight);
-            var bottomEdge = (BottomLeft, BottomRight);
-            var stdform = ellipse.StandardForm;
-
-            //Otherwise using these values we check which of up to two edges (if any) collide with the ellipse.
-            if (testX <= 0 && testY <= 0) //if it's in the top left quadrant
-            {
-                if (ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) || ellipse.CollidesWith(BottomLeft) || leftEdge.LineSegmentEllipseIntersection(stdform) || topEdge.LineSegmentEllipseIntersection(stdform))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            if (testX > 0 && testY <= 0) //if it's in the top right quadrant
-            {
-                if (ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) || ellipse.CollidesWith(BottomRight) || rightEdge.LineSegmentEllipseIntersection(stdform) || topEdge.LineSegmentEllipseIntersection(stdform))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            if (testX <= 0 && testY > 0) //if it's in the bottom left quadrant
-            {
-                if (ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(BottomLeft) || ellipse.CollidesWith(BottomRight) || leftEdge.LineSegmentEllipseIntersection(stdform) || bottomEdge.LineSegmentEllipseIntersection(stdform))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            if (testX > 0 && testY > 0) //if it's in the bottom right quadrant
-            {
-                if (ellipse.CollidesWith(BottomLeft) || ellipse.CollidesWith(TopRight) || ellipse.CollidesWith(BottomRight) || rightEdge.LineSegmentEllipseIntersection(stdform) || bottomEdge.LineSegmentEllipseIntersection(stdform))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            return false; //not sure we'll ever reach here
-        }
-
-        #endregion
-
-        public Primitive GetBoundingPrimitive(float margin)
-        {
-            var marginDelta = new Vector2(margin, margin);
-            return Polygon.Rectangle.FromTwoPoints(TopLeft - marginDelta, BottomRight + marginDelta);
-        }
-
-        public override string ToString()
-        {
-            return $"{TopLeft},{TopRight},{BottomRight},{BottomLeft}";
-        }
+    public override string ToString()
+    {
+        return $"{TopLeft},{TopRight},{BottomRight},{BottomLeft}";
     }
 }

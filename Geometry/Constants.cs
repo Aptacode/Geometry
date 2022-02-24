@@ -1,7 +1,6 @@
-﻿namespace Aptacode.Geometry
+﻿namespace Aptacode.Geometry;
+
+public static class Constants
 {
-    public static class Constants
-    {
-        public static readonly float Tolerance = 0.000001f;
-    }
+    public static readonly float Tolerance = 0.000001f;
 }

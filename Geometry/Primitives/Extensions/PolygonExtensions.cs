@@ -1,6 +1,5 @@
-﻿namespace Aptacode.Geometry.Primitives.Extensions
+﻿namespace Aptacode.Geometry.Primitives.Extensions;
+
+public static class PolygonExtensions
 {
-    public static class PolygonExtensions
-    {
-    }
 }

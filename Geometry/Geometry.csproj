@@ -1,32 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <LangVersion>9.0</LangVersion>
-    <Authors>Aptacode</Authors>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.38</Version>
-    <AssemblyVersion>1.0.38</AssemblyVersion>
-    <FileVersion>1.0.38</FileVersion>
-    <PackageIcon>Logo.png</PackageIcon>
-    <RepositoryUrl>https://github.com/Aptacode/Geometry</RepositoryUrl>
-    <ApplicationIcon>Logo.ico</ApplicationIcon>
-    <PackageProjectUrl>https://github.com/Aptacode/Geometry</PackageProjectUrl>
-    <Description>High performance .net 5 geometry library</Description>
-    <AssemblyName>Aptacode.Geometry</AssemblyName>
-    <RootNamespace>Aptacode.Geometry</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>10.0</LangVersion>
+		<Authors>Aptacode</Authors>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.0.39</Version>
+		<AssemblyVersion>1.0.39</AssemblyVersion>
+		<FileVersion>1.0.39</FileVersion>
+		<PackageIcon>Logo.png</PackageIcon>
+		<RepositoryUrl>https://github.com/Aptacode/Geometry</RepositoryUrl>
+		<ApplicationIcon>Logo.ico</ApplicationIcon>
+		<PackageProjectUrl>https://github.com/Aptacode/Geometry</PackageProjectUrl>
+		<Description>High performance .net geometry library</Description>
+		<AssemblyName>Aptacode.Geometry</AssemblyName>
+		<RootNamespace>Aptacode.Geometry</RootNamespace>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="OptimizedPriorityQueue" Version="5.0.0" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
+		<PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\Resources\Images\Logo.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\Resources\Images\Logo.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>
