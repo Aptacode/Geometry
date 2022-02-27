@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aptacode.Geometry", "Geometry\Geometry.csproj", "{58F7181D-CAAB-4FA7-A142-459992E700E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geometry", "Geometry\Geometry.csproj", "{58F7181D-CAAB-4FA7-A142-459992E700E2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{40711C6F-9A32-486C-8D58-C9BF09B2575C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Demo\Demo.csproj", "{C5276D7B-A40D-490F-960F-B796F6504783}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{76A3A35B-5558-4E03-A9D5-05379369834B}"
 EndProject
@@ -25,10 +23,6 @@ Global
 		{40711C6F-9A32-486C-8D58-C9BF09B2575C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40711C6F-9A32-486C-8D58-C9BF09B2575C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40711C6F-9A32-486C-8D58-C9BF09B2575C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C5276D7B-A40D-490F-960F-B796F6504783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C5276D7B-A40D-490F-960F-B796F6504783}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C5276D7B-A40D-490F-960F-B796F6504783}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C5276D7B-A40D-490F-960F-B796F6504783}.Release|Any CPU.Build.0 = Release|Any CPU
 		{76A3A35B-5558-4E03-A9D5-05379369834B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{76A3A35B-5558-4E03-A9D5-05379369834B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76A3A35B-5558-4E03-A9D5-05379369834B}.Release|Any CPU.ActiveCfg = Release|Any CPU
