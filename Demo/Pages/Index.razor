@@ -1,5 +1,31 @@
 ﻿@page "/"
+@inherits IndexBase
 
 <PageTitle>Index</PageTitle>
+
+<h2>Creation</h2>
+
+<button @onclick="RunOnClick">Run</button>
+<button @onclick="OrderByGroup">Group</button>
+<button @onclick="OrderByFastest">Fastest</button>
+<button @onclick="OrderBySlowest">Slowest</button>
+
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Fastest (ms)</th>
+        <th>Slowest (ms)</th>
+        <th>Average (ms)</th>
+    </tr>
+    @foreach (var result in Results)
+    {
+        <tr>
+            <td>@result.Title</td>
+            <td>@result.Fastest.ToString("G3")</td>
+            <td>@result.Slowest.ToString("G3")</td>
+            <td>@result.Average.ToString("G3")</td>
+        </tr>
+    }
+</table>
 
 
