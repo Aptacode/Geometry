@@ -34,13 +34,13 @@ public static class Vector2CollisionDetector
         var edges = p2.Edges;
         var point = p1;
 
-        foreach (var (a, b) in edges)
+        foreach (var line in edges)
         {
-            if ((a, b).OnLineSegment(point)) return true;
+            if (line.OnLineSegment(point)) return true;
 
-            if ((a.Y >= point.Y && b.Y <= point.Y ||
-                 a.Y <= point.Y && b.Y >= point.Y) &&
-                point.X <= (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
+            if ((line.P1.Y >= point.Y && line.P2.Y <= point.Y ||
+                 line.P1.Y <= point.Y && line.P2.Y >= point.Y) &&
+                point.X <= (line.P2.X - line.P1.X) * (point.Y - line.P1.Y) / (line.P2.Y - line.P1.Y) + line.P1.X)
                 collision = !collision;
         }
 

@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision;
 
 public static class Helpers
 {
-    public static bool OnLineSegment(this (Vector2 A, Vector2 B) line, Vector2 point)
+    public static bool OnLineSegment(this LineSegment line, Vector2 point)
     {
-        var d1 = (line.A - point).Length();
-        var d2 = (line.B - point).Length();
-        var lineLength = (line.B - line.A).Length();
+        var d1 = (line.P1 - point).Length();
+        var d2 = (line.P2 - point).Length();
+        var lineLength = (line.P2 - line.P1).Length();
         var delta = d1 + d2;
         return Math.Abs(delta - lineLength) < Constants.Tolerance;
     }
 
-    public static bool NewOnLineSegment(this (Vector2 A, Vector2 B) line, Vector2 point)
+    public static bool NewOnLineSegment(this LineSegment line, Vector2 point)
     {
-        var minVector = Vector2.Min(line.A, line.B);
-        var maxVector = Vector2.Max(line.A, line.B);
+        var minVector = Vector2.Min(line.P1, line.P2);
+        var maxVector = Vector2.Max(line.P1, line.P2);
         if (point.X >= minVector.X && point.X <= maxVector.X && point.Y >= minVector.Y && point.Y <= maxVector.Y)
         {
-            var perpDot = Vector2.Dot((line.A - line.B).Perp(), point);
+            var perpDot = Vector2.Dot((line.P1 - line.P2).Perp(), point);
             if (perpDot == 0) return true;
         }
 
@@ -39,32 +40,30 @@ public static class Helpers
         return (m, c);
     }
 
-    public static bool LineSegmentIntersection(this (Vector2, Vector2) line1, (Vector2, Vector2) line2)
+    public static bool LineSegmentIntersection(this LineSegment line1, LineSegment line2)
     {
-        var line1AsVector = line1.Item2 - line1.Item1;
-        var line2ACross = line1AsVector.VectorCross(line2.Item1 - line1.Item1);
-        var line2BCross = line1AsVector.VectorCross(line2.Item2 - line1.Item1);
+        var line1AsVector = line1.P2 - line1.P1;
+        var line2ACross = line1AsVector.VectorCross(line2.P1 - line1.P1);
+        var line2BCross = line1AsVector.VectorCross(line2.P2 - line1.P1);
 
-        if (line2ACross > 0 && line2BCross > 0 ||
-            line2ACross < 0 &&
-            line2BCross <
-            0) //if both points of one line segment are above or below the other then they cannot intersect.
+        if ((line2ACross > 0 && line2BCross > 0) ||
+            (line2ACross < 0 && line2BCross < 0)) //if both points of one line segment are above or below the other then they cannot intersect.
             return false;
 
         //If not intersection is not guaranteed so now we check the other way round
 
-        var line2AsVector = line2.Item2 - line2.Item1;
-        var line1ACross = line2AsVector.VectorCross(line1.Item1 - line2.Item1);
-        var line1BCross = line2AsVector.VectorCross(line1.Item2 - line2.Item1);
+        var line2AsVector = line2.P2 - line2.P1;
+        var line1ACross = line2AsVector.VectorCross(line1.P1 - line2.P1);
+        var line1BCross = line2AsVector.VectorCross(line1.P2 - line2.P1);
 
         return (!(line1ACross > 0) || !(line1BCross > 0)) && (!(line1ACross < 0) || !(line1BCross < 0));
     }
 
-    public static bool LineSegmentEllipseIntersection(this (Vector2 v1, Vector2 v2) line,
+    public static bool LineSegmentEllipseIntersection(this LineSegment line,
         (double A, double B, double C, double D, double E, double F) stdform)
     {
-        var v2 = line.v2;
-        var v1 = line.v1;
+        var v2 = line.P2;
+        var v1 = line.P1;
         var dx = v2.X - v1.X;
         var dy = v2.Y - v1.Y;
 

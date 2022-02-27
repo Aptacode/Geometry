@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
@@ -8,134 +10,148 @@ namespace Aptacode.Geometry.Tests.CollisionTests;
 
 public class Collision_Tests
 {
-    #region Point
 
-    [Fact]
-    public void PointAndPoint_Collision_Test()
+    public class PrimitivePrimitiveCollisionTestDataGenerator : IEnumerable<object[]>
+    {
+        private readonly List<object[]> _data = new()
+        {
+            //Point Point
+            new object[] {Point.Create(0, 0), Point.Create(0, 0), true},
+            new object[] {Point.Create(0, 0), Point.Create(1,1), false},
+
+            //Ellipse Ellipse
+            new object[] {Ellipse.Create(8, 5, 3, 2, 0), Ellipse.Create(5, 5, 3, 2, 0), true},//ellipse intersection
+            new object[] {Ellipse.Create(5, 5, 1.5f, 1, 0), Ellipse.Create(5, 5, 3, 2, 0), true},//ellipse containment
+            new object[] {Ellipse.Create(10, 10, 10, 10, 0), Ellipse.Create(20, 20, 10, 10, 0), true},//circle intersection
+            new object[] {Ellipse.Create(10, 10, 10, 10, 0), Ellipse.Create(10, 10, 5, 5, 0), true},//circle containment
+            new object[] { Ellipse.Create(Vector2.Zero, Vector2.One, 0), Ellipse.Create(new Vector2(2,2), Vector2.One, 0), false },
+
+            //Ellipse Point
+            new object[] {Ellipse.Create(5,5,3,2, (float)Math.PI / 4f), Point.Create(7,7), true},//Ellipse Point containment
+            new object[] { Ellipse.Create(Vector2.Zero, Vector2.One, 0), Point.Create(new Vector2(2, 2)), false },
+
+            //Ellipse PolyLine
+            new object[] { Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f), PolyLine.Create(new Vector2(4, 5), new Vector2(6, 5)), true},//Ellipse PolyLine containment
+            new object[] { Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f), PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7)), true},//Ellipse PolyLine intersection
+            new object[] { Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f), PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7)), true},//Ellipse PolyLine intersection
+            new object[] { Ellipse.Create(Vector2.Zero, Vector2.One, 0.0f), PolyLine.Create(new Vector2(2, 2), new Vector2(3, 3)), false},//Ellipse PolyLine
+            
+            //Ellipse Polygon
+            new object[] { Ellipse.Create(30, 30, 20, 10, 0.0f), Polygon.Create(27, 27, 33, 27, 33, 33, 27, 33), true },//Ellipse Polygon containment
+            new object[] { Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), (float)Math.PI / 4f), Polygon.Create(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3)), true },//Ellipse Polygon intersection
+            new object[] { Ellipse.Create(Vector2.Zero, Vector2.One, 0.0f), Polygon.Rectangle.FromPositionAndSize(new Vector2(2,2), Vector2.One), false },//Ellipse Polygon
+
+            //Polyline PolyLine
+            new object[] { PolyLine.Create(Vector2.Zero, Vector2.One), PolyLine.Create(Vector2.One, new Vector2(2,2)), true },
+            new object[] { PolyLine.Create(Vector2.Zero, new Vector2(10,10)), PolyLine.Create(new Vector2(10,0), new Vector2(0,10)), true },
+            new object[] { PolyLine.Create(Vector2.Zero, Vector2.One), PolyLine.Create(new Vector2(2,2), new Vector2(3,3)), false },
+
+            //PolyLine Polygon
+            new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),Polygon.Rectangle.FromPositionAndSize(Vector2.One, Vector2.One), true },
+            new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),Polygon.Rectangle.FromPositionAndSize(new Vector2(2,2), Vector2.One), false },
+            new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),Polygon.Rectangle.FromPositionAndSize(new Vector2(3,3), Vector2.One), false },
+
+
+            //Polygon Polygon
+        };
+
+        public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public class PrimitivePointCollisionTestDataGenerator : IEnumerable<object[]>
+    {
+        private readonly List<object[]> _data = new()
+        {
+            //Point
+            new object[] { Point.Create(0, 0), Vector2.Zero, true },
+            new object[] { Point.Create(0, 0), Vector2.One, false },
+
+            //Ellipse
+            new object[] { Ellipse.Create(0,0,10,10,0), Vector2.One, true },
+            new object[] { Ellipse.Create(0,0,10,10,0), new Vector2(20, 20), false },
+
+            //PolyLine
+            new object[] { PolyLine.Create(0,0,10,10), Vector2.Zero, true },
+            new object[] { PolyLine.Create(0,0,10,10), new Vector2(5, 5), true },
+            new object[] { PolyLine.Create(0,0,10,10), new Vector2(11, 11), false },
+
+            //Polygon
+            new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), Vector2.Zero, true },
+            new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), new Vector2(2,2), false },
+
+        };
+
+        public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public class PrimitiveBoundingRectangleCollisionTestDataGenerator : IEnumerable<object[]>
+    {
+        private readonly List<object[]> _data = new()
+        {
+            //Point
+            new object[] { Point.Create(0, 0), BoundingRectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), true },
+            new object[] { Point.Create(0, 0), BoundingRectangle.FromPositionAndSize(Vector2.One, Vector2.One), false },
+
+            //Ellipse
+            new object[] { Ellipse.Create(0,0,1,1,0), BoundingRectangle.FromPositionAndSize(Vector2.Zero,  Vector2.One), true },
+            new object[] { Ellipse.Create(0,0,1,1,0), BoundingRectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One), false },
+
+            //PolyLine
+            new object[] { PolyLine.Create(0, 0, 1, 1), BoundingRectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), true },
+            new object[] { PolyLine.Create(0, 0, 1, 1), BoundingRectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One), false },
+
+            //Polygon
+            new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), BoundingRectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), true },
+            new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), BoundingRectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One), false },
+        };
+
+        public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    [Theory]
+    [ClassData(typeof(PrimitivePrimitiveCollisionTestDataGenerator))]
+    public void PrimitiveCollidesWithPrimitive(Primitive p1, Primitive p2, bool collides)
     {
         //Arrange
-        var p1 = Point.Create(new Vector2(1, 1));
-        var p2 = Point.Create(new Vector2(1, 1));
+
+        //Act
+        var sut = p1.CollidesWithPrimitive(p2);
+
+        //Assert
+        Assert.Equal(collides, sut);
+    }  
+    
+    [Theory]
+    [ClassData(typeof(PrimitivePointCollisionTestDataGenerator))]
+    public void PrimitiveCollidesWithVector2(Primitive p1, Vector2 p2, bool collides)
+    {
+        //Arrange
+
         //Act
         var sut = p1.CollidesWith(p2);
+
         //Assert
-        Assert.True(sut);
-    }
-
-    #endregion
-
-    #region Ellipse
-
-    [Fact]
-    public void EllipseAndEllipse_IntersectionCollision_Test()
+        Assert.Equal(collides, sut);
+    }   
+    
+    [Theory]
+    [ClassData(typeof(PrimitiveBoundingRectangleCollisionTestDataGenerator))]
+    public void PrimitiveCollidesWithBoundingRectangle(Primitive p1, BoundingRectangle rectangle, bool collides)
     {
         //Arrange
-        var ellipse1 = Ellipse.Create(new Vector2(8, 5), new Vector2(3, 2), 0.0f);
-        var ellipse2 = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
+
         //Act
-        var sut = ellipse1.CollidesWith(ellipse2);
+        var sut = p1.CollidesWith(rectangle);
+
         //Assert
-        Assert.True(sut);
+        Assert.Equal(collides, sut);
     }
-
-    [Fact]
-    public void EllipseAndEllipse_ContainmentCollision_Test()
-    {
-        //Arrange
-        var ellipse1 = Ellipse.Create(new Vector2(5, 5), new Vector2(1.5f, 1), 0.0f);
-        var ellipse2 = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
-        //Act
-        var sut = ellipse1.CollidesWith(ellipse2);
-        //Assert
-        Assert.True(sut);
-    }
-
-    [Fact]
-    public void CircleAndCircle_IntersectionCollision_Test()
-    {
-        //Arrange
-        var circle1 = Ellipse.Create(new Vector2(45, 45), new Vector2(15, 15), 0.0f);
-        var circle2 = Ellipse.Create(new Vector2(25, 25), new Vector2(15, 15), 0.0f);
-        //Act
-        var sut = circle1.CollidesWith(circle2);
-        //Assert
-        Assert.True(sut);
-    }
-
-    [Fact]
-    public void CircleAndCircle_ContainmentCollision_Test()
-    {
-        //Arrange
-        var circle1 = Ellipse.Create(new Vector2(25, 25), new Vector2(10, 10), 0.0f);
-        var circle2 = Ellipse.Create(new Vector2(25, 25), new Vector2(15, 15), 0.0f);
-        //Act
-        var sut = circle1.CollidesWith(circle2);
-        //Assert
-        Assert.True(sut);
-    }
-
-
-    [Fact]
-    public void EllipseAndPoint_ContainmentCollision_Test()
-    {
-        //Arrange
-        var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), (float)Math.PI / 4f);
-        var point = Point.Create(new Vector2(7, 7));
-        //Act
-        var sut = ellipse.CollidesWith(point);
-        //Assert
-        Assert.True(sut);
-    }
-
-    [Fact]
-    public void EllipseAndPolygon_IntersectionCollision_Test()
-    {
-        //Arrange
-        var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), (float)Math.PI / 4f);
-        var polygon = Polygon.Create(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3));
-        //Act
-        var sut = ellipse.CollidesWith(polygon);
-        //Assert
-        Assert.True(sut);
-    }
-
-    [Fact]
-    public void EllipseAndPolygon_ContainmentCollision_Test2()
-    {
-        //Arrange
-        var ellipse = Ellipse.Create(30, 30, 20, 10, 0.0f);
-        var polygon = Polygon.Create(27, 27, 33, 27, 33, 33, 27, 33);
-        //Act
-        var sut = ellipse.CollidesWith(polygon);
-        //Assert
-        Assert.True(sut);
-    }
-
-    [Fact]
-    public void EllipseAndPolyLine_IntersectionCollision_Test()
-    {
-        //Arrange
-        var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
-        var polyLine = PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7));
-        //Act
-        var sut = ellipse.CollidesWith(polyLine);
-        //Assert
-        Assert.True(sut);
-    }
-
-    [Fact]
-    public void EllipseAndPolyLine_ContainmentCollision_Test()
-    {
-        //Arrange
-        var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f);
-        var polyLine = PolyLine.Create(new Vector2(4, 5), new Vector2(6, 5));
-        //Act
-        var sut = ellipse.CollidesWith(polyLine);
-        //Assert
-        Assert.True(sut);
-    }
-
-    #endregion
 
     #region Polygon
 
@@ -248,7 +264,7 @@ public class Collision_Tests
     {
         //Arrange
         var point = Point.Create(1, 1);
-        var vector = new Vector2(1, 1);
+        var vector = Vector2.One;
         //Act
         var sut = point.CollidesWith(vector);
         //Assert

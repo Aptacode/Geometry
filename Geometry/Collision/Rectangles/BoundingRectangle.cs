@@ -53,12 +53,10 @@ public readonly struct BoundingRectangle
 
     public bool CollidesWith(BoundingRectangle rect)
     {
-        if (TopLeft.X < rect.TopRight.X &&
-            TopRight.X > rect.TopLeft.X &&
-            TopLeft.Y < rect.BottomRight.Y &&
-            BottomRight.Y > rect.TopLeft.Y)
-            return true;
-        return false;
+        return TopLeft.X < rect.TopRight.X &&
+               TopRight.X > rect.TopLeft.X &&
+               TopLeft.Y < rect.BottomRight.Y &&
+               BottomRight.Y > rect.TopLeft.Y;
     }
 
 
@@ -89,11 +87,11 @@ public readonly struct BoundingRectangle
         for (var i = 0; i < polyLine.LineSegments.Length; i++)
         {
             var lineSeg = polyLine.LineSegments[i];
-            var lineAsVector = lineSeg.Item2 - lineSeg.Item1;
-            var a = (topLeft - lineSeg.Item1).VectorCross(lineAsVector);
-            var b = (topRight - lineSeg.Item1).VectorCross(lineAsVector);
-            var c = (bottomRight - lineSeg.Item1).VectorCross(lineAsVector);
-            var d = (bottomLeft - lineSeg.Item1).VectorCross(lineAsVector);
+            var lineAsVector = lineSeg.P2 - lineSeg.P1;
+            var a = (topLeft - lineSeg.P1).VectorCross(lineAsVector);
+            var b = (topRight - lineSeg.P1).VectorCross(lineAsVector);
+            var c = (bottomRight - lineSeg.P1).VectorCross(lineAsVector);
+            var d = (bottomLeft - lineSeg.P1).VectorCross(lineAsVector);
             if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0) continue;
 
             return true;
@@ -114,11 +112,11 @@ public readonly struct BoundingRectangle
         for (var i = 0; i < polygon.Edges.Length; i++)
         {
             var edge = polygon.Edges[i];
-            var lineAsVector = edge.Item2 - edge.Item1;
-            var a = (topLeft - edge.Item1).VectorCross(lineAsVector);
-            var b = (topRight - edge.Item1).VectorCross(lineAsVector);
-            var c = (bottomRight - edge.Item1).VectorCross(lineAsVector);
-            var d = (bottomLeft - edge.Item1).VectorCross(lineAsVector);
+            var lineAsVector = edge.P2 - edge.P1;
+            var a = (topLeft - edge.P1).VectorCross(lineAsVector);
+            var b = (topRight - edge.P1).VectorCross(lineAsVector);
+            var c = (bottomRight - edge.P1).VectorCross(lineAsVector);
+            var d = (bottomLeft - edge.P1).VectorCross(lineAsVector);
             if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0) continue;
 
             return true;
@@ -136,10 +134,10 @@ public readonly struct BoundingRectangle
         var testDistance = ellipse.Position - Center;
         var testX = testDistance.X;
         var testY = testDistance.Y;
-        var topEdge = (TopLeft, TopRight);
-        var leftEdge = (TopLeft, BottomLeft);
-        var rightEdge = (TopRight, BottomRight);
-        var bottomEdge = (BottomLeft, BottomRight);
+        var topEdge = new LineSegment(TopLeft, TopRight);
+        var leftEdge = new LineSegment(TopLeft, BottomLeft);
+        var rightEdge = new LineSegment(TopRight, BottomRight);
+        var bottomEdge = new LineSegment(BottomLeft, BottomRight);
         var stdform = ellipse.StandardForm;
 
         //Otherwise using these values we check which of up to two edges (if any) collide with the ellipse.
