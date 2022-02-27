@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision;
 
 public static class Helpers
 {
-    public static bool OnLineSegment(this LineSegment line, Vector2 point)
+    public static bool OnLineSegment(this (Vector2 P1, Vector2 P2) line, Vector2 point)
     {
         var d1 = (line.P1 - point).Length();
         var d2 = (line.P2 - point).Length();
@@ -17,7 +16,7 @@ public static class Helpers
         return Math.Abs(delta - lineLength) < Constants.Tolerance;
     }
 
-    public static bool NewOnLineSegment(this LineSegment line, Vector2 point)
+    public static bool NewOnLineSegment(this (Vector2 P1, Vector2 P2) line, Vector2 point)
     {
         var minVector = Vector2.Min(line.P1, line.P2);
         var maxVector = Vector2.Max(line.P1, line.P2);
@@ -40,14 +39,16 @@ public static class Helpers
         return (m, c);
     }
 
-    public static bool LineSegmentIntersection(this LineSegment line1, LineSegment line2)
+    public static bool LineSegmentIntersection(this (Vector2 P1, Vector2 P2) line1, (Vector2 P1, Vector2 P2) line2)
     {
         var line1AsVector = line1.P2 - line1.P1;
         var line2ACross = line1AsVector.VectorCross(line2.P1 - line1.P1);
         var line2BCross = line1AsVector.VectorCross(line2.P2 - line1.P1);
 
-        if ((line2ACross > 0 && line2BCross > 0) ||
-            (line2ACross < 0 && line2BCross < 0)) //if both points of one line segment are above or below the other then they cannot intersect.
+        if (line2ACross > 0 && line2BCross > 0 ||
+            line2ACross < 0 &&
+            line2BCross <
+            0) //if both points of one line segment are above or below the other then they cannot intersect.
             return false;
 
         //If not intersection is not guaranteed so now we check the other way round
@@ -59,7 +60,7 @@ public static class Helpers
         return (!(line1ACross > 0) || !(line1BCross > 0)) && (!(line1ACross < 0) || !(line1BCross < 0));
     }
 
-    public static bool LineSegmentEllipseIntersection(this LineSegment line,
+    public static bool LineSegmentEllipseIntersection(this (Vector2 P1, Vector2 P2) line,
         (double A, double B, double C, double D, double E, double F) stdform)
     {
         var v2 = line.P2;

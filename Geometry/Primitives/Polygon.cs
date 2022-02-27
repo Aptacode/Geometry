@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
@@ -10,7 +11,7 @@ public record Polygon : Primitive
 {
     #region Properties
 
-    public readonly LineSegment[] Edges;
+    public readonly (Vector2 P1, Vector2 P2)[] Edges;
 
     #endregion
 
@@ -61,7 +62,7 @@ public record Polygon : Primitive
 
     #region Construction
 
-    protected Polygon(VertexArray vertices, BoundingRectangle boundingRectangle, LineSegment[] edges) :
+    protected Polygon(VertexArray vertices, BoundingRectangle boundingRectangle, (Vector2 P1, Vector2 P2)[] edges) :
         base(vertices, boundingRectangle)
     {
         Edges = edges;
@@ -74,13 +75,13 @@ public record Polygon : Primitive
         var minY = float.MaxValue;
         var maxY = float.MinValue;
 
-        var edges = new LineSegment[vertices.Length];
+        var edges = new (Vector2 P1, Vector2 P2)[vertices.Length];
         var lastVertex = Vector2.Zero;
         for (var i = 0; i < vertices.Length; i++)
         {
             var vertex = vertices[i];
 
-            if (i > 0) edges[i - 1] = new (lastVertex, vertex);
+            if (i > 0) edges[i - 1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
 
             lastVertex = vertex;
 
@@ -91,7 +92,7 @@ public record Polygon : Primitive
             if (vertex.Y > maxY) maxY = vertex.Y;
         }
 
-        edges[^1] = new (lastVertex, vertices[0]);
+        edges[^1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertices[0]);
 
         return new Polygon(VertexArray.Create(vertices),
             BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
@@ -106,7 +107,7 @@ public record Polygon : Primitive
         var maxY = float.MinValue;
 
         var vertexArray = new Vector2[points.Length / 2];
-        var edges = new LineSegment[vertexArray.Length];
+        var edges = new (Vector2 P1, Vector2 P2)[vertexArray.Length];
         var lastVertex = Vector2.Zero;
 
         var vertexIndex = 0;
@@ -114,7 +115,7 @@ public record Polygon : Primitive
         {
             var vertex = vertexArray[vertexIndex++] = new Vector2(points[i], points[++i]);
 
-            if (vertexIndex > 1) edges[vertexIndex - 2] = new (lastVertex, vertex);
+            if (vertexIndex > 1) edges[vertexIndex - 2] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
 
             lastVertex = vertex;
 
@@ -125,7 +126,7 @@ public record Polygon : Primitive
             if (vertex.Y > maxY) maxY = vertex.Y;
         }
 
-        edges[^1] = new (lastVertex, vertexArray[0]);
+        edges[^1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertexArray[0]);
 
         return new Polygon(VertexArray.Create(vertexArray),
             BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
@@ -173,12 +174,12 @@ public record Polygon : Primitive
         for (var i = 0; i < Vertices.Length; i++)
         {
             var vertex = Vertices[i];
-            if (i > 0) Edges[i - 1] = new (lastVertex, vertex);
+            if (i > 0) Edges[i - 1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
 
             lastVertex = vertex;
         }
 
-        Edges[^1] = new (lastVertex, Vertices[0]);
+        Edges[^1] = new ValueTuple<Vector2, Vector2>(lastVertex, Vertices[0]);
     }
 
     public override Polygon Translate(Vector2 delta)

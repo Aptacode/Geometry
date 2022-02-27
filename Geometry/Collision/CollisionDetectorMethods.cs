@@ -61,7 +61,7 @@ public static class CollisionDetectorMethods
         {
             var a = vertices[i];
             var b = vertices[j];
-            if (new LineSegment(a, b).OnLineSegment(point)) return true;
+            if ((a, b).OnLineSegment(point)) return true;
 
             if (a.Y > point.Y != b.Y > point.Y &&
                 point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
@@ -131,14 +131,15 @@ public static class CollisionDetectorMethods
             {
                 if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2)) return true;
 
-                var dot = ((p2.Position.X - lineSegment.P1.X) * (lineSegment.P2.X - lineSegment.P1.X) + (p2.Position.Y - lineSegment.P1.Y) * (lineSegment.P2.Y - lineSegment.P1.Y)) /
+                var dot = ((p2.Position.X - lineSegment.P1.X) * (lineSegment.P2.X - lineSegment.P1.X) +
+                           (p2.Position.Y - lineSegment.P1.Y) * (lineSegment.P2.Y - lineSegment.P1.Y)) /
                           (lineSegment.P2 - lineSegment.P1).LengthSquared();
                 var closestX = lineSegment.P1.X + dot * (lineSegment.P2.X - lineSegment.P1.X);
                 var closestY = lineSegment.P1.Y + dot * (lineSegment.P2.Y - lineSegment.P1.Y);
                 var closestPoint =
                     new Vector2(closestX,
                         closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
-                if (!new LineSegment(lineSegment.P1, lineSegment.P2).OnLineSegment(closestPoint)
+                if (!(lineSegment.P1, lineSegment.P2).OnLineSegment(closestPoint)
                    ) //Closest intersection point may be beyond the ends of the line segment.
                     continue;
 
@@ -154,7 +155,7 @@ public static class CollisionDetectorMethods
             {
                 if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2)) return true;
 
-                return new LineSegment(lineSegment.P1, lineSegment.P2).LineSegmentEllipseIntersection(stdform);
+                return (lineSegment.P1, lineSegment.P2).LineSegmentEllipseIntersection(stdform);
             }
         }
 
@@ -186,20 +187,21 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(Polygon p1, Ellipse p2)
     {
-        if (p2.Radii.X == p2.Radii.Y)
+        if (Math.Abs(p2.Radii.X - p2.Radii.Y) < Constants.Tolerance)
         {
             foreach (var lineSegment in p1.Edges)
             {
                 if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2)) return true;
 
-                var dot = ((p2.Position.X - lineSegment.P1.X) * (lineSegment.P2.X - lineSegment.P1.X) + (p2.Position.Y - lineSegment.P1.Y) * (lineSegment.P2.Y - lineSegment.P1.Y)) /
+                var dot = ((p2.Position.X - lineSegment.P1.X) * (lineSegment.P2.X - lineSegment.P1.X) +
+                           (p2.Position.Y - lineSegment.P1.Y) * (lineSegment.P2.Y - lineSegment.P1.Y)) /
                           (lineSegment.P2 - lineSegment.P1).LengthSquared();
                 var closestX = lineSegment.P1.X + dot * (lineSegment.P2.X - lineSegment.P1.X);
                 var closestY = lineSegment.P1.Y + dot * (lineSegment.P2.Y - lineSegment.P1.Y);
                 var closestPoint =
                     new Vector2(closestX,
                         closestY); //The point of intersection of a line from the center of the circle perpendicular to the edge (possibly the ray) with the line segment (or ray).
-                if (!new LineSegment(lineSegment.P1, lineSegment.P2).OnLineSegment(closestPoint)
+                if (!(lineSegment.P1, lineSegment.P2).OnLineSegment(closestPoint)
                    ) //Closest intersection point may be beyond the ends of the edge.
                     continue;
 
@@ -218,7 +220,8 @@ public static class CollisionDetectorMethods
             {
                 if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2)) return true;
 
-                new LineSegment(lineSegment.P1, lineSegment.P2).LineSegmentEllipseIntersection(stdform);
+                //ToDo Is this needed?
+                (lineSegment.P1, lineSegment.P2).LineSegmentEllipseIntersection(stdform);
             }
         }
 

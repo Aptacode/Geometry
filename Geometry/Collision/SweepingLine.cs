@@ -12,8 +12,8 @@ public static class SweepingLine
     {
         if (p.Vertices.Length < 10 && q.Vertices.Length < 10) return CollisionDetectorMethods.CollidesWith(p, q);
 
-        List<LineSegment> slSp = new();
-        List<LineSegment> slSq = new();
+        List<(Vector2 P1, Vector2 P2)> slSp = new();
+        List<(Vector2 P1, Vector2 P2)> slSq = new();
 
         FastPriorityQueue<VertexEvent>
             vertexEventQueue =
@@ -43,12 +43,15 @@ public static class SweepingLine
                 var previousPVertex = pVertices[(pIndex - 1 + pVertices.Length) % pVertices.Length];
                 if (currentPVertex.X <=
                     nextPVertex.X) //Add edge if the current Vertex is the start of the edge (Also includes vertical edges)
-                    slSp.Add(new (currentPVertex, nextPVertex));
+                    slSp.Add(new ValueTuple<Vector2, Vector2>(currentPVertex, nextPVertex));
 
-                slSp.Remove(new (nextPVertex, currentPVertex)); //Remove the edge if this is the end point.
-                if (currentPVertex.X <= previousPVertex.X) slSp.Add(new (currentPVertex, previousPVertex));
+                slSp.Remove(
+                    new ValueTuple<Vector2, Vector2>(nextPVertex,
+                        currentPVertex)); //Remove the edge if this is the end point.
+                if (currentPVertex.X <= previousPVertex.X)
+                    slSp.Add(new ValueTuple<Vector2, Vector2>(currentPVertex, previousPVertex));
 
-                slSp.Remove(new (previousPVertex, currentPVertex));
+                slSp.Remove(new ValueTuple<Vector2, Vector2>(previousPVertex, currentPVertex));
             }
 
             if (qIndex != -1) //only one of these should have values unless the polygons have a shared point.
@@ -58,12 +61,15 @@ public static class SweepingLine
                 var previousQVertex = qVertices[(qIndex - 1 + qVertices.Length) % qVertices.Length];
                 if (currentQVertex.X <=
                     nextQVertex.X) //Add edge if the current Vertex is the start of the edge (Also includes vertical edges)
-                    slSq.Add(new (currentQVertex, nextQVertex));
+                    slSq.Add((currentQVertex, nextQVertex));
 
-                slSq.Remove(new (nextQVertex, currentQVertex)); //Remove the edge if this is the end point.
-                if (currentQVertex.X <= previousQVertex.X) slSq.Add(new (currentQVertex, previousQVertex));
+                slSq.Remove(
+                    new ValueTuple<Vector2, Vector2>(nextQVertex,
+                        currentQVertex)); //Remove the edge if this is the end point.
+                if (currentQVertex.X <= previousQVertex.X)
+                    slSq.Add(new ValueTuple<Vector2, Vector2>(currentQVertex, previousQVertex));
 
-                slSp.Remove(new (previousQVertex, currentQVertex));
+                slSp.Remove(new ValueTuple<Vector2, Vector2>(previousQVertex, currentQVertex));
             }
 
 

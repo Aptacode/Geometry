@@ -128,7 +128,7 @@ public class UnitTests
         var b = new Vector2(6, 2);
         var c = new Vector2(3, 1);
 
-        Assert.True(new LineSegment(a, b).NewOnLineSegment(c));
+        Assert.True((a, b).NewOnLineSegment(c));
     }
 
     [Fact]
@@ -140,7 +140,7 @@ public class UnitTests
         var B1 = new Vector2(15, 10);
         var B2 = new Vector2(15, 15);
 
-        Assert.True(new LineSegment(A1, A2).LineSegmentIntersection(new LineSegment(B1, B2)));
+        Assert.True((A1, A2).LineSegmentIntersection((B1, B2)));
     }
 
 

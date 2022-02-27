@@ -134,40 +134,34 @@ public readonly struct BoundingRectangle
         var testDistance = ellipse.Position - Center;
         var testX = testDistance.X;
         var testY = testDistance.Y;
-        var topEdge = new LineSegment(TopLeft, TopRight);
-        var leftEdge = new LineSegment(TopLeft, BottomLeft);
-        var rightEdge = new LineSegment(TopRight, BottomRight);
-        var bottomEdge = new LineSegment(BottomLeft, BottomRight);
+        var topEdge = (TopLeft, TopRight);
+        var leftEdge = (TopLeft, BottomLeft);
+        var rightEdge = (TopRight, BottomRight);
+        var bottomEdge = (BottomLeft, BottomRight);
         var stdform = ellipse.StandardForm;
 
         //Otherwise using these values we check which of up to two edges (if any) collide with the ellipse.
         if (testX <= 0 && testY <= 0) //if it's in the top left quadrant
-        {
-            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) || ellipse.CollidesWith(BottomLeft) ||
+            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) ||
+                   ellipse.CollidesWith(BottomLeft) ||
                    leftEdge.LineSegmentEllipseIntersection(stdform) ||
                    topEdge.LineSegmentEllipseIntersection(stdform);
-        }
 
         if (testX > 0 && testY <= 0) //if it's in the top right quadrant
-        {
-            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) || ellipse.CollidesWith(BottomRight) ||
+            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) ||
+                   ellipse.CollidesWith(BottomRight) ||
                    rightEdge.LineSegmentEllipseIntersection(stdform) ||
                    topEdge.LineSegmentEllipseIntersection(stdform);
-        }
 
         if (testX <= 0 && testY > 0) //if it's in the bottom left quadrant
-        {
             return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(BottomLeft) ||
                    ellipse.CollidesWith(BottomRight) || leftEdge.LineSegmentEllipseIntersection(stdform) ||
                    bottomEdge.LineSegmentEllipseIntersection(stdform);
-        }
 
         if (testX > 0 && testY > 0) //if it's in the bottom right quadrant
-        {
             return ellipse.CollidesWith(BottomLeft) || ellipse.CollidesWith(TopRight) ||
                    ellipse.CollidesWith(BottomRight) || rightEdge.LineSegmentEllipseIntersection(stdform) ||
                    bottomEdge.LineSegmentEllipseIntersection(stdform);
-        }
 
         return false; //not sure we'll ever reach here
     }

@@ -6,12 +6,11 @@ public abstract class ProfileFunction
 
     public virtual void Setup()
     {
-
     }
 
     public virtual void Reset()
     {
-
     }
+
     public abstract void Run();
 }

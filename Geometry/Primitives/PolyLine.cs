@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Rectangles;
@@ -6,12 +7,11 @@ using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
 
-public record LineSegment(Vector2 P1, Vector2 P2);
 public record PolyLine : Primitive
 {
     #region Properties
 
-    public readonly LineSegment[] LineSegments;
+    public readonly (Vector2 P1, Vector2 P2)[] LineSegments;
 
     #endregion
 
@@ -61,7 +61,7 @@ public record PolyLine : Primitive
     #region Construction
 
     protected PolyLine(VertexArray vertices, BoundingRectangle boundingRectangle,
-        LineSegment[] lineSegments) : base(vertices, boundingRectangle)
+        (Vector2 P1, Vector2 P2)[] lineSegments) : base(vertices, boundingRectangle)
     {
         LineSegments = lineSegments;
     }
@@ -77,7 +77,7 @@ public record PolyLine : Primitive
 
         var vertexCount = points.Length / 2;
         var vertices = new Vector2[vertexCount];
-        var lineSegments = new LineSegment[vertexCount - 1];
+        var lineSegments = new (Vector2 P1, Vector2 P2)[vertexCount - 1];
 
         var vertexIndex = 0;
         var lastVertex = vertices[0];
@@ -85,7 +85,7 @@ public record PolyLine : Primitive
         {
             var vertex = vertices[vertexIndex++] = new Vector2(points[i], points[++i]);
 
-            if (vertexIndex > 1) lineSegments[vertexIndex - 2] = new (lastVertex, vertex);
+            if (vertexIndex > 1) lineSegments[vertexIndex - 2] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
 
             lastVertex = vertex;
 
@@ -110,14 +110,14 @@ public record PolyLine : Primitive
         var minY = float.MaxValue;
         var maxY = float.MinValue;
 
-        var lineSegments = new LineSegment[points.Length - 1];
+        var lineSegments = new (Vector2 P1, Vector2 P2)[points.Length - 1];
 
         var lastVertex = points[0];
         for (var i = 0; i < points.Length; i++)
         {
             var vertex = points[i];
 
-            if (i > 0) lineSegments[i - 1] = new (lastVertex, vertex);
+            if (i > 0) lineSegments[i - 1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
 
             lastVertex = vertex;
 
@@ -144,7 +144,7 @@ public record PolyLine : Primitive
         for (var i = 0; i < Vertices.Length; i++)
         {
             var vertex = Vertices[i];
-            if (i > 0) LineSegments[i - 1] = new (lastVertex, vertex);
+            if (i > 0) LineSegments[i - 1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
 
             lastVertex = vertex;
         }
@@ -155,7 +155,7 @@ public record PolyLine : Primitive
         for (var i = 0; i < LineSegments.Length; i++)
         {
             var lineSegment = LineSegments[i];
-            LineSegments[i] = new (lineSegment.P1 + delta, lineSegment.P2 + delta);
+            LineSegments[i] = new ValueTuple<Vector2, Vector2>(lineSegment.P1 + delta, lineSegment.P2 + delta);
         }
 
         base.Translate(delta);

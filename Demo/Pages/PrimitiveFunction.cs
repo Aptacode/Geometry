@@ -4,12 +4,12 @@ namespace Aptacode.Geometry.Demo.Pages;
 
 public class PrimitiveFunction<T> : ProfileFunction where T : Primitive
 {
+    private readonly Func<Random, T> _createPrimitive;
+    private readonly string _operationName;
+    private readonly string _primitiveName;
+    private readonly Action<T> _primitiveOperation;
     private T _primitive;
     private Random _random;
-    private readonly string _primitiveName;
-    private readonly string _operationName;
-    private readonly Func<Random, T> _createPrimitive;
-    private readonly Action<T> _primitiveOperation;
 
     public PrimitiveFunction(Action<T> primitiveOperation, string operationName)
     {
@@ -18,30 +18,23 @@ public class PrimitiveFunction<T> : ProfileFunction where T : Primitive
         _operationName = operationName;
 
         if (type == typeof(Ellipse))
-        {
-            _createPrimitive = (r) => ProfileHelpers.CreateEllipse(r) as T;
-        }
+            _createPrimitive = r => ProfileHelpers.CreateEllipse(r) as T;
         else if (type == typeof(Point))
-        {
-            _createPrimitive = (r) => ProfileHelpers.CreatePoint(r) as T;
-        }
+            _createPrimitive = r => ProfileHelpers.CreatePoint(r) as T;
         else if (type == typeof(Polygon))
-        {
-            _createPrimitive = (r) => ProfileHelpers.CreatePolygon(r) as T;
-        }
-        else if (type == typeof(PolyLine))
-        {
-            _createPrimitive = (r) => ProfileHelpers.CreatePolyline(r) as T;
-        }
+            _createPrimitive = r => ProfileHelpers.CreatePolygon(r) as T;
+        else if (type == typeof(PolyLine)) _createPrimitive = r => ProfileHelpers.CreatePolyline(r) as T;
 
-        if (_createPrimitive == null)
-        {
-            throw new ArgumentNullException();
-        }
+        if (_createPrimitive == null) throw new ArgumentNullException();
 
         _primitiveOperation = primitiveOperation;
     }
-    public override string Title() => $"{_primitiveName} {_operationName}";
+
+    public override string Title()
+    {
+        return $"{_primitiveName} {_operationName}";
+    }
+
     public override void Setup()
     {
         _random = new Random(0);
@@ -52,5 +45,8 @@ public class PrimitiveFunction<T> : ProfileFunction where T : Primitive
         _primitive = _createPrimitive(_random);
     }
 
-    public override void Run() => _primitiveOperation(_primitive);
+    public override void Run()
+    {
+        _primitiveOperation(_primitive);
+    }
 }
