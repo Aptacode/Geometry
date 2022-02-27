@@ -124,9 +124,7 @@ public record Ellipse : Primitive
                 - 16 * u4 * u4 * u3 * u1
                 - 3 * u3 * u3 * u3 * u3;
 
-        if (p > 0 && Math.Abs(p) > Constants.Tolerance || d > 0) return false;
-
-        return true;
+        return (!(p > 0) || !(Math.Abs(p) > Constants.Tolerance)) && !(d > 0);
     }
 
     #region Collision Detection

@@ -1,7 +1,5 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Utilities;
-using Aptacode.Geometry.Vertices;
 using BenchmarkDotNet.Attributes;
 
 namespace Aptacode.Geometry.Benchmarks
@@ -13,8 +11,6 @@ namespace Aptacode.Geometry.Benchmarks
 
         private readonly Vector2 B1 = new(20, 10);
         private readonly Vector2 B2 = new(10, 20);
-
-
 
         [Benchmark]
         public bool LineSegmentIntersection()
@@ -34,16 +30,16 @@ namespace Aptacode.Geometry.Benchmarks
         [Benchmark]
         public bool newLineSegmentIntersection()
         {
-            Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
-            Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
-            Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
-            Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
-            Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
-            Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
-            Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
-            Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
-            Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
-            return Helpers.newLineSegmentIntersection((A1, A2), (B1, B2));
+            Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
+            Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
+            Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
+            Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
+            Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
+            Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
+            Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
+            Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
+            Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
+            return Helpers.LineSegmentIntersection((A1, A2), (B1, B2));
         }
 
     }
