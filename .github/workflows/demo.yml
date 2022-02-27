@@ -1,4 +1,4 @@
-name: .NET Core deploy to GitHub pages
+name: Demo Deploy
 
 env:
   dotnet_version: 6.0.x
