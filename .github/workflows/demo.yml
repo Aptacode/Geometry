@@ -1,10 +1,10 @@
 name: .NET Core deploy to GitHub pages
 
 env:
-  dotnet_version: 5.0.100
+  dotnet_version: 6.0.x
   project_name: "Demo/Demo.csproj"
   base_href: /Geometry/
-  target_framework: net5.0
+  target_framework: net6.0
 
 on:
   push:
