@@ -6,7 +6,7 @@ using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
 
-public record Point : Primitive
+public sealed class Point : Primitive
 {
     #region Properties
 
@@ -16,12 +16,15 @@ public record Point : Primitive
 
     #region IEquatable
 
-    public virtual bool Equals(Point other)
+    public override bool Equals(object other)
     {
-        if (other is null) return false;
+        if (other is not Point otherPoint)
+        {
+            return false;
+        }
 
-        return Math.Abs(Position.X - other.Position.X) <= Constants.Tolerance &&
-               Math.Abs(Position.Y - other.Position.Y) <= Constants.Tolerance;
+        return Math.Abs(Position.X - otherPoint.Position.X) <= Constants.Tolerance &&
+               Math.Abs(Position.Y - otherPoint.Position.Y) <= Constants.Tolerance;
     }
 
     #endregion
@@ -68,7 +71,7 @@ public record Point : Primitive
 
     #region Construction
 
-    protected Point(VertexArray vertexArray, BoundingRectangle boundingRectangle) : base(vertexArray, boundingRectangle)
+    private Point(VertexArray vertexArray, BoundingRectangle boundingRectangle) : base(vertexArray, boundingRectangle)
     {
     }
 
@@ -86,4 +89,9 @@ public record Point : Primitive
     public static readonly Point Unit = Create(Vector2.One);
 
     #endregion
+
+    public override string ToString()
+    {
+        return $"Point{{{Position.X},{Position.Y}}}";
+    }
 }

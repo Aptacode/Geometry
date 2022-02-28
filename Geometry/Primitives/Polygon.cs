@@ -7,11 +7,20 @@ using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
 
-public record Polygon : Primitive
+public sealed class Polygon : Primitive
 {
     #region Properties
 
     public readonly (Vector2 P1, Vector2 P2)[] Edges;
+
+    #endregion
+
+    #region IEquatable
+
+    public override bool Equals(object other)
+    {
+        return other is Polygon otherPolygon && Vertices.Equals(otherPolygon.Vertices);
+    }
 
     #endregion
 
@@ -62,7 +71,7 @@ public record Polygon : Primitive
 
     #region Construction
 
-    protected Polygon(VertexArray vertices, BoundingRectangle boundingRectangle, (Vector2 P1, Vector2 P2)[] edges) :
+    private Polygon(VertexArray vertices, BoundingRectangle boundingRectangle, (Vector2 P1, Vector2 P2)[] edges) :
         base(vertices, boundingRectangle)
     {
         Edges = edges;
@@ -232,4 +241,9 @@ public record Polygon : Primitive
     }
 
     #endregion
+
+    public override string ToString()
+    {
+        return $"Polygon{{{string.Join(", ", Vertices)}}}";
+    }
 }

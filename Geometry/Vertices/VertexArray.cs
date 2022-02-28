@@ -14,7 +14,7 @@ public readonly struct VertexArray : IEquatable<VertexArray>
 
     public VertexArray(Vector2[] vertices)
     {
-        Vertices = vertices;
+        Vertices = vertices.Length == 0 ? Array.Empty<Vector2>() : vertices;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -23,12 +23,10 @@ public readonly struct VertexArray : IEquatable<VertexArray>
         return new VertexArray(vertices);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static VertexArray Create(IEnumerable<Vector2> vertices)
     {
-        var Vertices = new Vector2[vertices.Count()];
-        for (var i = 0; i < vertices.Count(); i++) Vertices[i] = vertices.ElementAt(i);
-
-        return new VertexArray(Vertices);
+        return new VertexArray(vertices.ToArray());
     }
 
     #endregion

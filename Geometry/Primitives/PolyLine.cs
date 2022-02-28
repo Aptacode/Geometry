@@ -7,11 +7,20 @@ using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
 
-public record PolyLine : Primitive
+public sealed class PolyLine : Primitive
 {
     #region Properties
 
     public readonly (Vector2 P1, Vector2 P2)[] LineSegments;
+
+    #endregion
+
+    #region IEquatable
+
+    public override bool Equals(object other)
+    {
+        return other is PolyLine otherPolyline && Vertices.Equals(otherPolyline.Vertices);
+    }
 
     #endregion
 
@@ -60,7 +69,7 @@ public record PolyLine : Primitive
 
     #region Construction
 
-    protected PolyLine(VertexArray vertices, BoundingRectangle boundingRectangle,
+    private PolyLine(VertexArray vertices, BoundingRectangle boundingRectangle,
         (Vector2 P1, Vector2 P2)[] lineSegments) : base(vertices, boundingRectangle)
     {
         LineSegments = lineSegments;
@@ -206,4 +215,9 @@ public record PolyLine : Primitive
     }
 
     #endregion
+
+    public override string ToString()
+    {
+        return $"Polyline{{{string.Join(", ", Vertices)}}}";
+    }
 }

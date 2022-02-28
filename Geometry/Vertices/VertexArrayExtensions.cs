@@ -9,24 +9,44 @@ namespace Aptacode.Geometry.Vertices;
 
 public static class VertexArrayExtensions
 {
-    public static VertexArray Concat(this VertexArray vertexArray, params Vector2[] vertices)
-    {
-        var newVertices = new Vector2[vertexArray.Length + vertices.Length];
-        var count = 0;
-        for (var i = 0; i < vertexArray.Length; i++) newVertices[count++] = vertexArray[i];
-
-        for (var i = 0; i < vertices.Length; i++) newVertices[count++] = vertices[i];
-
-        return new VertexArray(newVertices);
-    }
+    public static VertexArray Concat(this VertexArray vertexArray, params Vector2[] vertices) => Concat(vertexArray, new VertexArray(vertices));
 
     public static VertexArray Concat(this VertexArray vertexArrayA, VertexArray vertexArrayB)
     {
         var newVertices = new Vector2[vertexArrayA.Length + vertexArrayB.Length];
-        var count = 0;
-        for (var i = 0; i < vertexArrayA.Length; i++) newVertices[count++] = vertexArrayA[i];
+        if (newVertices.Length == 0)
+        {
+            return new VertexArray(Array.Empty<Vector2>());
+        }
 
-        for (var i = 0; i < vertexArrayB.Length; i++) newVertices[count++] = vertexArrayB[i];
+        var count = 0;
+
+        //Assign first vertex
+        var lastVertex = newVertices[count++] = vertexArrayA.Length > 0 ? vertexArrayA[0] : vertexArrayB[0];
+
+        for (var i = 1; i < vertexArrayA.Length; i++)
+        {
+            var nextVertex = vertexArrayA[i];
+            if (lastVertex != nextVertex)
+            {
+                newVertices[count++] = nextVertex;
+            }
+        }
+
+        for (var i = 0; i < vertexArrayB.Length; i++)
+        {
+            var nextVertex = vertexArrayB[i];
+            if (lastVertex != nextVertex)
+            {
+                newVertices[count++] = nextVertex;
+            }
+        }
+
+        //Shrink the array
+        if (newVertices.Length != count)
+        {
+            Array.Resize(ref newVertices, count);
+        }
 
         return new VertexArray(newVertices);
     }

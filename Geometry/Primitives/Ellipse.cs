@@ -6,7 +6,7 @@ using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
 
-public record Ellipse : Primitive
+public sealed class Ellipse : Primitive
 {
     public readonly float Rotation;
 
@@ -18,12 +18,19 @@ public record Ellipse : Primitive
 
     #region IEquatable
 
-    public virtual bool Equals(Ellipse other)
+    public override bool Equals(object other)
     {
-        if (other is null) return false;
+        if (other is not Ellipse otherEllipse)
+        {
+            return false;
+        }
 
-        var delta = Position - other.Position;
-        var radiusDelta = Radii - other.Radii;
+        if (Math.Abs(Rotation - otherEllipse.Rotation) > Constants.Tolerance)
+        {
+            return false;
+        }
+        var delta = Position - otherEllipse.Position;
+        var radiusDelta = Radii - otherEllipse.Radii;
         return Math.Abs(delta.X + delta.Y) < Constants.Tolerance &&
                Math.Abs(radiusDelta.X + radiusDelta.Y) < Constants.Tolerance;
     }
@@ -168,7 +175,7 @@ public record Ellipse : Primitive
 
     #region Construction
 
-    protected Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation,
+    private Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation,
         (double A, double B, double C, double D, double E, double F) standardForm) : base(vertexArray,
         boundingRectangle)
     {
@@ -226,22 +233,22 @@ public record Ellipse : Primitive
 
     public static (double A, double B, double C, double D, double E, double F)
         GetStandardForm(
-            Vector2 Position, Vector2 Radii,
-            float Rotation) //Returns the coefficents of the ellipse in the form Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0.
+            Vector2 position, Vector2 radii,
+            float rotation) //Returns the coefficents of the ellipse in the form Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0.
     {
-        var a = Radii.X;
-        var b = Radii.Y;
-        if (Radii.Y > Radii.X)
+        var a = radii.X;
+        var b = radii.Y;
+        if (radii.Y > radii.X)
         {
-            a = Radii.Y;
-            b = Radii.X;
+            a = radii.Y;
+            b = radii.X;
         }
 
-        var px = Position.X;
-        var py = Position.Y;
-        var cos = Math.Cos(Rotation);
-        var sin = Math.Sin(Rotation);
-        var sin2 = Math.Sin(2 * Rotation);
+        var px = position.X;
+        var py = position.Y;
+        var cos = Math.Cos(rotation);
+        var sin = Math.Sin(rotation);
+        var sin2 = Math.Sin(2 * rotation);
 
         var d1 = cos * cos / (a * a);
         var d2 = cos * cos / (b * b);
@@ -299,4 +306,17 @@ public record Ellipse : Primitive
     }
 
     #endregion
+
+    public override string ToString()
+    {
+        return $"Ellipse{{{Position.X},{Position.Y},{Radii.X},{Radii.Y},{Rotation}}}";
+    }
+
+    public static class Circle
+    {
+        public static Ellipse Create(Vector2 position, float radius)
+        {
+            return Ellipse.Create(position, new Vector2(radius, radius), 0);
+        }
+    }
 }

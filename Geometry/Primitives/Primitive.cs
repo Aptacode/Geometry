@@ -1,19 +1,49 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
 
-public abstract record Primitive(VertexArray Vertices, BoundingRectangle BoundingRectangle)
+public abstract class Primitive
 {
-    public readonly VertexArray Vertices = Vertices;
+    #region Properties
+    public VertexArray Vertices { get; init; }
+    public BoundingRectangle BoundingRectangle { get; protected set; }
+
+    #endregion
+
+    protected Primitive(VertexArray vertices, BoundingRectangle boundingRectangle)
+    {
+        Vertices = vertices;
+        BoundingRectangle = boundingRectangle;
+    }
+
 
     #region IEquatable
 
-    public virtual bool Equals(Primitive other)
+    #region IEquatable
+
+    public override int GetHashCode()
     {
-        return other is not null && Vertices.Equals(other.Vertices);
+        return HashCode.Combine(Vertices);
     }
+
+    public abstract override bool Equals(object obj);
+
+    public static bool operator ==(Primitive lhs, Primitive rhs)
+    {
+        return lhs.Equals(rhs);
+    }
+
+    public static bool operator !=(Primitive lhs, Primitive rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    #endregion
+
+    public abstract override string ToString();
 
     #endregion
 
@@ -25,7 +55,6 @@ public abstract record Primitive(VertexArray Vertices, BoundingRectangle Boundin
 
     #region Collision Detection
 
-    public BoundingRectangle BoundingRectangle { get; protected set; } = BoundingRectangle;
 
     public abstract bool CollidesWith(Vector2 p);
     public abstract bool CollidesWith(Point p);
