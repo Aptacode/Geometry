@@ -46,7 +46,7 @@ namespace Aptacode.Geometry.Tests
 
             //Assert
             Assert.Equal(areEqual, equalityOperatorResult);
-            Assert.Equal(areEqual, inequalityOperatorResult);
+            Assert.Equal(!areEqual, inequalityOperatorResult);
             Assert.Equal(areEqual, equalsMethodResult);
             Assert.Equal(areEqual, equalsObjectMethodResult);
         }
