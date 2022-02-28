@@ -28,7 +28,7 @@ public sealed class Point : Primitive
 
     public override string ToString()
     {
-        return $"Point{{{Position.X},{Position.Y}}}";
+        return $"Point {Vertices}";
     }
 
     #region Collision Detection

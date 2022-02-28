@@ -26,7 +26,7 @@ public sealed class Polygon : Primitive
 
     public override string ToString()
     {
-        return $"Polygon{{{string.Join(", ", Vertices)}}}";
+        return $"Polygon {Vertices}";
     }
 
     #region Collision Detection

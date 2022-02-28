@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
@@ -26,7 +27,7 @@ public sealed class PolyLine : Primitive
 
     public override string ToString()
     {
-        return $"Polyline{{{string.Join(", ", Vertices)}}}";
+        return $"PolyLine {Vertices}";
     }
 
     #region Collision Detection

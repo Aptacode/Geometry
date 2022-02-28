@@ -130,7 +130,7 @@ public sealed class Ellipse : Primitive
 
     public override string ToString()
     {
-        return $"Ellipse{{{Position.X},{Position.Y},{Radii.X},{Radii.Y},{Rotation}}}";
+        return $"Ellipse ({Position.X},{Position.Y}), ({Radii.X},{Radii.Y}), {Rotation}";
     }
 
     public static class Circle

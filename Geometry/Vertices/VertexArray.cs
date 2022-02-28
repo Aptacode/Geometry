@@ -80,8 +80,5 @@ public readonly struct VertexArray : IEquatable<VertexArray>
 
     #endregion
 
-    public override string ToString()
-    {
-        return string.Join(", ", Vertices);
-    }
+    public override string ToString() => string.Join(", ", Vertices.Select(v => $"({v.X},{v.Y})"));
 }
