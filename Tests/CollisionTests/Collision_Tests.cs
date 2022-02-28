@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
@@ -11,7 +9,10 @@ namespace Aptacode.Geometry.Tests.CollisionTests;
 public class Collision_Tests
 {
     [Theory]
-    [ClassData(typeof(PrimitivePrimitiveCollisionTestDataGenerator))]
+    [ClassData(typeof(PointPrimitiveCollisionTestDataGenerator))]
+    [ClassData(typeof(EllipsePrimitiveCollisionTestDataGenerator))]
+    [ClassData(typeof(PolygonPrimitiveCollisionTestDataGenerator))]
+    [ClassData(typeof(PolylinePrimitiveCollisionTestDataGenerator))]
     public void PrimitiveCollidesWithPrimitive(Primitive p1, Primitive p2, bool collides)
     {
         //Arrange
@@ -24,7 +25,10 @@ public class Collision_Tests
     }
 
     [Theory]
-    [ClassData(typeof(PrimitivePointCollisionTestDataGenerator))]
+    [ClassData(typeof(PointPointCollisionTestDataGenerator))]
+    [ClassData(typeof(EllipsePointCollisionTestDataGenerator))]
+    [ClassData(typeof(PolygonPointCollisionTestDataGenerator))]
+    [ClassData(typeof(PolylinePrimitivePointCollisionTestDataGenerator))]
     public void PrimitiveCollidesWithVector2(Primitive p1, Vector2 p2, bool collides)
     {
         //Arrange
@@ -37,7 +41,10 @@ public class Collision_Tests
     }
 
     [Theory]
-    [ClassData(typeof(PrimitiveBoundingRectangleCollisionTestDataGenerator))]
+    [ClassData(typeof(PointBoundingRectangleCollisionTestDataGenerator))]
+    [ClassData(typeof(EllipseBoundingRectangleCollisionTestDataGenerator))]
+    [ClassData(typeof(PolygonBoundingRectangleCollisionTestDataGenerator))]
+    [ClassData(typeof(PolygonBoundingRectangleCollisionTestDataGenerator))]
     public void PrimitiveCollidesWithBoundingRectangle(Primitive p1, BoundingRectangle rectangle, bool collides)
     {
         //Arrange
@@ -47,199 +54,6 @@ public class Collision_Tests
 
         //Assert
         Assert.Equal(collides, sut);
-    }
-
-    public class PrimitivePrimitiveCollisionTestDataGenerator : IEnumerable<object[]>
-    {
-        private readonly List<object[]> _data = new()
-        {
-            //Point Point
-            new object[] { Point.Create(0, 0), Point.Create(0, 0), true },
-            new object[] { Point.Create(0, 0), Point.Create(1, 1), false },
-
-            //Ellipse Ellipse
-            new object[] { Ellipse.Create(8, 5, 3, 2, 0), Ellipse.Create(5, 5, 3, 2, 0), true }, //ellipse intersection
-            new object[]
-                { Ellipse.Create(5, 5, 1.5f, 1, 0), Ellipse.Create(5, 5, 3, 2, 0), true }, //ellipse containment
-            new object[]
-                { Ellipse.Create(10, 10, 10, 10, 0), Ellipse.Create(20, 20, 10, 10, 0), true }, //circle intersection
-            new object[]
-                { Ellipse.Create(10, 10, 10, 10, 0), Ellipse.Create(10, 10, 5, 5, 0), true }, //circle containment
-            new object[]
-            {
-                Ellipse.Create(Vector2.Zero, Vector2.One, 0), Ellipse.Create(new Vector2(2, 2), Vector2.One, 0), false
-            },
-
-            //Ellipse Point
-            new object[]
-            {
-                Ellipse.Create(5, 5, 3, 2, (float)Math.PI / 4f), Point.Create(7, 7), true
-            }, 
-            new object[] { Ellipse.Create(Vector2.Zero, Vector2.One, 0), Point.Create(new Vector2(2, 2)), false },
-
-            //Ellipse PolyLine
-            new object[]
-            {
-                Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f),
-                PolyLine.Create(new Vector2(4, 5), new Vector2(6, 5)), true
-            }, 
-            new object[]
-            {
-                Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f),
-                PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7)), true
-            }, 
-            new object[]
-            {
-                Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f),
-                PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7)), true
-            }, 
-            new object[]
-            {
-                Ellipse.Create(Vector2.Zero, Vector2.One, 0.0f), PolyLine.Create(new Vector2(2, 2), new Vector2(3, 3)),
-                false
-            }, 
-
-            //Ellipse Polygon
-            new object[]
-            {
-                Ellipse.Create(30, 30, 20, 10, 0.0f), Polygon.Create(27, 27, 33, 27, 33, 33, 27, 33), true
-            },
-            new object[]
-            {
-                Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), (float)Math.PI / 4f),
-                Polygon.Create(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3)), true
-            },
-            new object[]
-            {
-                Ellipse.Create(Vector2.Zero, Vector2.One, 0.0f),
-                Polygon.Rectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One), false
-            },
-
-            //Polyline PolyLine
-            new object[]
-                { PolyLine.Create(Vector2.Zero, Vector2.One), PolyLine.Create(Vector2.One, new Vector2(2, 2)), true },
-            new object[]
-            {
-                PolyLine.Create(Vector2.Zero, new Vector2(10, 10)),
-                PolyLine.Create(new Vector2(10, 0), new Vector2(0, 10)), true
-            },
-            new object[]
-            {
-                PolyLine.Create(Vector2.Zero, Vector2.One), PolyLine.Create(new Vector2(2, 2), new Vector2(3, 3)), false
-            },
-
-            //PolyLine Polygon
-            new object[]
-            {
-                Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),
-                Polygon.Rectangle.FromPositionAndSize(Vector2.One, Vector2.One), true
-            },
-            new object[]
-            {
-                Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),
-                Polygon.Rectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One), false
-            },
-            new object[]
-            {
-                Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),
-                Polygon.Rectangle.FromPositionAndSize(new Vector2(3, 3), Vector2.One), false
-            }
-        };
-
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            return _data.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-    }
-
-    public class PrimitivePointCollisionTestDataGenerator : IEnumerable<object[]>
-    {
-        private readonly List<object[]> _data = new()
-        {
-            //Point
-            new object[] { Point.Create(0, 0), Vector2.Zero, true },
-            new object[] { Point.Create(0, 0), Vector2.One, false },
-
-            //Ellipse
-            new object[] { Ellipse.Create(0, 0, 10, 10, 0), Vector2.One, true },
-            new object[] { Ellipse.Create(0, 0, 10, 10, 0), new Vector2(20, 20), false },
-
-            //PolyLine
-            new object[] { PolyLine.Create(0, 0, 10, 10), Vector2.Zero, true },
-            new object[] { PolyLine.Create(0, 0, 10, 10), new Vector2(5, 5), true },
-            new object[] { PolyLine.Create(0, 0, 10, 10), new Vector2(11, 11), false },
-
-            //Polygon
-            new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), Vector2.Zero, true },
-            new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), new Vector2(2, 2), false }
-        };
-
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            return _data.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-    }
-
-    public class PrimitiveBoundingRectangleCollisionTestDataGenerator : IEnumerable<object[]>
-    {
-        private readonly List<object[]> _data = new()
-        {
-            //Point
-            new object[] { Point.Create(0, 0), BoundingRectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), true },
-            new object[] { Point.Create(0, 0), BoundingRectangle.FromPositionAndSize(Vector2.One, Vector2.One), false },
-
-            //Ellipse
-            new object[]
-            {
-                Ellipse.Create(0, 0, 1, 1, 0), BoundingRectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), true
-            },
-            new object[]
-            {
-                Ellipse.Create(0, 0, 1, 1, 0), BoundingRectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One),
-                false
-            },
-
-            //PolyLine
-            new object[]
-                { PolyLine.Create(0, 0, 1, 1), BoundingRectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), true },
-            new object[]
-            {
-                PolyLine.Create(0, 0, 1, 1), BoundingRectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One),
-                false
-            },
-
-            //Polygon
-            new object[]
-            {
-                Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),
-                BoundingRectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), true
-            },
-            new object[]
-            {
-                Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),
-                BoundingRectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One), false
-            }
-        };
-
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            return _data.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
     }
 
     #region Polygon

@@ -23,8 +23,8 @@ public sealed class Point : Primitive
             return false;
         }
 
-        return Math.Abs(Position.X - otherPoint.Position.X) <= Constants.Tolerance &&
-               Math.Abs(Position.Y - otherPoint.Position.Y) <= Constants.Tolerance;
+        return Math.Abs(Position.X - otherPoint.Position.X) < Constants.Tolerance &&
+               Math.Abs(Position.Y - otherPoint.Position.Y) < Constants.Tolerance;
     }
 
     #endregion
@@ -85,8 +85,8 @@ public sealed class Point : Primitive
         return new Point(VertexArray.Create(position), new BoundingRectangle(position, position, position, position));
     }
 
-    public static readonly Point Zero = Create(Vector2.Zero);
-    public static readonly Point Unit = Create(Vector2.One);
+    public static Point Zero => Create(Vector2.Zero);
+    public static Point Unit => Create(Vector2.One);
 
     #endregion
 
