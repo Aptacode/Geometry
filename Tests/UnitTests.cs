@@ -42,7 +42,7 @@ public class UnitTests
         //Act
         var sut = ellipse.BoundingRectangle;
         //Assert
-        Assert.Equal(new Vector2(5, 10), sut.TopLeft);
+        Assert.Equal(new Vector2(5, 20), sut.TopLeft);
     }
 
     [Fact]

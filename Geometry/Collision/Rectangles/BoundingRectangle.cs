@@ -12,10 +12,10 @@ public readonly struct BoundingRectangle
     public readonly Vector2 TopRight;
     public readonly Vector2 BottomRight;
     public readonly Vector2 BottomLeft;
-    public Vector2 Size => Vector2.Abs(BottomRight - TopLeft);
-    public Vector2 Center => TopLeft + Size / 2.0f;
-    public float X => TopLeft.X;
-    public float Y => TopLeft.Y;
+    public Vector2 Size => Vector2.Abs(TopRight - BottomLeft);
+    public Vector2 Center => BottomLeft + Size / 2.0f;
+    public float X => BottomLeft.X;
+    public float Y => BottomLeft.Y;
     public float Width => Size.X;
     public float Height => Size.Y;
 
@@ -31,18 +31,26 @@ public readonly struct BoundingRectangle
         BottomLeft = bottomLeft;
     }
 
-    public static BoundingRectangle FromTwoPoints(Vector2 topLeft, Vector2 bottomRight)
+    public static BoundingRectangle FromTwoPoints(Vector2 a, Vector2 b)
     {
-        var topRight = new Vector2(bottomRight.X, topLeft.Y);
-        var bottomLeft = new Vector2(topLeft.X, bottomRight.Y);
+        var minX = a.X;
+        var maxX = b.X;
+        var minY = a.Y;
+        var maxY = b.Y;
+        if (a.X > b.X)
+        {
+            minX = b.X;
+            maxX = a.X;
+        }
 
-        return new BoundingRectangle(topLeft, topRight, bottomRight, bottomLeft);
-    }
+        if (a.Y > b.Y)
+        {
+            minY = b.Y;
+            maxY = a.Y;
+        }
 
-    public static BoundingRectangle FromPositionAndSize(Vector2 topLeft, Vector2 size)
-    {
-        var bottomRight = topLeft + size;
-        return FromTwoPoints(topLeft, bottomRight);
+        return new BoundingRectangle(new Vector2(minX, maxY), new Vector2(maxX, maxY), new Vector2(maxX, minY),
+            new Vector2(minX, minY));
     }
 
     public static readonly BoundingRectangle Zero = FromTwoPoints(Vector2.Zero, Vector2.Zero);
@@ -55,25 +63,25 @@ public readonly struct BoundingRectangle
     {
         return TopLeft.X < rect.TopRight.X &&
                TopRight.X > rect.TopLeft.X &&
-               TopLeft.Y < rect.BottomRight.Y &&
-               BottomRight.Y > rect.TopLeft.Y;
+               TopLeft.Y > rect.BottomRight.Y &&
+               BottomRight.Y < rect.TopLeft.Y;
     }
 
 
     public bool CollidesWith(Vector2 point)
     {
         return TopLeft.X <= point.X &&
-               TopLeft.Y <= point.Y &&
+               TopLeft.Y >= point.Y &&
                BottomRight.X >= point.X &&
-               BottomRight.Y >= point.Y;
+               BottomRight.Y <= point.Y;
     }
 
     public bool CollidesWith(Point point)
     {
         return TopLeft.X <= point.Position.X &&
-               TopLeft.Y <= point.Position.Y &&
+               TopLeft.Y >= point.Position.Y &&
                BottomRight.X >= point.Position.X &&
-               BottomRight.Y >= point.Position.Y;
+               BottomRight.Y <= point.Position.Y;
     }
 
     public bool CollidesWith(PolyLine polyLine)
@@ -171,7 +179,7 @@ public readonly struct BoundingRectangle
     public Primitive GetBoundingPrimitive(float margin)
     {
         var marginDelta = new Vector2(margin, margin);
-        return Polygon.Rectangle.FromTwoPoints(TopLeft - marginDelta, BottomRight + marginDelta);
+        return Polygon.Rectangle.FromTwoPoints(BottomLeft - marginDelta, TopRight + marginDelta);
     }
 
     public override string ToString()

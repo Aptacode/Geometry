@@ -18,16 +18,18 @@ public sealed class Point : Primitive
 
     public override bool Equals(object other)
     {
-        if (other is not Point otherPoint)
-        {
-            return false;
-        }
+        if (other is not Point otherPoint) return false;
 
         return Math.Abs(Position.X - otherPoint.Position.X) < Constants.Tolerance &&
                Math.Abs(Position.Y - otherPoint.Position.Y) < Constants.Tolerance;
     }
 
     #endregion
+
+    public override string ToString()
+    {
+        return $"Point{{{Position.X},{Position.Y}}}";
+    }
 
     #region Collision Detection
 
@@ -89,9 +91,4 @@ public sealed class Point : Primitive
     public static Point Unit => Create(Vector2.One);
 
     #endregion
-
-    public override string ToString()
-    {
-        return $"Point{{{Position.X},{Position.Y}}}";
-    }
 }

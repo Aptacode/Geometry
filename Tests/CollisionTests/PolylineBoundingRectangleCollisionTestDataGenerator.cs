@@ -11,10 +11,10 @@ public class PolylineBoundingRectangleCollisionTestDataGenerator : IEnumerable<o
     private readonly List<object[]> _data = new()
     {
         new object[]
-            { PolyLine.Create(0, 0, 1, 1), BoundingRectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), true },
+            { PolyLine.Create(0, 0, 1, 1), BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), true },
         new object[]
         {
-            PolyLine.Create(0, 0, 1, 1), BoundingRectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One),
+            PolyLine.Create(0, 0, 1, 1), BoundingRectangle.FromTwoPoints(new Vector2(2, 2), new Vector2(3, 3)),
             false
         }
     };

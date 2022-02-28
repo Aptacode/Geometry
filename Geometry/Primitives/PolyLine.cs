@@ -24,6 +24,11 @@ public sealed class PolyLine : Primitive
 
     #endregion
 
+    public override string ToString()
+    {
+        return $"Polyline{{{string.Join(", ", Vertices)}}}";
+    }
+
     #region Collision Detection
 
     public override Primitive GetBoundingPrimitive(float margin)
@@ -179,13 +184,6 @@ public sealed class PolyLine : Primitive
         return this;
     }
 
-    public override Primitive ScaleAboutTopLeft(Vector2 delta)
-    {
-        base.ScaleAboutTopLeft(delta);
-        UpdateLineSegments();
-        return this;
-    }
-
     public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
     {
         base.Scale(scaleCenter, delta);
@@ -215,9 +213,4 @@ public sealed class PolyLine : Primitive
     }
 
     #endregion
-
-    public override string ToString()
-    {
-        return $"Polyline{{{string.Join(", ", Vertices)}}}";
-    }
 }

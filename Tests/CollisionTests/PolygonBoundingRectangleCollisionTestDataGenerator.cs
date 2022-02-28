@@ -12,13 +12,13 @@ public class PolygonBoundingRectangleCollisionTestDataGenerator : IEnumerable<ob
     {
         new object[]
         {
-            Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),
-            BoundingRectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), true
+            Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One),
+            BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), true
         },
         new object[]
         {
-            Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),
-            BoundingRectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One), false
+            Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One),
+            BoundingRectangle.FromTwoPoints(new Vector2(2, 2), new Vector2(3, 3)), false
         }
     };
 

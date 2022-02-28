@@ -7,17 +7,24 @@ namespace Aptacode.Geometry.Primitives;
 
 public abstract class Primitive
 {
-    #region Properties
-    public VertexArray Vertices { get; init; }
-    public BoundingRectangle BoundingRectangle { get; protected set; }
-
-    #endregion
-
     protected Primitive(VertexArray vertices, BoundingRectangle boundingRectangle)
     {
         Vertices = vertices;
         BoundingRectangle = boundingRectangle;
     }
+
+    #region Methods
+
+    public abstract Primitive GetBoundingPrimitive(float margin);
+
+    #endregion
+
+    #region Properties
+
+    public VertexArray Vertices { get; init; }
+    public BoundingRectangle BoundingRectangle { get; protected set; }
+
+    #endregion
 
 
     #region IEquatable
@@ -47,14 +54,7 @@ public abstract class Primitive
 
     #endregion
 
-    #region Methods
-
-    public abstract Primitive GetBoundingPrimitive(float margin);
-
-    #endregion
-
     #region Collision Detection
-
 
     public abstract bool CollidesWith(Vector2 p);
     public abstract bool CollidesWith(Point p);
@@ -134,12 +134,6 @@ public abstract class Primitive
         return this;
     }
 
-    public virtual Primitive ScaleAboutTopLeft(Vector2 delta)
-    {
-        BoundingRectangle = Vertices.Scale(BoundingRectangle.TopLeft, delta);
-        return this;
-    }
-
     public virtual Primitive Scale(Vector2 scaleCenter, Vector2 delta)
     {
         BoundingRectangle = Vertices.Scale(scaleCenter, delta);
@@ -155,13 +149,13 @@ public abstract class Primitive
     public virtual Primitive SetSize(Vector2 delta)
     {
         var scaleFactor = delta / BoundingRectangle.Size;
-        ScaleAboutTopLeft(scaleFactor);
+        ScaleAboutCenter(scaleFactor);
         return this;
     }
 
     public virtual Primitive SetPosition(Vector2 position)
     {
-        Translate(position - BoundingRectangle.TopLeft);
+        Translate(position - BoundingRectangle.Center);
         return this;
     }
 

@@ -23,8 +23,8 @@ public class PolygonPointCollisionTestDataGenerator : IEnumerable<object[]>
         new object[] { PolyLine.Create(0, 0, 10, 10), new Vector2(11, 11), false },
 
         //Polygon
-        new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), Vector2.Zero, true },
-        new object[] { Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One), new Vector2(2, 2), false }
+        new object[] { Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One), Vector2.Zero, true },
+        new object[] { Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One), new Vector2(2, 2), false }
     };
 
     public IEnumerator<object[]> GetEnumerator()

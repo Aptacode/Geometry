@@ -41,7 +41,7 @@ public static class Helpers
 
     // Given three collinear points p, q, r, the function checks if
     // point q lies on line segment 'pr'
-    static bool OnSegment(Vector2 p, Vector2 q, Vector2 r)
+    private static bool OnSegment(Vector2 p, Vector2 q, Vector2 r)
     {
         return q.X <= Math.Max(p.X, r.X) && q.X >= Math.Min(p.X, r.X) &&
                q.Y <= Math.Max(p.Y, r.Y) && q.Y >= Math.Min(p.Y, r.Y);
@@ -52,7 +52,7 @@ public static class Helpers
     // 0 --> p, q and r are collinear
     // 1 --> Clockwise
     // 2 --> Counterclockwise
-    static int Orientation(Vector2 p, Vector2 q, Vector2 r)
+    private static int Orientation(Vector2 p, Vector2 q, Vector2 r)
     {
         // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
         // for details of bel/ow formula.
@@ -61,7 +61,7 @@ public static class Helpers
 
         if (val == 0) return 0; // collinear
 
-        return (val > 0) ? 1 : 2; // clock or counterclock wise
+        return val > 0 ? 1 : 2; // clock or counterclock wise
     }
 
     // The main function that returns true if line segment 'p1q1'

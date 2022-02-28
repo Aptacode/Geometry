@@ -9,15 +9,15 @@ namespace Aptacode.Geometry.Vertices;
 
 public static class VertexArrayExtensions
 {
-    public static VertexArray Concat(this VertexArray vertexArray, params Vector2[] vertices) => Concat(vertexArray, new VertexArray(vertices));
+    public static VertexArray Concat(this VertexArray vertexArray, params Vector2[] vertices)
+    {
+        return Concat(vertexArray, new VertexArray(vertices));
+    }
 
     public static VertexArray Concat(this VertexArray vertexArrayA, VertexArray vertexArrayB)
     {
         var newVertices = new Vector2[vertexArrayA.Length + vertexArrayB.Length];
-        if (newVertices.Length == 0)
-        {
-            return new VertexArray(Array.Empty<Vector2>());
-        }
+        if (newVertices.Length == 0) return new VertexArray(Array.Empty<Vector2>());
 
         var count = 0;
 
@@ -27,26 +27,17 @@ public static class VertexArrayExtensions
         for (var i = 1; i < vertexArrayA.Length; i++)
         {
             var nextVertex = vertexArrayA[i];
-            if (lastVertex != nextVertex)
-            {
-                newVertices[count++] = nextVertex;
-            }
+            if (lastVertex != nextVertex) newVertices[count++] = nextVertex;
         }
 
         for (var i = 0; i < vertexArrayB.Length; i++)
         {
             var nextVertex = vertexArrayB[i];
-            if (lastVertex != nextVertex)
-            {
-                newVertices[count++] = nextVertex;
-            }
+            if (lastVertex != nextVertex) newVertices[count++] = nextVertex;
         }
 
         //Shrink the array
-        if (newVertices.Length != count)
-        {
-            Array.Resize(ref newVertices, count);
-        }
+        if (newVertices.Length != count) Array.Resize(ref newVertices, count);
 
         return new VertexArray(newVertices);
     }

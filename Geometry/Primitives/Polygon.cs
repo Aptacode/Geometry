@@ -24,6 +24,11 @@ public sealed class Polygon : Primitive
 
     #endregion
 
+    public override string ToString()
+    {
+        return $"Polygon{{{string.Join(", ", Vertices)}}}";
+    }
+
     #region Collision Detection
 
     public override Primitive GetBoundingPrimitive(float margin)
@@ -149,18 +154,26 @@ public sealed class Polygon : Primitive
             return Polygon.Create(topLeft, topRight, bottomRight, bottomLeft);
         }
 
-        public static Polygon FromTwoPoints(Vector2 topLeft, Vector2 bottomRight)
+        public static Polygon FromTwoPoints(Vector2 a, Vector2 b)
         {
-            var topRight = new Vector2(bottomRight.X, topLeft.Y);
-            var bottomLeft = new Vector2(topLeft.X, bottomRight.Y);
+            var minX = a.X;
+            var maxX = b.X;
+            var minY = a.Y;
+            var maxY = b.Y;
+            if (a.X > b.X)
+            {
+                minX = b.X;
+                maxX = a.X;
+            }
 
-            return Polygon.Create(topLeft, topRight, bottomRight, bottomLeft);
-        }
+            if (a.Y > b.Y)
+            {
+                minY = b.Y;
+                maxY = a.Y;
+            }
 
-        public static Polygon FromPositionAndSize(Vector2 topLeft, Vector2 size)
-        {
-            var bottomRight = topLeft + size;
-            return FromTwoPoints(topLeft, bottomRight);
+            return Polygon.Create(new Vector2(minX, maxY), new Vector2(maxX, maxY), new Vector2(maxX, minY),
+                new Vector2(minX, minY));
         }
     }
 
@@ -205,13 +218,6 @@ public sealed class Polygon : Primitive
         return this;
     }
 
-    public override Primitive ScaleAboutTopLeft(Vector2 delta)
-    {
-        base.ScaleAboutTopLeft(delta);
-        UpdateEdges();
-        return this;
-    }
-
     public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
     {
         base.Scale(scaleCenter, delta);
@@ -241,9 +247,4 @@ public sealed class Polygon : Primitive
     }
 
     #endregion
-
-    public override string ToString()
-    {
-        return $"Polygon{{{string.Join(", ", Vertices)}}}";
-    }
 }

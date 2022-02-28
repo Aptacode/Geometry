@@ -59,7 +59,7 @@ public class EllipsePrimitiveCollisionTestDataGenerator : IEnumerable<object[]>
         new object[]
         {
             Ellipse.Create(Vector2.Zero, Vector2.One, 0.0f),
-            Polygon.Rectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One), false
+            Polygon.Rectangle.FromTwoPoints(new Vector2(2, 2), Vector2.One), false
         }
     };
 

@@ -27,25 +27,12 @@ public class PrimitiveTransformationTests
     public void Polygon_ScaleFromCenter_Test()
     {
         //Arrange
-        var rectangle = Polygon.Rectangle.FromPositionAndSize(new Vector2(10, 10), new Vector2(6, 6));
-        var expectedRectangle = BoundingRectangle.FromPositionAndSize(new Vector2(7, 7), new Vector2(12, 12));
+        var rectangle = Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One);
         //Act
         rectangle.ScaleAboutCenter(new Vector2(2, 2));
         //Assert
 
-        Assert.Equal(expectedRectangle, rectangle.BoundingRectangle);
-    }
-
-    [Fact]
-    public void Polygon_ScaleFromTopLeft_Test()
-    {
-        //Arrange
-        var rectangle = Polygon.Create(7, 7, 10, 13, 13, 7);
-        var expectedRectangle = BoundingRectangle.FromPositionAndSize(new Vector2(7, 7), new Vector2(12, 12));
-        //Act
-        rectangle.ScaleAboutTopLeft(new Vector2(2, 2));
-        //Assert
-
+        var expectedRectangle = BoundingRectangle.FromTwoPoints(new Vector2(-0.5f, -0.5f), new Vector2(1.5f, 1.5f));
         Assert.Equal(expectedRectangle, rectangle.BoundingRectangle);
     }
 
@@ -53,12 +40,12 @@ public class PrimitiveTransformationTests
     public void Primitive_SetSize_Test()
     {
         //Arrange
-        var rectangle = Polygon.Rectangle.FromPositionAndSize(new Vector2(10, 10), new Vector2(10, 10));
-        var expectedRectangle = BoundingRectangle.FromPositionAndSize(new Vector2(10, 10), new Vector2(20, 20));
+        var rectangle = Polygon.Rectangle.FromTwoPoints(new Vector2(-1, -1), new Vector2(1, 1));
         //Act
-        rectangle.SetSize(new Vector2(20, 20));
+        rectangle.SetSize(new Vector2(4, 4));
 
         //Assert
+        var expectedRectangle = BoundingRectangle.FromTwoPoints(new Vector2(-2, -2), new Vector2(2, 2));
         Assert.Equal(expectedRectangle, rectangle.BoundingRectangle);
     }
 
@@ -66,12 +53,12 @@ public class PrimitiveTransformationTests
     public void Primitive_SetPosition_Test()
     {
         //Arrange
-        var rectangle = Polygon.Rectangle.FromPositionAndSize(new Vector2(10, 10), new Vector2(10, 10));
-        var expectedRectangle = BoundingRectangle.FromPositionAndSize(new Vector2(20, 20), new Vector2(10, 10));
+        var rectangle = Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One);
         //Act
-        rectangle.SetPosition(new Vector2(20, 20));
+        rectangle.SetPosition(new Vector2(2, 2));
 
         //Assert
+        var expectedRectangle = BoundingRectangle.FromTwoPoints(new Vector2(1.5f, 1.5f), new Vector2(2.5f, 2.5f));
         Assert.Equal(expectedRectangle, rectangle.BoundingRectangle);
     }
 }

@@ -20,15 +20,9 @@ public sealed class Ellipse : Primitive
 
     public override bool Equals(object other)
     {
-        if (other is not Ellipse otherEllipse)
-        {
-            return false;
-        }
+        if (other is not Ellipse otherEllipse) return false;
 
-        if (Math.Abs(Rotation - otherEllipse.Rotation) > Constants.Tolerance)
-        {
-            return false;
-        }
+        if (Math.Abs(Rotation - otherEllipse.Rotation) > Constants.Tolerance) return false;
         var delta = Position - otherEllipse.Position;
         var radiusDelta = Radii - otherEllipse.Radii;
         return Math.Abs(delta.X + delta.Y) < Constants.Tolerance &&
@@ -134,6 +128,19 @@ public sealed class Ellipse : Primitive
         return (!(p > 0) || !(Math.Abs(p) > Constants.Tolerance)) && !(d > 0);
     }
 
+    public override string ToString()
+    {
+        return $"Ellipse{{{Position.X},{Position.Y},{Radii.X},{Radii.Y},{Rotation}}}";
+    }
+
+    public static class Circle
+    {
+        public static Ellipse Create(Vector2 position, float radius)
+        {
+            return Ellipse.Create(position, new Vector2(radius, radius), 0);
+        }
+    }
+
     #region Collision Detection
 
     public override Primitive GetBoundingPrimitive(float margin)
@@ -211,22 +218,22 @@ public sealed class Ellipse : Primitive
 
     #region Transformations
 
-    private static BoundingRectangle GetBoundingRectangle(Vector2 Position, Vector2 Radii, float Rotation)
+    private static BoundingRectangle GetBoundingRectangle(Vector2 position, Vector2 radii, float rotation)
     {
-        var asquared = Radii.X * Radii.X;
-        var bsquared = Radii.Y * Radii.Y;
+        var asquared = radii.X * radii.X;
+        var bsquared = radii.Y * radii.Y;
 
-        var costheta = Math.Cos(Rotation);
+        var costheta = Math.Cos(rotation);
         var costhetasquared = costheta * costheta;
 
-        var sintheta = Math.Sin(Rotation);
+        var sintheta = Math.Sin(rotation);
         var sinthetasquared = sintheta * sintheta;
 
         var xdelta = (float)Math.Sqrt(asquared * costhetasquared + bsquared * sinthetasquared);
         var ydelta = (float)Math.Sqrt(asquared * sinthetasquared + bsquared * costhetasquared);
 
-        var topLeft = Position - new Vector2(xdelta, ydelta);
-        var bottomRight = Position + new Vector2(xdelta, ydelta);
+        var topLeft = position - new Vector2(xdelta, ydelta);
+        var bottomRight = position + new Vector2(xdelta, ydelta);
 
         return BoundingRectangle.FromTwoPoints(topLeft, bottomRight);
     }
@@ -306,17 +313,4 @@ public sealed class Ellipse : Primitive
     }
 
     #endregion
-
-    public override string ToString()
-    {
-        return $"Ellipse{{{Position.X},{Position.Y},{Radii.X},{Radii.Y},{Rotation}}}";
-    }
-
-    public static class Circle
-    {
-        public static Ellipse Create(Vector2 position, float radius)
-        {
-            return Ellipse.Create(position, new Vector2(radius, radius), 0);
-        }
-    }
 }
