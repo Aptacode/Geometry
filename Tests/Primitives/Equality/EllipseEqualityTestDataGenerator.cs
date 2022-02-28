@@ -15,6 +15,7 @@ public class EllipseEqualityTestDataGenerator : IEnumerable<object[]>
         new object[] { Ellipse.Create(0, 0, 1, 2, 0), null, false },
         new object[] { null, Ellipse.Create(0, 0, 1, 2, 0), false },
         new object[] { null, null, true },
+
     };
 
     public IEnumerator<object[]> GetEnumerator()

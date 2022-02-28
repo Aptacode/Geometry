@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Tests.Collision.PointCollisionTestData;
+namespace Aptacode.Geometry.Tests.Collision.HybridCollisionTestData;
 
 public class PolylineHybridCollisionTestDataGenerator : IEnumerable<object[]>
 {

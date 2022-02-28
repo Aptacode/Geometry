@@ -33,7 +33,7 @@ public abstract class Primitive
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Vertices);
+        return ToString().GetHashCode();
     }
 
     public abstract override bool Equals(object obj);

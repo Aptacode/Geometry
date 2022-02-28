@@ -3,7 +3,6 @@ using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Collision.Circles;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Primitives.Extensions;
 using Aptacode.Geometry.Utilities;
 using Xunit;
 
@@ -71,19 +70,6 @@ public class UnitTests
         //Assert
         Assert.Equal(new Vector2(-3f, 3f), sut.Center);
         //Assert.Equal(9.03f, sut.Radius);
-    }
-
-    [Fact]
-    public void StandardFormEllipse_Test()
-    {
-        var ellipse = Ellipse.Create(new Vector2(5, 5), new Vector2(5, 3), 0);
-        var sut = ellipse.GetStandardForm();
-        Assert.True(Math.Abs(9 / 225f - sut.A) < Constants.Tolerance);
-        Assert.True(Math.Abs(25 / 225f - sut.C) < Constants.Tolerance);
-        Assert.Equal(0, sut.B);
-        Assert.True(Math.Abs(-90 / 225f - sut.D) < Constants.Tolerance);
-        Assert.True(Math.Abs(-250 / 225f - sut.E) < Constants.Tolerance);
-        Assert.True(Math.Abs(625 / 225f - sut.F) < Constants.Tolerance);
     }
 
     [Fact]

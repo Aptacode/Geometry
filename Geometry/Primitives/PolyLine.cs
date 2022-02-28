@@ -18,6 +18,7 @@ public sealed class PolyLine : Primitive
 
     #region IEquatable
 
+
     public override bool Equals(object other)
     {
         return other is PolyLine otherPolyline && Vertices.Equals(otherPolyline.Vertices);
