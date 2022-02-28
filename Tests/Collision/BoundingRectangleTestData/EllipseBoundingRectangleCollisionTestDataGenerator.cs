@@ -4,7 +4,7 @@ using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Tests.CollisionTests;
+namespace Aptacode.Geometry.Tests.Collision.BoundingRectangleTestData;
 
 public class EllipseBoundingRectangleCollisionTestDataGenerator : IEnumerable<object[]>
 {

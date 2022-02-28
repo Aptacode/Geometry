@@ -1,7 +1,8 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Tests.Primitives.Transformation.Translation;
+using Aptacode.Geometry.Tests.Primitives.Transformation.Scale;
+using Aptacode.Geometry.Tests.Primitives.Transformation.Translate;
 using Xunit;
 
 namespace Aptacode.Geometry.Tests.Primitives.Transformation;
@@ -23,17 +24,19 @@ public class PrimitiveTransformationTests
         Assert.Equal(p1, expected);
     }
 
-    [Fact]
-    public void Polygon_ScaleFromCenter_Test()
+    [Theory]
+    [ClassData(typeof(PointCenterScaleTestDataGenerator))]
+    [ClassData(typeof(EllipseCenterScaleTestDataGenerator))]
+    [ClassData(typeof(PolygonCenterScaleTestDataGenerator))]
+    [ClassData(typeof(PolylineCenterScaleTestDataGenerator))]
+    public void Primitive_CenterScale(Primitive p1, Vector2 delta, Primitive expected)
     {
         //Arrange
-        var rectangle = Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One);
         //Act
-        rectangle.ScaleAboutCenter(new Vector2(2, 2));
-        //Assert
+        p1.ScaleAboutCenter(delta);
 
-        var expectedRectangle = BoundingRectangle.FromTwoPoints(new Vector2(-0.5f, -0.5f), new Vector2(1.5f, 1.5f));
-        Assert.Equal(expectedRectangle, rectangle.BoundingRectangle);
+        //Assert
+        Assert.Equal(p1, expected);
     }
 
     [Fact]

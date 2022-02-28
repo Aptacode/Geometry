@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Tests.Primitives.Transformation.Translation;
+namespace Aptacode.Geometry.Tests.Collision.PointCollisionTestData;
 
-public class PointTranslationTestDataGenerator : IEnumerable<object[]>
+public class PointPointCollisionTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
-        new object[] { Point.Zero, Vector2.One, Point.Unit },
-        new object[] { Point.Zero, Vector2.Zero, Point.Zero }
+        //Point
+        new object[] { Point.Create(0, 0), Vector2.Zero, true },
+        new object[] { Point.Create(0, 0), Vector2.One, false }
     };
 
     public IEnumerator<object[]> GetEnumerator()

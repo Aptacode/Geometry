@@ -27,4 +27,11 @@
 		<ProjectReference Include="..\Geometry\Geometry.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Primitives\Transformation\Rotate\" />
+	  <Folder Include="Primitives\Transformation\Skew\" />
+	  <Folder Include="Primitives\Transformation\SetPosition\" />
+	  <Folder Include="Primitives\Transformation\SetSize\" />
+	</ItemGroup>
+
 </Project>

@@ -1,9 +1,12 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
+using Aptacode.Geometry.Tests.Collision.BoundingRectangleTestData;
+using Aptacode.Geometry.Tests.Collision.PointCollisionTestData;
+using Aptacode.Geometry.Tests.Collision.PrimitiveCollisionTestData;
 using Xunit;
 
-namespace Aptacode.Geometry.Tests.CollisionTests;
+namespace Aptacode.Geometry.Tests.Collision;
 
 public class Collision_Tests
 {
@@ -27,7 +30,7 @@ public class Collision_Tests
     [ClassData(typeof(PointPointCollisionTestDataGenerator))]
     [ClassData(typeof(EllipsePointCollisionTestDataGenerator))]
     [ClassData(typeof(PolygonPointCollisionTestDataGenerator))]
-    [ClassData(typeof(PolylinePrimitivePointCollisionTestDataGenerator))]
+    [ClassData(typeof(PolylinePointCollisionTestDataGenerator))]
     public void PrimitiveCollidesWithVector2(Primitive p1, Vector2 p2, bool collides)
     {
         //Arrange

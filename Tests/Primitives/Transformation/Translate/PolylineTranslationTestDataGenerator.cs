@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Tests.Primitives.Transformation.Translation;
+namespace Aptacode.Geometry.Tests.Primitives.Transformation.Translate;
 
 public class PolylineTranslationTestDataGenerator : IEnumerable<object[]>
 {

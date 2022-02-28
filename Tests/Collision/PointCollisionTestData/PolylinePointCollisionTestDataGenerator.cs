@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Tests.CollisionTests;
+namespace Aptacode.Geometry.Tests.Collision.PointCollisionTestData;
 
-public class PolylinePrimitivePointCollisionTestDataGenerator : IEnumerable<object[]>
+public class PolylinePointCollisionTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {

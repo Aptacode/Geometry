@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Tests.CollisionTests;
+namespace Aptacode.Geometry.Tests.Primitives.Transformation.Scale;
 
-public class EllipsePointCollisionTestDataGenerator : IEnumerable<object[]>
+public class PointCenterScaleTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
-        //Ellipse
-        new object[] { Ellipse.Create(0, 0, 10, 10, 0), Vector2.One, true },
-        new object[] { Ellipse.Create(0, 0, 10, 10, 0), new Vector2(20, 20), false }
+        new object[] { Point.Zero, Vector2.Zero, Point.Zero },
+        new object[] { Point.Zero, Vector2.One, Point.Zero },
+        new object[] { Point.Zero, new Vector2(2), Point.Zero }
     };
 
     public IEnumerator<object[]> GetEnumerator()
