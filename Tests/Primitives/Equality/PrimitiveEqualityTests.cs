@@ -16,13 +16,15 @@ public class PrimitiveEqualityTests
         //Act
         var equalityOperatorResult = p1 == p2;
         var inequalityOperatorResult = p1 != p2;
-        var equalsMethodResult = p1.Equals(p2);
-        var equalsObjectMethodResult = p1.Equals(p2);
+
+        if (p1 != null)
+        {
+            var equalsMethodResult = p1.Equals(p2);
+            Assert.Equal(areEqual, equalsMethodResult);
+        }
 
         //Assert
         Assert.Equal(areEqual, equalityOperatorResult);
         Assert.Equal(!areEqual, inequalityOperatorResult);
-        Assert.Equal(areEqual, equalsMethodResult);
-        Assert.Equal(areEqual, equalsObjectMethodResult);
     }
 }
