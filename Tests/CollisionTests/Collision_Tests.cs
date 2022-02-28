@@ -74,7 +74,7 @@ public class Collision_Tests
             new object[]
             {
                 Ellipse.Create(5, 5, 3, 2, (float)Math.PI / 4f), Point.Create(7, 7), true
-            }, //Ellipse Point containment
+            }, 
             new object[] { Ellipse.Create(Vector2.Zero, Vector2.One, 0), Point.Create(new Vector2(2, 2)), false },
 
             //Ellipse PolyLine
@@ -82,38 +82,38 @@ public class Collision_Tests
             {
                 Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f),
                 PolyLine.Create(new Vector2(4, 5), new Vector2(6, 5)), true
-            }, //Ellipse PolyLine containment
+            }, 
             new object[]
             {
                 Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f),
                 PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7)), true
-            }, //Ellipse PolyLine intersection
+            }, 
             new object[]
             {
                 Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f),
                 PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7)), true
-            }, //Ellipse PolyLine intersection
+            }, 
             new object[]
             {
                 Ellipse.Create(Vector2.Zero, Vector2.One, 0.0f), PolyLine.Create(new Vector2(2, 2), new Vector2(3, 3)),
                 false
-            }, //Ellipse PolyLine
+            }, 
 
             //Ellipse Polygon
             new object[]
             {
                 Ellipse.Create(30, 30, 20, 10, 0.0f), Polygon.Create(27, 27, 33, 27, 33, 33, 27, 33), true
-            }, //Ellipse Polygon containment
+            },
             new object[]
             {
                 Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), (float)Math.PI / 4f),
                 Polygon.Create(new Vector2(3, 3), new Vector2(5, 7), new Vector2(7, 3)), true
-            }, //Ellipse Polygon intersection
+            },
             new object[]
             {
                 Ellipse.Create(Vector2.Zero, Vector2.One, 0.0f),
                 Polygon.Rectangle.FromPositionAndSize(new Vector2(2, 2), Vector2.One), false
-            }, //Ellipse Polygon
+            },
 
             //Polyline PolyLine
             new object[]
@@ -144,9 +144,6 @@ public class Collision_Tests
                 Polygon.Rectangle.FromPositionAndSize(Vector2.Zero, Vector2.One),
                 Polygon.Rectangle.FromPositionAndSize(new Vector2(3, 3), Vector2.One), false
             }
-
-
-            //Polygon Polygon
         };
 
         public IEnumerator<object[]> GetEnumerator()
