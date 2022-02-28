@@ -11,6 +11,30 @@ namespace Aptacode.Geometry.Tests.Collision;
 public class Collision_Tests
 {
     [Theory]
+    [ClassData(typeof(PointHybridCollisionTestDataGenerator))]
+    [ClassData(typeof(EllipseHybridCollisionTestDataGenerator))]
+    [ClassData(typeof(PolygonHybridCollisionTestDataGenerator))]
+    [ClassData(typeof(PolylineHybridCollisionTestDataGenerator))]
+    public void PrimitiveHybridCollision(Primitive p1, Primitive p2, bool collides)
+    {
+        //Arrange
+
+        //Act
+        var hybridCollidesWithPrimitiveResult = p1.HybridCollidesWithPrimitive(p2);
+        var hybridCollidesWithResult = p2 switch
+        {
+            Point primitive => p1.HybridCollidesWith(primitive),
+            Ellipse primitive => p1.HybridCollidesWith(primitive),
+            Polygon primitive => p1.HybridCollidesWith(primitive),
+            PolyLine primitive => p1.HybridCollidesWith(primitive),
+        };
+
+        //Assert
+        Assert.Equal(collides, hybridCollidesWithPrimitiveResult);
+        Assert.Equal(collides, hybridCollidesWithResult);
+    }
+
+    [Theory]
     [ClassData(typeof(PointPrimitiveCollisionTestDataGenerator))]
     [ClassData(typeof(EllipsePrimitiveCollisionTestDataGenerator))]
     [ClassData(typeof(PolygonPrimitiveCollisionTestDataGenerator))]
@@ -21,9 +45,20 @@ public class Collision_Tests
 
         //Act
         var sut = p1.CollidesWithPrimitive(p2);
+        var collidesWithPrimitiveResult = p1.CollidesWithPrimitive(p2);
+        var collidesWithResult = p2 switch
+        {
+            Point primitive => p1.CollidesWith(primitive),
+            Ellipse primitive => p1.CollidesWith(primitive),
+            Polygon primitive => p1.CollidesWith(primitive),
+            PolyLine primitive => p1.CollidesWith(primitive),
+            _ => false
+        };
+
 
         //Assert
-        Assert.Equal(collides, sut);
+        Assert.Equal(collides, collidesWithPrimitiveResult);
+        Assert.Equal(collides, collidesWithResult);
     }
 
     [Theory]

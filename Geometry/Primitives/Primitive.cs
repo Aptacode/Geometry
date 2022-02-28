@@ -76,38 +76,43 @@ public abstract class Primitive
             Ellipse ellipse => CollidesWith(ellipse),
             PolyLine polyline => CollidesWith(polyline),
             Polygon polygon => CollidesWith(polygon),
-            _ => false
         };
     }
 
-    public bool HybridCollidesWith(Vector2 p)
+    public virtual bool HybridCollidesWith(Vector2 p)
     {
         return BoundingRectangle.CollidesWith(p) && CollidesWith(p);
     }
 
-    public bool HybridCollidesWith(Point p)
+    public virtual bool HybridCollidesWith(Point p)
+    {
+        return BoundingRectangle.CollidesWith(p) && CollidesWith(p);
+    }
+
+    public virtual bool HybridCollidesWith(Ellipse p)
     {
         return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
     }
 
-    public bool HybridCollidesWith(Ellipse p)
+    public virtual bool HybridCollidesWith(PolyLine p)
     {
         return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
     }
 
-    public bool HybridCollidesWith(PolyLine p)
+    public virtual bool HybridCollidesWith(Polygon p)
     {
         return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
     }
 
-    public bool HybridCollidesWith(Polygon p)
+    public virtual bool HybridCollidesWithPrimitive(Primitive p)
     {
-        return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
-    }
-
-    public bool HybridCollidesWithPrimitive(Primitive p)
-    {
-        return p.BoundingRectangle.CollidesWith(BoundingRectangle) && CollidesWithPrimitive(p);
+        return p switch
+        {
+            Point point => HybridCollidesWith(point),
+            Ellipse ellipse => HybridCollidesWith(ellipse),
+            PolyLine polyline => HybridCollidesWith(polyline),
+            Polygon polygon => HybridCollidesWith(polygon),
+        };
     }
 
     #endregion
