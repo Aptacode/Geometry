@@ -125,7 +125,7 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(PolyLine p1, Ellipse p2)
     {
-        if (p2.Radii.X == p2.Radii.Y)
+        if (Math.Abs(p2.Radii.X - p2.Radii.Y) < Constants.Tolerance)
         {
             foreach (var lineSegment in p1.LineSegments)
             {
