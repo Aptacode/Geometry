@@ -13,8 +13,7 @@ public class PolygonEqualityTestDataGenerator : IEnumerable<object[]>
         new object[] { Polygon.Create(0, 0, 1, 1, 0, 1), Polygon.Create(0, 0, 1, 1, 0, 1, 0, 2), false },
         new object[] { Polygon.Create(0, 0, 1, 1, 0, 1), null, false },
         new object[] { null, Polygon.Create(0, 0, 1, 1, 0, 1), false },
-        new object[] { null, null, true },
-
+        new object[] { null, null, true }
     };
 
     public IEnumerator<object[]> GetEnumerator()

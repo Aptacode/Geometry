@@ -13,8 +13,7 @@ public class PolylineEqualityTestDataGenerator : IEnumerable<object[]>
         new object[] { PolyLine.Create(0, 0, 1, 1), PolyLine.Create(0, 0, 1, 1, 2, 2), false },
         new object[] { PolyLine.Create(0, 0, 1, 1), null, false },
         new object[] { null, PolyLine.Create(0, 0, 1, 1), false },
-        new object[] { null, null, true },
-
+        new object[] { null, null, true }
     };
 
     public IEnumerator<object[]> GetEnumerator()

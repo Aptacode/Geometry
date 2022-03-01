@@ -59,7 +59,7 @@ public static class BoundingRectangleExtensions
             if (vertex.Y < minY) minY = vertex.Y;
         }
 
-        return new(new Vector2(minX, minY), new Vector2(maxX, maxY));
+        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
     }
 
     #endregion

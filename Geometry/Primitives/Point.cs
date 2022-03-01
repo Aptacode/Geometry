@@ -71,40 +71,6 @@ public sealed class Point : Primitive
 
     #endregion
 
-    #region Hybrid Collision
-
-    public override bool HybridCollidesWith(Vector2 p)
-    {
-        return CollidesWith(p);
-    }
-
-    public override bool HybridCollidesWith(Point p)
-    {
-        return CollidesWith(p);
-    }
-
-    public override bool HybridCollidesWith(Ellipse p)
-    {
-        return CollidesWith(p);
-    }
-
-    public override bool HybridCollidesWith(PolyLine p)
-    {
-        return CollidesWith(p);
-    }
-
-    public override bool HybridCollidesWith(Polygon p)
-    {
-        return CollidesWith(p);
-    }
-
-    public override bool HybridCollidesWithPrimitive(Primitive p)
-    {
-        return CollidesWithPrimitive(p);
-    }
-
-    #endregion
-
     #region Construction
 
     private Point(VertexArray vertexArray, BoundingRectangle boundingRectangle) : base(vertexArray, boundingRectangle)

@@ -8,7 +8,7 @@ public class EllipseToStringTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
-        new object[] { Ellipse.Create(0, 0, 1, 1, 0), "Ellipse (0,0), (1,1), 0" },
+        new object[] { Ellipse.Create(0, 0, 1, 1, 0), "Ellipse (0,0), (1,1), 0" }
     };
 
     public IEnumerator<object[]> GetEnumerator()

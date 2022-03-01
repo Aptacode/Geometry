@@ -8,12 +8,24 @@ namespace Aptacode.Geometry.Tests.BoundingRectangleTests;
 
 public class BoundingRectangleToStringTests
 {
+    [Theory]
+    [ClassData(typeof(BoundingRectangleToStringTestDataGenerator))]
+    public void BoundingRectangleToString(BoundingRectangle p1, string expected)
+    {
+        //Arrange
+        //Act
+        var toString = p1.ToString();
+
+        //Assert
+        Assert.Equal(expected, toString);
+    }
+
     public class BoundingRectangleToStringTestDataGenerator : IEnumerable<object[]>
     {
         private readonly List<object[]> _data = new()
         {
-            new object[] { new BoundingRectangle(Vector2.Zero, Vector2.One), "BoundingRectangle (0,1), (1,1), (1,0), (0,0)" },
-
+            new object[]
+                { new BoundingRectangle(Vector2.Zero, Vector2.One), "BoundingRectangle (0,1), (1,1), (1,0), (0,0)" }
         };
 
         public IEnumerator<object[]> GetEnumerator()
@@ -25,17 +37,5 @@ public class BoundingRectangleToStringTests
         {
             return GetEnumerator();
         }
-    }
-
-    [Theory]
-    [ClassData(typeof(BoundingRectangleToStringTestDataGenerator))]
-    public void BoundingRectangleToString(Geometry.Collision.Rectangles.BoundingRectangle p1, string expected)
-    {
-        //Arrange
-        //Act
-        var toString = p1.ToString();
-
-        //Assert
-        Assert.Equal(expected, toString);
     }
 }

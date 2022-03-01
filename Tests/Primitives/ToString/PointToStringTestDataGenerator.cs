@@ -10,7 +10,7 @@ public class PointToStringTestDataGenerator : IEnumerable<object[]>
     {
         new object[] { Point.Zero, "Point (0,0)" },
         new object[] { Point.Unit, "Point (1,1)" },
-        new object[] { Point.Create(3, 5), "Point (3,5)" },
+        new object[] { Point.Create(3, 5), "Point (3,5)" }
     };
 
     public IEnumerator<object[]> GetEnumerator()

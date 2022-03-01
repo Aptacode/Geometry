@@ -11,15 +11,15 @@ public class PolygonCenterScaleTestDataGenerator : IEnumerable<object[]>
     {
         new object[]
         {
-            Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One), 
-            Vector2.One,
             Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One),
+            Vector2.One,
+            Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One)
         },
         new object[]
         {
             Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One),
             new Vector2(2),
-            Polygon.Rectangle.FromTwoPoints(new Vector2(-0.5f, -0.5f), new Vector2(1.5f, 1.5f)),
+            Polygon.Rectangle.FromTwoPoints(new Vector2(-0.5f, -0.5f), new Vector2(1.5f, 1.5f))
         }
     };
 

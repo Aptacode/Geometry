@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using Aptacode.Geometry.Collision;
 using Aptacode.Geometry.Primitives;
 using Aptacode.Geometry.Utilities;
@@ -75,17 +74,5 @@ public class UnitTests
         var B2 = new Vector2(15, 15);
 
         Assert.True((A1, A2).LineSegmentIntersection((B1, B2)));
-    }
-
-
-    [Fact]
-    public void SweepingLine_Test()
-    {
-        var poly1 = Polygon.Create(10, 10, 10, 15, 15, 20, 20, 15, 20, 10);
-        var poly2 = Polygon.Create(15, 10, 15, 15, 20, 20, 25, 15, 25, 10);
-
-        var collision = SweepingLine.CheckCollision(poly1, poly2);
-
-        Assert.True(collision);
     }
 }

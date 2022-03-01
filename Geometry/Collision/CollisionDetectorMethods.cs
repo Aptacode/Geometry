@@ -43,6 +43,11 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(Point p1, PolyLine p2)
     {
+        if (!p2.BoundingRectangle.CollidesWith(p1))
+        {
+            return false;
+        }
+
         for (var i = 0; i < p2.LineSegments.Length; i++)
             if (p2.LineSegments[i].OnLineSegment(p1.Position))
                 return true;
@@ -53,6 +58,11 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(Point p1, Polygon p2)
     {
+        if (!p2.BoundingRectangle.CollidesWith(p1))
+        {
+            return false;
+        }
+
         var collision = false;
         var vertices = p2.Vertices.Vertices;
         var point = p1.Position;
@@ -74,6 +84,11 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(Point p1, Ellipse p2)
     {
+        if (!p2.BoundingRectangle.CollidesWith(p1))
+        {
+            return false;
+        }
+
         var f1dist = (p2.Foci.Item1 - p1.Position).Length();
         var f2dist = (p2.Foci.Item2 - p1.Position).Length();
         if (p2.Radii.X > p2.Radii.Y) //X is the major axis
@@ -92,6 +107,11 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(PolyLine p1, PolyLine p2)
     {
+        if (!p1.BoundingRectangle.CollidesWith(p2))
+        {
+            return false;
+        }
+
         for (var i = 0; i < p1.LineSegments.Length; i++)
         {
             var edge = p1.LineSegments[i];
@@ -108,6 +128,11 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(PolyLine p1, Polygon p2)
     {
+        if (!p1.BoundingRectangle.CollidesWith(p2))
+        {
+            return false;
+        }
+
         for (var i = 0; i < p1.LineSegments.Length; i++)
         {
             var edge = p1.LineSegments[i];
@@ -125,6 +150,11 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(PolyLine p1, Ellipse p2)
     {
+        if (!p1.BoundingRectangle.CollidesWith(p2))
+        {
+            return false;
+        }
+
         if (Math.Abs(p2.Radii.X - p2.Radii.Y) < Constants.Tolerance)
         {
             foreach (var lineSegment in p1.LineSegments)
@@ -169,6 +199,11 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(Polygon p1, Polygon p2)
     {
+        if (!p1.BoundingRectangle.CollidesWith(p2))
+        {
+            return false;
+        }
+
         for (var i = 0; i < p1.Edges.Length; i++)
         {
             var edge = p1.Edges[i];
@@ -187,6 +222,11 @@ public static class CollisionDetectorMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(Polygon p1, Ellipse p2)
     {
+        if (!p1.BoundingRectangle.CollidesWith(p2))
+        {
+            return false;
+        }
+
         if (Math.Abs(p2.Radii.X - p2.Radii.Y) < Constants.Tolerance)
         {
             foreach (var lineSegment in p1.Edges)

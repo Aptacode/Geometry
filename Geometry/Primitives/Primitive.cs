@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
@@ -18,6 +17,8 @@ public abstract class Primitive
     public abstract Primitive GetBoundingPrimitive(float margin);
 
     #endregion
+
+    public abstract override string ToString();
 
     #region Properties
 
@@ -38,10 +39,7 @@ public abstract class Primitive
 
     public static bool operator ==(Primitive lhs, Primitive rhs)
     {
-        if (lhs is null)
-        {
-            return rhs is null;
-        }
+        if (lhs is null) return rhs is null;
 
         return lhs.Equals(rhs);
     }
@@ -52,8 +50,6 @@ public abstract class Primitive
     }
 
     #endregion
-
-    public abstract override string ToString();
 
     #region Collision Detection
 
@@ -71,43 +67,7 @@ public abstract class Primitive
             Point point => CollidesWith(point),
             Ellipse ellipse => CollidesWith(ellipse),
             PolyLine polyline => CollidesWith(polyline),
-            Polygon polygon => CollidesWith(polygon),
-        };
-    }
-
-    public virtual bool HybridCollidesWith(Vector2 p)
-    {
-        return BoundingRectangle.CollidesWith(p) && CollidesWith(p);
-    }
-
-    public virtual bool HybridCollidesWith(Point p)
-    {
-        return BoundingRectangle.CollidesWith(p) && CollidesWith(p);
-    }
-
-    public virtual bool HybridCollidesWith(Ellipse p)
-    {
-        return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
-    }
-
-    public virtual bool HybridCollidesWith(PolyLine p)
-    {
-        return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
-    }
-
-    public virtual bool HybridCollidesWith(Polygon p)
-    {
-        return BoundingRectangle.CollidesWith(p.BoundingRectangle) && CollidesWith(p);
-    }
-
-    public virtual bool HybridCollidesWithPrimitive(Primitive p)
-    {
-        return p switch
-        {
-            Point point => HybridCollidesWith(point),
-            Ellipse ellipse => HybridCollidesWith(ellipse),
-            PolyLine polyline => HybridCollidesWith(polyline),
-            Polygon polygon => HybridCollidesWith(polygon),
+            Polygon polygon => CollidesWith(polygon)
         };
     }
 

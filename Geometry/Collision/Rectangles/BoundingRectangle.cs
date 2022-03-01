@@ -18,7 +18,7 @@ public readonly struct BoundingRectangle
     public float Y => BottomLeft.Y;
     public float Width => BottomRight.X - TopLeft.X;
     public float Height => TopLeft.Y - BottomRight.Y;
-    
+
     #endregion
 
     #region Ctor
@@ -43,7 +43,7 @@ public readonly struct BoundingRectangle
 
         TopLeft = new Vector2(minX, maxY);
         TopRight = new Vector2(maxX, maxY);
-        BottomRight = new Vector2(maxX, minY); 
+        BottomRight = new Vector2(maxX, minY);
         BottomLeft = new Vector2(minX, minY);
     }
 
@@ -178,7 +178,8 @@ public readonly struct BoundingRectangle
 
     public override string ToString()
     {
-        return $"BoundingRectangle ({TopLeft.X},{TopLeft.Y}), ({TopRight.X},{TopRight.Y}), ({BottomRight.X},{BottomRight.Y}), ({BottomLeft.X},{BottomLeft.Y})";
+        return
+            $"BoundingRectangle ({TopLeft.X},{TopLeft.Y}), ({TopRight.X},{TopRight.Y}), ({BottomRight.X},{BottomRight.Y}), ({BottomLeft.X},{BottomLeft.Y})";
     }
 
     #region IEquatable
@@ -208,5 +209,4 @@ public readonly struct BoundingRectangle
     }
 
     #endregion
-
 }

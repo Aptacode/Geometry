@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
@@ -17,7 +16,6 @@ public sealed class PolyLine : Primitive
     #endregion
 
     #region IEquatable
-
 
     public override bool Equals(object other)
     {
@@ -113,7 +111,7 @@ public sealed class PolyLine : Primitive
         }
 
         return new PolyLine(VertexArray.Create(vertices),
-            new(new Vector2(minX, minY), new Vector2(maxX, maxY)),
+            new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY)),
             lineSegments);
     }
 
@@ -145,7 +143,7 @@ public sealed class PolyLine : Primitive
         }
 
         return new PolyLine(VertexArray.Create(points),
-            new(new Vector2(minX, minY), new Vector2(maxX, maxY)),
+            new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY)),
             lineSegments);
     }
 

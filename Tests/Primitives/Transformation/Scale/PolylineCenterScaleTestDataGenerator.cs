@@ -11,15 +11,15 @@ public class PolylineCenterScaleTestDataGenerator : IEnumerable<object[]>
     {
         new object[]
         {
-            PolyLine.Create(Vector2.Zero, Vector2.One), 
-            Vector2.One,
             PolyLine.Create(Vector2.Zero, Vector2.One),
+            Vector2.One,
+            PolyLine.Create(Vector2.Zero, Vector2.One)
         },
         new object[]
         {
             PolyLine.Create(Vector2.Zero, Vector2.One),
             new Vector2(2),
-            PolyLine.Create(new Vector2(-0.5f, -0.5f), new Vector2(1.5f, 1.5f)),
+            PolyLine.Create(new Vector2(-0.5f, -0.5f), new Vector2(1.5f, 1.5f))
         }
     };
 

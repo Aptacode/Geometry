@@ -1,38 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Aptacode.Geometry.Collision.Rectangles;
 using Xunit;
 
 namespace Aptacode.Geometry.Tests.BoundingRectangleTests;
 
 public class BoundingRectangleEqualityTests
 {
-    public class BoundingRectangleEqualityTestDataGenerator : IEnumerable<object[]>
-    {
-        private readonly List<object[]> _data = new()
-        {
-            new object[] { new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), true },
-            new object[] { new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, new Vector2(2)), false },
-            new object[] { new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), null, false },
-            new object[] { null, new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), false },
-            new object[] { null, null, true },
-
-        };
-
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            return _data.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-    }
-
     [Theory]
     [ClassData(typeof(BoundingRectangleEqualityTestDataGenerator))]
-    public void BoundingRectangleEquality_Equality(Geometry.Collision.Rectangles.BoundingRectangle p1, Geometry.Collision.Rectangles.BoundingRectangle p2, bool areEqual)
+    public void BoundingRectangleEquality_Equality(BoundingRectangle p1, BoundingRectangle p2, bool areEqual)
     {
         //Arrange
         //Act
@@ -48,5 +26,34 @@ public class BoundingRectangleEqualityTests
         //Assert
         Assert.Equal(areEqual, equalityOperatorResult);
         Assert.Equal(!areEqual, inequalityOperatorResult);
+    }
+
+    public class BoundingRectangleEqualityTestDataGenerator : IEnumerable<object[]>
+    {
+        private readonly List<object[]> _data = new()
+        {
+            new object[]
+            {
+                new BoundingRectangle(Vector2.Zero, Vector2.One), new BoundingRectangle(Vector2.Zero, Vector2.One), true
+            },
+            new object[]
+            {
+                new BoundingRectangle(Vector2.Zero, Vector2.One), new BoundingRectangle(Vector2.Zero, new Vector2(2)),
+                false
+            },
+            new object[] { new BoundingRectangle(Vector2.Zero, Vector2.One), null, false },
+            new object[] { null, new BoundingRectangle(Vector2.Zero, Vector2.One), false },
+            new object[] { null, null, true }
+        };
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            return _data.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

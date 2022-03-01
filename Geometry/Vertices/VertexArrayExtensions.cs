@@ -201,7 +201,7 @@ public static class VertexArrayExtensions
             if (vertex.Y > maxY) maxY = vertex.Y;
         }
 
-        return new(new Vector2(minX, minY), new Vector2(maxX, maxY));
+        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
     }
 
     public static BoundingRectangle Rotate(this VertexArray vertexArray, Vector2 rotationCenter, float theta)
@@ -223,7 +223,7 @@ public static class VertexArrayExtensions
             if (vertex.Y > maxY) maxY = vertex.Y;
         }
 
-        return new(new Vector2(minX, minY), new Vector2(maxX, maxY));
+        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
     }
 
     public static BoundingRectangle Scale(this VertexArray vertexArray, Vector2 scaleCenter, Vector2 delta)
@@ -245,7 +245,7 @@ public static class VertexArrayExtensions
             if (vertex.Y > maxY) maxY = vertex.Y;
         }
 
-        return new(new Vector2(minX, minY), new Vector2(maxX, maxY));
+        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
     }
 
     public static BoundingRectangle Skew(this VertexArray vertexArray, Vector2 delta)
@@ -266,7 +266,7 @@ public static class VertexArrayExtensions
             if (vertex.Y > maxY) maxY = vertex.Y;
         }
 
-        return new(new Vector2(minX, minY), new Vector2(maxX, maxY));
+        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
     }
 
     #endregion

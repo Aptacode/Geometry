@@ -29,16 +29,6 @@ public static class Helpers
         return false;
     }
 
-
-    public static (float m, float c) ToLineEquation(Vector2 start, Vector2 end)
-    {
-        if (Math.Abs(end.X - start.X) < Constants.Tolerance) return (float.PositiveInfinity, start.X);
-
-        var m = (end.Y - start.Y) / (end.X - start.X);
-        var c = -m * start.X + start.Y;
-        return (m, c);
-    }
-
     // Given three collinear points p, q, r, the function checks if
     // point q lies on line segment 'pr'
     private static bool OnSegment(Vector2 p, Vector2 q, Vector2 r)
