@@ -1,8 +1,7 @@
 ﻿using System.Numerics;
-using Aptacode.Geometry.Collision.Rectangles;
 using Xunit;
 
-namespace Aptacode.Geometry.Tests.Primitives.Equality;
+namespace Aptacode.Geometry.Tests.BoundingRectangleTests;
 
 public class BoundingRectangleCollisionTests
 {
@@ -10,7 +9,7 @@ public class BoundingRectangleCollisionTests
 
     [Theory]
     [ClassData(typeof(BoundingRectangleBoundingRectangleCollisionTestDataGenerator))]
-    public void BoundingRectangleBoundingRectangleCollision(BoundingRectangle p1, BoundingRectangle p2, bool collides)
+    public void BoundingRectangleBoundingRectangleCollision(Geometry.Collision.Rectangles.BoundingRectangle p1, Geometry.Collision.Rectangles.BoundingRectangle p2, bool collides)
     {
         //Arrange
 
@@ -23,7 +22,7 @@ public class BoundingRectangleCollisionTests
 
     [Theory]
     [ClassData(typeof(BoundingRectangleVector2CollisionTestDataGenerator))]
-    public void BoundingRectangleVector2Collision(BoundingRectangle p1, Vector2 p2, bool collides)
+    public void BoundingRectangleVector2Collision(Geometry.Collision.Rectangles.BoundingRectangle p1, Vector2 p2, bool collides)
     {
         //Arrange
 
