@@ -25,21 +25,10 @@ public readonly struct BoundingRectangle
 
     public BoundingRectangle(Vector2 a, Vector2 b)
     {
-        var minX = a.X;
-        var maxX = b.X;
-        var minY = a.Y;
-        var maxY = b.Y;
-        if (a.X > b.X)
-        {
-            minX = b.X;
-            maxX = a.X;
-        }
-
-        if (a.Y > b.Y)
-        {
-            minY = b.Y;
-            maxY = a.Y;
-        }
+        var minX = a.X <= b.X ? a.X : b.X;
+        var maxX = a.X >= b.X ? a.X : b.X;
+        var minY = a.Y <= b.Y ? a.Y : b.Y;
+        var maxY = a.Y >= b.Y ? a.Y : b.Y;
 
         TopLeft = new Vector2(minX, maxY);
         TopRight = new Vector2(maxX, maxY);
