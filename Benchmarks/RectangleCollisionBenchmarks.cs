@@ -16,7 +16,7 @@ public class RectangleCollisionBenchmarks
     [Benchmark]
     public bool Old()
     {
-        return CollisionDetectorMethods.CollidesWith(_poly, _ellipse);
+        return PrimitiveCollisionDetectionMethods.CollidesWith(_poly, _ellipse);
     }
 
     [Benchmark]

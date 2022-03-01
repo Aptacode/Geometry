@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision;
 
-public static class Vector2CollisionDetector
+public static class Vector2CollisionDetectionMethods
 {
     #region Vector2
 
@@ -59,15 +58,6 @@ public static class Vector2CollisionDetector
             return f1dist + f2dist <= 2 * p2.Radii.Y;
 
         return false;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool CollidesWith(this BoundingRectangle p2, Vector2 p1)
-    {
-        return p2.TopLeft.X <= p1.X &&
-               p2.TopLeft.Y <= p1.Y &&
-               p2.BottomRight.X >= p1.X &&
-               p2.BottomRight.Y >= p1.Y;
     }
 
     #endregion

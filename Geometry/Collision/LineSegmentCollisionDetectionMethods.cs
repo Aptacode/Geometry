@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision;
 
-public static class Helpers
+public static class LineSegmentCollisionDetectionMethods
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool OnLineSegment(this (Vector2 P1, Vector2 P2) line, Vector2 point)
     {
         var d1 = (line.P1 - point).Length();
@@ -16,6 +17,7 @@ public static class Helpers
         return Math.Abs(delta - lineLength) < Constants.Tolerance;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool NewOnLineSegment(this (Vector2 P1, Vector2 P2) line, Vector2 point)
     {
         var minVector = Vector2.Min(line.P1, line.P2);
@@ -31,6 +33,7 @@ public static class Helpers
 
     // Given three collinear points p, q, r, the function checks if
     // point q lies on line segment 'pr'
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool OnSegment(Vector2 p, Vector2 q, Vector2 r)
     {
         return q.X <= Math.Max(p.X, r.X) && q.X >= Math.Min(p.X, r.X) &&
@@ -42,6 +45,7 @@ public static class Helpers
     // 0 --> p, q and r are collinear
     // 1 --> Clockwise
     // 2 --> Counterclockwise
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int Orientation(Vector2 p, Vector2 q, Vector2 r)
     {
         // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
@@ -56,6 +60,7 @@ public static class Helpers
 
     // The main function that returns true if line segment 'p1q1'
     // and 'p2q2' intersect.
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool LineSegmentIntersection(this (Vector2 P1, Vector2 P2) line1, (Vector2 P1, Vector2 P2) line2)
     {
         var (p1, q1) = line1;
@@ -87,6 +92,7 @@ public static class Helpers
         return false; // Doesn't fall in any of the above cases
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool LineSegmentEllipseIntersection(this (Vector2 P1, Vector2 P2) line,
         (double A, double B, double C, double D, double E, double F) stdform)
     {
@@ -106,14 +112,5 @@ public static class Helpers
         var t1 = (-b + Math.Sqrt(det)) / (2 * a);
         var t2 = (-b - Math.Sqrt(det)) / (2 * a);
         return t1 is >= 0 and <= 1 || t2 is >= 0 and <= 1;
-    }
-
-    public static Vector2[] MakeLargeVertexList(int start, int xtranslate)
-    {
-        var vertexList = new List<Vector2>();
-        for (var i = start; i < 50; i++) vertexList.Add(new Vector2(i + xtranslate, i));
-
-        vertexList.Add(new Vector2(50 + xtranslate, start));
-        return vertexList.ToArray();
     }
 }

@@ -41,22 +41,22 @@ public sealed class Point : Primitive
 
     public override bool CollidesWith(Vector2 p)
     {
-        return Vector2CollisionDetector.CollidesWith(this, p);
+        return Vector2CollisionDetectionMethods.CollidesWith(this, p);
     }
 
     public override bool CollidesWith(Point p)
     {
-        return CollisionDetectorMethods.CollidesWith(this, p);
+        return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
     }
 
     public override bool CollidesWith(Ellipse p)
     {
-        return CollisionDetectorMethods.CollidesWith(this, p);
+        return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
     }
 
     public override bool CollidesWith(PolyLine p)
     {
-        return CollisionDetectorMethods.CollidesWith(this, p);
+        return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
     }
 
     public override bool CollidesWith(BoundingRectangle p)
@@ -66,7 +66,7 @@ public sealed class Point : Primitive
 
     public override bool CollidesWith(Polygon p)
     {
-        return CollisionDetectorMethods.CollidesWith(this, p);
+        return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
     }
 
     #endregion

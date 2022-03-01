@@ -70,13 +70,7 @@ public readonly struct BoundingRectangle
                BottomRight.Y <= point.Y;
     }
 
-    public bool CollidesWith(Point point)
-    {
-        return TopLeft.X <= point.Position.X &&
-               TopLeft.Y >= point.Position.Y &&
-               BottomRight.X >= point.Position.X &&
-               BottomRight.Y <= point.Position.Y;
-    }
+    public bool CollidesWith(Point point) => CollidesWith(point.Position);
 
     public bool CollidesWith(PolyLine polyLine)
     {

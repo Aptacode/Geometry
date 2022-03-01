@@ -5,7 +5,7 @@ using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision;
 
-public static class CollisionDetectorMethods
+public static class PrimitiveCollisionDetectionMethods
 {
     #region Ellipse
 
