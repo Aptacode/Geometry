@@ -28,7 +28,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Primitives\BoundingPrimitive\" />
 	  <Folder Include="Primitives\Transformation\Rotate\" />
 	  <Folder Include="Primitives\Transformation\Skew\" />
 	  <Folder Include="Primitives\Transformation\SetPosition\" />

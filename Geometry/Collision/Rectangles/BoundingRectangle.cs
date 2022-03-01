@@ -61,10 +61,10 @@ public readonly struct BoundingRectangle
 
     public bool CollidesWith(BoundingRectangle rect)
     {
-        return TopLeft.X < rect.TopRight.X &&
-               TopRight.X > rect.TopLeft.X &&
-               TopLeft.Y > rect.BottomRight.Y &&
-               BottomRight.Y < rect.TopLeft.Y;
+        return TopLeft.X <= rect.TopRight.X &&
+               TopRight.X >= rect.TopLeft.X &&
+               TopLeft.Y >= rect.BottomRight.Y &&
+               BottomRight.Y <= rect.TopLeft.Y;
     }
 
 
@@ -184,6 +184,35 @@ public readonly struct BoundingRectangle
 
     public override string ToString()
     {
-        return $"{TopLeft},{TopRight},{BottomRight},{BottomLeft}";
+        return $"BoundingRectangle ({TopLeft.X},{TopLeft.Y}), ({TopRight.X},{TopRight.Y}), ({BottomRight.X},{BottomRight.Y}), ({BottomLeft.X},{BottomLeft.Y})";
     }
+
+    #region IEquatable
+
+    public override int GetHashCode()
+    {
+        return ToString().GetHashCode();
+    }
+
+    public override bool Equals(object other)
+    {
+        return other is BoundingRectangle otherBoundingRectangle &&
+               TopLeft == otherBoundingRectangle.TopLeft &&
+               TopRight == otherBoundingRectangle.TopRight &&
+               BottomRight == otherBoundingRectangle.BottomRight &&
+               BottomLeft == otherBoundingRectangle.BottomLeft;
+    }
+
+    public static bool operator ==(BoundingRectangle lhs, BoundingRectangle rhs)
+    {
+        return lhs.Equals(rhs);
+    }
+
+    public static bool operator !=(BoundingRectangle lhs, BoundingRectangle rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    #endregion
+
 }

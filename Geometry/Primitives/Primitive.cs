@@ -29,8 +29,6 @@ public abstract class Primitive
 
     #region IEquatable
 
-    #region IEquatable
-
     public override int GetHashCode()
     {
         return ToString().GetHashCode();
@@ -56,8 +54,6 @@ public abstract class Primitive
     #endregion
 
     public abstract override string ToString();
-
-    #endregion
 
     #region Collision Detection
 
