@@ -11,10 +11,10 @@ public class BoundingRectangleEqualityTests
     {
         private readonly List<object[]> _data = new()
         {
-            new object[] { Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), true },
-            new object[] { Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, new Vector2(2)), false },
-            new object[] { Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), null, false },
-            new object[] { null, Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), false },
+            new object[] { new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), true },
+            new object[] { new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, new Vector2(2)), false },
+            new object[] { new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), null, false },
+            new object[] { null, new Geometry.Collision.Rectangles.BoundingRectangle(Vector2.Zero, Vector2.One), false },
             new object[] { null, null, true },
 
         };

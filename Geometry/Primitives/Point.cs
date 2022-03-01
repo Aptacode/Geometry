@@ -118,7 +118,7 @@ public sealed class Point : Primitive
 
     public static Point Create(Vector2 position)
     {
-        return new Point(VertexArray.Create(position), new BoundingRectangle(position, position, position, position));
+        return new Point(VertexArray.Create(position), new BoundingRectangle(position, position));
     }
 
     public static Point Zero => Create(Vector2.Zero);

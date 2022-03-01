@@ -12,26 +12,18 @@ public readonly struct BoundingRectangle
     public readonly Vector2 TopRight;
     public readonly Vector2 BottomRight;
     public readonly Vector2 BottomLeft;
-    public Vector2 Size => Vector2.Abs(TopRight - BottomLeft);
-    public Vector2 Center => BottomLeft + Size / 2.0f;
+    public Vector2 Size => new(BottomRight.X - TopLeft.X, TopLeft.Y - BottomRight.Y);
+    public Vector2 Center => new(X + Width / 2, Y + Height / 2);
     public float X => BottomLeft.X;
     public float Y => BottomLeft.Y;
-    public float Width => Size.X;
-    public float Height => Size.Y;
-
+    public float Width => BottomRight.X - TopLeft.X;
+    public float Height => TopLeft.Y - BottomRight.Y;
+    
     #endregion
 
     #region Ctor
 
-    public BoundingRectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft)
-    {
-        TopLeft = topLeft;
-        TopRight = topRight;
-        BottomRight = bottomRight;
-        BottomLeft = bottomLeft;
-    }
-
-    public static BoundingRectangle FromTwoPoints(Vector2 a, Vector2 b)
+    public BoundingRectangle(Vector2 a, Vector2 b)
     {
         var minX = a.X;
         var maxX = b.X;
@@ -49,11 +41,13 @@ public readonly struct BoundingRectangle
             maxY = a.Y;
         }
 
-        return new BoundingRectangle(new Vector2(minX, maxY), new Vector2(maxX, maxY), new Vector2(maxX, minY),
-            new Vector2(minX, minY));
+        TopLeft = new Vector2(minX, maxY);
+        TopRight = new Vector2(maxX, maxY);
+        BottomRight = new Vector2(maxX, minY); 
+        BottomLeft = new Vector2(minX, minY);
     }
 
-    public static readonly BoundingRectangle Zero = FromTwoPoints(Vector2.Zero, Vector2.Zero);
+    public static readonly BoundingRectangle Zero = new(Vector2.Zero, Vector2.Zero);
 
     #endregion
 

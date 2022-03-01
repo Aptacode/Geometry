@@ -235,7 +235,7 @@ public sealed class Ellipse : Primitive
         var topLeft = position - new Vector2(xdelta, ydelta);
         var bottomRight = position + new Vector2(xdelta, ydelta);
 
-        return BoundingRectangle.FromTwoPoints(topLeft, bottomRight);
+        return new BoundingRectangle(topLeft, bottomRight);
     }
 
     public static (double A, double B, double C, double D, double E, double F)

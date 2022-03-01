@@ -109,7 +109,7 @@ public sealed class Polygon : Primitive
         edges[^1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertices[0]);
 
         return new Polygon(VertexArray.Create(vertices),
-            BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
+            new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY)),
             edges);
     }
 
@@ -143,7 +143,7 @@ public sealed class Polygon : Primitive
         edges[^1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertexArray[0]);
 
         return new Polygon(VertexArray.Create(vertexArray),
-            BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
+            new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY)),
             edges);
     }
 

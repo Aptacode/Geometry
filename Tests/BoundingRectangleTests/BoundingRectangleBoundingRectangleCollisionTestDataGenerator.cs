@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Aptacode.Geometry.Collision.Rectangles;
 
 namespace Aptacode.Geometry.Tests.BoundingRectangleTests;
 
@@ -8,9 +9,9 @@ public class BoundingRectangleBoundingRectangleCollisionTestDataGenerator : IEnu
 {
     private readonly List<object[]> _data = new()
     {
-        new object[] { Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), true },
-        new object[] { Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.One, new Vector2(2)), true },
-        new object[] { Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(new Vector2(2), new Vector2(3)), false },
+        new object[] { new BoundingRectangle(Vector2.Zero, Vector2.One), new BoundingRectangle(Vector2.Zero, Vector2.One), true },
+        new object[] { new BoundingRectangle(Vector2.Zero, Vector2.One), new BoundingRectangle(Vector2.One, new Vector2(2)), true },
+        new object[] { new BoundingRectangle(Vector2.Zero, Vector2.One), new BoundingRectangle(new Vector2(2), new Vector2(3)), false },
 
     };
 

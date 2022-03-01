@@ -11,9 +11,9 @@ public class PointBoundingRectangleCollisionTestDataGenerator : IEnumerable<obje
     private readonly List<object[]> _data = new()
     {
         //Point
-        new object[] { Point.Zero, BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), true },
-        new object[] { Point.Unit, BoundingRectangle.FromTwoPoints(Vector2.Zero, new Vector2(2, 2)), true },
-        new object[] { Point.Zero, BoundingRectangle.FromTwoPoints(Vector2.One, Vector2.One), false }
+        new object[] { Point.Zero, new BoundingRectangle(Vector2.Zero, Vector2.One), true },
+        new object[] { Point.Unit, new BoundingRectangle(Vector2.Zero, new Vector2(2, 2)), true },
+        new object[] { Point.Zero, new BoundingRectangle(Vector2.One, Vector2.One), false }
     };
 
     public IEnumerator<object[]> GetEnumerator()

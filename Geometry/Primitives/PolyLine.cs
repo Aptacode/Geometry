@@ -113,7 +113,7 @@ public sealed class PolyLine : Primitive
         }
 
         return new PolyLine(VertexArray.Create(vertices),
-            BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
+            new(new Vector2(minX, minY), new Vector2(maxX, maxY)),
             lineSegments);
     }
 
@@ -145,7 +145,7 @@ public sealed class PolyLine : Primitive
         }
 
         return new PolyLine(VertexArray.Create(points),
-            BoundingRectangle.FromTwoPoints(new Vector2(minX, minY), new Vector2(maxX, maxY)),
+            new(new Vector2(minX, minY), new Vector2(maxX, maxY)),
             lineSegments);
     }
 

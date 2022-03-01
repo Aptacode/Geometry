@@ -21,7 +21,7 @@ public class PrimitiveTransformationTests
         p1.Translate(delta);
 
         //Assert
-        Assert.Equal(p1, expected);
+        Assert.Equal(expected, p1);
     }
 
     [Theory]
@@ -36,7 +36,7 @@ public class PrimitiveTransformationTests
         p1.ScaleAboutCenter(delta);
 
         //Assert
-        Assert.Equal(p1, expected);
+        Assert.Equal(expected, p1);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class PrimitiveTransformationTests
         rectangle.SetSize(new Vector2(4, 4));
 
         //Assert
-        var expectedRectangle = BoundingRectangle.FromTwoPoints(new Vector2(-2, -2), new Vector2(2, 2));
+        var expectedRectangle = new BoundingRectangle(new Vector2(-2, -2), new Vector2(2, 2));
         Assert.Equal(expectedRectangle, rectangle.BoundingRectangle);
     }
 
@@ -61,7 +61,7 @@ public class PrimitiveTransformationTests
         rectangle.SetPosition(new Vector2(2, 2));
 
         //Assert
-        var expectedRectangle = BoundingRectangle.FromTwoPoints(new Vector2(1.5f, 1.5f), new Vector2(2.5f, 2.5f));
+        var expectedRectangle = new BoundingRectangle(new Vector2(1.5f, 1.5f), new Vector2(2.5f, 2.5f));
         Assert.Equal(expectedRectangle, rectangle.BoundingRectangle);
     }
 }

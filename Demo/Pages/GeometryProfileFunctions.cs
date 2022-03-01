@@ -19,7 +19,7 @@ public static class GeometryProfileFunctions
             new PrimitiveFunction<Ellipse>(f => f.Translate(new Vector2(10, 5)), "translate"),
             new PrimitiveFunction<Ellipse>(f => f.CollidesWith(new Vector2(10, 5)), "point collision"),
             new PrimitiveFunction<Ellipse>(
-                f => f.CollidesWith(BoundingRectangle.FromTwoPoints(new Vector2(0, 0), new Vector2(10, 10))),
+                f => f.CollidesWith(new BoundingRectangle(new Vector2(0, 0), new Vector2(10, 10))),
                 "rectangle collision"),
 
             //Point
@@ -31,7 +31,7 @@ public static class GeometryProfileFunctions
             new PrimitiveFunction<Point>(f => f.Translate(new Vector2(10, 5)), "translate"),
             new PrimitiveFunction<Point>(f => f.CollidesWith(new Vector2(10, 5)), "point collision"),
             new PrimitiveFunction<Point>(
-                f => f.CollidesWith(BoundingRectangle.FromTwoPoints(new Vector2(0, 0), new Vector2(10, 10))),
+                f => f.CollidesWith(new BoundingRectangle(new Vector2(0, 0), new Vector2(10, 10))),
                 "rectangle collision"),
 
             //PolyLine
@@ -43,7 +43,7 @@ public static class GeometryProfileFunctions
             new PrimitiveFunction<PolyLine>(f => f.Translate(new Vector2(10, 5)), "translate"),
             new PrimitiveFunction<PolyLine>(f => f.CollidesWith(new Vector2(10, 5)), "point collision"),
             new PrimitiveFunction<PolyLine>(
-                f => f.CollidesWith(BoundingRectangle.FromTwoPoints(new Vector2(0, 0), new Vector2(10, 10))),
+                f => f.CollidesWith(new BoundingRectangle(new Vector2(0, 0), new Vector2(10, 10))),
                 "rectangle collision"),
 
             //Polygon
@@ -55,7 +55,7 @@ public static class GeometryProfileFunctions
             new PrimitiveFunction<Polygon>(f => f.Translate(new Vector2(10, 5)), "translate"),
             new PrimitiveFunction<Polygon>(f => f.CollidesWith(new Vector2(10, 5)), "point collision"),
             new PrimitiveFunction<Polygon>(
-                f => f.CollidesWith(BoundingRectangle.FromTwoPoints(new Vector2(0, 0), new Vector2(10, 10))),
+                f => f.CollidesWith(new BoundingRectangle(new Vector2(0, 0), new Vector2(10, 10))),
                 "rectangle collision")
         };
     }

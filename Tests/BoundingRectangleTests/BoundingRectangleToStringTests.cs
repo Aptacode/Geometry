@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Aptacode.Geometry.Collision.Rectangles;
 using Xunit;
 
 namespace Aptacode.Geometry.Tests.BoundingRectangleTests;
@@ -11,7 +12,7 @@ public class BoundingRectangleToStringTests
     {
         private readonly List<object[]> _data = new()
         {
-            new object[] { Geometry.Collision.Rectangles.BoundingRectangle.FromTwoPoints(Vector2.Zero, Vector2.One), "BoundingRectangle (0,1), (1,1), (1,0), (0,0)" },
+            new object[] { new BoundingRectangle(Vector2.Zero, Vector2.One), "BoundingRectangle (0,1), (1,1), (1,0), (0,0)" },
 
         };
 

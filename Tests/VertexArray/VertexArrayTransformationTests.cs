@@ -51,7 +51,7 @@ public class VertexArrayTransformationTests
         //Arrange
         var vertexArray = Vertices.VertexArray.Create(new Vector2(10, 10), new Vector2(30, 10), new Vector2(30, 30),
             new Vector2(10, 30));
-        var expectedBoundedRectangle = BoundingRectangle.FromTwoPoints(new Vector2(0, 0), new Vector2(40, 40));
+        var expectedBoundedRectangle = new BoundingRectangle(new Vector2(0, 0), new Vector2(40, 40));
 
         //Act
         var actualBoundedRectangle = vertexArray.Scale(new Vector2(20, 20), new Vector2(2, 2));
