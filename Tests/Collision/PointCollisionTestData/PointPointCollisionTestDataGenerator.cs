@@ -11,7 +11,9 @@ public class PointPointCollisionTestDataGenerator : IEnumerable<object[]>
     {
         //Point
         new object[] { Point.Create(0, 0), Vector2.Zero, true },
-        new object[] { Point.Create(0, 0), Vector2.One, false }
+        new object[] { Point.Create(0, 0), Vector2.One, false },
+        new object[] { Point.Create(0, 0), new Vector2(0,1), false },
+        new object[] { Point.Create(0, 0), new Vector2(1, 0), false }
     };
 
     public IEnumerator<object[]> GetEnumerator()
