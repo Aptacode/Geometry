@@ -5,7 +5,7 @@ using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Tests.Collision.PointCollisionTestData;
 
-public class PolylinePointCollisionTestDataGenerator : IEnumerable<object[]>
+public class PolylineVector2CollisionTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
