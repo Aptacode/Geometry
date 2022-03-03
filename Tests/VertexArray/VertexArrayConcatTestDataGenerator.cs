@@ -22,10 +22,9 @@ public class VertexArrayConcatTestDataGenerator : IEnumerable<object[]>
         },
         new object[]
         {
-            Vertices.VertexArray.Create(Vector2.Zero), Vertices.VertexArray.Create(),
-            Vertices.VertexArray.Create(Vector2.Zero)
+            Vertices.VertexArray.Create(Vector2.Zero), Vertices.VertexArray.Empty(), Vertices.VertexArray.Create(Vector2.Zero)
         },
-        new object[] { Vertices.VertexArray.Create(), Vertices.VertexArray.Create(), Vertices.VertexArray.Create() }
+        new object[] { Vertices.VertexArray.Empty(), Vertices.VertexArray.Empty(), Vertices.VertexArray.Empty() }
     };
 
     public IEnumerator<object[]> GetEnumerator()

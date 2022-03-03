@@ -20,7 +20,6 @@ public class Collision_Tests
         //Arrange
 
         //Act
-        var sut = p1.CollidesWithPrimitive(p2);
         var collidesWithPrimitiveResult = p1.CollidesWithPrimitive(p2);
         var collidesWithResult = p2 switch
         {
