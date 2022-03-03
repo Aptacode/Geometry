@@ -13,16 +13,16 @@ public class EllipseBoundingRectangleCollisionTestDataGenerator : IEnumerable<ob
         //Ellipse
         new object[]
         {
-            Ellipse.Circle.Create(Vector2.Zero, 1), new BoundingRectangle(Vector2.Zero, Vector2.One), true
+            Ellipse.Create(Vector2.Zero, 1), new BoundingRectangle(Vector2.Zero, Vector2.One), true
         },
         new object[]
         {
-            Ellipse.Circle.Create(Vector2.Zero, 1), new BoundingRectangle(new Vector2(0, 1), Vector2.One),
+            Ellipse.Create(Vector2.Zero, 1), new BoundingRectangle(new Vector2(0, 1), Vector2.One),
             true
         },
         new object[]
         {
-            Ellipse.Circle.Create(Vector2.Zero, 1), new BoundingRectangle(new Vector2(3, 3), Vector2.One),
+            Ellipse.Create(Vector2.Zero, 1), new BoundingRectangle(new Vector2(3, 3), Vector2.One),
             false
         }
     };

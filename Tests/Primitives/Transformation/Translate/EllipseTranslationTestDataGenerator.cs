@@ -9,8 +9,8 @@ public class EllipseTranslationTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
-        new object[] { Ellipse.Circle.Create(Vector2.Zero, 1), Vector2.One, Ellipse.Circle.Create(Vector2.One, 1) },
-        new object[] { Ellipse.Circle.Create(Vector2.Zero, 1), Vector2.Zero, Ellipse.Circle.Create(Vector2.Zero, 1) }
+        new object[] { Ellipse.Create(Vector2.Zero, 1), Vector2.One, Ellipse.Create(Vector2.One, 1) },
+        new object[] { Ellipse.Create(Vector2.Zero, 1), Vector2.Zero, Ellipse.Create(Vector2.Zero, 1) }
     };
 
     public IEnumerator<object[]> GetEnumerator()

@@ -171,14 +171,6 @@ public sealed class Polygon : Primitive
         }
     }
 
-    public static class Triangle
-    {
-        public static Polygon Create(Vector2 a, Vector2 b, Vector2 c)
-        {
-            return Polygon.Create(a, b, c);
-        }
-    }
-
     #endregion
 
     #region Transformations
