@@ -24,7 +24,8 @@ public class EllipseBoundingRectangleCollisionTestDataGenerator : IEnumerable<ob
         {
             Ellipse.Circle.Create(Vector2.Zero, 1), new BoundingRectangle(new Vector2(3, 3), Vector2.One),
             false
-        }
+        },
+   
     };
 
     public IEnumerator<object[]> GetEnumerator()
