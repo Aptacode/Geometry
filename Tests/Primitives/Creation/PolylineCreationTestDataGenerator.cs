@@ -1,17 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Tests.Collision.PointCollisionTestData;
+namespace Aptacode.Geometry.Tests.Primitives.Creation;
 
-public class PolylinePointCollisionTestDataGenerator : IEnumerable<object[]>
+public class PolylineCreationTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
-        //PolyLine
-        new object[] { PolyLine.Create(0, 0, 10, 10), Vector2.Zero, true },
-        new object[] { PolyLine.Create(0, 0, 10, 10), new Vector2(5, 5), true },
+        new object[] { PolyLine.Zero, Vertices.VertexArray.Create(0,0, 0,0) },
+        new object[] { PolyLine.Create(0,0, 1,1, 2,2), Vertices.VertexArray.Create(0,0, 1,1, 2,2) },
     };
 
     public IEnumerator<object[]> GetEnumerator()

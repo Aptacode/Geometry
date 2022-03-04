@@ -20,7 +20,6 @@ public class Collision_Tests
         //Arrange
 
         //Act
-        var sut = p1.CollidesWithPrimitive(p2);
         var collidesWithPrimitiveResult = p1.CollidesWithPrimitive(p2);
         var collidesWithResult = p2 switch
         {
@@ -38,10 +37,10 @@ public class Collision_Tests
     }
 
     [Theory]
-    [ClassData(typeof(PointPointCollisionTestDataGenerator))]
-    [ClassData(typeof(EllipsePointCollisionTestDataGenerator))]
-    [ClassData(typeof(PolygonPointCollisionTestDataGenerator))]
-    [ClassData(typeof(PolylinePointCollisionTestDataGenerator))]
+    [ClassData(typeof(PointVector2CollisionTestDataGenerator))]
+    [ClassData(typeof(EllipseVector2CollisionTestDataGenerator))]
+    [ClassData(typeof(PolygonVector2CollisionTestDataGenerator))]
+    [ClassData(typeof(PolylineVector2CollisionTestDataGenerator))]
     public void PrimitiveCollidesWithVector2(Primitive p1, Vector2 p2, bool collides)
     {
         //Arrange

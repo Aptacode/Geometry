@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Tests.Collision.PointCollisionTestData;
+namespace Aptacode.Geometry.Tests.Primitives.Creation;
 
-public class EllipsePointCollisionTestDataGenerator : IEnumerable<object[]>
+public class EllipseCreationTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
@@ -28,8 +27,8 @@ public class EllipsePointCollisionTestDataGenerator : IEnumerable<object[]>
         new object[] { Ellipse.Create(20, 0, 20, 10, 0), new Vector2(-20, 0), false },
         new object[] { Ellipse.Create(20, 0, 20, 10, (MathF.PI)/2), new Vector2(20, 0), true },
 
-
-
+        new object[] { Ellipse.Zero, Vertices.VertexArray.Create(0,0) },
+        new object[] { Ellipse.Unit, Vertices.VertexArray.Create(0,0) },
     };
 
     public IEnumerator<object[]> GetEnumerator()

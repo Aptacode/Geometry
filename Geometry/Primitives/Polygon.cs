@@ -76,8 +76,7 @@ public sealed class Polygon : Primitive
 
     #region Construction
 
-    private Polygon(VertexArray vertices, BoundingRectangle boundingRectangle, (Vector2 P1, Vector2 P2)[] edges) :
-        base(vertices, boundingRectangle)
+    private Polygon(VertexArray vertices, BoundingRectangle boundingRectangle, (Vector2 P1, Vector2 P2)[] edges) : base(vertices, boundingRectangle)
     {
         Edges = edges;
     }
@@ -149,11 +148,6 @@ public sealed class Polygon : Primitive
 
     public static class Rectangle
     {
-        public static Polygon Create(Vector2 topLeft, Vector2 topRight, Vector2 bottomRight, Vector2 bottomLeft)
-        {
-            return Polygon.Create(topLeft, topRight, bottomRight, bottomLeft);
-        }
-
         public static Polygon FromTwoPoints(Vector2 a, Vector2 b)
         {
             var minX = a.X;
@@ -172,16 +166,8 @@ public sealed class Polygon : Primitive
                 maxY = a.Y;
             }
 
-            return Polygon.Create(new Vector2(minX, maxY), new Vector2(maxX, maxY), new Vector2(maxX, minY),
-                new Vector2(minX, minY));
-        }
-    }
-
-    public static class Triangle
-    {
-        public static Polygon Create(Vector2 a, Vector2 b, Vector2 c)
-        {
-            return Polygon.Create(a, b, c);
+            return Create(new Vector2(minX, minY), new Vector2(minX, maxY), new Vector2(maxX, maxY),
+                new Vector2(minX, maxY));
         }
     }
 

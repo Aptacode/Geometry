@@ -11,13 +11,13 @@ public class PolygonTranslationTestDataGenerator : IEnumerable<object[]>
     {
         new object[]
         {
-            Polygon.Triangle.Create(Vector2.Zero, Vector2.One, new Vector2(0, 1)), Vector2.One,
-            Polygon.Triangle.Create(Vector2.One, new Vector2(2, 2), new Vector2(1, 2))
+            Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One), Vector2.One,
+            Polygon.Rectangle.FromTwoPoints(Vector2.One, new Vector2(2, 2))
         },
         new object[]
         {
-            Polygon.Triangle.Create(Vector2.Zero, Vector2.One, new Vector2(0, 1)), Vector2.Zero,
-            Polygon.Triangle.Create(Vector2.Zero, Vector2.One, new Vector2(0, 1))
+            Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One), Vector2.Zero,
+            Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One)
         }
     };
 

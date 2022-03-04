@@ -14,13 +14,39 @@ public readonly struct VertexArray : IEquatable<VertexArray>
 
     public VertexArray(Vector2[] vertices)
     {
-        Vertices = vertices.Length == 0 ? Array.Empty<Vector2>() : vertices;
+        Vertices = vertices ?? Array.Empty<Vector2>();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static VertexArray Empty()
+    {
+        return new VertexArray(Array.Empty<Vector2>());
+    }     
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static VertexArray Create(params Vector2[] vertices)
     {
         return new VertexArray(vertices);
+    }    
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static VertexArray Create(params float[] vertices)
+    {
+        switch (vertices.Length)
+        {
+            case 0:
+                return new VertexArray(Array.Empty<Vector2>());
+            case 1:
+                return new VertexArray(new []{ new Vector2(vertices[0], 0)});
+        }
+
+        var vertexArray = new Vector2[vertices.Length / 2];
+        var vertexIndex = 0;
+        for (var i = 0; i < vertices.Length; i+=2)
+        {
+            vertexArray[vertexIndex++] = new Vector2(vertices[i], vertices[i + 1]);
+        }
+        return new VertexArray(vertexArray);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

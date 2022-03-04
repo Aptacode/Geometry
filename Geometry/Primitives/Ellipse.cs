@@ -133,14 +133,6 @@ public sealed class Ellipse : Primitive
         return $"Ellipse ({Position.X},{Position.Y}), ({Radii.X},{Radii.Y}), {Rotation}";
     }
 
-    public static class Circle
-    {
-        public static Ellipse Create(Vector2 position, float radius)
-        {
-            return Ellipse.Create(position, new Vector2(radius, radius), 0);
-        }
-    }
-
     #region Collision Detection
 
     public override Primitive GetBoundingPrimitive(float margin)
@@ -208,6 +200,11 @@ public sealed class Ellipse : Primitive
         var boundingRectangle = GetBoundingRectangle(position, radii, rotation);
         var standardForm = GetStandardForm(position, radii, rotation);
         return new Ellipse(vertexArray, boundingRectangle, radii, rotation, standardForm);
+    }
+
+    public static Ellipse Create(Vector2 position, float radius)
+    {
+        return Ellipse.Create(position, new Vector2(radius, radius), 0);
     }
 
     public static readonly Ellipse Zero = Create(Vector2.Zero, Vector2.Zero, 0.0f);
