@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Tests.Primitives.Creation;
