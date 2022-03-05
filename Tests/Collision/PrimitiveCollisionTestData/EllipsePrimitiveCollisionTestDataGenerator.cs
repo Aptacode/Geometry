@@ -47,6 +47,17 @@ public class EllipsePrimitiveCollisionTestDataGenerator : IEnumerable<object[]>
             Ellipse.Create(Vector2.Zero, Vector2.One, 0.0f), PolyLine.Create(new Vector2(2, 2), new Vector2(3, 3)),
             false
         },
+
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(10, 0), new Vector2(10, 20)), true },
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(9, 0), new Vector2(9, 20)), true },
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(11, 0), new Vector2(11, 20)), true },
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(8, 0), new Vector2(8, 20)), false },
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(12, 0), new Vector2(12, 20)), false },
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(0, 10), new Vector2(20, 10)), true },
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(0, 9), new Vector2(20, 9)), true },
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(0, 11), new Vector2(20, 11)), true },
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(0, 8), new Vector2(20, 8)), false },
+        new object[] { Ellipse.Create(new Vector2(10), 1), PolyLine.Create(new Vector2(0, 12), new Vector2(20, 12)), false },
         new object[]
         {
             Ellipse.Create(30, 30, 20, 10, 0.0f), Polygon.Create(27, 27, 33, 27, 33, 33, 27, 33), true
