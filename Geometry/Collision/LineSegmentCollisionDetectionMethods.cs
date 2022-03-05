@@ -113,4 +113,34 @@ public static class LineSegmentCollisionDetectionMethods
         var t2 = (-b - Math.Sqrt(det)) / (2 * a);
         return t1 is >= 0 and <= 1 || t2 is >= 0 and <= 1;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool IsPointInsideCircle(Vector2 circleCenter, float radius, Vector2 point)
+    {
+        // Compare radius of circle with
+        // distance of its center from
+        // given point
+        return (point.X - circleCenter.X) * (point.Y - circleCenter.X) +
+            (point.Y - circleCenter.Y) * (point.Y - circleCenter.Y) <= radius * radius;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool LineSegmentIntersectsCircle(this (Vector2 P1, Vector2 P2) lineSegment, Vector2 center, float radius)
+    {
+        //Check if the end points of the line segment are inside the circle
+        if (IsPointInsideCircle(center, radius, lineSegment.P1) ||
+            IsPointInsideCircle(center, radius, lineSegment.P2))
+            return true;
+
+        //Otherwise check if the line segment intersects the circle
+        var dot = ((center.X - lineSegment.P1.X) * (lineSegment.P2.X - lineSegment.P1.X) +
+                   (center.Y - lineSegment.P1.Y) * (lineSegment.P2.Y - lineSegment.P1.Y)) /
+                  (lineSegment.P2 - lineSegment.P1).LengthSquared();
+        var closestX = lineSegment.P1.X + dot * (lineSegment.P2.X - lineSegment.P1.X);
+        var closestY = lineSegment.P1.Y + dot * (lineSegment.P2.Y - lineSegment.P1.Y);
+        var closestPoint =
+            new Vector2(closestX,
+                closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
+        return (lineSegment.P1, lineSegment.P2).OnLineSegment(closestPoint) && IsPointInsideCircle(center, radius, closestPoint);
+    }
 }

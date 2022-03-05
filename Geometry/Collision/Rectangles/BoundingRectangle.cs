@@ -112,8 +112,7 @@ public readonly struct BoundingRectangle
 
     public bool CollidesWith(Ellipse ellipse)
     {
-        if (CollidesWith(ellipse.Position)
-           ) //If the center of the ellipse is inside the Bounding rectangle then there is a collision.
+        if (CollidesWith(ellipse.Position)) //If the center of the ellipse is inside the Bounding rectangle then there is a collision.
             return true;
 
         var testDistance = ellipse.Position - Center;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Primitives;
@@ -134,43 +135,22 @@ public static class PrimitiveCollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(PolyLine p1, Ellipse p2)
     {
-        if (!p1.BoundingRectangle.CollidesWith(p2))
+        if (!p1.BoundingRectangle.CollidesWith(p2.BoundingRectangle))
         {
             return false;
         }
 
         if (Math.Abs(p2.Radii.X - p2.Radii.Y) < Constants.Tolerance)
         {
-            foreach (var lineSegment in p1.LineSegments)
-            {
-                if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2)) return true;
-
-                var dot = ((p2.Position.X - lineSegment.P1.X) * (lineSegment.P2.X - lineSegment.P1.X) +
-                           (p2.Position.Y - lineSegment.P1.Y) * (lineSegment.P2.Y - lineSegment.P1.Y)) /
-                          (lineSegment.P2 - lineSegment.P1).LengthSquared();
-                var closestX = lineSegment.P1.X + dot * (lineSegment.P2.X - lineSegment.P1.X);
-                var closestY = lineSegment.P1.Y + dot * (lineSegment.P2.Y - lineSegment.P1.Y);
-                var closestPoint =
-                    new Vector2(closestX,
-                        closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
-                if (!(lineSegment.P1, lineSegment.P2).OnLineSegment(closestPoint)
-                   ) //Closest intersection point may be beyond the ends of the line segment.
-                    continue;
-
-                if (p2.CollidesWith(closestPoint)
-                   ) //Closest intersection point is inside the circle means circle intersects the line.
-                    return true;
-            }
+            //If ellipse is a circle
+            return p1.LineSegments.Any(l => l.LineSegmentIntersectsCircle(p2.Position, p2.Radii.X));
         }
-        else
-        {
-            var stdform = p2.StandardForm;
-            foreach (var lineSegment in p1.LineSegments)
-            {
-                if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2)) return true;
 
-                return (lineSegment.P1, lineSegment.P2).LineSegmentEllipseIntersection(stdform);
-            }
+        //If ellipse is not a circle
+        var stdform = p2.StandardForm;
+        foreach (var lineSegment in p1.LineSegments)
+        {
+            if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2) || lineSegment.LineSegmentEllipseIntersection(stdform)) return true;
         }
 
         return false;
@@ -211,42 +191,19 @@ public static class PrimitiveCollisionDetectionMethods
             return false;
         }
 
+        if (p1.CollidesWith(p2.Position)) //This checks containment
+            return true;
+
         if (Math.Abs(p2.Radii.X - p2.Radii.Y) < Constants.Tolerance)
         {
-            foreach (var lineSegment in p1.Edges)
-            {
-                if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2)) return true;
-
-                var dot = ((p2.Position.X - lineSegment.P1.X) * (lineSegment.P2.X - lineSegment.P1.X) +
-                           (p2.Position.Y - lineSegment.P1.Y) * (lineSegment.P2.Y - lineSegment.P1.Y)) /
-                          (lineSegment.P2 - lineSegment.P1).LengthSquared();
-                var closestX = lineSegment.P1.X + dot * (lineSegment.P2.X - lineSegment.P1.X);
-                var closestY = lineSegment.P1.Y + dot * (lineSegment.P2.Y - lineSegment.P1.Y);
-                var closestPoint =
-                    new Vector2(closestX,
-                        closestY); //The point of intersection of a line from the center of the circle perpendicular to the edge (possibly the ray) with the line segment (or ray).
-                if (!(lineSegment.P1, lineSegment.P2).OnLineSegment(closestPoint)
-                   ) //Closest intersection point may be beyond the ends of the edge.
-                    continue;
-
-                if (p2.CollidesWith(closestPoint)
-                   ) //Closest intersection point is inside the circle means circle intersects the edge.
-                    return true;
-            }
+            //If ellipse is a circle
+            return p1.Edges.Any(l => l.LineSegmentIntersectsCircle(p2.Position, p2.Radii.X));
         }
-        else
+
+        var stdform = p2.StandardForm;
+        foreach (var lineSegment in p1.Edges)
         {
-            if (p1.CollidesWith(p2.Position)) //This checks containment
-                return true;
-
-            var stdform = p2.StandardForm;
-            foreach (var lineSegment in p1.Edges)
-            {
-                if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2)) return true;
-
-                //ToDo Is this needed?
-                (lineSegment.P1, lineSegment.P2).LineSegmentEllipseIntersection(stdform);
-            }
+            if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2) || lineSegment.LineSegmentEllipseIntersection(stdform)) return true;
         }
 
         return false;
