@@ -58,77 +58,9 @@ public readonly struct BoundingRectangle
                BottomRight.Y <= point.Y;
     }
 
-    public bool CollidesWith(Point point)
+    public bool CollidesWith(Primitive primitive)
     {
-        return CollidesWith(point.Position);
-    }
-
-    public bool CollidesWith(PolyLine polyLine)
-    {
-        //Return false if bounding rectangle doesn't collide with this
-        if (!polyLine.BoundingRectangle.CollidesWith(this)) return false;
-
-        //Check if any line segment intersects this
-        for (var i = 0; i < polyLine.LineSegments.Length; i++)
-            if (polyLine.LineSegments[i].Intersects(this))
-                return true;
-
-        return false;
-    }
-
-    public bool CollidesWith(Polygon polygon)
-    {
-        //Return false if bounding rectangle doesn't collide with this
-        if (!polygon.BoundingRectangle.CollidesWith(this))
-            return false;
-
-        //Check if any line segment intersects this
-        for (var i = 0; i < polygon.Edges.Length; i++)
-            if (polygon.Edges[i].Intersects(this))
-                return true;
-
-        return false;
-    }
-
-    public bool CollidesWith(Ellipse ellipse)
-    {
-        if (CollidesWith(ellipse
-                .Position)) //If the center of the ellipse is inside the Bounding rectangle then there is a collision.
-            return true;
-
-        var testDistance = ellipse.Position - Center;
-        var testX = testDistance.X;
-        var testY = testDistance.Y;
-        var topEdge = (TopLeft, TopRight);
-        var leftEdge = (TopLeft, BottomLeft);
-        var rightEdge = (TopRight, BottomRight);
-        var bottomEdge = (BottomLeft, BottomRight);
-        var stdform = ellipse.StandardForm;
-
-        //Otherwise using these values we check which of up to two edges (if any) collide with the ellipse.
-        if (testX <= 0 && testY <= 0) //if it's in the top left quadrant
-            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) ||
-                   ellipse.CollidesWith(BottomLeft) ||
-                   leftEdge.Intersects(stdform) ||
-                   topEdge.Intersects(stdform);
-
-        if (testX > 0 && testY <= 0) //if it's in the top right quadrant
-            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) ||
-                   ellipse.CollidesWith(BottomRight) ||
-                   rightEdge.Intersects(stdform) ||
-                   topEdge.Intersects(stdform);
-
-        if (testX <= 0 && testY > 0) //if it's in the bottom left quadrant
-            return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(BottomLeft) ||
-                   ellipse.CollidesWith(BottomRight) || leftEdge.Intersects(stdform) ||
-                   bottomEdge.Intersects(stdform);
-
-        if (testX > 0 && testY > 0) //if it's in the bottom right quadrant
-            return ellipse.CollidesWith(BottomLeft) || ellipse.CollidesWith(TopRight) ||
-                   ellipse.CollidesWith(BottomRight) || rightEdge.Intersects(stdform) ||
-                   bottomEdge.Intersects(stdform);
-
-        return false; //not sure we'll ever reach here
+        return CollidesWith(primitive.BoundingRectangle);
     }
 
     #endregion

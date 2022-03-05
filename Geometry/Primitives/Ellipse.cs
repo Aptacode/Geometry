@@ -230,9 +230,9 @@ public sealed class Ellipse : Primitive
 
         var xdelta = (float)Math.Sqrt(asquared * costhetasquared + bsquared * sinthetasquared);
         var ydelta = (float)Math.Sqrt(asquared * sinthetasquared + bsquared * costhetasquared);
-
-        var topLeft = position - new Vector2(xdelta, ydelta);
-        var bottomRight = position + new Vector2(xdelta, ydelta);
+        var delta = new Vector2(xdelta, ydelta);
+        var topLeft = position - delta;
+        var bottomRight = position + delta;
 
         return new BoundingRectangle(topLeft, bottomRight);
     }
