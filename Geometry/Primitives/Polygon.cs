@@ -167,7 +167,7 @@ public sealed class Polygon : Primitive
             }
 
             return Create(new Vector2(minX, minY), new Vector2(minX, maxY), new Vector2(maxX, maxY),
-                new Vector2(minX, maxY));
+                new Vector2(maxX, minY));
         }
     }
 
