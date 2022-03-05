@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision;
@@ -8,7 +9,18 @@ namespace Aptacode.Geometry.Collision;
 public static class LineSegmentCollisionDetectionMethods
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool OnLineSegment(this (Vector2 P1, Vector2 P2) line, Vector2 point)
+    public static bool Intersects(this (Vector2 P1, Vector2 P2) line, BoundingRectangle rectangle)
+    {
+        var lineAsVector = line.P2 - line.P1;
+        var a = (rectangle.TopLeft - line.P1).VectorCross(lineAsVector);
+        var b = (rectangle.TopRight - line.P1).VectorCross(lineAsVector);
+        var c = (rectangle.BottomRight - line.P1).VectorCross(lineAsVector);
+        var d = (rectangle.BottomLeft - line.P1).VectorCross(lineAsVector);
+        return !(a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool Intersects(this (Vector2 P1, Vector2 P2) line, Vector2 point)
     {
         var d1 = (line.P1 - point).Length();
         var d2 = (line.P2 - point).Length();
@@ -61,7 +73,7 @@ public static class LineSegmentCollisionDetectionMethods
     // The main function that returns true if line segment 'p1q1'
     // and 'p2q2' intersect.
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool LineSegmentIntersection(this (Vector2 P1, Vector2 P2) line1, (Vector2 P1, Vector2 P2) line2)
+    public static bool Intersects(this (Vector2 P1, Vector2 P2) line1, (Vector2 P1, Vector2 P2) line2)
     {
         var (p1, q1) = line1;
         var (p2, q2) = line2;
@@ -93,7 +105,7 @@ public static class LineSegmentCollisionDetectionMethods
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool LineSegmentEllipseIntersection(this (Vector2 P1, Vector2 P2) line,
+    public static bool Intersects(this (Vector2 P1, Vector2 P2) line,
         (double A, double B, double C, double D, double E, double F) stdform)
     {
         var v2 = line.P2;
@@ -125,7 +137,7 @@ public static class LineSegmentCollisionDetectionMethods
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool LineSegmentIntersectsCircle(this (Vector2 P1, Vector2 P2) lineSegment, Vector2 center, float radius)
+    public static bool IntersectsCircle(this (Vector2 P1, Vector2 P2) lineSegment, Vector2 center, float radius)
     {
         //Check if the end points of the line segment are inside the circle
         if (IsPointInsideCircle(center, radius, lineSegment.P1) ||
@@ -141,6 +153,7 @@ public static class LineSegmentCollisionDetectionMethods
         var closestPoint =
             new Vector2(closestX,
                 closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
-        return (lineSegment.P1, lineSegment.P2).OnLineSegment(closestPoint) && IsPointInsideCircle(center, radius, closestPoint);
+        return (lineSegment.P1, lineSegment.P2).Intersects(closestPoint) &&
+               IsPointInsideCircle(center, radius, closestPoint);
     }
 }

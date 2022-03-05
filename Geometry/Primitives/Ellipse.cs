@@ -16,6 +16,8 @@ public sealed class Ellipse : Primitive
     public (Vector2, Vector2) Foci => GetFoci();
     public VertexArray EllipseVertices => GetEllipseVertices();
 
+    public bool IsCircle => Math.Abs(Radii.X - Radii.Y) < Constants.Tolerance;
+
     #region IEquatable
 
     public override bool Equals(object other)
@@ -204,7 +206,7 @@ public sealed class Ellipse : Primitive
 
     public static Ellipse Create(Vector2 position, float radius)
     {
-        return Ellipse.Create(position, new Vector2(radius, radius), 0);
+        return Create(position, new Vector2(radius, radius), 0);
     }
 
     public static readonly Ellipse Zero = Create(Vector2.Zero, Vector2.Zero, 0.0f);

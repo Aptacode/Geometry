@@ -20,7 +20,7 @@ public static class Vector2CollisionDetectionMethods
     public static bool CollidesWith(this PolyLine p2, Vector2 p1)
     {
         for (var i = 0; i < p2.LineSegments.Length; i++)
-            if (p2.LineSegments[i].OnLineSegment(p1))
+            if (p2.LineSegments[i].Intersects(p1))
                 return true;
 
         return false;
@@ -35,7 +35,7 @@ public static class Vector2CollisionDetectionMethods
 
         foreach (var line in edges)
         {
-            if (line.OnLineSegment(point)) return true;
+            if (line.Intersects(point)) return true;
 
             if ((line.P1.Y >= point.Y && line.P2.Y <= point.Y ||
                  line.P1.Y <= point.Y && line.P2.Y >= point.Y) &&
@@ -49,10 +49,7 @@ public static class Vector2CollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this Ellipse p2, Vector2 p1)
     {
-        if (!p2.BoundingRectangle.CollidesWith(p1))
-        {
-            return false;
-        }
+        if (!p2.BoundingRectangle.CollidesWith(p1)) return false;
 
         var f1dist = (p2.Foci.Item1 - p1).Length();
         var f2dist = (p2.Foci.Item2 - p1).Length();

@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision.Rectangles;
 
@@ -59,60 +58,42 @@ public readonly struct BoundingRectangle
                BottomRight.Y <= point.Y;
     }
 
-    public bool CollidesWith(Point point) => CollidesWith(point.Position);
+    public bool CollidesWith(Point point)
+    {
+        return CollidesWith(point.Position);
+    }
 
     public bool CollidesWith(PolyLine polyLine)
     {
+        //Return false if bounding rectangle doesn't collide with this
         if (!polyLine.BoundingRectangle.CollidesWith(this)) return false;
 
-        var topLeft = TopLeft;
-        var topRight = TopRight;
-        var bottomRight = BottomRight;
-        var bottomLeft = BottomLeft;
+        //Check if any line segment intersects this
         for (var i = 0; i < polyLine.LineSegments.Length; i++)
-        {
-            var lineSeg = polyLine.LineSegments[i];
-            var lineAsVector = lineSeg.P2 - lineSeg.P1;
-            var a = (topLeft - lineSeg.P1).VectorCross(lineAsVector);
-            var b = (topRight - lineSeg.P1).VectorCross(lineAsVector);
-            var c = (bottomRight - lineSeg.P1).VectorCross(lineAsVector);
-            var d = (bottomLeft - lineSeg.P1).VectorCross(lineAsVector);
-            if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0) continue;
-
-            return true;
-        }
+            if (polyLine.LineSegments[i].Intersects(this))
+                return true;
 
         return false;
     }
 
-
     public bool CollidesWith(Polygon polygon)
     {
-        if (!polygon.BoundingRectangle.CollidesWith(this)) return false;
+        //Return false if bounding rectangle doesn't collide with this
+        if (!polygon.BoundingRectangle.CollidesWith(this))
+            return false;
 
-        var topLeft = TopLeft;
-        var topRight = TopRight;
-        var bottomRight = BottomRight;
-        var bottomLeft = BottomLeft;
+        //Check if any line segment intersects this
         for (var i = 0; i < polygon.Edges.Length; i++)
-        {
-            var edge = polygon.Edges[i];
-            var lineAsVector = edge.P2 - edge.P1;
-            var a = (topLeft - edge.P1).VectorCross(lineAsVector);
-            var b = (topRight - edge.P1).VectorCross(lineAsVector);
-            var c = (bottomRight - edge.P1).VectorCross(lineAsVector);
-            var d = (bottomLeft - edge.P1).VectorCross(lineAsVector);
-            if (a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0) continue;
-
-            return true;
-        }
+            if (polygon.Edges[i].Intersects(this))
+                return true;
 
         return false;
     }
 
     public bool CollidesWith(Ellipse ellipse)
     {
-        if (CollidesWith(ellipse.Position)) //If the center of the ellipse is inside the Bounding rectangle then there is a collision.
+        if (CollidesWith(ellipse
+                .Position)) //If the center of the ellipse is inside the Bounding rectangle then there is a collision.
             return true;
 
         var testDistance = ellipse.Position - Center;
@@ -128,24 +109,24 @@ public readonly struct BoundingRectangle
         if (testX <= 0 && testY <= 0) //if it's in the top left quadrant
             return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) ||
                    ellipse.CollidesWith(BottomLeft) ||
-                   leftEdge.LineSegmentEllipseIntersection(stdform) ||
-                   topEdge.LineSegmentEllipseIntersection(stdform);
+                   leftEdge.Intersects(stdform) ||
+                   topEdge.Intersects(stdform);
 
         if (testX > 0 && testY <= 0) //if it's in the top right quadrant
             return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(TopRight) ||
                    ellipse.CollidesWith(BottomRight) ||
-                   rightEdge.LineSegmentEllipseIntersection(stdform) ||
-                   topEdge.LineSegmentEllipseIntersection(stdform);
+                   rightEdge.Intersects(stdform) ||
+                   topEdge.Intersects(stdform);
 
         if (testX <= 0 && testY > 0) //if it's in the bottom left quadrant
             return ellipse.CollidesWith(TopLeft) || ellipse.CollidesWith(BottomLeft) ||
-                   ellipse.CollidesWith(BottomRight) || leftEdge.LineSegmentEllipseIntersection(stdform) ||
-                   bottomEdge.LineSegmentEllipseIntersection(stdform);
+                   ellipse.CollidesWith(BottomRight) || leftEdge.Intersects(stdform) ||
+                   bottomEdge.Intersects(stdform);
 
         if (testX > 0 && testY > 0) //if it's in the bottom right quadrant
             return ellipse.CollidesWith(BottomLeft) || ellipse.CollidesWith(TopRight) ||
-                   ellipse.CollidesWith(BottomRight) || rightEdge.LineSegmentEllipseIntersection(stdform) ||
-                   bottomEdge.LineSegmentEllipseIntersection(stdform);
+                   ellipse.CollidesWith(BottomRight) || rightEdge.Intersects(stdform) ||
+                   bottomEdge.Intersects(stdform);
 
         return false; //not sure we'll ever reach here
     }

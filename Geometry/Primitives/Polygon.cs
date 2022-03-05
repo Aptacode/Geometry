@@ -76,7 +76,8 @@ public sealed class Polygon : Primitive
 
     #region Construction
 
-    private Polygon(VertexArray vertices, BoundingRectangle boundingRectangle, (Vector2 P1, Vector2 P2)[] edges) : base(vertices, boundingRectangle)
+    private Polygon(VertexArray vertices, BoundingRectangle boundingRectangle, (Vector2 P1, Vector2 P2)[] edges) : base(
+        vertices, boundingRectangle)
     {
         Edges = edges;
     }
