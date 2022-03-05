@@ -49,6 +49,11 @@ public static class Vector2CollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this Ellipse p2, Vector2 p1)
     {
+        if (!p2.BoundingRectangle.CollidesWith(p1))
+        {
+            return false;
+        }
+
         var f1dist = (p2.Foci.Item1 - p1).Length();
         var f2dist = (p2.Foci.Item2 - p1).Length();
         if (p2.Radii.X >= p2.Radii.Y) //X is the major axis

@@ -82,23 +82,7 @@ public static class PrimitiveCollisionDetectionMethods
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool CollidesWith(Point p1, Ellipse p2)
-    {
-        if (!p2.BoundingRectangle.CollidesWith(p1))
-        {
-            return false;
-        }
-
-        var f1dist = (p2.Foci.Item1 - p1.Position).Length();
-        var f2dist = (p2.Foci.Item2 - p1.Position).Length();
-        if (p2.Radii.X > p2.Radii.Y) //X is the major axis
-            return f1dist + f2dist <= 2 * p2.Radii.X;
-
-        if (p2.Radii.Y > p2.Radii.X) //Y is the major axis
-            return f1dist + f2dist <= 2 * p2.Radii.Y;
-
-        return p2.CollidesWith(p1.Position);
-    }
+    public static bool CollidesWith(Point p1, Ellipse p2) => p2.CollidesWith(p1.Position);
 
     #endregion
 
