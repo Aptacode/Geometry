@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision.Rectangles;
@@ -41,6 +42,7 @@ public readonly struct BoundingRectangle
 
     #region Collision
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool CollidesWith(BoundingRectangle rect)
     {
         return TopLeft.X <= rect.TopRight.X &&
@@ -49,7 +51,7 @@ public readonly struct BoundingRectangle
                BottomRight.Y <= rect.TopLeft.Y;
     }
 
-
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool CollidesWith(Vector2 point)
     {
         return TopLeft.X <= point.X &&
@@ -58,6 +60,7 @@ public readonly struct BoundingRectangle
                BottomRight.Y <= point.Y;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool CollidesWith(Primitive primitive)
     {
         return CollidesWith(primitive.BoundingRectangle);

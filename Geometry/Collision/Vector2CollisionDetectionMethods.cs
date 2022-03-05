@@ -19,6 +19,11 @@ public static class Vector2CollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this PolyLine p2, Vector2 p1)
     {
+        if (!p2.BoundingRectangle.CollidesWith(p1))
+        {
+            return false;
+        }
+
         for (var i = 0; i < p2.LineSegments.Length; i++)
             if (p2.LineSegments[i].Intersects(p1))
                 return true;
@@ -29,6 +34,11 @@ public static class Vector2CollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this Polygon p2, Vector2 p1)
     {
+        if (!p2.BoundingRectangle.CollidesWith(p1))
+        {
+            return false;
+        }
+
         var collision = false;
         var edges = p2.Edges;
         var point = p1;
