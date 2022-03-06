@@ -54,16 +54,15 @@ public static class PrimitiveCollisionDetectionMethods
         if (!p2.BoundingRectangle.CollidesWith(p1.BoundingRectangle)) return false;
 
         var collision = false;
-        var vertices = p2.Vertices.Vertices;
         var point = p1.Position;
 
-        for (int i = 0, j = vertices.Length - 1; i < vertices.Length; j = i++)
+        foreach (var edge in p2.Edges)
         {
-            var a = vertices[i];
-            var b = vertices[j];
-            if ((a, b).Intersects(point)) return true;
+            if (edge.Intersects(point)) return true;
+            var a = edge.P1;
+            var b = edge.P2;
 
-            if (a.Y > point.Y != b.Y > point.Y &&
+            if (a.Y > point.Y != b.Y > point.Y && //points y component lies between the lines endpoints
                 point.X < (b.X - a.X) * (point.Y - a.Y) / (b.Y - a.Y) + a.X)
                 collision = !collision;
         }
