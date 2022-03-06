@@ -1,10 +1,11 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Primitives;
 
 namespace Aptacode.Geometry.Collision.Rectangles;
 
-public readonly struct BoundingRectangle
+public readonly struct BoundingRectangle : IEquatable<BoundingRectangle>
 {
     #region Properties
 
@@ -93,14 +94,16 @@ public readonly struct BoundingRectangle
 
     public override int GetHashCode()
     {
-        return ToString().GetHashCode();
+        return HashCode.Combine(TopRight, BottomLeft);
     }
 
     public override bool Equals(object other)
     {
-        return other is BoundingRectangle otherBoundingRectangle &&
-               TopRight == otherBoundingRectangle.TopRight &&
-               BottomLeft == otherBoundingRectangle.BottomLeft;
+        return other is BoundingRectangle b && Equals(b);
+    }
+    public bool Equals(BoundingRectangle other)
+    {
+        return TopRight.Equals(other.TopRight) && BottomLeft.Equals(other.BottomLeft);
     }
 
     public static bool operator ==(BoundingRectangle lhs, BoundingRectangle rhs)
