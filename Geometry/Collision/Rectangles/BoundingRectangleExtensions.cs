@@ -41,26 +41,5 @@ public static class BoundingRectangleExtensions
         return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
     }
 
-    public static BoundingRectangle ToBoundingRectangle(this VertexArray vertexArray)
-    {
-        var maxX = 0.0f;
-        var maxY = 0.0f;
-        var minX = float.MaxValue;
-        var minY = float.MaxValue;
-        for (var i = 0; i < vertexArray.Length; i++)
-        {
-            var vertex = vertexArray[i];
-            if (vertex.X > maxX) maxX = vertex.X;
-
-            if (vertex.Y > maxY) maxY = vertex.Y;
-
-            if (vertex.X < minX) minX = vertex.X;
-
-            if (vertex.Y < minY) minY = vertex.Y;
-        }
-
-        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
-    }
-
     #endregion
 }

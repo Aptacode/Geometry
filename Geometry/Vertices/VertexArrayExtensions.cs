@@ -270,4 +270,48 @@ public static class VertexArrayExtensions
     }
 
     #endregion
+
+    public static BoundingRectangle ToBoundingRectangle(this VertexArray vertexArray)
+    {
+        //Exit early if vertex array is empty
+        if (vertexArray.Length == 0)
+        {
+            return BoundingRectangle.Zero;
+        }
+
+        //Set min / max values to the first vertex
+        var first = vertexArray[0];
+        var minX = first.X;
+        var maxX = first.X;
+        var minY = first.Y;
+        var maxY = first.Y;
+
+        for (var i = 1; i < vertexArray.Length; i++)
+        {
+            //Transform vertex
+            var vertex = vertexArray[i];
+
+            //update min / max X values
+            if (vertex.X < minX)
+            {
+                minX = vertex.X;
+            }
+            else if (vertex.X > maxX)
+            {
+                maxX = vertex.X;
+            }
+
+            //update min / max Y values
+            if (vertex.Y < minY)
+            {
+                minY = vertex.Y;
+            }
+            else if (vertex.Y > maxY)
+            {
+                maxY = vertex.Y;
+            }
+        }
+
+        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
+    }
 }
