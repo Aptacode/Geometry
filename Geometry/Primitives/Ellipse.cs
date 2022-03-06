@@ -8,15 +8,89 @@ namespace Aptacode.Geometry.Primitives;
 
 public sealed class Ellipse : Primitive
 {
-    public readonly float Rotation;
+    #region Properties
 
-    public Vector2 Radii; //The x width(height) and the y height(width)
-    public (double A, double B, double C, double D, double E, double F) StandardForm;
+    public readonly float Rotation;
+    public Vector2 Radii;
+    private bool _updateStandardForm = true;
+    private (double A, double B, double C, double D, double E, double F) _standardForm;
+
+    public (double A, double B, double C, double D, double E, double F) StandardForm
+    {
+        get
+        {
+            if (_updateStandardForm)
+            {
+                GetStandardForm();
+            }
+
+            return _standardForm;
+        }
+    }
     public Vector2 Position => Vertices[0];
-    public (Vector2, Vector2) Foci => GetFoci();
+
+    private bool _updateFoci = true;
+    private (Vector2, Vector2) _foci;
+
+    public (Vector2, Vector2) Foci
+    {
+        get
+        {
+            if (_updateFoci)
+            {
+                GetFoci();
+            }
+
+            return _foci;
+        }
+    }
     public bool IsCircle => Math.Abs(Radii.X - Radii.Y) < Constants.Tolerance;
 
+    #endregion
+
+    #region Construction
+
+    private Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation) : base(vertexArray,
+        boundingRectangle)
+    {
+        Radii = radii;
+        Rotation = rotation;
+    }
+
+    public static Ellipse Create(float x, float y, float a, float b, float rotation)
+    {
+        var position = new Vector2(x, y);
+        var radii = new Vector2(a, b);
+        var vertexArray = VertexArray.Create(position);
+        var boundingRectangle = GetBoundingRectangle(position, radii, rotation);
+
+        return new Ellipse(vertexArray, boundingRectangle, radii, rotation);
+    }
+
+    public static Ellipse Create(Vector2 position, Vector2 radii, float rotation)
+    {
+        var vertexArray = VertexArray.Create(position);
+        var boundingRectangle = GetBoundingRectangle(position, radii, rotation);
+        return new Ellipse(vertexArray, boundingRectangle, radii, rotation);
+    }
+
+    public static Ellipse Create(Vector2 position, float radius)
+    {
+        return Create(position, new Vector2(radius, radius), 0);
+    }
+
+    public static readonly Ellipse Zero = Create(Vector2.Zero, Vector2.Zero, 0.0f);
+    public static readonly Ellipse Unit = Create(Vector2.Zero, Vector2.One, 0.0f); //This is a circle
+
+    #endregion
+
+
     #region IEquatable
+
+    public override int GetHashCode()
+    {
+        return ToString().GetHashCode();
+    }
 
     public override bool Equals(object other)
     {
@@ -31,10 +105,13 @@ public sealed class Ellipse : Primitive
 
     #endregion
 
+    #region ToString
     public override string ToString()
     {
         return $"Ellipse ({Position.X},{Position.Y}), ({Radii.X},{Radii.Y}), {Rotation}";
     }
+
+    #endregion
 
     #region Collision Detection
 
@@ -70,108 +147,7 @@ public sealed class Ellipse : Primitive
 
     #endregion
 
-    #region Construction
-
-    private Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation,
-        (double A, double B, double C, double D, double E, double F) standardForm) : base(vertexArray,
-        boundingRectangle)
-    {
-        Radii = radii;
-        Rotation = rotation;
-        StandardForm = standardForm;
-    }
-
-    public static Ellipse Create(float x, float y, float a, float b, float rotation)
-    {
-        var position = new Vector2(x, y);
-        var radii = new Vector2(a, b);
-        var vertexArray = VertexArray.Create(position);
-        var boundingRectangle = GetBoundingRectangle(position, radii, rotation);
-        var standardForm = GetStandardForm(position, radii, rotation);
-
-        return new Ellipse(vertexArray, boundingRectangle, radii, rotation, standardForm);
-    }
-
-    public static Ellipse Create(Vector2 position, Vector2 radii, float rotation)
-    {
-        var vertexArray = VertexArray.Create(position);
-        var boundingRectangle = GetBoundingRectangle(position, radii, rotation);
-        var standardForm = GetStandardForm(position, radii, rotation);
-        return new Ellipse(vertexArray, boundingRectangle, radii, rotation, standardForm);
-    }
-
-    public static Ellipse Create(Vector2 position, float radius)
-    {
-        return Create(position, new Vector2(radius, radius), 0);
-    }
-
-    public static readonly Ellipse Zero = Create(Vector2.Zero, Vector2.Zero, 0.0f);
-    public static readonly Ellipse Unit = Create(Vector2.Zero, Vector2.One, 0.0f); //This is a circle
-
-    #endregion
-
-
     #region Transformations
-
-    private static BoundingRectangle GetBoundingRectangle(Vector2 position, Vector2 radii, float rotation)
-    {
-        var asquared = radii.X * radii.X;
-        var bsquared = radii.Y * radii.Y;
-
-        var costheta = Math.Cos(rotation);
-        var costhetasquared = costheta * costheta;
-
-        var sintheta = Math.Sin(rotation);
-        var sinthetasquared = sintheta * sintheta;
-
-        var xdelta = (float)Math.Sqrt(asquared * costhetasquared + bsquared * sinthetasquared);
-        var ydelta = (float)Math.Sqrt(asquared * sinthetasquared + bsquared * costhetasquared);
-        var delta = new Vector2(xdelta, ydelta);
-        var bottomLeft = position - delta;
-        var topRight = position + delta;
-
-        return new BoundingRectangle
-        {
-            BottomLeft = bottomLeft,
-            TopRight = topRight
-        };
-    }
-
-    public static (double A, double B, double C, double D, double E, double F)
-        GetStandardForm(
-            Vector2 position, Vector2 radii,
-            float rotation) //Returns the coefficents of the ellipse in the form Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0.
-    {
-        var a = radii.X;
-        var b = radii.Y;
-        if (radii.Y > radii.X)
-        {
-            a = radii.Y;
-            b = radii.X;
-        }
-
-        var px = position.X;
-        var py = position.Y;
-        var cos = Math.Cos(rotation);
-        var sin = Math.Sin(rotation);
-        var sin2 = Math.Sin(2 * rotation);
-
-        var d1 = cos * cos / (a * a);
-        var d2 = cos * cos / (b * b);
-        var d3 = sin * sin / (a * a);
-        var d4 = sin * sin / (b * b);
-        var d5 = sin2 / (a * a);
-        var d6 = sin2 / (b * b);
-
-        var A = d1 + d4;
-        var B = d5 - d6;
-        var C = d3 + d2;
-        var D = -2 * px * d1 - py * d5 - 2 * px * d4 + py * d6;
-        var E = -1 * px * d5 - 2 * py * d3 + px * d6 - 2 * py * d2;
-        var F = px * px * d1 + px * py * d5 + py * py * d3 + px * px * d4 - px * py * d6 + py * py * d2 - 1;
-
-        return (A, B, C, D, E, F);
-    }
 
     public override Ellipse Translate(Vector2 delta)
     {
@@ -215,15 +191,17 @@ public sealed class Ellipse : Primitive
 
     #region Helpers
 
-    private (Vector2, Vector2) GetFoci()
+    private void GetFoci()
     {
+        _updateFoci = false;
+
         if (Radii.X > Radii.Y)
         {
             var c = Vector2.Transform(new Vector2((float)Math.Sqrt(Radii.X * Radii.X - Radii.Y * Radii.Y), 0.0f),
                 Matrix3x2.CreateRotation(Rotation));
             var f1 = Position - c;
             var f2 = Position + c;
-            return (f1, f2);
+            _foci = (f1, f2);
         }
 
         if (Radii.X < Radii.Y)
@@ -232,10 +210,10 @@ public sealed class Ellipse : Primitive
                 Matrix3x2.CreateRotation(Rotation));
             var f1 = Position - c;
             var f2 = Position + c;
-            return (f1, f2);
+            _foci = (f1, f2);
         }
 
-        return (Position, Position);
+        _foci = (Position, Position);
     }
 
     public static (double u0, double u1, double u2, double u3, double u4) GetResultantPolynomial(double A1,
@@ -302,6 +280,65 @@ public sealed class Ellipse : Primitive
                 - 3 * u3 * u3 * u3 * u3;
 
         return (!(p > 0) || !(Math.Abs(p) > Constants.Tolerance)) && !(d > 0);
+    }
+
+    private static BoundingRectangle GetBoundingRectangle(Vector2 position, Vector2 radii, float rotation)
+    {
+        var asquared = radii.X * radii.X;
+        var bsquared = radii.Y * radii.Y;
+
+        var costheta = Math.Cos(rotation);
+        var costhetasquared = costheta * costheta;
+
+        var sintheta = Math.Sin(rotation);
+        var sinthetasquared = sintheta * sintheta;
+
+        var xdelta = (float)Math.Sqrt(asquared * costhetasquared + bsquared * sinthetasquared);
+        var ydelta = (float)Math.Sqrt(asquared * sinthetasquared + bsquared * costhetasquared);
+        var delta = new Vector2(xdelta, ydelta);
+        var bottomLeft = position - delta;
+        var topRight = position + delta;
+
+        return new BoundingRectangle
+        {
+            BottomLeft = bottomLeft,
+            TopRight = topRight
+        };
+    }
+
+    public void GetStandardForm() //Returns the coefficents of the ellipse in the form Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0.
+    {
+        _updateStandardForm = false;
+
+        var a = Radii.X;
+        var b = Radii.Y;
+        if (Radii.Y > Radii.X)
+        {
+            a = Radii.Y;
+            b = Radii.X;
+        }
+
+        var px = Position.X;
+        var py = Position.Y;
+        var cos = Math.Cos(Rotation);
+        var sin = Math.Sin(Rotation);
+        var sin2 = Math.Sin(2 * Rotation);
+
+        var d1 = cos * cos / (a * a);
+        var d2 = cos * cos / (b * b);
+        var d3 = sin * sin / (a * a);
+        var d4 = sin * sin / (b * b);
+        var d5 = sin2 / (a * a);
+        var d6 = sin2 / (b * b);
+
+        var A = d1 + d4;
+        var B = d5 - d6;
+        var C = d3 + d2;
+        var D = -2 * px * d1 - py * d5 - 2 * px * d4 + py * d6;
+        var E = -1 * px * d5 - 2 * py * d3 + px * d6 - 2 * py * d2;
+        var F = px * px * d1 + px * py * d5 + py * py * d3 + px * px * d4 - px * py * d6 + py * py * d2 - 1;
+
+        _standardForm = (A, B, C, D, E, F);
     }
 
     #endregion

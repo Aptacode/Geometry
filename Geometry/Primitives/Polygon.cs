@@ -15,6 +15,10 @@ public sealed class Polygon : Primitive
     {
         return other is Polygon otherPolygon && Vertices.Equals(otherPolygon.Vertices);
     }
+    public override int GetHashCode()
+    {
+        return ToString().GetHashCode();
+    }
 
     #endregion
 

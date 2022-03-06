@@ -15,6 +15,10 @@ public sealed class PolyLine : Primitive
     {
         return other is PolyLine otherPolyline && Vertices.Equals(otherPolyline.Vertices);
     }
+    public override int GetHashCode()
+    {
+        return ToString().GetHashCode();
+    }
 
     #endregion
 

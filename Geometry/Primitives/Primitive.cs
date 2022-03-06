@@ -24,10 +24,7 @@ public abstract class Primitive
 
     #region IEquatable
 
-    public override int GetHashCode()
-    {
-        return ToString().GetHashCode();
-    }
+    public abstract override int GetHashCode();
 
     public abstract override bool Equals(object obj);
 

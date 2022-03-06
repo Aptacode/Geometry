@@ -24,6 +24,11 @@ public sealed class Point : Primitive
                Math.Abs(Position.Y - otherPoint.Position.Y) < Constants.Tolerance;
     }
 
+    public override int GetHashCode()
+    {
+        return ToString().GetHashCode();
+    }
+
     #endregion
 
     public override string ToString()
