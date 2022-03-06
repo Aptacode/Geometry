@@ -11,7 +11,7 @@ public static class BoundingRectangleExtensions
         return new BoundingRectangle
         {
             BottomLeft = rectangle.BottomLeft + delta,
-            TopRight = rectangle.BottomLeft + delta
+            TopRight = rectangle.TopRight + delta
         };
     }
 
