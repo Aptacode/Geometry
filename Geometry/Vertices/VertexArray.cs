@@ -42,7 +42,10 @@ public readonly struct VertexArray : IEquatable<VertexArray>
                 var vertexArray = new Vector2[vertices.Length / 2];
                 var vertexIndex = 0;
                 for (var i = 0; i < vertices.Length; i += 2)
+                {
                     vertexArray[vertexIndex++] = new Vector2(vertices[i], vertices[i + 1]);
+                }
+
                 return new VertexArray(vertexArray);
         }
     }
@@ -86,12 +89,18 @@ public readonly struct VertexArray : IEquatable<VertexArray>
 
     public static bool operator ==(VertexArray lhs, VertexArray rhs)
     {
-        if (lhs.Length != rhs.Length) return false;
+        if (lhs.Length != rhs.Length)
+        {
+            return false;
+        }
 
         for (var i = 0; i < lhs.Length; i++)
         {
             var delta = lhs[i] - rhs[i];
-            if (Math.Abs(delta.X) + Math.Abs(delta.Y) > Constants.Tolerance) return false;
+            if (Math.Abs(delta.X) + Math.Abs(delta.Y) > Constants.Tolerance)
+            {
+                return false;
+            }
         }
 
         return true;

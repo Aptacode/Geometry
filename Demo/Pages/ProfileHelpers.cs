@@ -20,7 +20,10 @@ public static class ProfileHelpers
     public static Polygon CreatePolygon(Random r)
     {
         var points = new Vector2[r.Next(1, 10)];
-        for (var i = 0; i < points.Length; i++) points[i] = new Vector2(r.Next(), r.Next());
+        for (var i = 0; i < points.Length; i++)
+        {
+            points[i] = new Vector2(r.Next(), r.Next());
+        }
 
         return Polygon.Create(points);
     }
@@ -28,7 +31,10 @@ public static class ProfileHelpers
     public static PolyLine CreatePolyline(Random r)
     {
         var points = new Vector2[r.Next(1, 10)];
-        for (var i = 0; i < points.Length; i++) points[i] = new Vector2(r.Next(), r.Next());
+        for (var i = 0; i < points.Length; i++)
+        {
+            points[i] = new Vector2(r.Next(), r.Next());
+        }
 
         return PolyLine.Create(points);
     }

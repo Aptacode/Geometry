@@ -8,9 +8,18 @@ namespace Aptacode.Geometry.Primitives;
 
 public sealed class Ellipse : Primitive
 {
+    #region ToString
+
+    public override string ToString()
+    {
+        return $"Ellipse ({Position.X},{Position.Y}), ({Radii.X},{Radii.Y}), {Rotation}";
+    }
+
+    #endregion
+
     #region Properties
 
-    public float Rotation { get; private set; }
+    public float Rotation { get; }
     public Vector2 Radii { get; private set; }
     private bool _updateStandardForm = true;
     private (double A, double B, double C, double D, double E, double F) _standardForm;
@@ -21,12 +30,14 @@ public sealed class Ellipse : Primitive
         {
             if (_updateStandardForm)
             {
-                GetStandardForm();
+                _standardForm = GetStandardForm();
+                _updateStandardForm = false;
             }
 
             return _standardForm;
         }
     }
+
     public Vector2 Position => Vertices[0];
 
     private bool _updateFoci = true;
@@ -38,19 +49,22 @@ public sealed class Ellipse : Primitive
         {
             if (_updateFoci)
             {
-                GetFoci();
+                _foci = GetFoci();
+                _updateFoci = false;
             }
 
             return _foci;
         }
     }
+
     public bool IsCircle => Math.Abs(Radii.X - Radii.Y) < Constants.Tolerance;
 
     #endregion
 
     #region Construction
 
-    private Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation) : base(vertexArray,
+    private Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation) : base(
+        vertexArray,
         boundingRectangle)
     {
         Radii = radii;
@@ -94,21 +108,20 @@ public sealed class Ellipse : Primitive
 
     public override bool Equals(object other)
     {
-        if (other is not Ellipse otherEllipse) return false;
+        if (other is not Ellipse otherEllipse)
+        {
+            return false;
+        }
 
-        if (Math.Abs(Rotation - otherEllipse.Rotation) > Constants.Tolerance) return false;
+        if (Math.Abs(Rotation - otherEllipse.Rotation) > Constants.Tolerance)
+        {
+            return false;
+        }
+
         var delta = Position - otherEllipse.Position;
         var radiusDelta = Radii - otherEllipse.Radii;
         return Math.Abs(delta.X + delta.Y) < Constants.Tolerance &&
                Math.Abs(radiusDelta.X + radiusDelta.Y) < Constants.Tolerance;
-    }
-
-    #endregion
-
-    #region ToString
-    public override string ToString()
-    {
-        return $"Ellipse ({Position.X},{Position.Y}), ({Radii.X},{Radii.Y}), {Rotation}";
     }
 
     #endregion
@@ -191,17 +204,15 @@ public sealed class Ellipse : Primitive
 
     #region Helpers
 
-    private void GetFoci()
+    private (Vector2 f1, Vector2 f2) GetFoci()
     {
-        _updateFoci = false;
-
         if (Radii.X > Radii.Y)
         {
             var c = Vector2.Transform(new Vector2((float)Math.Sqrt(Radii.X * Radii.X - Radii.Y * Radii.Y), 0.0f),
                 Matrix3x2.CreateRotation(Rotation));
             var f1 = Position - c;
             var f2 = Position + c;
-            _foci = (f1, f2);
+            return (f1, f2);
         }
 
         if (Radii.X < Radii.Y)
@@ -210,10 +221,10 @@ public sealed class Ellipse : Primitive
                 Matrix3x2.CreateRotation(Rotation));
             var f1 = Position - c;
             var f2 = Position + c;
-            _foci = (f1, f2);
+            return (f1, f2);
         }
 
-        _foci = (Position, Position);
+        return (Position, Position);
     }
 
     public static (double u0, double u1, double u2, double u3, double u4) GetResultantPolynomial(double A1,
@@ -243,12 +254,18 @@ public sealed class Ellipse : Primitive
 
     public static bool QuarticHasRealRoots(double u0, double u1, double u2, double u3, double u4)
     {
-        if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) > Constants.Tolerance) return true;
+        if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) > Constants.Tolerance)
+        {
+            return true;
+        }
 
         if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) < Constants.Tolerance && u2 != 0)
         {
             var det = u1 * u1 - 4 * u2 * u0;
-            if (Math.Abs(det) < Constants.Tolerance) return true;
+            if (Math.Abs(det) < Constants.Tolerance)
+            {
+                return true;
+            }
 
             return det >= 0;
         }
@@ -270,7 +287,10 @@ public sealed class Ellipse : Primitive
                     - 4 * u3 * u3 * u2 * u2 * u2 * u0
                     + u3 * u3 * u2 * u2 * u1 * u1;
 
-        if (delta < 0 && Math.Abs(delta) > 0.01f) return true;
+        if (delta < 0 && Math.Abs(delta) > 0.01f)
+        {
+            return true;
+        }
 
         var p = 8 * u4 * u2 - 3 * u3 * u3;
         var d = 64 * u4 * u4 * u4 * u0
@@ -279,7 +299,7 @@ public sealed class Ellipse : Primitive
                 - 16 * u4 * u4 * u3 * u1
                 - 3 * u3 * u3 * u3 * u3;
 
-        return (!(p > 0) || !(Math.Abs(p) > Constants.Tolerance)) && !(d > 0);
+        return (p <= 0 || Math.Abs(p) <= Constants.Tolerance) && d <= 0;
     }
 
     private static BoundingRectangle GetBoundingRectangle(Vector2 position, Vector2 radii, float rotation)
@@ -306,10 +326,9 @@ public sealed class Ellipse : Primitive
         };
     }
 
-    public void GetStandardForm() //Returns the coefficents of the ellipse in the form Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0.
+    private (double A, double B, double C, double D, double E, double F)
+        GetStandardForm() //Returns the coefficents of the ellipse in the form Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0.
     {
-        _updateStandardForm = false;
-
         var a = Radii.X;
         var b = Radii.Y;
         if (Radii.Y > Radii.X)
@@ -338,7 +357,7 @@ public sealed class Ellipse : Primitive
         var E = -1 * px * d5 - 2 * py * d3 + px * d6 - 2 * py * d2;
         var F = px * px * d1 + px * py * d5 + py * py * d3 + px * px * d4 - px * py * d6 + py * py * d2 - 1;
 
-        _standardForm = (A, B, C, D, E, F);
+        return (A, B, C, D, E, F);
     }
 
     #endregion

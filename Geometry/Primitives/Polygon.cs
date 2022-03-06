@@ -9,23 +9,24 @@ namespace Aptacode.Geometry.Primitives;
 
 public sealed class Polygon : Primitive
 {
+    public override string ToString()
+    {
+        return $"Polygon {Vertices}";
+    }
+
     #region IEquatable
 
     public override bool Equals(object other)
     {
         return other is Polygon otherPolygon && Vertices.Equals(otherPolygon.Vertices);
     }
+
     public override int GetHashCode()
     {
         return ToString().GetHashCode();
     }
 
     #endregion
-
-    public override string ToString()
-    {
-        return $"Polygon {Vertices}";
-    }
 
     #region Properties
 
@@ -36,7 +37,10 @@ public sealed class Polygon : Primitive
     {
         get
         {
-            if (_updateEdges) UpdateEdges();
+            if (_updateEdges)
+            {
+                UpdateEdges();
+            }
 
             return _edges;
         }
@@ -138,7 +142,10 @@ public sealed class Polygon : Primitive
         for (var i = 0; i < Vertices.Length; i++)
         {
             var vertex = Vertices[i];
-            if (i > 0) _edges[i - 1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
+            if (i > 0)
+            {
+                _edges[i - 1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
+            }
 
             lastVertex = vertex;
         }

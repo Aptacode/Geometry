@@ -20,7 +20,6 @@ public readonly struct BoundingRectangle : IEquatable<BoundingRectangle>
 
     #endregion
 
-
     #region Ctor
 
     public BoundingRectangle(Vector2 a, Vector2 b)
@@ -97,10 +96,11 @@ public readonly struct BoundingRectangle : IEquatable<BoundingRectangle>
         return HashCode.Combine(TopRight, BottomLeft);
     }
 
-    public override bool Equals(object other)
+    public override bool Equals(object obj)
     {
-        return other is BoundingRectangle b && Equals(b);
+        return obj is BoundingRectangle b && Equals(b);
     }
+
     public bool Equals(BoundingRectangle other)
     {
         return TopRight.Equals(other.TopRight) && BottomLeft.Equals(other.BottomLeft);

@@ -18,14 +18,26 @@ public class PrimitiveFunction<T> : ProfileFunction where T : Primitive
         _operationName = operationName;
 
         if (type == typeof(Ellipse))
+        {
             _createPrimitive = r => ProfileHelpers.CreateEllipse(r) as T;
+        }
         else if (type == typeof(Point))
+        {
             _createPrimitive = r => ProfileHelpers.CreatePoint(r) as T;
+        }
         else if (type == typeof(Polygon))
+        {
             _createPrimitive = r => ProfileHelpers.CreatePolygon(r) as T;
-        else if (type == typeof(PolyLine)) _createPrimitive = r => ProfileHelpers.CreatePolyline(r) as T;
+        }
+        else if (type == typeof(PolyLine))
+        {
+            _createPrimitive = r => ProfileHelpers.CreatePolyline(r) as T;
+        }
 
-        if (_createPrimitive == null) throw new ArgumentNullException();
+        if (_createPrimitive == null)
+        {
+            throw new ArgumentNullException();
+        }
 
         _primitiveOperation = primitiveOperation;
     }

@@ -14,11 +14,19 @@ public sealed class Point : Primitive
 
     #endregion
 
+    public override string ToString()
+    {
+        return $"Point {Vertices}";
+    }
+
     #region IEquatable
 
     public override bool Equals(object other)
     {
-        if (other is not Point otherPoint) return false;
+        if (other is not Point otherPoint)
+        {
+            return false;
+        }
 
         return Math.Abs(Position.X - otherPoint.Position.X) < Constants.Tolerance &&
                Math.Abs(Position.Y - otherPoint.Position.Y) < Constants.Tolerance;
@@ -30,11 +38,6 @@ public sealed class Point : Primitive
     }
 
     #endregion
-
-    public override string ToString()
-    {
-        return $"Point {Vertices}";
-    }
 
     #region Collision Detection
 

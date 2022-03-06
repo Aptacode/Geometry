@@ -38,7 +38,10 @@ public static class LineSegmentCollisionDetectionMethods
         var val = (q.Y - p.Y) * (r.X - q.X) -
                   (q.X - p.X) * (r.Y - q.Y);
 
-        if (val == 0) return 0; // collinear
+        if (val == 0)
+        {
+            return 0; // collinear
+        }
 
         return val > 0 ? 1 : 2; // clock or counterclock wise
     }
@@ -59,20 +62,34 @@ public static class LineSegmentCollisionDetectionMethods
 
         // General case
         if (o1 != o2 && o3 != o4)
+        {
             return true;
+        }
 
         // Special Cases
         // p1, q1 and p2 are collinear and p2 lies on segment p1q1
-        if (o1 == 0 && OnSegment(p1, p2, q1)) return true;
+        if (o1 == 0 && OnSegment(p1, p2, q1))
+        {
+            return true;
+        }
 
         // p1, q1 and q2 are collinear and q2 lies on segment p1q1
-        if (o2 == 0 && OnSegment(p1, q2, q1)) return true;
+        if (o2 == 0 && OnSegment(p1, q2, q1))
+        {
+            return true;
+        }
 
         // p2, q2 and p1 are collinear and p1 lies on segment p2q2
-        if (o3 == 0 && OnSegment(p2, p1, q2)) return true;
+        if (o3 == 0 && OnSegment(p2, p1, q2))
+        {
+            return true;
+        }
 
         // p2, q2 and q1 are collinear and q1 lies on segment p2q2
-        if (o4 == 0 && OnSegment(p2, q1, q2)) return true;
+        if (o4 == 0 && OnSegment(p2, q1, q2))
+        {
+            return true;
+        }
 
         return false; // Doesn't fall in any of the above cases
     }
@@ -93,7 +110,11 @@ public static class LineSegmentCollisionDetectionMethods
                 stdform.D * v1.X + stdform.E * v1.Y + stdform.F;
 
         var det = b * b - 4 * a * c;
-        if (!(det >= 0)) return false;
+        if (det < 0)
+        {
+            return false;
+        }
+
         var t1 = (-b + Math.Sqrt(det)) / (2 * a);
         var t2 = (-b - Math.Sqrt(det)) / (2 * a);
         return t1 is >= 0 and <= 1 || t2 is >= 0 and <= 1;
@@ -115,7 +136,9 @@ public static class LineSegmentCollisionDetectionMethods
         //Check if the end points of the line segment are inside the circle
         if (IsPointInsideCircle(center, radius, lineSegment.P1) ||
             IsPointInsideCircle(center, radius, lineSegment.P2))
+        {
             return true;
+        }
 
         //Otherwise check if the line segment intersects the circle
         var dot = ((center.X - lineSegment.P1.X) * (lineSegment.P2.X - lineSegment.P1.X) +

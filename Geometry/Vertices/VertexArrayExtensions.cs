@@ -17,7 +17,10 @@ public static class VertexArrayExtensions
     public static VertexArray Concat(this VertexArray vertexArrayA, VertexArray vertexArrayB)
     {
         var newVertices = new Vector2[vertexArrayA.Length + vertexArrayB.Length];
-        if (newVertices.Length == 0) return new VertexArray(Array.Empty<Vector2>());
+        if (newVertices.Length == 0)
+        {
+            return new VertexArray(Array.Empty<Vector2>());
+        }
 
         var count = 0;
 
@@ -27,17 +30,26 @@ public static class VertexArrayExtensions
         for (var i = 1; i < vertexArrayA.Length; i++)
         {
             var nextVertex = vertexArrayA[i];
-            if (lastVertex != nextVertex) newVertices[count++] = nextVertex;
+            if (lastVertex != nextVertex)
+            {
+                newVertices[count++] = nextVertex;
+            }
         }
 
         for (var i = 0; i < vertexArrayB.Length; i++)
         {
             var nextVertex = vertexArrayB[i];
-            if (lastVertex != nextVertex) newVertices[count++] = nextVertex;
+            if (lastVertex != nextVertex)
+            {
+                newVertices[count++] = nextVertex;
+            }
         }
 
         //Shrink the array
-        if (newVertices.Length != count) Array.Resize(ref newVertices, count);
+        if (newVertices.Length != count)
+        {
+            Array.Resize(ref newVertices, count);
+        }
 
         return new VertexArray(newVertices);
     }
@@ -76,7 +88,10 @@ public static class VertexArrayExtensions
     {
         var val = (q.Y - p.Y) * (r.X - q.X) - (q.X - p.X) * (r.Y - q.Y);
 
-        if (val == 0) return 0; // collinear 
+        if (val == 0)
+        {
+            return 0; // collinear 
+        }
 
         return val > 0 ? 1 : 2; // clock or counterclock wise 
     }
@@ -85,7 +100,10 @@ public static class VertexArrayExtensions
     public static Vector2[] ToConvexHull(this Vector2[] points, int n)
     {
         // There must be at least 3 points 
-        if (n < 3) return Array.Empty<Vector2>();
+        if (n < 3)
+        {
+            return Array.Empty<Vector2>();
+        }
 
         // Initialize Result 
         var hull = new List<Vector2>();
@@ -93,8 +111,12 @@ public static class VertexArrayExtensions
         // Find the leftmost point 
         var l = 0;
         for (var i = 1; i < n; i++)
+        {
             if (points[i].X < points[l].X)
+            {
                 l = i;
+            }
+        }
 
         // Start from leftmost point, keep moving  
         // counterclockwise until reach the start point 
@@ -117,9 +139,13 @@ public static class VertexArrayExtensions
             for (var i = 0; i < n; i++)
                 // If i is more counterclockwise than  
                 // current q, then update q 
+            {
                 if (Orientation(points[p], points[i], points[q])
                     == 2)
+                {
                     q = i;
+                }
+            }
 
             // Now q is the most counterclockwise with 
             // respect to p. Set p as q for next iteration,  
@@ -138,6 +164,7 @@ public static class VertexArrayExtensions
         var minX = float.MaxValue;
         var minXindex = -1;
         for (var i = 0; i < vertexArray.Length; i++)
+        {
             if (vertexArray[i].X <= minX)
             {
                 if (!(Math.Abs(vertexArray[i].X - minX) < Constants.Tolerance))
@@ -154,6 +181,7 @@ public static class VertexArrayExtensions
                     minXindex = i;
                 }
             }
+        }
 
         var clockwiseArray = new Vector2[vertexArray.Length];
         for (var i = 0;
@@ -171,7 +199,10 @@ public static class VertexArrayExtensions
     public static BoundingRectangle ToBoundingRectangle(this VertexArray vertexArray)
     {
         //Exit early if vertex array is empty
-        if (vertexArray.Length == 0) return BoundingRectangle.Zero;
+        if (vertexArray.Length == 0)
+        {
+            return BoundingRectangle.Zero;
+        }
 
         //Set min / max values to the first vertex
         var first = vertexArray[0];
@@ -187,13 +218,23 @@ public static class VertexArrayExtensions
 
             //update min / max X values
             if (vertex.X < minX)
+            {
                 minX = vertex.X;
-            else if (vertex.X > maxX) maxX = vertex.X;
+            }
+            else if (vertex.X > maxX)
+            {
+                maxX = vertex.X;
+            }
 
             //update min / max Y values
             if (vertex.Y < minY)
+            {
                 minY = vertex.Y;
-            else if (vertex.Y > maxY) maxY = vertex.Y;
+            }
+            else if (vertex.Y > maxY)
+            {
+                maxY = vertex.Y;
+            }
         }
 
         return new BoundingRectangle
@@ -225,13 +266,23 @@ public static class VertexArrayExtensions
 
             //update min / max X values
             if (vertex.X < minX)
+            {
                 minX = vertex.X;
-            else if (vertex.X > maxX) maxX = vertex.X;
+            }
+            else if (vertex.X > maxX)
+            {
+                maxX = vertex.X;
+            }
 
             //update min / max Y values
             if (vertex.Y < minY)
+            {
                 minY = vertex.Y;
-            else if (vertex.Y > maxY) maxY = vertex.Y;
+            }
+            else if (vertex.Y > maxY)
+            {
+                maxY = vertex.Y;
+            }
         }
 
         return new BoundingRectangle
@@ -244,7 +295,10 @@ public static class VertexArrayExtensions
     public static BoundingRectangle Translate(this VertexArray vertexArray, Vector2 delta)
     {
         //Exit early if vertex array is empty
-        if (vertexArray.Length == 0) return BoundingRectangle.Zero;
+        if (vertexArray.Length == 0)
+        {
+            return BoundingRectangle.Zero;
+        }
 
         return Transform(vertexArray, Matrix3x2.CreateTranslation(delta));
     }
@@ -252,7 +306,10 @@ public static class VertexArrayExtensions
     public static BoundingRectangle Rotate(this VertexArray vertexArray, Vector2 rotationCenter, float theta)
     {
         //Exit early if vertex array is empty
-        if (vertexArray.Length == 0) return BoundingRectangle.Zero;
+        if (vertexArray.Length == 0)
+        {
+            return BoundingRectangle.Zero;
+        }
 
         return Transform(vertexArray, Matrix3x2.CreateRotation(theta, rotationCenter));
     }
@@ -260,7 +317,10 @@ public static class VertexArrayExtensions
     public static BoundingRectangle Scale(this VertexArray vertexArray, Vector2 scaleCenter, Vector2 delta)
     {
         //Exit early if vertex array is empty
-        if (vertexArray.Length == 0) return BoundingRectangle.Zero;
+        if (vertexArray.Length == 0)
+        {
+            return BoundingRectangle.Zero;
+        }
 
         return Transform(vertexArray, Matrix3x2.CreateScale(delta, scaleCenter));
     }
@@ -268,7 +328,10 @@ public static class VertexArrayExtensions
     public static BoundingRectangle Skew(this VertexArray vertexArray, Vector2 delta)
     {
         //Exit early if vertex array is empty
-        if (vertexArray.Length == 0) return BoundingRectangle.Zero;
+        if (vertexArray.Length == 0)
+        {
+            return BoundingRectangle.Zero;
+        }
 
         return Transform(vertexArray, new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0));
     }

@@ -6,7 +6,7 @@ public class PrimitiveCreation<T> : ProfileFunction where T : Primitive
 {
     private readonly Func<Random, T> _createPrimitive;
     private readonly string _primitiveName;
-    private Random _random;
+    private Random _random = new(0);
 
     public PrimitiveCreation()
     {
@@ -14,14 +14,26 @@ public class PrimitiveCreation<T> : ProfileFunction where T : Primitive
         _primitiveName = type.Name;
 
         if (type == typeof(Ellipse))
+        {
             _createPrimitive = r => ProfileHelpers.CreateEllipse(r) as T;
+        }
         else if (type == typeof(Point))
+        {
             _createPrimitive = r => ProfileHelpers.CreatePoint(r) as T;
+        }
         else if (type == typeof(Polygon))
+        {
             _createPrimitive = r => ProfileHelpers.CreatePolygon(r) as T;
-        else if (type == typeof(PolyLine)) _createPrimitive = r => ProfileHelpers.CreatePolyline(r) as T;
+        }
+        else if (type == typeof(PolyLine))
+        {
+            _createPrimitive = r => ProfileHelpers.CreatePolyline(r) as T;
+        }
 
-        if (_createPrimitive == null) throw new ArgumentNullException();
+        if (_createPrimitive == null)
+        {
+            throw new ArgumentNullException();
+        }
     }
 
     public override string Title()

@@ -30,7 +30,10 @@ public abstract class Primitive
 
     public static bool operator ==(Primitive lhs, Primitive rhs)
     {
-        if (lhs is null) return rhs is null;
+        if (lhs is null)
+        {
+            return rhs is null;
+        }
 
         return lhs.Equals(rhs);
     }

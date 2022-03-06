@@ -9,23 +9,24 @@ namespace Aptacode.Geometry.Primitives;
 
 public sealed class PolyLine : Primitive
 {
+    public override string ToString()
+    {
+        return $"PolyLine {Vertices}";
+    }
+
     #region IEquatable
 
     public override bool Equals(object other)
     {
         return other is PolyLine otherPolyline && Vertices.Equals(otherPolyline.Vertices);
     }
+
     public override int GetHashCode()
     {
         return ToString().GetHashCode();
     }
 
     #endregion
-
-    public override string ToString()
-    {
-        return $"PolyLine {Vertices}";
-    }
 
     #region Properties
 
@@ -36,7 +37,10 @@ public sealed class PolyLine : Primitive
     {
         get
         {
-            if (_updateLineSegments) UpdateLineSegments();
+            if (_updateLineSegments)
+            {
+                UpdateLineSegments();
+            }
 
             return _lineSegments;
         }
@@ -87,7 +91,10 @@ public sealed class PolyLine : Primitive
 
     public static PolyLine Create(params float[] points)
     {
-        if (points.Length < 2) return Zero;
+        if (points.Length < 2)
+        {
+            return Zero;
+        }
 
         var vertexArray = VertexArray.Create(points);
         return new PolyLine(vertexArray, vertexArray.ToBoundingRectangle());
@@ -114,7 +121,10 @@ public sealed class PolyLine : Primitive
         for (var i = 0; i < Vertices.Length; i++)
         {
             var vertex = Vertices[i];
-            if (i > 0) LineSegments[i - 1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
+            if (i > 0)
+            {
+                LineSegments[i - 1] = new ValueTuple<Vector2, Vector2>(lastVertex, vertex);
+            }
 
             lastVertex = vertex;
         }
