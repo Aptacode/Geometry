@@ -36,8 +36,8 @@ public sealed class PolyLine : Primitive
         if (margin < Constants.Tolerance) return this;
         var boundingRectangle = Vertices.ToBoundingRectangle();
         var marginDelta = new Vector2(margin, margin);
-        return Polygon.Rectangle.FromTwoPoints(boundingRectangle.TopLeft - marginDelta,
-            boundingRectangle.BottomRight + marginDelta);
+        return Polygon.Rectangle.FromTwoPoints(boundingRectangle.TopRight - marginDelta,
+            boundingRectangle.BottomLeft + marginDelta);
     }
 
     public override bool CollidesWith(Vector2 p)

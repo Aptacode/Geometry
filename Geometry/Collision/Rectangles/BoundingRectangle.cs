@@ -8,16 +8,15 @@ public readonly struct BoundingRectangle
 {
     #region Properties
 
-    public readonly Vector2 TopLeft;
     public readonly Vector2 TopRight;
-    public readonly Vector2 BottomRight;
     public readonly Vector2 BottomLeft;
-    public Vector2 Size => new(BottomRight.X - TopLeft.X, TopLeft.Y - BottomRight.Y);
+
+    public Vector2 Size => new(TopRight.X - BottomLeft.X, TopRight.Y - BottomLeft.Y);
     public Vector2 Center => new(X + Width / 2, Y + Height / 2);
     public float X => BottomLeft.X;
     public float Y => BottomLeft.Y;
-    public float Width => BottomRight.X - TopLeft.X;
-    public float Height => TopLeft.Y - BottomRight.Y;
+    public float Width => TopRight.X - BottomLeft.X;
+    public float Height => TopRight.Y - BottomLeft.Y;
 
     #endregion
 
@@ -25,14 +24,23 @@ public readonly struct BoundingRectangle
 
     public BoundingRectangle(Vector2 a, Vector2 b)
     {
-        var minX = a.X <= b.X ? a.X : b.X;
-        var maxX = a.X >= b.X ? a.X : b.X;
-        var minY = a.Y <= b.Y ? a.Y : b.Y;
-        var maxY = a.Y >= b.Y ? a.Y : b.Y;
+        var minX = a.X;
+        var maxX = b.X;
+        var minY = a.Y;
+        var maxY = b.Y;
+        if (a.X > b.X)
+        {
+            minX = b.X;
+            maxX = a.X;
+        }
 
-        TopLeft = new Vector2(minX, maxY);
+        if (a.Y > b.Y)
+        {
+            minY = b.Y;
+            maxY = a.Y;
+        }
+
         TopRight = new Vector2(maxX, maxY);
-        BottomRight = new Vector2(maxX, minY);
         BottomLeft = new Vector2(minX, minY);
     }
 
@@ -45,19 +53,19 @@ public readonly struct BoundingRectangle
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool CollidesWith(BoundingRectangle rect)
     {
-        return TopLeft.X <= rect.TopRight.X &&
-               TopRight.X >= rect.TopLeft.X &&
-               TopLeft.Y >= rect.BottomRight.Y &&
-               BottomRight.Y <= rect.TopLeft.Y;
+        return BottomLeft.X <= rect.TopRight.X &&
+               TopRight.X >= rect.BottomLeft.X &&
+               TopRight.Y >= rect.BottomLeft.Y &&
+               BottomLeft.Y <= rect.TopRight.Y;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool CollidesWith(Vector2 point)
     {
-        return TopLeft.X <= point.X &&
-               TopLeft.Y >= point.Y &&
-               BottomRight.X >= point.X &&
-               BottomRight.Y <= point.Y;
+        return BottomLeft.X <= point.X &&
+               TopRight.Y >= point.Y &&
+               TopRight.X >= point.X &&
+               BottomLeft.Y <= point.Y;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -76,8 +84,7 @@ public readonly struct BoundingRectangle
 
     public override string ToString()
     {
-        return
-            $"BoundingRectangle ({TopLeft.X},{TopLeft.Y}), ({TopRight.X},{TopRight.Y}), ({BottomRight.X},{BottomRight.Y}), ({BottomLeft.X},{BottomLeft.Y})";
+        return $"BoundingRectangle ({BottomLeft.X},{BottomLeft.Y}), ({TopRight.X},{TopRight.Y})";
     }
 
     #region IEquatable
@@ -90,9 +97,7 @@ public readonly struct BoundingRectangle
     public override bool Equals(object other)
     {
         return other is BoundingRectangle otherBoundingRectangle &&
-               TopLeft == otherBoundingRectangle.TopLeft &&
                TopRight == otherBoundingRectangle.TopRight &&
-               BottomRight == otherBoundingRectangle.BottomRight &&
                BottomLeft == otherBoundingRectangle.BottomLeft;
     }
 

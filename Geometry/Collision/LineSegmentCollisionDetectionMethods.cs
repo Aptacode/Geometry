@@ -1,24 +1,12 @@
 ﻿using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision;
 
 public static class LineSegmentCollisionDetectionMethods
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool Intersects(this (Vector2 P1, Vector2 P2) line, BoundingRectangle rectangle)
-    {
-        var lineAsVector = line.P2 - line.P1;
-        var a = (rectangle.TopLeft - line.P1).VectorCross(lineAsVector);
-        var b = (rectangle.TopRight - line.P1).VectorCross(lineAsVector);
-        var c = (rectangle.BottomRight - line.P1).VectorCross(lineAsVector);
-        var d = (rectangle.BottomLeft - line.P1).VectorCross(lineAsVector);
-        return !(a > 0 && b > 0 && c > 0 && d > 0 || a < 0 && b < 0 && c < 0 && d < 0);
-    }
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool Intersects(this (Vector2 P1, Vector2 P2) line, Vector2 point)
     {

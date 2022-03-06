@@ -182,91 +182,91 @@ public static class VertexArrayExtensions
 
     #region Transformation
 
-    public static BoundingRectangle Translate(this VertexArray vertexArray, Vector2 delta)
+
+    public static BoundingRectangle Transform(this VertexArray vertexArray, Matrix3x2 transformationMatrix)
     {
-        var minX = float.MaxValue;
-        var maxX = float.MinValue;
-        var minY = float.MaxValue;
-        var maxY = float.MinValue;
+        //Transform first vertex
+        var first = vertexArray[0];
+        vertexArray[0] = first = Vector2.Transform(first, transformationMatrix);
 
-        var translationMatrix = Matrix3x2.CreateTranslation(delta);
-        for (var i = 0; i < vertexArray.Length; i++)
+        //Set min / max values to the first vertex
+        var minX = first.X;
+        var maxX = first.X;
+        var minY = first.Y;
+        var maxY = first.Y;
+
+        for (var i = 1; i < vertexArray.Length; i++)
         {
-            var vertex = Vector2.Transform(vertexArray[i], translationMatrix);
+            //Transform vertex
+            var vertex = Vector2.Transform(vertexArray[i], transformationMatrix);
             vertexArray[i] = vertex;
-            if (vertex.X < minX) minX = vertex.X;
-            if (vertex.X > maxX) maxX = vertex.X;
 
-            if (vertex.Y < minY) minY = vertex.Y;
-            if (vertex.Y > maxY) maxY = vertex.Y;
+            //update min / max X values
+            if (vertex.X < minX)
+            {
+                minX = vertex.X;
+            }
+            else if (vertex.X > maxX)
+            {
+                maxX = vertex.X;
+            }
+
+            //update min / max Y values
+            if (vertex.Y < minY)
+            {
+                minY = vertex.Y;
+            }
+            else if (vertex.Y > maxY)
+            {
+                maxY = vertex.Y;
+            }
         }
 
         return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
+    }
+
+    public static BoundingRectangle Translate(this VertexArray vertexArray, Vector2 delta)
+    {
+        //Exit early if vertex array is empty
+        if (vertexArray.Length == 0)
+        {
+            return BoundingRectangle.Zero;
+        }
+
+        return Transform(vertexArray, Matrix3x2.CreateTranslation(delta));
     }
 
     public static BoundingRectangle Rotate(this VertexArray vertexArray, Vector2 rotationCenter, float theta)
     {
-        var minX = float.MaxValue;
-        var maxX = float.MinValue;
-        var minY = float.MaxValue;
-        var maxY = float.MinValue;
-
-        var rotationMatrix = Matrix3x2.CreateRotation(theta, rotationCenter);
-        for (var i = 0; i < vertexArray.Length; i++)
+        //Exit early if vertex array is empty
+        if (vertexArray.Length == 0)
         {
-            var vertex = Vector2.Transform(vertexArray[i], rotationMatrix);
-            vertexArray[i] = vertex;
-            if (vertex.X < minX) minX = vertex.X;
-            if (vertex.X > maxX) maxX = vertex.X;
-
-            if (vertex.Y < minY) minY = vertex.Y;
-            if (vertex.Y > maxY) maxY = vertex.Y;
+            return BoundingRectangle.Zero;
         }
 
-        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
+        return Transform(vertexArray, Matrix3x2.CreateRotation(theta, rotationCenter));
     }
 
     public static BoundingRectangle Scale(this VertexArray vertexArray, Vector2 scaleCenter, Vector2 delta)
     {
-        var minX = float.MaxValue;
-        var maxX = float.MinValue;
-        var minY = float.MaxValue;
-        var maxY = float.MinValue;
-
-        var scaleMatrix = Matrix3x2.CreateScale(delta, scaleCenter);
-        for (var i = 0; i < vertexArray.Length; i++)
+        //Exit early if vertex array is empty
+        if (vertexArray.Length == 0)
         {
-            var vertex = Vector2.Transform(vertexArray[i], scaleMatrix);
-            vertexArray[i] = vertex;
-            if (vertex.X < minX) minX = vertex.X;
-            if (vertex.X > maxX) maxX = vertex.X;
-
-            if (vertex.Y < minY) minY = vertex.Y;
-            if (vertex.Y > maxY) maxY = vertex.Y;
+            return BoundingRectangle.Zero;
         }
 
-        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
+        return Transform(vertexArray, Matrix3x2.CreateScale(delta, scaleCenter));
     }
 
     public static BoundingRectangle Skew(this VertexArray vertexArray, Vector2 delta)
     {
-        var minX = float.MaxValue;
-        var maxX = float.MinValue;
-        var minY = float.MaxValue;
-        var maxY = float.MinValue;
-
-        var shearMatrix = new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0); //Not 100% on this one.
-        for (var i = 0; i < vertexArray.Length; i++)
+        //Exit early if vertex array is empty
+        if (vertexArray.Length == 0)
         {
-            var vertex = Vector2.Transform(vertexArray[i], shearMatrix);
-            if (vertex.X < minX) minX = vertex.X;
-            if (vertex.X > maxX) maxX = vertex.X;
-
-            if (vertex.Y < minY) minY = vertex.Y;
-            if (vertex.Y > maxY) maxY = vertex.Y;
+            return BoundingRectangle.Zero;
         }
 
-        return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));
+        return Transform(vertexArray, new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0));
     }
 
     #endregion

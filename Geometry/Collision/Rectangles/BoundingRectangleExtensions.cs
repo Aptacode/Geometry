@@ -12,8 +12,8 @@ public static class BoundingRectangleExtensions
     public static BoundingRectangle Translate(this BoundingRectangle rectangle, Vector2 delta)
     {
         return new BoundingRectangle(
-            rectangle.TopLeft + delta,
-            rectangle.BottomRight + delta);
+            rectangle.BottomLeft + delta,
+            rectangle.TopRight + delta);
     }
 
     #endregion
@@ -29,13 +29,13 @@ public static class BoundingRectangleExtensions
         foreach (var primitive in primitives)
         {
             var boundingRectangle = primitive.BoundingRectangle;
-            if (boundingRectangle.TopLeft.X < minX) minX = boundingRectangle.TopLeft.X;
+            if (boundingRectangle.BottomLeft.X < minX) minX = boundingRectangle.BottomLeft.X;
 
-            if (boundingRectangle.TopLeft.Y < minY) minY = boundingRectangle.TopLeft.Y;
+            if (boundingRectangle.TopRight.Y < minY) minY = boundingRectangle.TopRight.Y;
 
-            if (boundingRectangle.BottomRight.X > maxX) maxX = boundingRectangle.BottomRight.X;
+            if (boundingRectangle.TopRight.X > maxX) maxX = boundingRectangle.TopRight.X;
 
-            if (boundingRectangle.BottomRight.Y > maxY) maxY = boundingRectangle.BottomRight.Y;
+            if (boundingRectangle.BottomLeft.Y > maxY) maxY = boundingRectangle.BottomLeft.Y;
         }
 
         return new BoundingRectangle(new Vector2(minX, minY), new Vector2(maxX, maxY));

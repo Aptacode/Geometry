@@ -9,17 +9,6 @@ namespace Aptacode.Geometry.Tests;
 public class UnitTests
 {
     [Fact]
-    public void BoundingRectangle_Test()
-    {
-        //Arrange
-        var ellipse = Ellipse.Create(15, 15, 10, 5, 0.0f);
-        //Act
-        var sut = ellipse.BoundingRectangle;
-        //Assert
-        Assert.Equal(new Vector2(5, 20), sut.TopLeft);
-    }
-
-    [Fact]
     public void QuarticHasRealRoots_Test()
     {
         var q0 = 1;
