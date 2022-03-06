@@ -38,13 +38,13 @@ public readonly struct VertexArray : IEquatable<VertexArray>
                 return new VertexArray(Array.Empty<Vector2>());
             case 1:
                 return new VertexArray(new[] { new Vector2(vertices[0], 0) });
+            default:
+                var vertexArray = new Vector2[vertices.Length / 2];
+                var vertexIndex = 0;
+                for (var i = 0; i < vertices.Length; i += 2)
+                    vertexArray[vertexIndex++] = new Vector2(vertices[i], vertices[i + 1]);
+                return new VertexArray(vertexArray);
         }
-
-        var vertexArray = new Vector2[vertices.Length / 2];
-        var vertexIndex = 0;
-        for (var i = 0; i < vertices.Length; i += 2)
-            vertexArray[vertexIndex++] = new Vector2(vertices[i], vertices[i + 1]);
-        return new VertexArray(vertexArray);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

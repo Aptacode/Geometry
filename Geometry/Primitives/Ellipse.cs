@@ -10,8 +10,8 @@ public sealed class Ellipse : Primitive
 {
     #region Properties
 
-    public readonly float Rotation;
-    public Vector2 Radii;
+    public float Rotation { get; private set; }
+    public Vector2 Radii { get; private set; }
     private bool _updateStandardForm = true;
     private (double A, double B, double C, double D, double E, double F) _standardForm;
 

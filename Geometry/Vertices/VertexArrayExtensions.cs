@@ -42,18 +42,6 @@ public static class VertexArrayExtensions
         return new VertexArray(newVertices);
     }
 
-    public static VertexArray Aggregate(this IEnumerable<VertexArray> vertexArrays)
-    {
-        var totalVertices = vertexArrays.Aggregate(0, (current, v) => current += v.Length);
-        var newVertices = new Vector2[totalVertices];
-        var count = 0;
-        foreach (var array in vertexArrays)
-            for (var i = 0; i < array.Length; i++)
-                newVertices[count++] = array[i];
-
-        return new VertexArray(newVertices);
-    }
-
     public static VertexArray Remove(this VertexArray vertexArray, int index)
     {
         var vertices = vertexArray.Vertices.ToList();
