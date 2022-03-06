@@ -44,16 +44,6 @@ public class UnitTests
     }
 
     [Fact]
-    public void OnLineSegment_Test()
-    {
-        var a = new Vector2(0, 0);
-        var b = new Vector2(6, 2);
-        var c = new Vector2(3, 1);
-
-        Assert.True((a, b).NewOnLineSegment(c));
-    }
-
-    [Fact]
     public void newLineSegmentIntersection_Test()
     {
         var A1 = new Vector2(10, 10);

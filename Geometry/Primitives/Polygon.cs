@@ -9,25 +9,6 @@ namespace Aptacode.Geometry.Primitives;
 
 public sealed class Polygon : Primitive
 {
-    #region Properties
-
-    private bool _updateEdges = true;
-    private readonly (Vector2 P1, Vector2 P2)[] _edges;
-    public (Vector2 P1, Vector2 P2)[] Edges
-    {
-        get
-        {
-            if (_updateEdges)
-            {
-                UpdateEdges();
-            }
-
-            return _edges;
-        }
-    }
-
-    #endregion
-
     #region IEquatable
 
     public override bool Equals(object other)
@@ -42,18 +23,24 @@ public sealed class Polygon : Primitive
         return $"Polygon {Vertices}";
     }
 
-    #region Collision Detection
+    #region Properties
 
-    public override Primitive GetBoundingPrimitive(float margin)
+    private bool _updateEdges = true;
+    private readonly (Vector2 P1, Vector2 P2)[] _edges;
+
+    public (Vector2 P1, Vector2 P2)[] Edges
     {
-        var deltaX = (margin + BoundingRectangle.Size.X) / BoundingRectangle.Size.X;
-        var deltaY = (margin + BoundingRectangle.Size.Y) / BoundingRectangle.Size.Y;
-        var scaleFactor = new Vector2(deltaX, deltaY);
-        Vertices.Scale(BoundingRectangle.Center, scaleFactor);
+        get
+        {
+            if (_updateEdges) UpdateEdges();
 
-        //Todo scale polygon instead of creating convex hull
-        return Create(Vertices.Vertices);
+            return _edges;
+        }
     }
+
+    #endregion
+
+    #region Collision Detection
 
     public override bool CollidesWith(Vector2 p)
     {

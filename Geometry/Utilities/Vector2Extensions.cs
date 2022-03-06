@@ -5,7 +5,7 @@ namespace Aptacode.Geometry.Utilities;
 
 public static class Vector2Extensions
 {
-    private static readonly Matrix3x2 _rotationMatrix = new(0, -1, 1, 0, 0, 0);
+    private static readonly Matrix3x2 RotationMatrix = new(0, -1, 1, 0, 0, 0);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float VectorCross(this Vector2 a, Vector2 b)
@@ -16,7 +16,7 @@ public static class Vector2Extensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 Perp(this Vector2 a)
     {
-        return Vector2.Transform(a, _rotationMatrix);
+        return Vector2.Transform(a, RotationMatrix);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

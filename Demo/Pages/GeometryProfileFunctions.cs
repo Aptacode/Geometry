@@ -12,7 +12,6 @@ public static class GeometryProfileFunctions
         {
             //Ellipse
             new PrimitiveCreation<Ellipse>(),
-            new PrimitiveFunction<Ellipse>(f => f.GetBoundingPrimitive(10), "get bounding primitive"),
             new PrimitiveFunction<Ellipse>(f => f.Rotate(10), "rotate"),
             new PrimitiveFunction<Ellipse>(f => f.Scale(Vector2.One, new Vector2(10, 5)), "scale"),
             new PrimitiveFunction<Ellipse>(f => f.Skew(new Vector2(10, 5)), "skew"),
@@ -24,7 +23,6 @@ public static class GeometryProfileFunctions
 
             //Point
             new PrimitiveCreation<Point>(),
-            new PrimitiveFunction<Point>(f => f.GetBoundingPrimitive(10), "get bounding primitive"),
             new PrimitiveFunction<Point>(f => f.Rotate(10), "rotate"),
             new PrimitiveFunction<Point>(f => f.Scale(Vector2.One, new Vector2(10, 5)), "scale"),
             new PrimitiveFunction<Point>(f => f.Skew(new Vector2(10, 5)), "skew"),
@@ -36,7 +34,6 @@ public static class GeometryProfileFunctions
 
             //PolyLine
             new PrimitiveCreation<PolyLine>(),
-            new PrimitiveFunction<PolyLine>(f => f.GetBoundingPrimitive(10), "get bounding primitive"),
             new PrimitiveFunction<PolyLine>(f => f.Rotate(10), "rotate"),
             new PrimitiveFunction<PolyLine>(f => f.Scale(Vector2.One, new Vector2(10, 5)), "scale"),
             new PrimitiveFunction<PolyLine>(f => f.Skew(new Vector2(10, 5)), "skew"),
@@ -48,7 +45,6 @@ public static class GeometryProfileFunctions
 
             //Polygon
             new PrimitiveCreation<Polygon>(),
-            new PrimitiveFunction<Polygon>(f => f.GetBoundingPrimitive(10), "get bounding primitive"),
             new PrimitiveFunction<Polygon>(f => f.Rotate(10), "rotate"),
             new PrimitiveFunction<Polygon>(f => f.Scale(Vector2.One, new Vector2(10, 5)), "scale"),
             new PrimitiveFunction<Polygon>(f => f.Skew(new Vector2(10, 5)), "skew"),

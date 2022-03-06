@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Aptacode.Geometry.Utilities;
 
 namespace Aptacode.Geometry.Collision;
 
@@ -15,20 +14,6 @@ public static class LineSegmentCollisionDetectionMethods
         var lineLength = (line.P2 - line.P1).Length();
         var delta = d1 + d2;
         return Math.Abs(delta - lineLength) < Constants.Tolerance;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool NewOnLineSegment(this (Vector2 P1, Vector2 P2) line, Vector2 point)
-    {
-        var minVector = Vector2.Min(line.P1, line.P2);
-        var maxVector = Vector2.Max(line.P1, line.P2);
-        if (point.X >= minVector.X && point.X <= maxVector.X && point.Y >= minVector.Y && point.Y <= maxVector.Y)
-        {
-            var perpDot = Vector2.Dot((line.P1 - line.P2).Perp(), point);
-            if (perpDot == 0) return true;
-        }
-
-        return false;
     }
 
     // Given three collinear points p, q, r, the function checks if

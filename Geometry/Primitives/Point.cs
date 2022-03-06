@@ -33,12 +33,6 @@ public sealed class Point : Primitive
 
     #region Collision Detection
 
-    public override Primitive GetBoundingPrimitive(float margin)
-    {
-        var marginScale = new Vector2(margin, margin);
-        return Polygon.Rectangle.FromTwoPoints(Position + marginScale, Position - marginScale);
-    }
-
     public override bool CollidesWith(Vector2 p)
     {
         return Vector2CollisionDetectionMethods.CollidesWith(this, p);
@@ -84,7 +78,11 @@ public sealed class Point : Primitive
 
     public static Point Create(Vector2 position)
     {
-        return new Point(VertexArray.Create(position), new BoundingRectangle(position, position));
+        return new Point(VertexArray.Create(position), new BoundingRectangle
+        {
+            BottomLeft = position,
+            TopRight = position
+        });
     }
 
     public static Point Zero => Create(Vector2.Zero);

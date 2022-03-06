@@ -9,24 +9,6 @@ namespace Aptacode.Geometry.Primitives;
 
 public sealed class PolyLine : Primitive
 {
-    #region Properties
-
-    private bool _updateLineSegments = true;
-    private readonly (Vector2 P1, Vector2 P2)[] _lineSegments;
-    public (Vector2 P1, Vector2 P2)[] LineSegments
-    {
-        get
-        {
-            if (_updateLineSegments)
-            {
-                UpdateLineSegments();
-            }
-
-            return _lineSegments;
-        }
-    }
-    #endregion
-
     #region IEquatable
 
     public override bool Equals(object other)
@@ -41,16 +23,24 @@ public sealed class PolyLine : Primitive
         return $"PolyLine {Vertices}";
     }
 
-    #region Collision Detection
+    #region Properties
 
-    public override Primitive GetBoundingPrimitive(float margin)
+    private bool _updateLineSegments = true;
+    private readonly (Vector2 P1, Vector2 P2)[] _lineSegments;
+
+    public (Vector2 P1, Vector2 P2)[] LineSegments
     {
-        if (margin < Constants.Tolerance) return this;
-        var boundingRectangle = Vertices.ToBoundingRectangle();
-        var marginDelta = new Vector2(margin, margin);
-        return Polygon.Rectangle.FromTwoPoints(boundingRectangle.TopRight - marginDelta,
-            boundingRectangle.BottomLeft + marginDelta);
+        get
+        {
+            if (_updateLineSegments) UpdateLineSegments();
+
+            return _lineSegments;
+        }
     }
+
+    #endregion
+
+    #region Collision Detection
 
     public override bool CollidesWith(Vector2 p)
     {

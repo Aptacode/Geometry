@@ -8,9 +8,8 @@ public readonly struct BoundingRectangle
 {
     #region Properties
 
-    public readonly Vector2 TopRight;
-    public readonly Vector2 BottomLeft;
-
+    public Vector2 TopRight { get; init; }
+    public Vector2 BottomLeft { get; init; }
     public Vector2 Size => new(TopRight.X - BottomLeft.X, TopRight.Y - BottomLeft.Y);
     public Vector2 Center => new(X + Width / 2, Y + Height / 2);
     public float X => BottomLeft.X;
@@ -19,6 +18,7 @@ public readonly struct BoundingRectangle
     public float Height => TopRight.Y - BottomLeft.Y;
 
     #endregion
+
 
     #region Ctor
 
@@ -44,7 +44,11 @@ public readonly struct BoundingRectangle
         BottomLeft = new Vector2(minX, minY);
     }
 
-    public static readonly BoundingRectangle Zero = new(Vector2.Zero, Vector2.Zero);
+    public static readonly BoundingRectangle Zero = new()
+    {
+        BottomLeft = Vector2.Zero,
+        TopRight = Vector2.One
+    };
 
     #endregion
 
@@ -76,16 +80,14 @@ public readonly struct BoundingRectangle
 
     #endregion
 
-    public Primitive GetBoundingPrimitive(float margin)
-    {
-        var marginDelta = new Vector2(margin, margin);
-        return Polygon.Rectangle.FromTwoPoints(BottomLeft - marginDelta, TopRight + marginDelta);
-    }
+    #region ToString
 
     public override string ToString()
     {
         return $"BoundingRectangle ({BottomLeft.X},{BottomLeft.Y}), ({TopRight.X},{TopRight.Y})";
     }
+
+    #endregion
 
     #region IEquatable
 

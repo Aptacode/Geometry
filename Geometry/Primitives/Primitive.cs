@@ -12,12 +12,6 @@ public abstract class Primitive
         BoundingRectangle = boundingRectangle;
     }
 
-    #region Methods
-
-    public abstract Primitive GetBoundingPrimitive(float margin);
-
-    #endregion
-
     public abstract override string ToString();
 
     #region Properties

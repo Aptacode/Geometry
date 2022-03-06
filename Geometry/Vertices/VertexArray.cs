@@ -91,7 +91,7 @@ public readonly struct VertexArray : IEquatable<VertexArray>
         for (var i = 0; i < lhs.Length; i++)
         {
             var delta = lhs[i] - rhs[i];
-            if (Math.Abs(delta.X + delta.Y) > Constants.Tolerance) return false;
+            if (Math.Abs(delta.X) + Math.Abs(delta.Y) > Constants.Tolerance) return false;
         }
 
         return true;
