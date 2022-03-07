@@ -9,7 +9,6 @@ namespace Aptacode.Geometry.Primitives;
 public sealed class Ellipse : Primitive
 {
     #region ToString
-
     public override string ToString()
     {
         return $"Ellipse ({Position.X},{Position.Y}), ({Radii.X},{Radii.Y}), {Rotation}";
@@ -168,6 +167,7 @@ public sealed class Ellipse : Primitive
     {
         Vertices.Translate(delta);
         BoundingRectangle = BoundingRectangle.Translate(delta);
+        _updateFoci = _updateStandardForm = true;
         return this;
     }
 
@@ -175,6 +175,8 @@ public sealed class Ellipse : Primitive
     {
         Radii *= delta;
         BoundingRectangle = GetBoundingRectangle(Position, Radii, Rotation);
+        _updateFoci = _updateStandardForm = true;
+
         return this;
     }
 
@@ -183,6 +185,8 @@ public sealed class Ellipse : Primitive
         //Todo
 
         BoundingRectangle = GetBoundingRectangle(Position, Radii, Rotation);
+        _updateFoci = _updateStandardForm = true;
+
         return this;
     }
 
@@ -191,6 +195,8 @@ public sealed class Ellipse : Primitive
         //Todo
 
         BoundingRectangle = GetBoundingRectangle(Position, Radii, Rotation);
+        _updateFoci = _updateStandardForm = true;
+
         return this;
     }
 
@@ -199,6 +205,8 @@ public sealed class Ellipse : Primitive
         //Todo
 
         BoundingRectangle = GetBoundingRectangle(Position, Radii, Rotation);
+        _updateFoci = _updateStandardForm = true;
+
         return this;
     }
 
