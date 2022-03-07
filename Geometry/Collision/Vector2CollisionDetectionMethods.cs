@@ -35,7 +35,7 @@ public static class Vector2CollisionDetectionMethods
 
         return false;
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this Polygon p2, Vector2 p1)
     {
