@@ -21,9 +21,9 @@ public sealed class Point : Primitive
 
     #region IEquatable
 
-    public override bool Equals(object other)
+    public override bool Equals(Primitive? other)
     {
-        if (other is not Point otherPoint)
+        if (other == null || other is not Point otherPoint)
         {
             return false;
         }

@@ -106,8 +106,10 @@ public sealed class Ellipse : Primitive
         return ToString().GetHashCode();
     }
 
-    public override bool Equals(object other)
+    public override bool Equals(Primitive? other)
     {
+        if(other == null) return false;
+
         if (other is not Ellipse otherEllipse)
         {
             return false;
@@ -259,7 +261,7 @@ public sealed class Ellipse : Primitive
             return true;
         }
 
-        if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) < Constants.Tolerance && u2 != 0)
+        if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) < Constants.Tolerance && Math.Abs(u2) < Constants.Tolerance)
         {
             var det = u1 * u1 - 4 * u2 * u0;
             if (Math.Abs(det) < Constants.Tolerance)
