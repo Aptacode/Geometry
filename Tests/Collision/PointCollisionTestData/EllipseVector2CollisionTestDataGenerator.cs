@@ -21,7 +21,7 @@ public class EllipseVector2CollisionTestDataGenerator : IEnumerable<object[]>
         new object[] { Ellipse.Create(Vector2.Zero, 1), new Vector2(0, -1), true },
         new object[] { Ellipse.Create(Vector2.Zero, 1), new Vector2(-1, -1), false },
         new object[] { Ellipse.Create(Vector2.Zero, 1), new Vector2(-1, 0), true },
-        new object[] { Ellipse.Create(Vector2.Zero, 1), new Vector2(-1, 1), false }
+        new object[] { Ellipse.Create(Vector2.Zero, 1), new Vector2(-1, 1), false },
         new object[] { Ellipse.Create(Vector2.Zero, 1), new Vector2(0,0), true },
         new object[] { Ellipse.Create(Vector2.Zero, 1), new Vector2(0,1), true },
         new object[] { Ellipse.Create(Vector2.Zero, 1), new Vector2(1,1), false },
