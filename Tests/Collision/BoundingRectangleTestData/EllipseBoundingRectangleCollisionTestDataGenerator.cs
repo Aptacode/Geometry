@@ -22,10 +22,9 @@ public class EllipseBoundingRectangleCollisionTestDataGenerator : IEnumerable<ob
         },
         new object[]
         {
-            Ellipse.Create(Vector2.Zero, 1), new BoundingRectangle(new Vector2(3, 3), Vector2.One),
+            Ellipse.Create(Vector2.Zero, 1), new BoundingRectangle(new Vector2(3, 3), new Vector2(2, 2)),
             false
-        },
-   
+        }
     };
 
     public IEnumerator<object[]> GetEnumerator()

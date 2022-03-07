@@ -18,7 +18,10 @@ public class VertexArrayTransformationTests
         vertexArray.Translate(new Vector2(1, 1));
 
         //Assert
-        foreach (var vertex in expectedVertexArray.Vertices) Assert.Contains(vertex, vertexArray.Vertices);
+        foreach (var vertex in expectedVertexArray.Vertices)
+        {
+            Assert.Contains(vertex, vertexArray.Vertices);
+        }
     }
 
     [Fact]
@@ -30,7 +33,10 @@ public class VertexArrayTransformationTests
         //Act
         vertexArray.Rotate(new Vector2(1, 1), (float)Math.PI / 2);
         //Assert
-        foreach (var vertex in expectedVertexArray.Vertices) Assert.Contains(vertex, vertexArray.Vertices);
+        foreach (var vertex in expectedVertexArray.Vertices)
+        {
+            Assert.Contains(vertex, vertexArray.Vertices);
+        }
     }
 
     [Fact]
@@ -42,7 +48,10 @@ public class VertexArrayTransformationTests
         //Act
         vertexArray.Scale(new Vector2(3, 2), new Vector2(2, 1));
         //Assert
-        foreach (var vertex in expectedVertexArray.Vertices) Assert.Contains(vertex, vertexArray.Vertices);
+        foreach (var vertex in expectedVertexArray.Vertices)
+        {
+            Assert.Contains(vertex, vertexArray.Vertices);
+        }
     }
 
     [Fact]

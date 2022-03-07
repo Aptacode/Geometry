@@ -21,14 +21,14 @@ public readonly struct VertexArray : IEquatable<VertexArray>
     public static VertexArray Empty()
     {
         return new VertexArray(Array.Empty<Vector2>());
-    }     
-    
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static VertexArray Create(params Vector2[] vertices)
     {
         return new VertexArray(vertices);
-    }    
-    
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static VertexArray Create(params float[] vertices)
     {
@@ -37,16 +37,17 @@ public readonly struct VertexArray : IEquatable<VertexArray>
             case 0:
                 return new VertexArray(Array.Empty<Vector2>());
             case 1:
-                return new VertexArray(new []{ new Vector2(vertices[0], 0)});
-        }
+                return new VertexArray(new[] { new Vector2(vertices[0], 0) });
+            default:
+                var vertexArray = new Vector2[vertices.Length / 2];
+                var vertexIndex = 0;
+                for (var i = 0; i < vertices.Length; i += 2)
+                {
+                    vertexArray[vertexIndex++] = new Vector2(vertices[i], vertices[i + 1]);
+                }
 
-        var vertexArray = new Vector2[vertices.Length / 2];
-        var vertexIndex = 0;
-        for (var i = 0; i < vertices.Length; i+=2)
-        {
-            vertexArray[vertexIndex++] = new Vector2(vertices[i], vertices[i + 1]);
+                return new VertexArray(vertexArray);
         }
-        return new VertexArray(vertexArray);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -88,12 +89,18 @@ public readonly struct VertexArray : IEquatable<VertexArray>
 
     public static bool operator ==(VertexArray lhs, VertexArray rhs)
     {
-        if (lhs.Length != rhs.Length) return false;
+        if (lhs.Length != rhs.Length)
+        {
+            return false;
+        }
 
         for (var i = 0; i < lhs.Length; i++)
         {
             var delta = lhs[i] - rhs[i];
-            if (Math.Abs(delta.X + delta.Y) > Constants.Tolerance) return false;
+            if (Math.Abs(delta.X) + Math.Abs(delta.Y) > Constants.Tolerance)
+            {
+                return false;
+            }
         }
 
         return true;

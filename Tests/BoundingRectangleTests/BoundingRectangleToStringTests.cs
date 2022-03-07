@@ -25,7 +25,7 @@ public class BoundingRectangleToStringTests
         private readonly List<object[]> _data = new()
         {
             new object[]
-                { new BoundingRectangle(Vector2.Zero, Vector2.One), "BoundingRectangle (0,1), (1,1), (1,0), (0,0)" }
+                { new BoundingRectangle(Vector2.Zero, Vector2.One), "BoundingRectangle (0,0), (1,1)" }
         };
 
         public IEnumerator<object[]> GetEnumerator()

@@ -9,17 +9,6 @@ namespace Aptacode.Geometry.Tests;
 public class UnitTests
 {
     [Fact]
-    public void BoundingRectangle_Test()
-    {
-        //Arrange
-        var ellipse = Ellipse.Create(15, 15, 10, 5, 0.0f);
-        //Act
-        var sut = ellipse.BoundingRectangle;
-        //Assert
-        Assert.Equal(new Vector2(5, 20), sut.TopLeft);
-    }
-
-    [Fact]
     public void QuarticHasRealRoots_Test()
     {
         var q0 = 1;
@@ -55,16 +44,6 @@ public class UnitTests
     }
 
     [Fact]
-    public void OnLineSegment_Test()
-    {
-        var a = new Vector2(0, 0);
-        var b = new Vector2(6, 2);
-        var c = new Vector2(3, 1);
-
-        Assert.True((a, b).NewOnLineSegment(c));
-    }
-
-    [Fact]
     public void newLineSegmentIntersection_Test()
     {
         var A1 = new Vector2(10, 10);
@@ -73,6 +52,6 @@ public class UnitTests
         var B1 = new Vector2(15, 10);
         var B2 = new Vector2(15, 15);
 
-        Assert.True((A1, A2).LineSegmentIntersection((B1, B2)));
+        Assert.True((A1, A2).Intersects((B1, B2)));
     }
 }

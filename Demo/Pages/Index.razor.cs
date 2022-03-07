@@ -8,7 +8,7 @@ public class IndexBase : ComponentBase
 
     #region Properties
 
-    public IEnumerable<ProfileFunctionResult> Results = new List<ProfileFunctionResult>();
+    protected IEnumerable<ProfileFunctionResult> Results = new List<ProfileFunctionResult>();
 
     #endregion
 

@@ -19,9 +19,19 @@ public static class Vector2CollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this PolyLine p2, Vector2 p1)
     {
+        //Bounding rectangle early escape
+        if (!p2.BoundingRectangle.CollidesWith(p1))
+        {
+            return false;
+        }
+
         for (var i = 0; i < p2.LineSegments.Length; i++)
-            if (p2.LineSegments[i].OnLineSegment(p1))
+        {
+            if (p2.LineSegments[i].Intersects(p1))
+            {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -29,18 +39,29 @@ public static class Vector2CollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this Polygon p2, Vector2 p1)
     {
+        //Bounding rectangle early escape
+        if (!p2.BoundingRectangle.CollidesWith(p1))
+        {
+            return false;
+        }
+
         var collision = false;
         var edges = p2.Edges;
         var point = p1;
 
         foreach (var line in edges)
         {
-            if (line.OnLineSegment(point)) return true;
+            if (line.Intersects(point))
+            {
+                return true;
+            }
 
             if ((line.P1.Y >= point.Y && line.P2.Y <= point.Y ||
                  line.P1.Y <= point.Y && line.P2.Y >= point.Y) &&
                 point.X <= (line.P2.X - line.P1.X) * (point.Y - line.P1.Y) / (line.P2.Y - line.P1.Y) + line.P1.X)
+            {
                 collision = !collision;
+            }
         }
 
         return collision;
@@ -49,13 +70,23 @@ public static class Vector2CollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this Ellipse p2, Vector2 p1)
     {
+        //Bounding rectangle early escape
+        if (!p2.BoundingRectangle.CollidesWith(p1))
+        {
+            return false;
+        }
+
         var f1dist = (p2.Foci.Item1 - p1).Length();
         var f2dist = (p2.Foci.Item2 - p1).Length();
         if (p2.Radii.X >= p2.Radii.Y) //X is the major axis
+        {
             return f1dist + f2dist <= 2 * p2.Radii.X;
+        }
 
         if (p2.Radii.Y > p2.Radii.X) //Y is the major axis
+        {
             return f1dist + f2dist <= 2 * p2.Radii.Y;
+        }
 
         return false;
     }

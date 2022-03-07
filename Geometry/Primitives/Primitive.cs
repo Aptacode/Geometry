@@ -12,12 +12,6 @@ public abstract class Primitive
         BoundingRectangle = boundingRectangle;
     }
 
-    #region Methods
-
-    public abstract Primitive GetBoundingPrimitive(float margin);
-
-    #endregion
-
     public abstract override string ToString();
 
     #region Properties
@@ -30,16 +24,16 @@ public abstract class Primitive
 
     #region IEquatable
 
-    public override int GetHashCode()
-    {
-        return ToString().GetHashCode();
-    }
+    public abstract override int GetHashCode();
 
     public abstract override bool Equals(object obj);
 
     public static bool operator ==(Primitive lhs, Primitive rhs)
     {
-        if (lhs is null) return rhs is null;
+        if (lhs is null)
+        {
+            return rhs is null;
+        }
 
         return lhs.Equals(rhs);
     }

@@ -14,30 +14,32 @@ public sealed class Point : Primitive
 
     #endregion
 
-    #region IEquatable
-
-    public override bool Equals(object other)
-    {
-        if (other is not Point otherPoint) return false;
-
-        return Math.Abs(Position.X - otherPoint.Position.X) < Constants.Tolerance &&
-               Math.Abs(Position.Y - otherPoint.Position.Y) < Constants.Tolerance;
-    }
-
-    #endregion
-
     public override string ToString()
     {
         return $"Point {Vertices}";
     }
 
-    #region Collision Detection
+    #region IEquatable
 
-    public override Primitive GetBoundingPrimitive(float margin)
+    public override bool Equals(object other)
     {
-        var marginScale = new Vector2(margin, margin);
-        return Polygon.Rectangle.FromTwoPoints(Position + marginScale, Position - marginScale);
+        if (other is not Point otherPoint)
+        {
+            return false;
+        }
+
+        return Math.Abs(Position.X - otherPoint.Position.X) < Constants.Tolerance &&
+               Math.Abs(Position.Y - otherPoint.Position.Y) < Constants.Tolerance;
     }
+
+    public override int GetHashCode()
+    {
+        return ToString().GetHashCode();
+    }
+
+    #endregion
+
+    #region Collision Detection
 
     public override bool CollidesWith(Vector2 p)
     {
@@ -84,7 +86,11 @@ public sealed class Point : Primitive
 
     public static Point Create(Vector2 position)
     {
-        return new Point(VertexArray.Create(position), new BoundingRectangle(position, position));
+        return new Point(VertexArray.Create(position), new BoundingRectangle
+        {
+            BottomLeft = position,
+            TopRight = position
+        });
     }
 
     public static Point Zero => Create(Vector2.Zero);

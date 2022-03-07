@@ -23,6 +23,7 @@ public class PrimitiveEqualityTests
             var equalsMethodResult = p1.Equals(p2);
             Assert.Equal(areEqual, equalsMethodResult);
         }
+
         Assert.Equal(areEqual, equalityOperatorResult);
         Assert.Equal(!areEqual, inequalityOperatorResult);
     }
