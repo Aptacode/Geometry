@@ -13,12 +13,13 @@ namespace Aptacode.Geometry.Tests.Primitives.EllipseStandardForm
             //Arrange
             //Act
             //Assert
-            Assert.Equal(a, ellipse.StandardForm.A);
-            Assert.Equal(b, ellipse.StandardForm.B);
-            Assert.Equal(c, ellipse.StandardForm.C);
-            Assert.Equal(d, ellipse.StandardForm.D);
-            Assert.Equal(e, ellipse.StandardForm.E);
-            Assert.Equal(f, ellipse.StandardForm.F);
+            var ratio = ellipse.StandardForm.A/a; 
+            Assert.Equal(a*ratio, ellipse.StandardForm.A);
+            Assert.Equal(b*ratio, ellipse.StandardForm.B);
+            Assert.Equal(c*ratio, ellipse.StandardForm.C);
+            Assert.Equal(d*ratio, ellipse.StandardForm.D);
+            Assert.Equal(e*ratio, ellipse.StandardForm.E);
+            Assert.Equal(f*ratio, ellipse.StandardForm.F);
         }
     }
 }
