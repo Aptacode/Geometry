@@ -1,4 +1,4 @@
-name: Demo Deploy
+name: demo
 
 env:
   dotnet_version: 6.0.x
