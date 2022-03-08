@@ -5,6 +5,7 @@
 </p>
 
 [Live Demo](https://aptacode.github.io/Geometry/)
+[Code Metrics](https://github.com/Aptacode/Geometry/blob/main/CODE_METRICS.md)
 
 [![Tests](https://github.com/Aptacode/Geometry/actions/workflows/test.yml/badge.svg)](https://github.com/Aptacode/Geometry/actions/workflows/test.yml)
 [![Demo Deployment](https://github.com/Aptacode/Geometry/actions/workflows/demo.yml/badge.svg)](https://github.com/Aptacode/Geometry/actions/workflows/demo.yml)
