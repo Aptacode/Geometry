@@ -17,9 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      env:
-          NUGET_AUTH_TOKEN: ${{secrets.NUGET_TOKEN}}        
+      uses: actions/setup-dotnet@v1      
       with:
         dotnet-version: ${{ env.dotnet_version }}
     - name: Restore
@@ -29,4 +27,4 @@ jobs:
     - name: Pack
       run: dotnet pack -c Release -o out  
     - name: Push
-      run: dotnet nuget push ./Geometry/out/*.nupkg --api-key ${NUGET_AUTH_TOKEN} --source https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+      run: dotnet nuget push ./Geometry/out/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_TOKEN}} --skip-duplicate --no-symbols true
