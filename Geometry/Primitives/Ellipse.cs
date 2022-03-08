@@ -246,11 +246,11 @@ public sealed class Ellipse : Primitive
     {
         var a = Radii.X;
         var b = Radii.Y;
-        if (Radii.Y > Radii.X)
-        {
-            a = Radii.Y;
-            b = Radii.X;
-        }
+        //if (Radii.Y > Radii.X)
+        //{
+        //    a = Radii.Y;
+        //    b = Radii.X;
+        //}
 
         var px = Position.X;
         var py = Position.Y;
