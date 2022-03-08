@@ -1,4 +1,4 @@
-name: '.NET code metrics'
+name: 'code metrics'
 
 on:
   push:
