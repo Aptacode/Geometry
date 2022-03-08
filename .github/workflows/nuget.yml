@@ -27,4 +27,4 @@ jobs:
     - name: Pack
       run: dotnet pack -c Release -o out  
     - name: Push
-      run: dotnet nuget push ./Geometry/out/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_TOKEN}} --skip-duplicate --no-symbols true
+      run: dotnet nuget push ./out/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_TOKEN}} --skip-duplicate --no-symbols true
