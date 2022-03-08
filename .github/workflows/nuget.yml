@@ -29,4 +29,4 @@ jobs:
           dotnet pack -c Release -o out  
 
       - name: Push generated package to GitHub registry
-        run: dotnet nuget push ./Geometry/bin/Release/*.nupkg --skip-duplicate --no-symbols true
+        run: dotnet nuget push ./Geometry/*.nupkg --skip-duplicate --no-symbols true
