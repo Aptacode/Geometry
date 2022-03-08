@@ -2,7 +2,7 @@ name: '.NET code metrics'
 
 on:
   push:
-    branches: [ Production ]
+    branches: [ main ]
     paths:
     - '!./CODE_METRICS.md' # ignore this file
     
