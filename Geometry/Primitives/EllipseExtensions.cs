@@ -38,21 +38,21 @@ public static class EllipseExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static (double u0, double u1, double u2, double u3, double u4) GetResultantPolynomial(double A1,
-       double B1, double C1, double D1, double E1, double F1, double A2, double B2, double C2, double D2,
-       double E2, double F2) //Takes the coefficients of 2 ellipses (conics) and returns the Bezout determinant R(y) = u0 + u1y + u2y^2 + u3y^3 + u4y^4, is is the equation for the solutions for the y points of intersection, they may be complex.
+    public static (double u0, double u1, double u2, double u3, double u4) GetResultantPolynomial(double a1,
+       double b1, double c1, double d1, double e1, double f1, double a2, double b2, double c2, double d2,
+       double e2, double f2) //Takes the coefficients of 2 ellipses (conics) and returns the Bezout determinant R(y) = u0 + u1y + u2y^2 + u3y^3 + u4y^4, is is the equation for the solutions for the y points of intersection, they may be complex.
     {
-        var v0 = A1 * B2 - A2 * B1;
-        var v1 = A1 * C2 - A2 * C1;
-        var v2 = A1 * D2 - A2 * D1;
-        var v3 = A1 * E2 - A2 * E1;
-        var v4 = A1 * F2 - A2 * F1;
-        var v5 = B1 * C2 - B2 * C1;
-        var v6 = B1 * E2 - B2 * E1;
-        var v7 = B1 * F2 - B2 * F1;
-        var v8 = C1 * D2 - C2 * D1;
-        var v9 = D1 * E2 - D2 * E1;
-        var v10 = D1 * F2 - D2 * F1;
+        var v0 = a1 * b2 - a2 * b1;
+        var v1 = a1 * c2 - a2 * c1;
+        var v2 = a1 * d2 - a2 * d1;
+        var v3 = a1 * e2 - a2 * e1;
+        var v4 = a1 * f2 - a2 * f1;
+        var v5 = b1 * c2 - b2 * c1;
+        var v6 = b1 * e2 - b2 * e1;
+        var v7 = b1 * f2 - b2 * f1;
+        var v8 = c1 * d2 - c2 * d1;
+        var v9 = d1 * e2 - d2 * e1;
+        var v10 = d1 * f2 - d2 * f1;
 
         var u0 = v2 * v10 - v4 * v4;
         var u1 = v0 * v10 + v2 * (v7 + v9) - 2 * v3 * v4;

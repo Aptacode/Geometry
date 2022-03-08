@@ -108,7 +108,10 @@ public sealed class Ellipse : Primitive
 
     public override bool Equals(Primitive? other)
     {
-        if(other == null) return false;
+        if (other == null)
+        {
+            return false;
+        }
 
         if (other is not Ellipse otherEllipse)
         {

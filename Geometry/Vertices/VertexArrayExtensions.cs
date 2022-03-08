@@ -170,7 +170,7 @@ public static class VertexArrayExtensions
                 continue;
             }
 
-            if (!(Math.Abs(vertexArray[i].X - minX) < Constants.Tolerance))
+            if (Math.Abs(vertexArray[i].X - minX) >= Constants.Tolerance)
             {
                 minX = vertexArray[i].X;
                 minXindex = i;
