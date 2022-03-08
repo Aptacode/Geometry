@@ -165,21 +165,20 @@ public static class VertexArrayExtensions
         var minXindex = -1;
         for (var i = 0; i < vertexArray.Length; i++)
         {
-            if (vertexArray[i].X <= minX)
+            if (vertexArray[i].X > minX)
             {
-                if (!(Math.Abs(vertexArray[i].X - minX) < Constants.Tolerance))
-                {
-                    minX = vertexArray[i].X;
-                    minXindex = i;
-                }
-                else if
-                    (vertexArray[i].Y <
-                     vertexArray[minXindex]
-                         .Y) //Two points may lie on a horizontal line, we want the one with the lesser y coord then.
-                {
-                    minX = vertexArray[i].X;
-                    minXindex = i;
-                }
+                continue;
+            }
+
+            if (Math.Abs(vertexArray[i].X - minX) >= Constants.Tolerance)
+            {
+                minX = vertexArray[i].X;
+                minXindex = i;
+            }
+            else if (vertexArray[i].Y < vertexArray[minXindex].Y) //Two points may lie on a horizontal line, we want the one with the lesser y coord then.
+            {
+                minX = vertexArray[i].X;
+                minXindex = i;
             }
         }
 

@@ -16,9 +16,9 @@ public sealed class Polygon : Primitive
 
     #region IEquatable
 
-    public override bool Equals(object other)
+    public override bool Equals(Primitive? other)
     {
-        return other is Polygon otherPolygon && Vertices.Equals(otherPolygon.Vertices);
+        return other != null && other is Polygon otherPolygon && Vertices.Equals(otherPolygon.Vertices);
     }
 
     public override int GetHashCode()

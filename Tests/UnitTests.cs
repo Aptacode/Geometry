@@ -17,7 +17,7 @@ public class UnitTests
         var q3 = 1;
         var q4 = 1;
 
-        var sut = Ellipse.QuarticHasRealRoots(q0, q1, q2, q3, q4);
+        var sut = EllipseExtensions.QuarticHasRealRoots(q0, q1, q2, q3, q4);
 
         Assert.False(sut);
     }

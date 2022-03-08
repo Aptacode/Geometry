@@ -1,14 +1,14 @@
 # The name of the workflow.
 # This is the name that's displayed for status
 # badges (commonly embedded in README.md files).
-name: Tests
+name: tests
 
 # Trigger this workflow on a push, or pull request to
 # the production branch, when either C# or project files changed
 on:
   push:
   pull_request:
-    branches: [ production ]
+    branches: [ main ]
     paths-ignore:
     - 'README.md'
 

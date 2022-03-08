@@ -1,10 +1,11 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
 
-public abstract class Primitive
+public abstract class Primitive : IEquatable<Primitive>
 {
     protected Primitive(VertexArray vertices, BoundingRectangle boundingRectangle)
     {
@@ -26,7 +27,12 @@ public abstract class Primitive
 
     public abstract override int GetHashCode();
 
-    public abstract override bool Equals(object obj);
+    public abstract bool Equals(Primitive? other);
+
+    public override bool Equals(object obj)
+    {
+        return obj is Primitive other && other.Equals(this);
+    }
 
     public static bool operator ==(Primitive lhs, Primitive rhs)
     {
