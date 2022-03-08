@@ -5,9 +5,9 @@
 		<LangVersion>10.0</LangVersion>
 		<Authors>Aptacode</Authors>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.0.49</Version>
-		<AssemblyVersion>1.0.49</AssemblyVersion>
-		<FileVersion>1.0.49</FileVersion>
+		<Version>1.0.50</Version>
+		<AssemblyVersion>1.0.50</AssemblyVersion>
+		<FileVersion>1.0.50</FileVersion>
 		<PackageIcon>Logo.png</PackageIcon>
 		<RepositoryUrl>https://github.com/Aptacode/Geometry</RepositoryUrl>
 		<ApplicationIcon>Logo.ico</ApplicationIcon>
