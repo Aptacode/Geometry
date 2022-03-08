@@ -1,0 +1,18 @@
+﻿@page "/ascii"
+@inherits AsciiBase
+
+<PageTitle>Ascii Representations</PageTitle>
+
+<input id="txtWord" name="txtWord" placeholder="Enter your primitive" 
+       value="@Value" @onchange="OnInputChanged" @onkeyup="OnEnterPressed" />
+
+<br/>
+
+@for (var i = 0; i < Output.GetLength(0); i++)
+{
+        @for (var j = 0; j < Output.GetLength(1); j++)
+        {
+            @((MarkupString)$"{Output[i, j]}, ")
+        }
+    <br/>
+}

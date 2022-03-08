@@ -1,6 +1,6 @@
 ﻿using Aptacode.Geometry.Primitives;
 
-namespace Aptacode.Geometry.Demo.Pages;
+namespace Aptacode.Geometry.Demo.Pages.Benchmark;
 
 public class PrimitiveCreation<T> : ProfileFunction where T : Primitive
 {

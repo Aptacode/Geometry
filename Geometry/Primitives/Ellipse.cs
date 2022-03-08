@@ -98,7 +98,6 @@ public sealed class Ellipse : Primitive
 
     #endregion
 
-
     #region IEquatable
 
     public override int GetHashCode()
@@ -244,13 +243,8 @@ public sealed class Ellipse : Primitive
     private (double A, double B, double C, double D, double E, double F)
         GetStandardForm() //Returns the coefficents of the ellipse in the form Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0.
     {
-        var a = Radii.X;
-        var b = Radii.Y;
-        //if (Radii.Y > Radii.X)
-        //{
-        //    a = Radii.Y;
-        //    b = Radii.X;
-        //}
+        var rXSquared = Radii.X * Radii.X;
+        var rySquared = Radii.Y * Radii.Y;
 
         var px = Position.X;
         var py = Position.Y;
@@ -258,21 +252,21 @@ public sealed class Ellipse : Primitive
         var sin = Math.Sin(Rotation);
         var sin2 = Math.Sin(2 * Rotation);
 
-        var d1 = cos * cos / (a * a);
-        var d2 = cos * cos / (b * b);
-        var d3 = sin * sin / (a * a);
-        var d4 = sin * sin / (b * b);
-        var d5 = sin2 / (a * a);
-        var d6 = sin2 / (b * b);
+        var d1 = cos * cos / rXSquared;
+        var d2 = cos * cos / rySquared;
+        var d3 = sin * sin / rXSquared;
+        var d4 = sin * sin / rySquared;
+        var d5 = sin2 / rXSquared;
+        var d6 = sin2 / rySquared;
 
-        var A = d1 + d4;
-        var B = d5 - d6;
-        var C = d3 + d2;
-        var D = -2 * px * d1 - py * d5 - 2 * px * d4 + py * d6;
-        var E = -1 * px * d5 - 2 * py * d3 + px * d6 - 2 * py * d2;
-        var F = px * px * d1 + px * py * d5 + py * py * d3 + px * px * d4 - px * py * d6 + py * py * d2 - 1;
+        var a = d1 + d4;
+        var b = d5 - d6;
+        var c = d3 + d2;
+        var d = -2 * px * d1 - py * d5 - 2 * px * d4 + py * d6;
+        var e = -1 * px * d5 - 2 * py * d3 + px * d6 - 2 * py * d2;
+        var f = px * px * d1 + px * py * d5 + py * py * d3 + px * px * d4 - px * py * d6 + py * py * d2 - 1;
 
-        return (A, B, C, D, E, F);
+        return (a, b, c, d, e, f);
     }
 
     #endregion

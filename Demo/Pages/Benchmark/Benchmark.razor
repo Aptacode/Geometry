@@ -1,0 +1,29 @@
+﻿@page "/benchmark"
+@inherits BenchmarkBase
+
+<PageTitle>Geometry Profile</PageTitle>
+
+<h2>Click 'run' to profile the methods on various primitives. Each function is ran in 10 batches of 100 executions.</h2>
+
+<button @onclick="RunOnClick">Run</button>
+<button @onclick="OrderByGroup">Group</button>
+<button @onclick="OrderByFastest">Fastest</button>
+<button @onclick="OrderBySlowest">Slowest</button>
+
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Fastest (ms)</th>
+        <th>Slowest (ms)</th>
+        <th>Average (ms)</th>
+    </tr>
+    @foreach (var result in Results)
+    {
+        <tr>
+            <td>@result.Title</td>
+            <td>@result.Fastest.ToString("G3")</td>
+            <td>@result.Slowest.ToString("G3")</td>
+            <td>@result.Average.ToString("G3")</td>
+        </tr>
+    }
+</table>

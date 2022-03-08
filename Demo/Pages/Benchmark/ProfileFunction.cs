@@ -1,4 +1,4 @@
-﻿namespace Aptacode.Geometry.Demo.Pages;
+﻿namespace Aptacode.Geometry.Demo.Pages.Benchmark;
 
 public abstract class ProfileFunction
 {

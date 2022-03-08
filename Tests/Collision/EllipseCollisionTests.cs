@@ -1,10 +1,6 @@
 ﻿using System.Numerics;
-using System.Text;
-using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Tests.Collision.BoundingRectangleTestData;
 using Aptacode.Geometry.Tests.Collision.PointCollisionTestData;
-using Aptacode.Geometry.Tests.Collision.PrimitiveCollisionTestData;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -18,6 +14,7 @@ public class EllipseCollisionTests
     {
         _output = output;
     }
+
     [Theory]
     [ClassData(typeof(EllipseVector2CollisionTestDataGenerator2))]
     [ClassData(typeof(EllipseVector2CollisionTestDataGenerator3))]

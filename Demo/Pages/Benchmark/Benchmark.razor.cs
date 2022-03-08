@@ -1,9 +1,8 @@
-﻿using Aptacode.Geometry.Demo.Pages.Benchmark;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
-namespace Aptacode.Geometry.Demo.Pages;
+namespace Aptacode.Geometry.Demo.Pages.Benchmark;
 
-public class IndexBase : ComponentBase
+public class BenchmarkBase : ComponentBase
 {
     private string _order = "Group";
 
