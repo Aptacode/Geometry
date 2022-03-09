@@ -66,20 +66,18 @@ public static class EllipseExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool QuarticHasRealRoots(double u0, double u1, double u2, double u3, double u4)
     {
-        if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) > Constants.Tolerance)
+        if (Math.Abs(u4) < Constants.Tolerance)
         {
-            return true;
-        }
-
-        if (Math.Abs(u4) < Constants.Tolerance && Math.Abs(u3) < Constants.Tolerance && Math.Abs(u2) < Constants.Tolerance)
-        {
-            var det = u1 * u1 - 4 * u2 * u0;
-            if (Math.Abs(det) < Constants.Tolerance)
+            if (Math.Abs(u3) > Constants.Tolerance)
             {
                 return true;
             }
 
-            return det >= 0;
+            if(Math.Abs(u2) < Constants.Tolerance)
+            {
+                var det = u1 * u1 - 4 * u2 * u0;
+                return det >= 0;
+            }
         }
 
         var delta = 256 * u4 * u4 * u4 * u0 * u0 * u0
@@ -99,7 +97,7 @@ public static class EllipseExtensions
                     - 4 * u3 * u3 * u2 * u2 * u2 * u0
                     + u3 * u3 * u2 * u2 * u1 * u1;
 
-        if (delta < 0 && Math.Abs(delta) > 0.01f)
+        if (delta < Constants.Tolerance)
         {
             return true;
         }
@@ -111,6 +109,6 @@ public static class EllipseExtensions
                 - 16 * u4 * u4 * u3 * u1
                 - 3 * u3 * u3 * u3 * u3;
 
-        return (p <= 0 || Math.Abs(p) <= Constants.Tolerance) && d <= 0;
+        return p + d <= Constants.Tolerance;
     }
 }

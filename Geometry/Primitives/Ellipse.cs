@@ -186,7 +186,7 @@ public sealed class Ellipse : Primitive
     public override Ellipse Rotate(float theta)
     {
         //Todo
-
+        
         BoundingRectangle = EllipseExtensions.GetBoundingRectangle(Position, Radii, Rotation);
         _updateFoci = _updateStandardForm = true;
 
