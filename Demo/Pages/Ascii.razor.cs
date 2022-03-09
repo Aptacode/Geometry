@@ -9,13 +9,20 @@ public class AsciiBase : ComponentBase
     public int[,] Output { get; set; } = new int[10, 10];
 
     public string Value { get; set; } = "ellipse 0,0,1,2,2";
+    private int _outputSize = 10;
+    public int OutputSize
+    {
+        get => _outputSize;
+        set
+        {
+            _outputSize = value;
+            Update();
+        }
+    }
 
     protected override void OnInitialized()
     {
-        var outputSize = 10;
-        Output = new int[outputSize, outputSize];
-
-        UpdateEllipse();
+        Update();
 
         base.OnInitialized();
     }
@@ -23,37 +30,77 @@ public class AsciiBase : ComponentBase
     protected void OnInputChanged(ChangeEventArgs eventArgs)
     {
         Value = eventArgs.Value?.ToString() ?? string.Empty;
-        UpdateEllipse();
+        Update();
     }
 
-    protected void OnEnterPressed()
+    protected void OnOutputSizeInputChanged(ChangeEventArgs eventArgs)
     {
-        UpdateEllipse();
+        OutputSize = int.Parse(eventArgs.Value?.ToString() ?? string.Empty);
+        Update();
     }
 
-    private void UpdateEllipse()
+    private void Update()
     {
+        Primitive primitive = null;
+
         var input = Value.ToLower();
         if (input.Contains("ellipse"))
         {
             input = input.Replace("ellipse", "");
             input = input.Replace(" ", "");
-            var parameters = input.Split(",").Select(int.Parse).ToList();
+            var parameters = input.Split(",").Select(float.Parse).ToList();
 
-            var ellipse = Ellipse.Create(parameters[0], parameters[1], parameters[2], parameters[3], parameters[4]);
-            Draw(ellipse);
+            primitive = Ellipse.Create(parameters[0], parameters[1], parameters[2], parameters[3], parameters[4]);
+        }
+        else if (input.Contains("polygon"))
+        {
+            input = input.Replace("polygon", "");
+            input = input.Replace(" ", "");
+            var parameters = input.Split(",").Select(float.Parse).ToList();
+
+            primitive = Polygon.Create(parameters.ToArray());
+        }
+        else if (input.Contains("polyline"))
+        {
+            input = input.Replace("polyline", "");
+            input = input.Replace(" ", "");
+            var parameters = input.Split(",").Select(float.Parse).ToList();
+
+            primitive = PolyLine.Create(parameters.ToArray());
+        }else if (input.Contains("point"))
+        {
+            input = input.Replace("point", "");
+            input = input.Replace(" ", "");
+            var parameters = input.Split(",").Select(float.Parse).ToList();
+
+            primitive = Point.Create(parameters[0], parameters[1]);
+        }
+
+        if (primitive != null)
+        {
+            Draw(primitive);
         }
     }
 
-    private void Draw(Ellipse ellipse)
+    private void Draw(Primitive primitive)
     {
+        Output = new int[OutputSize, OutputSize];
+
+        var offset = (int)Math.Round(OutputSize / 2.0f) - 1;
+
         for (var i = 0; i < Output.GetLength(0); i++)
         {
             for (var j = 0; j < Output.GetLength(1); j++)
             {
-                Output[i, j] = ellipse.CollidesWith(new Vector2(i - 4, j - 4)) ? 1 : 0;
+                Output[i, j] = primitive.CollidesWith(new Vector2(j - offset, i - offset)) ? 1 : 0;
             }
         }
+
         StateHasChanged();
+    }
+
+    protected string GetColour(int i, int j)
+    {
+        return Output[i,j] == 1 ? "red" : "black";
     }
 }

@@ -3,16 +3,31 @@
 
 <PageTitle>Ascii Representations</PageTitle>
 
-<input id="txtWord" name="txtWord" placeholder="Enter your primitive" 
-       value="@Value" @onchange="OnInputChanged" @onkeyup="OnEnterPressed" />
+<h1>Ascii Geometry</h1>
+<h3>This tool is for generating the ascii representation of various geometric primitives for use in our collision unit tests.</h3>
+<hr>
+<p>
+    Enter your primitive e.g <br/>
+    polyline 0,0, 10,10, 15,30<br/>
+    polygon 0,0, 10,10, 15,30<br/>
+    ellipse 0,0, 10,15, 3<br/>
+    point 0,0<br/>
+</p>
+<input placeholder="Enter your primitive" 
+       value="@Value" @onchange="OnInputChanged"/>
+       
+<p>Enter the output size</p>
+<input type="number" min="10" max="100" value="@OutputSize" @onchange="OnOutputSizeInputChanged">
 
 <br/>
-
+<hr>
 @for (var i = 0; i < Output.GetLength(0); i++)
 {
+    <font>{</font>
         @for (var j = 0; j < Output.GetLength(1); j++)
         {
-            @((MarkupString)$"{Output[i, j]}, ")
+            <font color="@GetColour(i,j)">@((MarkupString)$"{Output[i, j]},&nbsp;&nbsp;&nbsp;")</font>
         }
+    <font>},</font>
     <br/>
 }
