@@ -1,5 +1,6 @@
 name: nuget
-
+env:
+  dotnet_version: 6.0.x  
 on:
   push:
     branches:
@@ -14,21 +15,16 @@ jobs:
     runs-on: ubuntu-18.04
     name: Update NuGet package
     steps:
-
-      - name: Checkout repository
-        uses: actions/checkout@v1
-
-      - name: Setup .NET Core @ Latest
-        uses: actions/setup-dotnet@v1
-        with:
-          source-url: https://nuget.pkg.github.com/aptacode/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.NUGET_TOKEN}}        
-          
-      - name: Build solution and generate NuGet package
-        run: |  
-          cd Geometry
-          dotnet pack -c Release -o out  
-
-      - name: Push generated package to GitHub registry
-        run: dotnet nuget push ./Geometry/bin/Release/*.nupkg --skip-duplicate --no-symbols true
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1      
+      with:
+        dotnet-version: ${{ env.dotnet_version }}
+    - name: Restore
+      run: dotnet restore
+    - name: Build
+      run: dotnet build -c Release --no-restore
+    - name: Pack
+      run: dotnet pack -c Release -o out  
+    - name: Push
+      run: dotnet nuget push ./out/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_TOKEN}} --skip-duplicate --no-symbols true
