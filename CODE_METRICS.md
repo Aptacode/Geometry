@@ -164,11 +164,11 @@ The `Aptacode.Geometry.Benchmarks` namespace contains 5 named types.
 
 The *Demo.csproj* project file contains:
 
-- 2 namespaces.
-- 9 named types.
-- 347 total lines of source code.
-- Approximately 134 lines of executable code.
-- The highest cyclomatic complexity is 6 :heavy_check_mark:.
+- 3 namespaces.
+- 12 named types.
+- 611 total lines of source code.
+- Approximately 248 lines of executable code.
+- The highest cyclomatic complexity is 7 :heavy_check_mark:.
 
 <details>
 <summary>
@@ -181,8 +181,8 @@ The *Demo.csproj* project file contains:
 The `<global namespace>` namespace contains 1 named types.
 
 - 1 named types.
-- 10 total lines of source code.
-- Approximately 12 lines of executable code.
+- 12 total lines of source code.
+- Approximately 14 lines of executable code.
 - The highest cyclomatic complexity is 1 :heavy_check_mark:.
 
 <details>
@@ -194,13 +194,13 @@ The `<global namespace>` namespace contains 1 named types.
 <br>
 
 - The `<Program>$` contains 1 members.
-- 10 total lines of source code.
-- Approximately 12 lines of executable code.
+- 12 total lines of source code.
+- Approximately 14 lines of executable code.
 - The highest cyclomatic complexity is 1 :heavy_check_mark:.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Program.cs#L1' title='<top-level-statements-entry-point>'>1</a> | 73 | 1 :heavy_check_mark: | 0 | 4 | 10 / 6 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Program.cs#L1' title='<top-level-statements-entry-point>'>1</a> | 72 | 1 :heavy_check_mark: | 0 | 4 | 12 / 7 |
 
 <a href="#global+namespace">:top: back to &lt;global namespace&gt;</a>
 
@@ -210,18 +210,48 @@ The `<global namespace>` namespace contains 1 named types.
 
 <details>
 <summary>
-  <strong id="aptacode-geometry-demo-pages">
-    Aptacode.Geometry.Demo.Pages :heavy_check_mark:
+  <strong id="aptacode-geometry-demo-pages-benchmark">
+    Aptacode.Geometry.Demo.Pages.Benchmark :heavy_check_mark:
   </strong>
 </summary>
 <br>
 
-The `Aptacode.Geometry.Demo.Pages` namespace contains 8 named types.
+The `Aptacode.Geometry.Demo.Pages.Benchmark` namespace contains 8 named types.
 
 - 8 named types.
 - 337 total lines of source code.
 - Approximately 122 lines of executable code.
 - The highest cyclomatic complexity is 6 :heavy_check_mark:.
+
+<details>
+<summary>
+  <strong id="benchmarkbase">
+    BenchmarkBase :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `BenchmarkBase` contains 8 members.
+- 57 total lines of source code.
+- Approximately 20 lines of executable code.
+- The highest cyclomatic complexity is 2 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/Benchmark.razor.cs#L7' title='string BenchmarkBase._order'>7</a> | 93 | 0 :heavy_check_mark: | 0 | 0 | 1 / 1 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/Benchmark.razor.cs#L17' title='ILogger<IndexBase> BenchmarkBase.Logger'>17</a> | 100 | 2 :heavy_check_mark: | 0 | 3 | 5 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/Benchmark.razor.cs#L48' title='void BenchmarkBase.OrderByFastest()'>48</a> | 85 | 1 :heavy_check_mark: | 0 | 1 | 6 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/Benchmark.razor.cs#L41' title='void BenchmarkBase.OrderByGroup()'>41</a> | 85 | 1 :heavy_check_mark: | 0 | 1 | 6 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/Benchmark.razor.cs#L55' title='void BenchmarkBase.OrderBySlowest()'>55</a> | 85 | 1 :heavy_check_mark: | 0 | 1 | 6 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/Benchmark.razor.cs#L30' title='void BenchmarkBase.OrderResults()'>30</a> | 74 | 1 :heavy_check_mark: | 0 | 3 | 10 / 4 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/Benchmark.razor.cs#L11' title='IEnumerable<ProfileFunctionResult> BenchmarkBase.Results'>11</a> | 93 | 0 :heavy_check_mark: | 0 | 3 | 1 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/Benchmark.razor.cs#L21' title='void BenchmarkBase.RunOnClick()'>21</a> | 75 | 1 :heavy_check_mark: | 0 | 8 | 10 / 4 |
+
+<a href="#BenchmarkBase-class-diagram">:link: to `BenchmarkBase` class diagram</a>
+
+<a href="#aptacode-geometry-demo-pages-benchmark">:top: back to Aptacode.Geometry.Demo.Pages.Benchmark</a>
+
+</details>
 
 <details>
 <summary>
@@ -238,9 +268,255 @@ The `Aptacode.Geometry.Demo.Pages` namespace contains 8 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/GeometryProfileFunctions.cs#L9' title='IReadOnlyList<ProfileFunction> GeometryProfileFunctions.GeometryFunctions()'>9</a> | 50 | 1 :heavy_check_mark: | 0 | 11 | 49 / 25 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/GeometryProfileFunctions.cs#L9' title='IReadOnlyList<ProfileFunction> GeometryProfileFunctions.GeometryFunctions()'>9</a> | 50 | 1 :heavy_check_mark: | 0 | 11 | 49 / 25 |
 
 <a href="#GeometryProfileFunctions-class-diagram">:link: to `GeometryProfileFunctions` class diagram</a>
+
+<a href="#aptacode-geometry-demo-pages-benchmark">:top: back to Aptacode.Geometry.Demo.Pages.Benchmark</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="primitivecreationt">
+    PrimitiveCreation&lt;T&gt; :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `PrimitiveCreation<T>` contains 7 members.
+- 49 total lines of source code.
+- Approximately 20 lines of executable code.
+- The highest cyclomatic complexity is 6 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveCreation.cs#L7' title='Func<Random, T> PrimitiveCreation<T>._createPrimitive'>7</a> | 100 | 0 :heavy_check_mark: | 0 | 2 | 1 / 0 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveCreation.cs#L8' title='string PrimitiveCreation<T>._primitiveName'>8</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveCreation.cs#L9' title='Random PrimitiveCreation<T>._random'>9</a> | 93 | 0 :heavy_check_mark: | 0 | 1 | 1 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveCreation.cs#L11' title='PrimitiveCreation<T>.PrimitiveCreation()'>11</a> | 58 | 6 :heavy_check_mark: | 0 | 10 | 27 / 16 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveCreation.cs#L49' title='void PrimitiveCreation<T>.Run()'>49</a> | 96 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveCreation.cs#L44' title='void PrimitiveCreation<T>.Setup()'>44</a> | 96 | 1 :heavy_check_mark: | 0 | 1 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveCreation.cs#L39' title='string PrimitiveCreation<T>.Title()'>39</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 4 / 1 |
+
+<a href="#PrimitiveCreation&lt;T&gt;-class-diagram">:link: to `PrimitiveCreation&lt;T&gt;` class diagram</a>
+
+<a href="#aptacode-geometry-demo-pages-benchmark">:top: back to Aptacode.Geometry.Demo.Pages.Benchmark</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="primitivefunctiont">
+    PrimitiveFunction&lt;T&gt; :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `PrimitiveFunction<T>` contains 11 members.
+- 60 total lines of source code.
+- Approximately 22 lines of executable code.
+- The highest cyclomatic complexity is 6 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L7' title='Func<Random, T> PrimitiveFunction<T>._createPrimitive'>7</a> | 100 | 0 :heavy_check_mark: | 0 | 2 | 1 / 0 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L8' title='string PrimitiveFunction<T>._operationName'>8</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L11' title='T PrimitiveFunction<T>._primitive'>11</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L9' title='string PrimitiveFunction<T>._primitiveName'>9</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L10' title='Action<T> PrimitiveFunction<T>._primitiveOperation'>10</a> | 100 | 0 :heavy_check_mark: | 0 | 1 | 1 / 0 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L12' title='Random PrimitiveFunction<T>._random'>12</a> | 100 | 0 :heavy_check_mark: | 0 | 1 | 1 / 0 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L14' title='PrimitiveFunction<T>.PrimitiveFunction(Action<T> primitiveOperation, string operationName)'>14</a> | 56 | 6 :heavy_check_mark: | 0 | 11 | 30 / 18 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L55' title='void PrimitiveFunction<T>.Reset()'>55</a> | 93 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L60' title='void PrimitiveFunction<T>.Run()'>60</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L50' title='void PrimitiveFunction<T>.Setup()'>50</a> | 96 | 1 :heavy_check_mark: | 0 | 1 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/PrimitiveFunction.cs#L45' title='string PrimitiveFunction<T>.Title()'>45</a> | 94 | 1 :heavy_check_mark: | 0 | 0 | 4 / 1 |
+
+<a href="#PrimitiveFunction&lt;T&gt;-class-diagram">:link: to `PrimitiveFunction&lt;T&gt;` class diagram</a>
+
+<a href="#aptacode-geometry-demo-pages-benchmark">:top: back to Aptacode.Geometry.Demo.Pages.Benchmark</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="profilefunction">
+    ProfileFunction :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `ProfileFunction` contains 4 members.
+- 14 total lines of source code.
+- Approximately 0 lines of executable code.
+- The highest cyclomatic complexity is 1 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunction.cs#L11' title='void ProfileFunction.Reset()'>11</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 3 / 0 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunction.cs#L15' title='void ProfileFunction.Run()'>15</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 1 / 0 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunction.cs#L7' title='void ProfileFunction.Setup()'>7</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 3 / 0 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunction.cs#L5' title='string ProfileFunction.Title()'>5</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 1 / 0 |
+
+<a href="#ProfileFunction-class-diagram">:link: to `ProfileFunction` class diagram</a>
+
+<a href="#aptacode-geometry-demo-pages-benchmark">:top: back to Aptacode.Geometry.Demo.Pages.Benchmark</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="profilefunctionresult">
+    ProfileFunctionResult :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `ProfileFunctionResult` contains 6 members.
+- 6 total lines of source code.
+- Approximately 6 lines of executable code.
+- The highest cyclomatic complexity is 2 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunctionResult.cs#L3' title='ProfileFunctionResult.ProfileFunctionResult(string Title, IReadOnlyList<double> Elapsed)'>3</a> | 100 | 1 :heavy_check_mark: | 0 | 1 | 6 / 0 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunctionResult.cs#L7' title='double ProfileFunctionResult.Average'>7</a> | 100 | 2 :heavy_check_mark: | 0 | 2 | 1 / 2 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunctionResult.cs#L3' title='IReadOnlyList<double> ProfileFunctionResult.Elapsed'>3</a> | 100 | 0 :heavy_check_mark: | 0 | 1 | 1 / 0 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunctionResult.cs#L5' title='double ProfileFunctionResult.Fastest'>5</a> | 100 | 2 :heavy_check_mark: | 0 | 2 | 1 / 2 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunctionResult.cs#L6' title='double ProfileFunctionResult.Slowest'>6</a> | 100 | 2 :heavy_check_mark: | 0 | 2 | 1 / 2 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileFunctionResult.cs#L3' title='string ProfileFunctionResult.Title'>3</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
+
+<a href="#ProfileFunctionResult-class-diagram">:link: to `ProfileFunctionResult` class diagram</a>
+
+<a href="#aptacode-geometry-demo-pages-benchmark">:top: back to Aptacode.Geometry.Demo.Pages.Benchmark</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="profilehelpers">
+    ProfileHelpers :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `ProfileHelpers` contains 4 members.
+- 36 total lines of source code.
+- Approximately 10 lines of executable code.
+- The highest cyclomatic complexity is 2 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileHelpers.cs#L8' title='Ellipse ProfileHelpers.CreateEllipse(Random r)'>8</a> | 100 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileHelpers.cs#L14' title='Point ProfileHelpers.CreatePoint(Random r)'>14</a> | 100 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileHelpers.cs#L20' title='Polygon ProfileHelpers.CreatePolygon(Random r)'>20</a> | 74 | 2 :heavy_check_mark: | 0 | 4 | 10 / 4 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileHelpers.cs#L31' title='PolyLine ProfileHelpers.CreatePolyline(Random r)'>31</a> | 74 | 2 :heavy_check_mark: | 0 | 4 | 10 / 4 |
+
+<a href="#ProfileHelpers-class-diagram">:link: to `ProfileHelpers` class diagram</a>
+
+<a href="#aptacode-geometry-demo-pages-benchmark">:top: back to Aptacode.Geometry.Demo.Pages.Benchmark</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="profilerunner">
+    ProfileRunner :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `ProfileRunner` contains 3 members.
+- 49 total lines of source code.
+- Approximately 19 lines of executable code.
+- The highest cyclomatic complexity is 5 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileRunner.cs#L7' title='IReadOnlyList<ProfileFunction> ProfileRunner._profileFunctions'>7</a> | 100 | 0 :heavy_check_mark: | 0 | 2 | 1 / 0 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileRunner.cs#L9' title='ProfileRunner.ProfileRunner(IReadOnlyList<ProfileFunction> profileFunctions)'>9</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Benchmark/ProfileRunner.cs#L14' title='List<ProfileFunctionResult> ProfileRunner.Run(int batchCount, int batchSize)'>14</a> | 56 | 5 :heavy_check_mark: | 0 | 7 | 39 / 18 |
+
+<a href="#ProfileRunner-class-diagram">:link: to `ProfileRunner` class diagram</a>
+
+<a href="#aptacode-geometry-demo-pages-benchmark">:top: back to Aptacode.Geometry.Demo.Pages.Benchmark</a>
+
+</details>
+
+</details>
+
+<details>
+<summary>
+  <strong id="aptacode-geometry-demo-pages">
+    Aptacode.Geometry.Demo.Pages :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+The `Aptacode.Geometry.Demo.Pages` namespace contains 3 named types.
+
+- 3 named types.
+- 262 total lines of source code.
+- Approximately 112 lines of executable code.
+- The highest cyclomatic complexity is 7 :heavy_check_mark:.
+
+<details>
+<summary>
+  <strong id="asciibase">
+    AsciiBase :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `AsciiBase` contains 10 members.
+- 100 total lines of source code.
+- Approximately 43 lines of executable code.
+- The highest cyclomatic complexity is 6 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L12' title='int AsciiBase._outputSize'>12</a> | 93 | 0 :heavy_check_mark: | 0 | 0 | 1 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L85' title='void AsciiBase.Draw(Primitive primitive)'>85</a> | 66 | 4 :heavy_check_mark: | 0 | 3 | 16 / 6 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L102' title='string AsciiBase.GetColour(int i, int j)'>102</a> | 90 | 2 :heavy_check_mark: | 0 | 0 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L23' title='void AsciiBase.OnInitialized()'>23</a> | 93 | 1 :heavy_check_mark: | 0 | 2 | 6 / 2 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L30' title='void AsciiBase.OnInputChanged(ChangeEventArgs eventArgs)'>30</a> | 87 | 3 :heavy_check_mark: | 0 | 2 | 5 / 2 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L36' title='void AsciiBase.OnOutputSizeInputChanged(ChangeEventArgs eventArgs)'>36</a> | 87 | 3 :heavy_check_mark: | 0 | 2 | 5 / 2 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L9' title='int[,] AsciiBase.Output'>9</a> | 100 | 2 :heavy_check_mark: | 0 | 0 | 1 / 1 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L13' title='int AsciiBase.OutputSize'>13</a> | 94 | 2 :heavy_check_mark: | 0 | 0 | 9 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L42' title='void AsciiBase.Update()'>42</a> | 51 | 6 :heavy_check_mark: | 0 | 2 | 42 / 24 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Ascii.razor.cs#L11' title='string AsciiBase.Value'>11</a> | 100 | 2 :heavy_check_mark: | 0 | 0 | 1 / 1 |
+
+<a href="#AsciiBase-class-diagram">:link: to `AsciiBase` class diagram</a>
+
+<a href="#aptacode-geometry-demo-pages">:top: back to Aptacode.Geometry.Demo.Pages</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="canvasbase">
+    CanvasBase :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `CanvasBase` contains 8 members.
+- 99 total lines of source code.
+- Approximately 49 lines of executable code.
+- The highest cyclomatic complexity is 7 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Canvas.razor.cs#L17' title='Guid CanvasBase._canvasId'>17</a> | 93 | 0 :heavy_check_mark: | 0 | 2 | 1 / 1 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Canvas.razor.cs#L11' title='BlazorCanvasInterop CanvasBase.BlazorCanvas'>11</a> | 100 | 2 :heavy_check_mark: | 0 | 2 | 2 / 0 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Canvas.razor.cs#L16' title='ElementReference CanvasBase.Canvas'>16</a> | 100 | 2 :heavy_check_mark: | 0 | 1 | 4 / 0 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Canvas.razor.cs#L23' title='Task CanvasBase.OnAfterRenderAsync(bool firstRender)'>23</a> | 74 | 2 :heavy_check_mark: | 0 | 6 | 13 / 5 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Canvas.razor.cs#L35' title='void CanvasBase.OnInputChanged(ChangeEventArgs eventArgs)'>35</a> | 87 | 3 :heavy_check_mark: | 0 | 2 | 5 / 2 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Canvas.razor.cs#L18' title='int CanvasBase.OutputSize'>18</a> | 100 | 2 :heavy_check_mark: | 0 | 0 | 1 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Canvas.razor.cs#L41' title='void CanvasBase.Update()'>41</a> | 43 | 7 :heavy_check_mark: | 0 | 4 | 65 / 39 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Canvas.razor.cs#L19' title='string CanvasBase.Value'>19</a> | 100 | 2 :heavy_check_mark: | 0 | 0 | 1 / 1 |
+
+<a href="#CanvasBase-class-diagram">:link: to `CanvasBase` class diagram</a>
 
 <a href="#aptacode-geometry-demo-pages">:top: back to Aptacode.Geometry.Demo.Pages</a>
 
@@ -261,183 +537,16 @@ The `Aptacode.Geometry.Demo.Pages` namespace contains 8 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L7' title='string IndexBase._order'>7</a> | 93 | 0 :heavy_check_mark: | 0 | 0 | 1 / 1 |
-| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L17' title='ILogger<IndexBase> IndexBase.Logger'>17</a> | 100 | 2 :heavy_check_mark: | 0 | 2 | 5 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L48' title='void IndexBase.OrderByFastest()'>48</a> | 85 | 1 :heavy_check_mark: | 0 | 1 | 6 / 3 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L41' title='void IndexBase.OrderByGroup()'>41</a> | 85 | 1 :heavy_check_mark: | 0 | 1 | 6 / 3 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L55' title='void IndexBase.OrderBySlowest()'>55</a> | 85 | 1 :heavy_check_mark: | 0 | 1 | 6 / 3 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L30' title='void IndexBase.OrderResults()'>30</a> | 74 | 1 :heavy_check_mark: | 0 | 3 | 10 / 4 |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L11' title='IEnumerable<ProfileFunctionResult> IndexBase.Results'>11</a> | 93 | 0 :heavy_check_mark: | 0 | 3 | 1 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L21' title='void IndexBase.RunOnClick()'>21</a> | 75 | 1 :heavy_check_mark: | 0 | 8 | 10 / 4 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L8' title='string IndexBase._order'>8</a> | 93 | 0 :heavy_check_mark: | 0 | 0 | 1 / 1 |
+| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L18' title='ILogger<IndexBase> IndexBase.Logger'>18</a> | 100 | 2 :heavy_check_mark: | 0 | 2 | 5 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L49' title='void IndexBase.OrderByFastest()'>49</a> | 85 | 1 :heavy_check_mark: | 0 | 1 | 6 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L42' title='void IndexBase.OrderByGroup()'>42</a> | 85 | 1 :heavy_check_mark: | 0 | 1 | 6 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L56' title='void IndexBase.OrderBySlowest()'>56</a> | 85 | 1 :heavy_check_mark: | 0 | 1 | 6 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L31' title='void IndexBase.OrderResults()'>31</a> | 74 | 1 :heavy_check_mark: | 0 | 3 | 10 / 4 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L12' title='IEnumerable<ProfileFunctionResult> IndexBase.Results'>12</a> | 93 | 0 :heavy_check_mark: | 0 | 3 | 1 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/Index.razor.cs#L22' title='void IndexBase.RunOnClick()'>22</a> | 75 | 1 :heavy_check_mark: | 0 | 8 | 10 / 4 |
 
 <a href="#IndexBase-class-diagram">:link: to `IndexBase` class diagram</a>
-
-<a href="#aptacode-geometry-demo-pages">:top: back to Aptacode.Geometry.Demo.Pages</a>
-
-</details>
-
-<details>
-<summary>
-  <strong id="primitivecreationt">
-    PrimitiveCreation&lt;T&gt; :heavy_check_mark:
-  </strong>
-</summary>
-<br>
-
-- The `PrimitiveCreation<T>` contains 7 members.
-- 49 total lines of source code.
-- Approximately 20 lines of executable code.
-- The highest cyclomatic complexity is 6 :heavy_check_mark:.
-
-| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveCreation.cs#L7' title='Func<Random, T> PrimitiveCreation<T>._createPrimitive'>7</a> | 100 | 0 :heavy_check_mark: | 0 | 2 | 1 / 0 |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveCreation.cs#L8' title='string PrimitiveCreation<T>._primitiveName'>8</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveCreation.cs#L9' title='Random PrimitiveCreation<T>._random'>9</a> | 93 | 0 :heavy_check_mark: | 0 | 1 | 1 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveCreation.cs#L11' title='PrimitiveCreation<T>.PrimitiveCreation()'>11</a> | 58 | 6 :heavy_check_mark: | 0 | 10 | 27 / 16 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveCreation.cs#L49' title='void PrimitiveCreation<T>.Run()'>49</a> | 96 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveCreation.cs#L44' title='void PrimitiveCreation<T>.Setup()'>44</a> | 96 | 1 :heavy_check_mark: | 0 | 1 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveCreation.cs#L39' title='string PrimitiveCreation<T>.Title()'>39</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 4 / 1 |
-
-<a href="#PrimitiveCreation&lt;T&gt;-class-diagram">:link: to `PrimitiveCreation&lt;T&gt;` class diagram</a>
-
-<a href="#aptacode-geometry-demo-pages">:top: back to Aptacode.Geometry.Demo.Pages</a>
-
-</details>
-
-<details>
-<summary>
-  <strong id="primitivefunctiont">
-    PrimitiveFunction&lt;T&gt; :heavy_check_mark:
-  </strong>
-</summary>
-<br>
-
-- The `PrimitiveFunction<T>` contains 11 members.
-- 60 total lines of source code.
-- Approximately 22 lines of executable code.
-- The highest cyclomatic complexity is 6 :heavy_check_mark:.
-
-| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L7' title='Func<Random, T> PrimitiveFunction<T>._createPrimitive'>7</a> | 100 | 0 :heavy_check_mark: | 0 | 2 | 1 / 0 |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L8' title='string PrimitiveFunction<T>._operationName'>8</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L11' title='T PrimitiveFunction<T>._primitive'>11</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L9' title='string PrimitiveFunction<T>._primitiveName'>9</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L10' title='Action<T> PrimitiveFunction<T>._primitiveOperation'>10</a> | 100 | 0 :heavy_check_mark: | 0 | 1 | 1 / 0 |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L12' title='Random PrimitiveFunction<T>._random'>12</a> | 100 | 0 :heavy_check_mark: | 0 | 1 | 1 / 0 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L14' title='PrimitiveFunction<T>.PrimitiveFunction(Action<T> primitiveOperation, string operationName)'>14</a> | 56 | 6 :heavy_check_mark: | 0 | 11 | 30 / 18 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L55' title='void PrimitiveFunction<T>.Reset()'>55</a> | 93 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L60' title='void PrimitiveFunction<T>.Run()'>60</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L50' title='void PrimitiveFunction<T>.Setup()'>50</a> | 96 | 1 :heavy_check_mark: | 0 | 1 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/PrimitiveFunction.cs#L45' title='string PrimitiveFunction<T>.Title()'>45</a> | 94 | 1 :heavy_check_mark: | 0 | 0 | 4 / 1 |
-
-<a href="#PrimitiveFunction&lt;T&gt;-class-diagram">:link: to `PrimitiveFunction&lt;T&gt;` class diagram</a>
-
-<a href="#aptacode-geometry-demo-pages">:top: back to Aptacode.Geometry.Demo.Pages</a>
-
-</details>
-
-<details>
-<summary>
-  <strong id="profilefunction">
-    ProfileFunction :heavy_check_mark:
-  </strong>
-</summary>
-<br>
-
-- The `ProfileFunction` contains 4 members.
-- 14 total lines of source code.
-- Approximately 0 lines of executable code.
-- The highest cyclomatic complexity is 1 :heavy_check_mark:.
-
-| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunction.cs#L11' title='void ProfileFunction.Reset()'>11</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 3 / 0 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunction.cs#L15' title='void ProfileFunction.Run()'>15</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 1 / 0 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunction.cs#L7' title='void ProfileFunction.Setup()'>7</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 3 / 0 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunction.cs#L5' title='string ProfileFunction.Title()'>5</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 1 / 0 |
-
-<a href="#ProfileFunction-class-diagram">:link: to `ProfileFunction` class diagram</a>
-
-<a href="#aptacode-geometry-demo-pages">:top: back to Aptacode.Geometry.Demo.Pages</a>
-
-</details>
-
-<details>
-<summary>
-  <strong id="profilefunctionresult">
-    ProfileFunctionResult :heavy_check_mark:
-  </strong>
-</summary>
-<br>
-
-- The `ProfileFunctionResult` contains 6 members.
-- 6 total lines of source code.
-- Approximately 6 lines of executable code.
-- The highest cyclomatic complexity is 2 :heavy_check_mark:.
-
-| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunctionResult.cs#L3' title='ProfileFunctionResult.ProfileFunctionResult(string Title, IReadOnlyList<double> Elapsed)'>3</a> | 100 | 1 :heavy_check_mark: | 0 | 1 | 6 / 0 |
-| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunctionResult.cs#L7' title='double ProfileFunctionResult.Average'>7</a> | 100 | 2 :heavy_check_mark: | 0 | 2 | 1 / 2 |
-| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunctionResult.cs#L3' title='IReadOnlyList<double> ProfileFunctionResult.Elapsed'>3</a> | 100 | 0 :heavy_check_mark: | 0 | 1 | 1 / 0 |
-| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunctionResult.cs#L5' title='double ProfileFunctionResult.Fastest'>5</a> | 100 | 2 :heavy_check_mark: | 0 | 2 | 1 / 2 |
-| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunctionResult.cs#L6' title='double ProfileFunctionResult.Slowest'>6</a> | 100 | 2 :heavy_check_mark: | 0 | 2 | 1 / 2 |
-| Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileFunctionResult.cs#L3' title='string ProfileFunctionResult.Title'>3</a> | 100 | 0 :heavy_check_mark: | 0 | 0 | 1 / 0 |
-
-<a href="#ProfileFunctionResult-class-diagram">:link: to `ProfileFunctionResult` class diagram</a>
-
-<a href="#aptacode-geometry-demo-pages">:top: back to Aptacode.Geometry.Demo.Pages</a>
-
-</details>
-
-<details>
-<summary>
-  <strong id="profilehelpers">
-    ProfileHelpers :heavy_check_mark:
-  </strong>
-</summary>
-<br>
-
-- The `ProfileHelpers` contains 4 members.
-- 36 total lines of source code.
-- Approximately 10 lines of executable code.
-- The highest cyclomatic complexity is 2 :heavy_check_mark:.
-
-| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileHelpers.cs#L8' title='Ellipse ProfileHelpers.CreateEllipse(Random r)'>8</a> | 100 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileHelpers.cs#L14' title='Point ProfileHelpers.CreatePoint(Random r)'>14</a> | 100 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileHelpers.cs#L20' title='Polygon ProfileHelpers.CreatePolygon(Random r)'>20</a> | 74 | 2 :heavy_check_mark: | 0 | 4 | 10 / 4 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileHelpers.cs#L31' title='PolyLine ProfileHelpers.CreatePolyline(Random r)'>31</a> | 74 | 2 :heavy_check_mark: | 0 | 4 | 10 / 4 |
-
-<a href="#ProfileHelpers-class-diagram">:link: to `ProfileHelpers` class diagram</a>
-
-<a href="#aptacode-geometry-demo-pages">:top: back to Aptacode.Geometry.Demo.Pages</a>
-
-</details>
-
-<details>
-<summary>
-  <strong id="profilerunner">
-    ProfileRunner :heavy_check_mark:
-  </strong>
-</summary>
-<br>
-
-- The `ProfileRunner` contains 3 members.
-- 49 total lines of source code.
-- Approximately 19 lines of executable code.
-- The highest cyclomatic complexity is 5 :heavy_check_mark:.
-
-| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
-| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileRunner.cs#L7' title='IReadOnlyList<ProfileFunction> ProfileRunner._profileFunctions'>7</a> | 100 | 0 :heavy_check_mark: | 0 | 2 | 1 / 0 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileRunner.cs#L9' title='ProfileRunner.ProfileRunner(IReadOnlyList<ProfileFunction> profileFunctions)'>9</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Demo/Pages/ProfileRunner.cs#L14' title='List<ProfileFunctionResult> ProfileRunner.Run(int batchCount, int batchSize)'>14</a> | 56 | 5 :heavy_check_mark: | 0 | 7 | 39 / 18 |
-
-<a href="#ProfileRunner-class-diagram">:link: to `ProfileRunner` class diagram</a>
 
 <a href="#aptacode-geometry-demo-pages">:top: back to Aptacode.Geometry.Demo.Pages</a>
 
@@ -455,8 +564,8 @@ The *Geometry.csproj* project file contains:
 
 - 6 namespaces.
 - 16 named types.
-- 2,082 total lines of source code.
-- Approximately 656 lines of executable code.
+- 2,074 total lines of source code.
+- Approximately 652 lines of executable code.
 - The highest cyclomatic complexity is 11 :radioactive:.
 
 <details>
@@ -606,7 +715,7 @@ The `Aptacode.Geometry` namespace contains 1 named types.
 <details>
 <summary>
   <strong id="aptacode-geometry-primitives">
-    Aptacode.Geometry.Primitives :radioactive:
+    Aptacode.Geometry.Primitives :heavy_check_mark:
   </strong>
 </summary>
 <br>
@@ -614,9 +723,9 @@ The `Aptacode.Geometry` namespace contains 1 named types.
 The `Aptacode.Geometry.Primitives` namespace contains 7 named types.
 
 - 7 named types.
-- 977 total lines of source code.
-- Approximately 292 lines of executable code.
-- The highest cyclomatic complexity is 11 :radioactive:.
+- 969 total lines of source code.
+- Approximately 288 lines of executable code.
+- The highest cyclomatic complexity is 5 :heavy_check_mark:.
 
 <details>
 <summary>
@@ -627,8 +736,8 @@ The `Aptacode.Geometry.Primitives` namespace contains 7 named types.
 <br>
 
 - The `Ellipse` contains 32 members.
-- 271 total lines of source code.
-- Approximately 93 lines of executable code.
+- 265 total lines of source code.
+- Approximately 90 lines of executable code.
 - The highest cyclomatic complexity is 5 :heavy_check_mark:.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
@@ -638,31 +747,31 @@ The `Aptacode.Geometry.Primitives` namespace contains 7 named types.
 | Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L42' title='bool Ellipse._updateFoci'>42</a> | 93 | 0 :heavy_check_mark: | 0 | 0 | 1 / 1 |
 | Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L23' title='bool Ellipse._updateStandardForm'>23</a> | 93 | 0 :heavy_check_mark: | 0 | 0 | 1 / 1 |
 | Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L65' title='Ellipse.Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation)'>65</a> | 83 | 1 :heavy_check_mark: | 0 | 4 | 11 / 2 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L136' title='bool Ellipse.CollidesWith(Vector2 p)'>136</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 8 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L141' title='bool Ellipse.CollidesWith(Point p)'>141</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L146' title='bool Ellipse.CollidesWith(Ellipse p)'>146</a> | 96 | 1 :heavy_check_mark: | 0 | 1 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L151' title='bool Ellipse.CollidesWith(PolyLine p)'>151</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L156' title='bool Ellipse.CollidesWith(BoundingRectangle p)'>156</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L161' title='bool Ellipse.CollidesWith(Polygon p)'>161</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L135' title='bool Ellipse.CollidesWith(Vector2 p)'>135</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 8 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L140' title='bool Ellipse.CollidesWith(Point p)'>140</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L145' title='bool Ellipse.CollidesWith(Ellipse p)'>145</a> | 96 | 1 :heavy_check_mark: | 0 | 1 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L150' title='bool Ellipse.CollidesWith(PolyLine p)'>150</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L155' title='bool Ellipse.CollidesWith(BoundingRectangle p)'>155</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L160' title='bool Ellipse.CollidesWith(Polygon p)'>160</a> | 96 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
 | Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L73' title='Ellipse Ellipse.Create(float x, float y, float a, float b, float rotation)'>73</a> | 71 | 1 :heavy_check_mark: | 0 | 4 | 9 / 5 |
 | Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L83' title='Ellipse Ellipse.Create(Vector2 position, Vector2 radii, float rotation)'>83</a> | 77 | 1 :heavy_check_mark: | 0 | 4 | 7 / 3 |
 | Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L91' title='Ellipse Ellipse.Create(Vector2 position, float radius)'>91</a> | 92 | 1 :heavy_check_mark: | 0 | 1 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L109' title='bool Ellipse.Equals(Primitive? other)'>109</a> | 62 | 5 :heavy_check_mark: | 0 | 4 | 22 / 9 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L108' title='bool Ellipse.Equals(Primitive? other)'>108</a> | 62 | 5 :heavy_check_mark: | 0 | 4 | 22 / 9 |
 | Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L45' title='(Vector2, Vector2) Ellipse.Foci'>45</a> | 76 | 2 :heavy_check_mark: | 0 | 2 | 13 / 4 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L221' title='(Vector2 f1, Vector2 f2) Ellipse.GetFoci()'>221</a> | 59 | 3 :heavy_check_mark: | 0 | 4 | 26 / 11 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L104' title='int Ellipse.GetHashCode()'>104</a> | 100 | 1 :heavy_check_mark: | 0 | 1 | 9 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L245' title='(double A, double B, double C, double D, double E, double F) Ellipse.GetStandardForm()'>245</a> | 49 | 2 :heavy_check_mark: | 0 | 3 | 33 / 23 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L220' title='(Vector2 f1, Vector2 f2) Ellipse.GetFoci()'>220</a> | 59 | 3 :heavy_check_mark: | 0 | 4 | 26 / 11 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L103' title='int Ellipse.GetHashCode()'>103</a> | 100 | 1 :heavy_check_mark: | 0 | 1 | 8 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L244' title='(double A, double B, double C, double D, double E, double F) Ellipse.GetStandardForm()'>244</a> | 51 | 1 :heavy_check_mark: | 0 | 3 | 28 / 20 |
 | Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L59' title='bool Ellipse.IsCircle'>59</a> | 91 | 2 :heavy_check_mark: | 0 | 3 | 1 / 2 |
 | Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L40' title='Vector2 Ellipse.Position'>40</a> | 94 | 2 :heavy_check_mark: | 0 | 2 | 1 / 2 |
 | Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L22' title='Vector2 Ellipse.Radii'>22</a> | 100 | 2 :heavy_check_mark: | 0 | 1 | 1 / 0 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L187' title='Ellipse Ellipse.Rotate(float theta)'>187</a> | 77 | 1 :heavy_check_mark: | 0 | 3 | 9 / 3 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L197' title='Ellipse Ellipse.Rotate(Vector2 rotationCenter, float theta)'>197</a> | 77 | 1 :heavy_check_mark: | 0 | 3 | 9 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L186' title='Ellipse Ellipse.Rotate(float theta)'>186</a> | 77 | 1 :heavy_check_mark: | 0 | 3 | 9 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L196' title='Ellipse Ellipse.Rotate(Vector2 rotationCenter, float theta)'>196</a> | 77 | 1 :heavy_check_mark: | 0 | 3 | 9 / 3 |
 | Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L21' title='float Ellipse.Rotation'>21</a> | 100 | 1 :heavy_check_mark: | 0 | 0 | 5 / 0 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L178' title='Ellipse Ellipse.ScaleAboutCenter(Vector2 delta)'>178</a> | 74 | 1 :heavy_check_mark: | 0 | 4 | 8 / 4 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L207' title='Ellipse Ellipse.Skew(Vector2 delta)'>207</a> | 77 | 1 :heavy_check_mark: | 0 | 3 | 9 / 3 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L177' title='Ellipse Ellipse.ScaleAboutCenter(Vector2 delta)'>177</a> | 74 | 1 :heavy_check_mark: | 0 | 4 | 8 / 4 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L206' title='Ellipse Ellipse.Skew(Vector2 delta)'>206</a> | 77 | 1 :heavy_check_mark: | 0 | 3 | 9 / 3 |
 | Property | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L26' title='(double A, double B, double C, double D, double E, double F) Ellipse.StandardForm'>26</a> | 76 | 2 :heavy_check_mark: | 0 | 1 | 13 / 4 |
 | Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L12' title='string Ellipse.ToString()'>12</a> | 91 | 1 :heavy_check_mark: | 0 | 2 | 5 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L170' title='Ellipse Ellipse.Translate(Vector2 delta)'>170</a> | 74 | 1 :heavy_check_mark: | 0 | 5 | 11 / 4 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L169' title='Ellipse Ellipse.Translate(Vector2 delta)'>169</a> | 74 | 1 :heavy_check_mark: | 0 | 5 | 11 / 4 |
 | Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L97' title='Ellipse Ellipse.Unit'>97</a> | 93 | 0 :heavy_check_mark: | 0 | 1 | 1 / 1 |
 | Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/Ellipse.cs#L96' title='Ellipse Ellipse.Zero'>96</a> | 93 | 0 :heavy_check_mark: | 0 | 1 | 1 / 1 |
 
@@ -675,21 +784,21 @@ The `Aptacode.Geometry.Primitives` namespace contains 7 named types.
 <details>
 <summary>
   <strong id="ellipseextensions">
-    EllipseExtensions :radioactive:
+    EllipseExtensions :heavy_check_mark:
   </strong>
 </summary>
 <br>
 
 - The `EllipseExtensions` contains 3 members.
-- 109 total lines of source code.
-- Approximately 47 lines of executable code.
-- The highest cyclomatic complexity is 11 :radioactive:.
+- 107 total lines of source code.
+- Approximately 46 lines of executable code.
+- The highest cyclomatic complexity is 5 :heavy_check_mark:.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/EllipseExtensions.cs#L11' title='BoundingRectangle EllipseExtensions.GetBoundingRectangle(Vector2 position, Vector2 radii, float rotation)'>11</a> | 56 | 2 :heavy_check_mark: | 0 | 5 | 29 / 15 |
 | Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/EllipseExtensions.cs#L41' title='(double u0, double u1, double u2, double u3, double u4) EllipseExtensions.GetResultantPolynomial(double a1, double b1, double c1, double d1, double e1, double f1, double a2, double b2, double c2, double d2, double e2, double f2)'>41</a> | 52 | 1 :heavy_check_mark: | 0 | 3 | 25 / 18 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/EllipseExtensions.cs#L67' title='bool EllipseExtensions.QuarticHasRealRoots(double u0, double u1, double u2, double u3, double u4)'>67</a> | 51 | 11 :radioactive: | 0 | 3 | 50 / 14 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Geometry/Primitives/EllipseExtensions.cs#L67' title='bool EllipseExtensions.QuarticHasRealRoots(double u0, double u1, double u2, double u3, double u4)'>67</a> | 52 | 5 :heavy_check_mark: | 0 | 3 | 48 / 13 |
 
 <a href="#EllipseExtensions-class-diagram">:link: to `EllipseExtensions` class diagram</a>
 
@@ -1115,10 +1224,10 @@ The `Aptacode.Geometry.Vertices` namespace contains 2 named types.
 The *Tests.csproj* project file contains:
 
 - 14 namespaces.
-- 52 named types.
-- 1,604 total lines of source code.
-- Approximately 261 lines of executable code.
-- The highest cyclomatic complexity is 2 :heavy_check_mark:.
+- 55 named types.
+- 1,713 total lines of source code.
+- Approximately 279 lines of executable code.
+- The highest cyclomatic complexity is 4 :heavy_check_mark:.
 
 <details>
 <summary>
@@ -1432,12 +1541,12 @@ The `Aptacode.Geometry.Tests.BoundingRectangleTests` namespace contains 7 named 
 </summary>
 <br>
 
-The `Aptacode.Geometry.Tests.Collision` namespace contains 1 named types.
+The `Aptacode.Geometry.Tests.Collision` namespace contains 2 named types.
 
-- 1 named types.
-- 62 total lines of source code.
-- Approximately 20 lines of executable code.
-- The highest cyclomatic complexity is 1 :heavy_check_mark:.
+- 2 named types.
+- 102 total lines of source code.
+- Approximately 32 lines of executable code.
+- The highest cyclomatic complexity is 4 :heavy_check_mark:.
 
 <details>
 <summary>
@@ -1459,6 +1568,31 @@ The `Aptacode.Geometry.Tests.Collision` namespace contains 1 named types.
 | Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/Collision_Tests.cs#L44' title='void Collision_Tests.PrimitiveCollidesWithVector2(Primitive p1, Vector2 p2, bool collides)'>44</a> | 74 | 1 :heavy_check_mark: | 0 | 6 | 15 / 6 |
 
 <a href="#Collision_Tests-class-diagram">:link: to `Collision_Tests` class diagram</a>
+
+<a href="#aptacode-geometry-tests-collision">:top: back to Aptacode.Geometry.Tests.Collision</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="ellipsecollisiontests">
+    EllipseCollisionTests :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `EllipseCollisionTests` contains 3 members.
+- 38 total lines of source code.
+- Approximately 12 lines of executable code.
+- The highest cyclomatic complexity is 4 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/EllipseCollisionTests.cs#L11' title='ITestOutputHelper EllipseCollisionTests._output'>11</a> | 100 | 0 :heavy_check_mark: | 0 | 1 | 1 / 0 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/EllipseCollisionTests.cs#L13' title='EllipseCollisionTests.EllipseCollisionTests(ITestOutputHelper output)'>13</a> | 96 | 1 :heavy_check_mark: | 0 | 1 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/EllipseCollisionTests.cs#L21' title='void EllipseCollisionTests.CircleVector2CollisionTests(Ellipse p1, int[,] collisionMatrix)'>21</a> | 60 | 4 :heavy_check_mark: | 0 | 7 | 28 / 11 |
+
+<a href="#EllipseCollisionTests-class-diagram">:link: to `EllipseCollisionTests` class diagram</a>
 
 <a href="#aptacode-geometry-tests-collision">:top: back to Aptacode.Geometry.Tests.Collision</a>
 
@@ -1617,7 +1751,7 @@ The `Aptacode.Geometry.Tests.Primitives.Creation` namespace contains 5 named typ
 The `Aptacode.Geometry.Tests.Primitives.EllipseStandardForm` namespace contains 2 named types.
 
 - 2 named types.
-- 43 total lines of source code.
+- 46 total lines of source code.
 - Approximately 11 lines of executable code.
 - The highest cyclomatic complexity is 1 :heavy_check_mark:.
 
@@ -1630,15 +1764,15 @@ The `Aptacode.Geometry.Tests.Primitives.EllipseStandardForm` namespace contains 
 <br>
 
 - The `EllipseStandardFormTestDataGenerator` contains 3 members.
-- 19 total lines of source code.
+- 21 total lines of source code.
 - Approximately 3 lines of executable code.
 - The highest cyclomatic complexity is 1 :heavy_check_mark:.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Primitives/EllipseStandardForm/EllipseStandardFormTestDataGenerator.cs#L9' title='List<object[]> EllipseStandardFormTestDataGenerator._data'>9</a> | 79 | 0 :heavy_check_mark: | 0 | 4 | 5 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Primitives/EllipseStandardForm/EllipseStandardFormTestDataGenerator.cs#L16' title='IEnumerator<object[]> EllipseStandardFormTestDataGenerator.GetEnumerator()'>16</a> | 100 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Primitives/EllipseStandardForm/EllipseStandardFormTestDataGenerator.cs#L21' title='IEnumerator EllipseStandardFormTestDataGenerator.GetEnumerator()'>21</a> | 100 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Primitives/EllipseStandardForm/EllipseStandardFormTestDataGenerator.cs#L10' title='List<object[]> EllipseStandardFormTestDataGenerator._data'>10</a> | 78 | 0 :heavy_check_mark: | 0 | 4 | 7 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Primitives/EllipseStandardForm/EllipseStandardFormTestDataGenerator.cs#L19' title='IEnumerator<object[]> EllipseStandardFormTestDataGenerator.GetEnumerator()'>19</a> | 100 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Primitives/EllipseStandardForm/EllipseStandardFormTestDataGenerator.cs#L24' title='IEnumerator EllipseStandardFormTestDataGenerator.GetEnumerator()'>24</a> | 100 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
 
 <a href="#EllipseStandardFormTestDataGenerator-class-diagram">:link: to `EllipseStandardFormTestDataGenerator` class diagram</a>
 
@@ -1655,13 +1789,13 @@ The `Aptacode.Geometry.Tests.Primitives.EllipseStandardForm` namespace contains 
 <br>
 
 - The `EllipseStandardformTests` contains 1 members.
-- 18 total lines of source code.
+- 19 total lines of source code.
 - Approximately 8 lines of executable code.
 - The highest cyclomatic complexity is 1 :heavy_check_mark:.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Primitives/EllipseStandardForm/EllipseStandardformTests.cs#L11' title='void EllipseStandardformTests.TestStandardForm(Ellipse ellipse, float a, float b, float c, float d, float e, float f)'>11</a> | 66 | 1 :heavy_check_mark: | 0 | 5 | 15 / 8 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Primitives/EllipseStandardForm/EllipseStandardformTests.cs#L12' title='void EllipseStandardformTests.TestStandardForm(Ellipse ellipse, float a, float b, float c, float d, float e, float f)'>12</a> | 65 | 1 :heavy_check_mark: | 0 | 5 | 16 / 8 |
 
 <a href="#EllipseStandardformTests-class-diagram">:link: to `EllipseStandardformTests` class diagram</a>
 
@@ -1819,11 +1953,11 @@ The `Aptacode.Geometry.Tests.Primitives.Equality` namespace contains 5 named typ
 </summary>
 <br>
 
-The `Aptacode.Geometry.Tests.Collision.PointCollisionTestData` namespace contains 4 named types.
+The `Aptacode.Geometry.Tests.Collision.PointCollisionTestData` namespace contains 6 named types.
 
-- 4 named types.
-- 161 total lines of source code.
-- Approximately 12 lines of executable code.
+- 6 named types.
+- 227 total lines of source code.
+- Approximately 18 lines of executable code.
 - The highest cyclomatic complexity is 1 :heavy_check_mark:.
 
 <details>
@@ -1846,6 +1980,56 @@ The `Aptacode.Geometry.Tests.Collision.PointCollisionTestData` namespace contain
 | Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/PointCollisionTestData/EllipseVector2CollisionTestDataGenerator.cs#L50' title='IEnumerator EllipseVector2CollisionTestDataGenerator.GetEnumerator()'>50</a> | 100 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
 
 <a href="#EllipseVector2CollisionTestDataGenerator-class-diagram">:link: to `EllipseVector2CollisionTestDataGenerator` class diagram</a>
+
+<a href="#aptacode-geometry-tests-collision-pointcollisiontestdata">:top: back to Aptacode.Geometry.Tests.Collision.PointCollisionTestData</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="ellipsevector2collisiontestdatagenerator2">
+    EllipseVector2CollisionTestDataGenerator2 :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `EllipseVector2CollisionTestDataGenerator2` contains 3 members.
+- 31 total lines of source code.
+- Approximately 3 lines of executable code.
+- The highest cyclomatic complexity is 1 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/PointCollisionTestData/EllipseVector2CollisionTestDataGenerator2.cs#L11' title='List<object[]> EllipseVector2CollisionTestDataGenerator2._data'>11</a> | 78 | 0 :heavy_check_mark: | 0 | 3 | 17 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/PointCollisionTestData/EllipseVector2CollisionTestDataGenerator2.cs#L30' title='IEnumerator<object[]> EllipseVector2CollisionTestDataGenerator2.GetEnumerator()'>30</a> | 100 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/PointCollisionTestData/EllipseVector2CollisionTestDataGenerator2.cs#L35' title='IEnumerator EllipseVector2CollisionTestDataGenerator2.GetEnumerator()'>35</a> | 100 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
+
+<a href="#EllipseVector2CollisionTestDataGenerator2-class-diagram">:link: to `EllipseVector2CollisionTestDataGenerator2` class diagram</a>
+
+<a href="#aptacode-geometry-tests-collision-pointcollisiontestdata">:top: back to Aptacode.Geometry.Tests.Collision.PointCollisionTestData</a>
+
+</details>
+
+<details>
+<summary>
+  <strong id="ellipsevector2collisiontestdatagenerator3">
+    EllipseVector2CollisionTestDataGenerator3 :heavy_check_mark:
+  </strong>
+</summary>
+<br>
+
+- The `EllipseVector2CollisionTestDataGenerator3` contains 3 members.
+- 31 total lines of source code.
+- Approximately 3 lines of executable code.
+- The highest cyclomatic complexity is 1 :heavy_check_mark:.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/PointCollisionTestData/EllipseVector2CollisionTestDataGenerator3.cs#L10' title='List<object[]> EllipseVector2CollisionTestDataGenerator3._data'>10</a> | 77 | 0 :heavy_check_mark: | 0 | 3 | 17 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/PointCollisionTestData/EllipseVector2CollisionTestDataGenerator3.cs#L29' title='IEnumerator<object[]> EllipseVector2CollisionTestDataGenerator3.GetEnumerator()'>29</a> | 100 | 1 :heavy_check_mark: | 0 | 3 | 4 / 1 |
+| Method | <a href='https://github.com/Aptacode/Geometry/blob/main/Tests/Collision/PointCollisionTestData/EllipseVector2CollisionTestDataGenerator3.cs#L34' title='IEnumerator EllipseVector2CollisionTestDataGenerator3.GetEnumerator()'>34</a> | 100 | 1 :heavy_check_mark: | 0 | 2 | 4 / 1 |
+
+<a href="#EllipseVector2CollisionTestDataGenerator3-class-diagram">:link: to `EllipseVector2CollisionTestDataGenerator3` class diagram</a>
 
 <a href="#aptacode-geometry-tests-collision-pointcollisiontestdata">:top: back to Aptacode.Geometry.Tests.Collision.PointCollisionTestData</a>
 
@@ -2728,25 +2912,13 @@ class Program{
 
 ```
 
-<div id="GeometryProfileFunctions-class-diagram"></div>
+<div id="BenchmarkBase-class-diagram"></div>
 
-##### `GeometryProfileFunctions` class diagram
-
-```mermaid
-classDiagram
-class GeometryProfileFunctions{
-    +GeometryFunctions()$ IReadOnlyList<ProfileFunction>
-}
-
-```
-
-<div id="IndexBase-class-diagram"></div>
-
-##### `IndexBase` class diagram
+##### `BenchmarkBase` class diagram
 
 ```mermaid
 classDiagram
-class IndexBase{
+class BenchmarkBase{
     -string _order
     -IEnumerable<ProfileFunctionResult> Results
     +ILogger<IndexBase> Logger
@@ -2755,6 +2927,18 @@ class IndexBase{
     +OrderByGroup() void
     +OrderByFastest() void
     +OrderBySlowest() void
+}
+
+```
+
+<div id="GeometryProfileFunctions-class-diagram"></div>
+
+##### `GeometryProfileFunctions` class diagram
+
+```mermaid
+classDiagram
+class GeometryProfileFunctions{
+    +GeometryFunctions()$ IReadOnlyList<ProfileFunction>
 }
 
 ```
@@ -2857,6 +3041,65 @@ class ProfileRunner{
     -IReadOnlyList<ProfileFunction> _profileFunctions
     +.ctor(IReadOnlyList<ProfileFunction> profileFunctions) ProfileRunner
     +Run(int batchCount, int batchSize) List<ProfileFunctionResult>
+}
+
+```
+
+<div id="AsciiBase-class-diagram"></div>
+
+##### `AsciiBase` class diagram
+
+```mermaid
+classDiagram
+class AsciiBase{
+    -int _outputSize
+    +int[,] Output
+    +string Value
+    +int OutputSize
+    +OnInitialized() void
+    +OnInputChanged(ChangeEventArgs eventArgs) void
+    +OnOutputSizeInputChanged(ChangeEventArgs eventArgs) void
+    +Update() void
+    +Draw(Primitive primitive) void
+    +GetColour(int i, int j) string
+}
+
+```
+
+<div id="CanvasBase-class-diagram"></div>
+
+##### `CanvasBase` class diagram
+
+```mermaid
+classDiagram
+class CanvasBase{
+    -Guid _canvasId
+    +BlazorCanvasInterop BlazorCanvas
+    +ElementReference Canvas
+    +int OutputSize
+    +string Value
+    +OnAfterRenderAsync(bool firstRender) Task
+    +OnInputChanged(ChangeEventArgs eventArgs) void
+    +Update() void
+}
+
+```
+
+<div id="IndexBase-class-diagram"></div>
+
+##### `IndexBase` class diagram
+
+```mermaid
+classDiagram
+class IndexBase{
+    -string _order
+    -IEnumerable<ProfileFunctionResult> Results
+    +ILogger<IndexBase> Logger
+    +RunOnClick() void
+    +OrderResults() void
+    +OrderByGroup() void
+    +OrderByFastest() void
+    +OrderBySlowest() void
 }
 
 ```
@@ -3395,6 +3638,20 @@ class Collision_Tests{
 
 ```
 
+<div id="EllipseCollisionTests-class-diagram"></div>
+
+##### `EllipseCollisionTests` class diagram
+
+```mermaid
+classDiagram
+class EllipseCollisionTests{
+    -ITestOutputHelper _output
+    +.ctor(ITestOutputHelper output) EllipseCollisionTests
+    +CircleVector2CollisionTests(Ellipse p1, int[,] collisionMatrix) void
+}
+
+```
+
 <div id="EllipseCreationTestDataGenerator-class-diagram"></div>
 
 ##### `EllipseCreationTestDataGenerator` class diagram
@@ -3564,6 +3821,34 @@ class PrimitiveEqualityTests{
 ```mermaid
 classDiagram
 class EllipseVector2CollisionTestDataGenerator{
+    -List<object[]> _data
+    +GetEnumerator() IEnumerator<object[]>
+    +GetEnumerator() IEnumerator
+}
+
+```
+
+<div id="EllipseVector2CollisionTestDataGenerator2-class-diagram"></div>
+
+##### `EllipseVector2CollisionTestDataGenerator2` class diagram
+
+```mermaid
+classDiagram
+class EllipseVector2CollisionTestDataGenerator2{
+    -List<object[]> _data
+    +GetEnumerator() IEnumerator<object[]>
+    +GetEnumerator() IEnumerator
+}
+
+```
+
+<div id="EllipseVector2CollisionTestDataGenerator3-class-diagram"></div>
+
+##### `EllipseVector2CollisionTestDataGenerator3` class diagram
+
+```mermaid
+classDiagram
+class EllipseVector2CollisionTestDataGenerator3{
     -List<object[]> _data
     +GetEnumerator() IEnumerator<object[]>
     +GetEnumerator() IEnumerator
