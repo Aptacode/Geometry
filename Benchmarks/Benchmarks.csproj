@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
-    <Description>High performance .net 5 graphics library for Blazor</Description>
+    <Description>High performance .net 7 graphics library for Blazor</Description>
     <AssemblyName>Benchmarks</AssemblyName>
     <RootNamespace>Aptacode.Geometry.Benchmarks</RootNamespace>
   </PropertyGroup>

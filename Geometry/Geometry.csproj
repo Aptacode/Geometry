@@ -14,8 +14,6 @@
     <Description>High performance .net geometry library</Description>
     <AssemblyName>Aptacode.Geometry</AssemblyName>
     <RootNamespace>Aptacode.Geometry</RootNamespace>
-    <WasmEnableSIMD>true</WasmEnableSIMD>
-    <RunAOTCompilation>true</RunAOTCompilation>
   </PropertyGroup>
 
   <ItemGroup>
