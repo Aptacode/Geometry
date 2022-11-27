@@ -39,8 +39,8 @@ public static class EllipseExtensions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static (double u0, double u1, double u2, double u3, double u4) GetResultantPolynomial(double a1,
-       double b1, double c1, double d1, double e1, double f1, double a2, double b2, double c2, double d2,
-       double e2, double f2) //Takes the coefficients of 2 ellipses (conics) and returns the Bezout determinant R(y) = u0 + u1y + u2y^2 + u3y^3 + u4y^4, is is the equation for the solutions for the y points of intersection, they may be complex.
+        double b1, double c1, double d1, double e1, double f1, double a2, double b2, double c2, double d2,
+        double e2, double f2) //Takes the coefficients of 2 ellipses (conics) and returns the Bezout determinant R(y) = u0 + u1y + u2y^2 + u3y^3 + u4y^4, is is the equation for the solutions for the y points of intersection, they may be complex.
     {
         var v0 = a1 * b2 - a2 * b1;
         var v1 = a1 * c2 - a2 * c1;
@@ -73,7 +73,7 @@ public static class EllipseExtensions
                 return true;
             }
 
-            if(Math.Abs(u2) < Constants.Tolerance)
+            if (Math.Abs(u2) < Constants.Tolerance)
             {
                 var det = u1 * u1 - 4 * u2 * u0;
                 return det >= 0;

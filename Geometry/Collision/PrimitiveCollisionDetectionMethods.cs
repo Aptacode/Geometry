@@ -25,7 +25,8 @@ public static class PrimitiveCollisionDetectionMethods
 
         var f1 = p1.StandardForm;
         var f2 = p2.StandardForm;
-        var (u0, u1, u2, u3, u4) = EllipseExtensions.GetResultantPolynomial(f1.A, f1.B, f1.C, f1.D, f1.E, f1.F, f2.A, f2.B,
+        var (u0, u1, u2, u3, u4) = EllipseExtensions.GetResultantPolynomial(f1.A, f1.B, f1.C, f1.D, f1.E, f1.F, f2.A,
+            f2.B,
             f2.C, f2.D, f2.E, f2.F);
 
         return EllipseExtensions.QuarticHasRealRoots(u0, u1, u2, u3, u4);

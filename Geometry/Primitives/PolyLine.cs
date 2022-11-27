@@ -86,11 +86,12 @@ public sealed class PolyLine : Primitive
 
     private PolyLine(VertexArray vertices, BoundingRectangle boundingRectangle) : base(vertices, boundingRectangle)
     {
-        _lineSegments =vertices.Length switch
+        _lineSegments = vertices.Length switch
         {
-            0 => new (Vector2 P1, Vector2 P2)[0],//If no verticies are given there will be no linesegments
-            1 => new (Vector2 P1, Vector2 P2)[1],//If one vertex is given make one linesegment with length 0
-            _ => new (Vector2 P1, Vector2 P2)[vertices.Length - 1],//If more then 1 vertex is given create n-1 line segments
+            0 => new (Vector2 P1, Vector2 P2)[0], //If no verticies are given there will be no linesegments
+            1 => new (Vector2 P1, Vector2 P2)[1], //If one vertex is given make one linesegment with length 0
+            _ => new (Vector2 P1, Vector2 P2)[vertices.Length -
+                                              1] //If more then 1 vertex is given create n-1 line segments
         };
     }
 
@@ -122,11 +123,13 @@ public sealed class PolyLine : Primitive
     {
         _updateLineSegments = false;
 
-        if(Vertices.Length == 0)
+        if (Vertices.Length == 0)
         {
             //If there are no vertices then there can be no linesegments
             return;
-        }else if (Vertices.Length == 1)
+        }
+
+        if (Vertices.Length == 1)
         {
             //If there is one vertex there will be one line segment with length 0
             _lineSegments[0] = (Vertices[0], Vertices[0]);
@@ -138,9 +141,11 @@ public sealed class PolyLine : Primitive
         //Create a line segment for each vertex neighbour pair
         for (var i = 1; i <= Vertices.Length - 1; i++)
         {
-            var nextVertex = Vertices[i];//Get the next vertex
-            LineSegments[i - 1] = new ValueTuple<Vector2, Vector2>(lastVertex, nextVertex);//Create a line segment from the last vertex to the next
-            lastVertex = nextVertex;//Update the last vertex
+            var nextVertex = Vertices[i]; //Get the next vertex
+            LineSegments[i - 1] =
+                new ValueTuple<Vector2, Vector2>(lastVertex,
+                    nextVertex); //Create a line segment from the last vertex to the next
+            lastVertex = nextVertex; //Update the last vertex
         }
     }
 

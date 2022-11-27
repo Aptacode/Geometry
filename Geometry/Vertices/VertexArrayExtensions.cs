@@ -175,7 +175,10 @@ public static class VertexArrayExtensions
                 minX = vertexArray[i].X;
                 minXindex = i;
             }
-            else if (vertexArray[i].Y < vertexArray[minXindex].Y) //Two points may lie on a horizontal line, we want the one with the lesser y coord then.
+            else if
+                (vertexArray[i].Y <
+                 vertexArray[minXindex]
+                     .Y) //Two points may lie on a horizontal line, we want the one with the lesser y coord then.
             {
                 minX = vertexArray[i].X;
                 minXindex = i;

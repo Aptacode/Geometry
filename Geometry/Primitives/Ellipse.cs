@@ -9,6 +9,7 @@ namespace Aptacode.Geometry.Primitives;
 public sealed class Ellipse : Primitive
 {
     #region ToString
+
     public override string ToString()
     {
         return $"Ellipse ({Position.X},{Position.Y}), ({Radii.X},{Radii.Y}), {Rotation}";
@@ -186,7 +187,7 @@ public sealed class Ellipse : Primitive
     public override Ellipse Rotate(float theta)
     {
         //Todo
-        
+
         BoundingRectangle = EllipseExtensions.GetBoundingRectangle(Position, Radii, Rotation);
         _updateFoci = _updateStandardForm = true;
 

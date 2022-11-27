@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<OutputType>Exe</OutputType>
-		<TargetFramework>net6.0</TargetFramework>
-		<ApplicationIcon>Logo.ico</ApplicationIcon>
-		<Description>High performance .net 5 graphics library for Blazor</Description>
-		<AssemblyName>Benchmarks</AssemblyName>
-		<RootNamespace>Aptacode.Geometry.Benchmarks</RootNamespace>
-	</PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <Description>High performance .net 5 graphics library for Blazor</Description>
+    <AssemblyName>Benchmarks</AssemblyName>
+    <RootNamespace>Aptacode.Geometry.Benchmarks</RootNamespace>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Geometry\Geometry.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Geometry\Geometry.csproj" />
+  </ItemGroup>
 
 </Project>

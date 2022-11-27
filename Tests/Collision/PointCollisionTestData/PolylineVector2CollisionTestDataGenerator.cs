@@ -20,9 +20,7 @@ public class PolylineVector2CollisionTestDataGenerator : IEnumerable<object[]>
         new object[] { PolyLine.Create(0, 0, 10, 10), new Vector2(10, 11), false },
         new object[] { PolyLine.Create(0, 0, 10, 10), new Vector2(11, 10), false },
         new object[] { PolyLine.Create(0, 10, 10, 0, 0, -10, -10, 0), Vector2.Zero, false },
-        new object[] { PolyLine.Create(0, 10, 10, 0, 0, -10, -10, 0), Vector2.One, false },
-
-
+        new object[] { PolyLine.Create(0, 10, 10, 0, 0, -10, -10, 0), Vector2.One, false }
     };
 
     public IEnumerator<object[]> GetEnumerator()

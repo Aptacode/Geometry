@@ -39,6 +39,7 @@ public class EllipseCollisionTests
                 {
                     _output.WriteLine($"({position.X},{position.Y}) does not collide ✗");
                 }
+
                 Assert.Equal(expectedCollisionResult, actualCollisionResult);
             }
         }

@@ -6,10 +6,11 @@ namespace Aptacode.Geometry.Demo.Pages;
 
 public class AsciiBase : ComponentBase
 {
+    private int _outputSize = 10;
     public int[,] Output { get; set; } = new int[10, 10];
 
     public string Value { get; set; } = "ellipse 0,0,1,2,2";
-    private int _outputSize = 10;
+
     public int OutputSize
     {
         get => _outputSize;
@@ -67,7 +68,8 @@ public class AsciiBase : ComponentBase
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
             primitive = PolyLine.Create(parameters.ToArray());
-        }else if (input.Contains("point"))
+        }
+        else if (input.Contains("point"))
         {
             input = input.Replace("point", "");
             input = input.Replace(" ", "");
@@ -101,6 +103,6 @@ public class AsciiBase : ComponentBase
 
     protected string GetColour(int i, int j)
     {
-        return Output[i,j] == 1 ? "red" : "black";
+        return Output[i, j] == 1 ? "red" : "black";
     }
 }

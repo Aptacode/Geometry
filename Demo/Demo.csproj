@@ -1,21 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<LangVersion>10.0</LangVersion>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<RootNamespace>Aptacode.Geometry.Demo</RootNamespace>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Aptacode.Geometry.Demo</RootNamespace>
+    <WasmEnableSIMD>true</WasmEnableSIMD>
+    <RunAOTCompilation>true</RunAOTCompilation>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Aptacode.BlazorCanvas" Version="1.0.14" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.3" PrivateAssets="all" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Aptacode.BlazorCanvas" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0"
+                      PrivateAssets="all" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Geometry\Geometry.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Geometry\Geometry.csproj" />
+  </ItemGroup>
 
 </Project>

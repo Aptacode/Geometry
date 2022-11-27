@@ -13,9 +13,9 @@
     ellipse 0,0, 10,15, 3<br/>
     point 0,0<br/>
 </p>
-<input placeholder="Enter your primitive" 
+<input placeholder="Enter your primitive"
        value="@Value" @onchange="OnInputChanged"/>
-       
+
 <p>Enter the output size</p>
 <input type="number" min="10" max="100" value="@OutputSize" @onchange="OnOutputSizeInputChanged">
 
@@ -24,10 +24,10 @@
 @for (var i = 0; i < Output.GetLength(0); i++)
 {
     <font>{</font>
-        @for (var j = 0; j < Output.GetLength(1); j++)
-        {
-            <font color="@GetColour(i,j)">@((MarkupString)$"{Output[i, j]},&nbsp;&nbsp;&nbsp;")</font>
-        }
+    @for (var j = 0; j < Output.GetLength(1); j++)
+    {
+        <font color="@GetColour(i, j)">@((MarkupString)$"{Output[i, j]},&nbsp;&nbsp;&nbsp;")</font>
+    }
     <font>},</font>
     <br/>
 }

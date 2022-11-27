@@ -35,7 +35,7 @@ public static class Vector2CollisionDetectionMethods
 
         return false;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this Polygon p2, Vector2 p1)
     {
@@ -56,8 +56,8 @@ public static class Vector2CollisionDetectionMethods
                 return true;
             }
 
-            if ((line.P1.Y >= point.Y && line.P2.Y <= point.Y ||
-                 line.P1.Y <= point.Y && line.P2.Y >= point.Y) &&
+            if (((line.P1.Y >= point.Y && line.P2.Y <= point.Y) ||
+                 (line.P1.Y <= point.Y && line.P2.Y >= point.Y)) &&
                 point.X <= (line.P2.X - line.P1.X) * (point.Y - line.P1.Y) / (line.P2.Y - line.P1.Y) + line.P1.X)
             {
                 collision = !collision;
