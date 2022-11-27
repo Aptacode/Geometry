@@ -1,10 +1,10 @@
 name: demo
 
 env:
-  dotnet_version: 6.0.x
+  dotnet_version: 7.0.x
   project_name: "Demo/Demo.csproj"
   base_href: /Geometry/
-  target_framework: net6.0
+  target_framework: net7.0
 
 on:
   push:
