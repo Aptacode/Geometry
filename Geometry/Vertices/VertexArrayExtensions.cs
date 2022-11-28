@@ -23,22 +23,23 @@ public static class VertexArrayExtensions
         }
 
         var count = 0;
+        Span<Vector2> vertexArrayAAsSpan = vertexArrayA.Vertices;
+        Span<Vector2> vertexArrayBAsSpan = vertexArrayB.Vertices;
 
         //Assign first vertex
-        var lastVertex = newVertices[count++] = vertexArrayA.Length > 0 ? vertexArrayA[0] : vertexArrayB[0];
-
-        for (var i = 1; i < vertexArrayA.Length; i++)
+        var lastVertex = newVertices[count++] = vertexArrayA.Length > 0 ? vertexArrayAAsSpan[0] : vertexArrayBAsSpan[0];
+        for (var i = 1; i < vertexArrayAAsSpan.Length; i++)
         {
-            var nextVertex = vertexArrayA[i];
+            var nextVertex = vertexArrayAAsSpan[i];
             if (lastVertex != nextVertex)
             {
                 newVertices[count++] = nextVertex;
             }
         }
 
-        for (var i = 0; i < vertexArrayB.Length; i++)
+        for (var i = 0; i < vertexArrayBAsSpan.Length; i++)
         {
-            var nextVertex = vertexArrayB[i];
+            var nextVertex = vertexArrayBAsSpan[i];
             if (lastVertex != nextVertex)
             {
                 newVertices[count++] = nextVertex;
@@ -66,13 +67,14 @@ public static class VertexArrayExtensions
         var newVertices = new Vector2[vertexArray.Length * 4];
         var count = 0;
 
-        for (var i = 0; i < vertexArray.Length; i++)
+        Span<Vector2> vertexArrayAsSpan = vertexArray.Vertices;
+        for (var i = 0; i < vertexArrayAsSpan.Length; i++)
         {
-            var vertex = vertexArray[i];
-            newVertices[count++] = new Vector2(vertex.X - margin, vertex.Y);
-            newVertices[count++] = new Vector2(vertex.X + margin, vertex.Y);
-            newVertices[count++] = new Vector2(vertex.X, vertex.Y + margin);
-            newVertices[count++] = new Vector2(vertex.X, vertex.Y - margin);
+            var vertex = vertexArrayAsSpan[i];
+            newVertices[count++] = vertex with { X = vertex.X - margin };
+            newVertices[count++] = vertex with { X = vertex.X + margin };
+            newVertices[count++] = vertex with { Y = vertex.Y + margin };
+            newVertices[count++] = vertex with { Y = vertex.Y - margin };
         }
 
         return new VertexArray(newVertices.ToConvexHull(newVertices.Length));
@@ -110,9 +112,10 @@ public static class VertexArrayExtensions
 
         // Find the leftmost point 
         var l = 0;
+        Span<Vector2> pointsAsSpan = points;
         for (var i = 1; i < n; i++)
         {
-            if (points[i].X < points[l].X)
+            if (pointsAsSpan[i].X < pointsAsSpan[l].X)
             {
                 l = i;
             }
@@ -126,7 +129,7 @@ public static class VertexArrayExtensions
         do
         {
             // Add current point to result 
-            hull.Add(points[p]);
+            hull.Add(pointsAsSpan[p]);
 
             // Search for a point 'q' such that  
             // orientation(p, x, q) is counterclockwise  
@@ -140,7 +143,7 @@ public static class VertexArrayExtensions
                 // If i is more counterclockwise than  
                 // current q, then update q 
             {
-                if (Orientation(points[p], points[i], points[q])
+                if (Orientation(pointsAsSpan[p], pointsAsSpan[i], pointsAsSpan[q])
                     == 2)
                 {
                     q = i;
@@ -163,36 +166,39 @@ public static class VertexArrayExtensions
     {
         var minX = float.MaxValue;
         var minXindex = -1;
-        for (var i = 0; i < vertexArray.Length; i++)
+        Span<Vector2> vertexArrayAsSpan = vertexArray.Vertices;
+        for (var i = 0; i < vertexArrayAsSpan.Length; i++)
         {
-            if (vertexArray[i].X > minX)
+            if (vertexArrayAsSpan[i].X > minX)
             {
                 continue;
             }
 
-            if (Math.Abs(vertexArray[i].X - minX) >= Constants.Tolerance)
+            if (Math.Abs(vertexArrayAsSpan[i].X - minX) >= Constants.Tolerance)
             {
-                minX = vertexArray[i].X;
+                minX = vertexArrayAsSpan[i].X;
                 minXindex = i;
             }
             else if
-                (vertexArray[i].Y <
+                (vertexArrayAsSpan[i].Y <
                  vertexArray[minXindex]
                      .Y) //Two points may lie on a horizontal line, we want the one with the lesser y coord then.
             {
-                minX = vertexArray[i].X;
+                minX = vertexArrayAsSpan[i].X;
                 minXindex = i;
             }
         }
 
         var clockwiseArray = new Vector2[vertexArray.Length];
+        Span<Vector2> clockwiseArrayAsSpan = clockwiseArray;
+
         for (var i = 0;
              i < clockwiseArray.Length;
              i++) //cyclically permute the vertexArray elements so that the vertex with the least X is first.
         {
             //probably a better way to do this though.
             var j = (minXindex + i) % clockwiseArray.Length; //Need to check this
-            clockwiseArray[i] = vertexArray[j];
+            clockwiseArrayAsSpan[i] = vertexArrayAsSpan[j];
         }
 
         return new VertexArray(clockwiseArray);
@@ -206,17 +212,19 @@ public static class VertexArrayExtensions
             return BoundingRectangle.Zero;
         }
 
+        Span<Vector2> vertexArrayAsSpan = vertexArray.Vertices;
+
         //Set min / max values to the first vertex
-        var first = vertexArray[0];
+        var first = vertexArrayAsSpan[0];
         var minX = first.X;
         var maxX = first.X;
         var minY = first.Y;
         var maxY = first.Y;
 
-        for (var i = 1; i < vertexArray.Length; i++)
+        for (var i = 1; i < vertexArrayAsSpan.Length; i++)
         {
             //Transform vertex
-            var vertex = vertexArray[i];
+            var vertex = vertexArrayAsSpan[i];
 
             //update min / max X values
             if (vertex.X < minX)
@@ -250,8 +258,10 @@ public static class VertexArrayExtensions
 
     public static BoundingRectangle Transform(this VertexArray vertexArray, Matrix3x2 transformationMatrix)
     {
+        Span<Vector2> vertexArrayAsSpan = vertexArray.Vertices;
+
         //Transform first vertex
-        var first = vertexArray[0];
+        var first = vertexArrayAsSpan[0];
         vertexArray[0] = first = Vector2.Transform(first, transformationMatrix);
 
         //Set min / max values to the first vertex
@@ -263,8 +273,8 @@ public static class VertexArrayExtensions
         for (var i = 1; i < vertexArray.Length; i++)
         {
             //Transform vertex
-            var vertex = Vector2.Transform(vertexArray[i], transformationMatrix);
-            vertexArray[i] = vertex;
+            var vertex = Vector2.Transform(vertexArrayAsSpan[i], transformationMatrix);
+            vertexArrayAsSpan[i] = vertex;
 
             //update min / max X values
             if (vertex.X < minX)

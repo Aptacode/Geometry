@@ -41,9 +41,10 @@ public readonly struct VertexArray : IEquatable<VertexArray>
             default:
                 var vertexArray = new Vector2[vertices.Length / 2];
                 var vertexIndex = 0;
-                for (var i = 0; i < vertices.Length; i += 2)
+                Span<float> verticesAsSpan = vertices;
+                for (var i = 0; i < verticesAsSpan.Length; i += 2)
                 {
-                    vertexArray[vertexIndex++] = new Vector2(vertices[i], vertices[i + 1]);
+                    vertexArray[vertexIndex++] = new Vector2(verticesAsSpan[i], verticesAsSpan[i + 1]);
                 }
 
                 return new VertexArray(vertexArray);
@@ -94,9 +95,11 @@ public readonly struct VertexArray : IEquatable<VertexArray>
             return false;
         }
 
-        for (var i = 0; i < lhs.Length; i++)
+        Span<Vector2> lhsVertices = lhs.Vertices;
+        Span<Vector2> rhsVertices = rhs.Vertices;
+        for (var i = 0; i < lhsVertices.Length; i++)
         {
-            var delta = lhs[i] - rhs[i];
+            var delta = lhsVertices[i] - rhsVertices[i];
             if (Math.Abs(delta.X) + Math.Abs(delta.Y) > Constants.Tolerance)
             {
                 return false;

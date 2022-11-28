@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Primitives;
 
@@ -51,10 +53,11 @@ public static class PrimitiveCollisionDetectionMethods
             return false;
         }
 
+        Span<(Vector2 P1, Vector2 P2)> lineSegmentsAsSpan = p2.LineSegments;
         //Check if the point is on any line segment
         for (var i = 0; i < p2.LineSegments.Length; i++)
         {
-            if (p2.LineSegments[i].Intersects(p1.Position))
+            if (lineSegmentsAsSpan[i].Intersects(p1.Position))
             {
                 return true;
             }
@@ -74,9 +77,10 @@ public static class PrimitiveCollisionDetectionMethods
 
         var collision = false;
         var point = p1.Position;
-
-        foreach (var edge in p2.Edges)
+        Span<(Vector2 P1, Vector2 P2)> edgesAsSpan = p2.Edges;
+        for (var i = 0; i < edgesAsSpan.Length; i++)
         {
+            var edge = edgesAsSpan[i];
             if (edge.Intersects(point))
             {
                 return true;
@@ -122,12 +126,14 @@ public static class PrimitiveCollisionDetectionMethods
             return true;
         }
 
+        Span<(Vector2 P1, Vector2 P2)> p1SegmentsAsSpan = p1.LineSegments;
+        Span<(Vector2 P1, Vector2 P2)> p2SegmentsAsSpan = p2.LineSegments;
         for (var i = 0; i < p1.LineSegments.Length; i++)
         {
-            var edge = p1.LineSegments[i];
-            for (var j = 0; j < p2.LineSegments.Length; j++)
+            var edge = p1SegmentsAsSpan[i];
+            for (var j = 0; j < p2SegmentsAsSpan.Length; j++)
             {
-                var lineSegment = p2.LineSegments[j];
+                var lineSegment = p2SegmentsAsSpan[j];
                 if (lineSegment.Intersects(edge))
                 {
                     return true;
@@ -154,12 +160,14 @@ public static class PrimitiveCollisionDetectionMethods
             return true;
         }
 
-        for (var i = 0; i < p1.LineSegments.Length; i++)
+        Span<(Vector2 P1, Vector2 P2)> p1SegmentsAsSpan = p1.LineSegments;
+        Span<(Vector2 P1, Vector2 P2)> p2EdgesAsSpan = p2.Edges;
+        for (var i = 0; i < p1SegmentsAsSpan.Length; i++)
         {
-            var edge = p1.LineSegments[i];
-            for (var j = 0; j < p2.Edges.Length; j++)
+            var edge = p1SegmentsAsSpan[i];
+            for (var j = 0; j < p2EdgesAsSpan.Length; j++)
             {
-                if (p2.Edges[j].Intersects(edge))
+                if (p2EdgesAsSpan[j].Intersects(edge))
                 {
                     return true;
                 }
@@ -176,17 +184,28 @@ public static class PrimitiveCollisionDetectionMethods
         {
             return false;
         }
+        Span<(Vector2 P1, Vector2 P2)> p1SegmentsAsSpan = p1.LineSegments;
 
         if (p2.IsCircle)
             //If ellipse is a circle
         {
-            return p1.LineSegments.Any(l => l.IntersectsCircle(p2.Position, p2.Radii.X));
+            for (int i = 0; i < p1SegmentsAsSpan.Length; i++)
+            {
+                var lineSegment = p1SegmentsAsSpan[i];
+                if (lineSegment.IntersectsCircle(p2.Position, p2.Radii.X))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         //If ellipse is not a circle
         var stdform = p2.StandardForm;
-        foreach (var lineSegment in p1.LineSegments)
+        for (int i = 0; i < p1SegmentsAsSpan.Length; i++)
         {
+            var lineSegment = p1SegmentsAsSpan[i];
             if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2) || lineSegment.Intersects(stdform))
             {
                 return true;
@@ -216,12 +235,15 @@ public static class PrimitiveCollisionDetectionMethods
             return true;
         }
 
-        for (var i = 0; i < p1.Edges.Length; i++)
+        Span<(Vector2 P1, Vector2 P2)> p1EdgesAsSpan = p1.Edges;
+        Span<(Vector2 P1, Vector2 P2)> p2EdgesAsSpan = p2.Edges;
+
+        for (var i = 0; i < p1EdgesAsSpan.Length; i++)
         {
-            var edge = p1.Edges[i];
-            for (var j = 0; j < p2.Edges.Length; j++)
+            var edge = p1EdgesAsSpan[i];
+            for (var j = 0; j < p2EdgesAsSpan.Length; j++)
             {
-                var lineSegment = p2.Edges[j];
+                var lineSegment = p2EdgesAsSpan[j];
                 if (lineSegment.Intersects(edge))
                 {
                     return true;
@@ -244,16 +266,37 @@ public static class PrimitiveCollisionDetectionMethods
         {
             return true;
         }
+        Span<(Vector2 P1, Vector2 P2)> p1EdgesAsSpan = p1.Edges;
 
         if (p2.IsCircle)
             //If ellipse is a circle
         {
-            return p1.Edges.Any(l => l.IntersectsCircle(p2.Position, p2.Radii.X));
+            for (int i = 0; i < p1EdgesAsSpan.Length; i++)
+            {
+                var lineSegment = p1EdgesAsSpan[i];
+                if (lineSegment.IntersectsCircle(p2.Position, p2.Radii.X))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         var stdform = p2.StandardForm;
-        return p1.Edges.Any(lineSegment => p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2) ||
-                                           lineSegment.Intersects(stdform));
+
+
+        for (int i = 0; i < p1EdgesAsSpan.Length; i++)
+        {
+            var lineSegment = p1EdgesAsSpan[i];
+            if (p2.CollidesWith(lineSegment.P1) || p2.CollidesWith(lineSegment.P2) ||
+                lineSegment.Intersects(stdform))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion

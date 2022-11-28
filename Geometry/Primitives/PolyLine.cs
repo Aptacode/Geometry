@@ -136,12 +136,13 @@ public sealed class PolyLine : Primitive
             return;
         }
 
+        Span<Vector2> vertexArrayAsSpan = Vertices.Vertices;
         //Get the first vertex
-        var lastVertex = Vertices[0];
+        var lastVertex = vertexArrayAsSpan[0];
         //Create a line segment for each vertex neighbour pair
-        for (var i = 1; i <= Vertices.Length - 1; i++)
+        for (var i = 1; i <= vertexArrayAsSpan.Length - 1; i++)
         {
-            var nextVertex = Vertices[i]; //Get the next vertex
+            var nextVertex = vertexArrayAsSpan[i]; //Get the next vertex
             LineSegments[i - 1] =
                 new ValueTuple<Vector2, Vector2>(lastVertex,
                     nextVertex); //Create a line segment from the last vertex to the next

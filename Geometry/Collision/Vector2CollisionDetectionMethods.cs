@@ -25,9 +25,10 @@ public static class Vector2CollisionDetectionMethods
             return false;
         }
 
-        for (var i = 0; i < p2.LineSegments.Length; i++)
+        Span<(Vector2 P1, Vector2 P2)> lineSegmentsAsSpan = p2.LineSegments;
+        for (var i = 0; i < lineSegmentsAsSpan.Length; i++)
         {
-            if (p2.LineSegments[i].Intersects(p1))
+            if (lineSegmentsAsSpan[i].Intersects(p1))
             {
                 return true;
             }
@@ -49,8 +50,10 @@ public static class Vector2CollisionDetectionMethods
         var edges = p2.Edges;
         var point = p1;
 
-        foreach (var line in edges)
+        Span<(Vector2 P1, Vector2 P2)> edgesAsSpan = edges;
+        for (var i = 0; i < edgesAsSpan.Length; i++)
         {
+            var line = edgesAsSpan[i];
             if (line.Intersects(point))
             {
                 return true;
