@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Collision.Rectangles;
-using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
 
 public abstract class Primitive : IEquatable<Primitive>
 {
-    protected Primitive(VertexArray vertices, BoundingRectangle boundingRectangle)
+    protected Primitive(BoundingRectangle boundingRectangle)
     {
-        Vertices = vertices;
         BoundingRectangle = boundingRectangle;
     }
 
@@ -17,7 +15,6 @@ public abstract class Primitive : IEquatable<Primitive>
 
     #region Properties
 
-    public VertexArray Vertices { get; init; }
     public BoundingRectangle BoundingRectangle { get; protected set; }
 
     #endregion
@@ -75,42 +72,16 @@ public abstract class Primitive : IEquatable<Primitive>
 
     #region Transformations
 
-    public virtual Primitive Translate(Vector2 delta)
-    {
-        BoundingRectangle = Vertices.Translate(delta);
-        return this;
-    }
+    public abstract Primitive Translate(Vector2 delta);
 
-    public virtual Primitive Rotate(float theta)
-    {
-        var center = BoundingRectangle.Center;
-        BoundingRectangle = Vertices.Rotate(center, theta);
-        return this;
-    }
+    public abstract Primitive Rotate(float theta);
 
-    public virtual Primitive Rotate(Vector2 rotationCenter, float theta)
-    {
-        BoundingRectangle = Vertices.Rotate(rotationCenter, theta);
-        return this;
-    }
+    public abstract Primitive Rotate(Vector2 rotationCenter, float theta);
 
-    public virtual Primitive ScaleAboutCenter(Vector2 delta)
-    {
-        BoundingRectangle = Vertices.Scale(BoundingRectangle.Center, delta);
-        return this;
-    }
+    public abstract Primitive ScaleAboutCenter(Vector2 delta);
 
-    public virtual Primitive Scale(Vector2 scaleCenter, Vector2 delta)
-    {
-        BoundingRectangle = Vertices.Scale(scaleCenter, delta);
-        return this;
-    }
-
-    public virtual Primitive Skew(Vector2 delta)
-    {
-        BoundingRectangle = Vertices.Skew(delta);
-        return this;
-    }
+    public abstract Primitive Scale(Vector2 scaleCenter, Vector2 delta);
+    public abstract Primitive Skew(Vector2 delta);
 
     public virtual Primitive SetSize(Vector2 delta)
     {

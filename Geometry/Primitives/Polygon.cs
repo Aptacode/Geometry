@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
@@ -11,14 +12,16 @@ public sealed class Polygon : Primitive
 {
     public override string ToString()
     {
-        return $"Polygon {Vertices}";
+        return $"Polygon {Vertices.Print()}";
     }
+
+    public Vector2[] Vertices { get; set; }
 
     #region IEquatable
 
     public override bool Equals(Primitive? other)
     {
-        return other != null && other is Polygon otherPolygon && Vertices.Equals(otherPolygon.Vertices);
+        return other != null && other is Polygon otherPolygon && Vertices.AreEqual(otherPolygon.Vertices);
     }
 
     public override int GetHashCode()
@@ -84,22 +87,22 @@ public sealed class Polygon : Primitive
 
     #region Construction
 
-    private Polygon(VertexArray vertices, BoundingRectangle boundingRectangle) : base(
-        vertices, boundingRectangle)
+    private Polygon(Vector2[] vertices, BoundingRectangle boundingRectangle) : base(boundingRectangle)
     {
+        Vertices = vertices;
         _edges = new (Vector2 P1, Vector2 P2)[vertices.Length];
     }
 
     public static Polygon Create(params Vector2[] vertices)
     {
-        var vertexArray = VertexArray.Create(vertices);
+        var vertexArray = vertices.ToArray();
         var boundingRectangle = vertexArray.ToBoundingRectangle();
         return new Polygon(vertexArray, boundingRectangle);
     }
 
     public static Polygon Create(params float[] points)
     {
-        var vertexArray = VertexArray.Create(points);
+        var vertexArray = points.FromPoints();
         var boundingRectangle = vertexArray.ToBoundingRectangle();
         return new Polygon(vertexArray, boundingRectangle);
     }
@@ -153,44 +156,45 @@ public sealed class Polygon : Primitive
         _edges[^1] = new ValueTuple<Vector2, Vector2>(lastVertex, Vertices[0]);
     }
 
-    public override Polygon Translate(Vector2 delta)
+    public override Primitive Translate(Vector2 delta)
     {
-        base.Translate(delta);
+        BoundingRectangle = Vertices.Translate(delta);
         _updateEdges = true;
         return this;
     }
 
-    public override Polygon ScaleAboutCenter(Vector2 delta)
+    public override Primitive Rotate(float theta)
     {
-        base.ScaleAboutCenter(delta);
+        var center = BoundingRectangle.Center;
+        BoundingRectangle = Vertices.Rotate(center, theta);
+        _updateEdges = true;
+        return this;
+    }
+
+    public override Primitive Rotate(Vector2 rotationCenter, float theta)
+    {
+        BoundingRectangle = Vertices.Rotate(rotationCenter, theta);
+        _updateEdges = true;
+        return this;
+    }
+
+    public override Primitive ScaleAboutCenter(Vector2 delta)
+    {
+        BoundingRectangle = Vertices.Scale(BoundingRectangle.Center, delta);
         _updateEdges = true;
         return this;
     }
 
     public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
     {
-        base.Scale(scaleCenter, delta);
+        BoundingRectangle = Vertices.Scale(scaleCenter, delta);
         _updateEdges = true;
         return this;
     }
 
-    public override Polygon Rotate(float theta)
+    public override Primitive Skew(Vector2 delta)
     {
-        base.Rotate(theta);
-        _updateEdges = true;
-        return this;
-    }
-
-    public override Polygon Rotate(Vector2 rotationCenter, float theta)
-    {
-        base.Rotate(rotationCenter, theta);
-        _updateEdges = true;
-        return this;
-    }
-
-    public override Polygon Skew(Vector2 delta)
-    {
-        base.Skew(delta);
+        BoundingRectangle = Vertices.Skew(delta);
         _updateEdges = true;
         return this;
     }

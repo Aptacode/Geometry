@@ -9,22 +9,36 @@ namespace Aptacode.Geometry.Vertices;
 
 public static class VertexArrayExtensions
 {
-    public static VertexArray Concat(this VertexArray vertexArray, params Vector2[] vertices)
+
+    public static string Print(this Vector2[] verticies)
     {
-        return Concat(vertexArray, new VertexArray(vertices));
+        return string.Join(", ", verticies.Select(v => $"({v.X},{v.Y})"));
     }
 
-    public static VertexArray Concat(this VertexArray vertexArrayA, VertexArray vertexArrayB)
+    public static Vector2[] FromPoints(this float[] points)
+    {
+        var vertexArray = new Vector2[points.Length / 2];
+        var vertexIndex = 0;
+        Span<float> verticesAsSpan = points;
+        for (var i = 0; i < verticesAsSpan.Length; i += 2)
+        {
+            vertexArray[vertexIndex++] = new Vector2(verticesAsSpan[i], verticesAsSpan[i + 1]);
+        }
+
+        return vertexArray;
+    }
+
+    public static Vector2[] Concat(this Vector2[] vertexArrayA, Vector2[] vertexArrayB)
     {
         var newVertices = new Vector2[vertexArrayA.Length + vertexArrayB.Length];
         if (newVertices.Length == 0)
         {
-            return new VertexArray(Array.Empty<Vector2>());
+            return newVertices;
         }
 
         var count = 0;
-        Span<Vector2> vertexArrayAAsSpan = vertexArrayA.Vertices;
-        Span<Vector2> vertexArrayBAsSpan = vertexArrayB.Vertices;
+        Span<Vector2> vertexArrayAAsSpan = vertexArrayA;
+        Span<Vector2> vertexArrayBAsSpan = vertexArrayB;
 
         //Assign first vertex
         var lastVertex = newVertices[count++] = vertexArrayA.Length > 0 ? vertexArrayAAsSpan[0] : vertexArrayBAsSpan[0];
@@ -52,22 +66,22 @@ public static class VertexArrayExtensions
             Array.Resize(ref newVertices, count);
         }
 
-        return new VertexArray(newVertices);
+        return newVertices;
     }
 
-    public static VertexArray Remove(this VertexArray vertexArray, int index)
+    public static Vector2[] Remove(this Vector2[] vertexArray, int index)
     {
-        var vertices = vertexArray.Vertices.ToList();
+        var vertices = vertexArray.ToList();
         vertices.RemoveAt(index);
-        return VertexArray.Create(vertices.ToArray());
+        return vertices.ToArray();
     }
 
-    public static VertexArray ToConvexHull(this VertexArray vertexArray, float margin)
+    public static Vector2[] ToConvexHull(this Vector2[] vertexArray, float margin)
     {
         var newVertices = new Vector2[vertexArray.Length * 4];
         var count = 0;
 
-        Span<Vector2> vertexArrayAsSpan = vertexArray.Vertices;
+        Span<Vector2> vertexArrayAsSpan = vertexArray;
         for (var i = 0; i < vertexArrayAsSpan.Length; i++)
         {
             var vertex = vertexArrayAsSpan[i];
@@ -77,7 +91,7 @@ public static class VertexArrayExtensions
             newVertices[count++] = vertex with { Y = vertex.Y - margin };
         }
 
-        return new VertexArray(newVertices.ToConvexHull(newVertices.Length));
+        return newVertices.ToConvexHull(newVertices.Length);
     }
 
     // To find orientation of ordered triplet (p, q, r). 
@@ -162,11 +176,11 @@ public static class VertexArrayExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static VertexArray OrderClockwiseFromLeastX(this VertexArray vertexArray)
+    public static Vector2[] OrderClockwiseFromLeastX(this Vector2[] vertexArray)
     {
         var minX = float.MaxValue;
         var minXindex = -1;
-        Span<Vector2> vertexArrayAsSpan = vertexArray.Vertices;
+        Span<Vector2> vertexArrayAsSpan = vertexArray;
         for (var i = 0; i < vertexArrayAsSpan.Length; i++)
         {
             if (vertexArrayAsSpan[i].X > minX)
@@ -201,10 +215,10 @@ public static class VertexArrayExtensions
             clockwiseArrayAsSpan[i] = vertexArrayAsSpan[j];
         }
 
-        return new VertexArray(clockwiseArray);
+        return clockwiseArray;
     }
 
-    public static BoundingRectangle ToBoundingRectangle(this VertexArray vertexArray)
+    public static BoundingRectangle ToBoundingRectangle(this Vector2[] vertexArray)
     {
         //Exit early if vertex array is empty
         if (vertexArray.Length == 0)
@@ -212,7 +226,7 @@ public static class VertexArrayExtensions
             return BoundingRectangle.Zero;
         }
 
-        Span<Vector2> vertexArrayAsSpan = vertexArray.Vertices;
+        Span<Vector2> vertexArrayAsSpan = vertexArray;
 
         //Set min / max values to the first vertex
         var first = vertexArrayAsSpan[0];
@@ -256,9 +270,9 @@ public static class VertexArrayExtensions
 
     #region Transformation
 
-    public static BoundingRectangle Transform(this VertexArray vertexArray, Matrix3x2 transformationMatrix)
+    public static BoundingRectangle Transform(this Vector2[] vertexArray, Matrix3x2 transformationMatrix)
     {
-        Span<Vector2> vertexArrayAsSpan = vertexArray.Vertices;
+        Span<Vector2> vertexArrayAsSpan = vertexArray;
 
         //Transform first vertex
         var first = vertexArrayAsSpan[0];
@@ -304,7 +318,7 @@ public static class VertexArrayExtensions
         };
     }
 
-    public static BoundingRectangle Translate(this VertexArray vertexArray, Vector2 delta)
+    public static BoundingRectangle Translate(this Vector2[] vertexArray, Vector2 delta)
     {
         //Exit early if vertex array is empty
         if (vertexArray.Length == 0)
@@ -315,7 +329,7 @@ public static class VertexArrayExtensions
         return Transform(vertexArray, Matrix3x2.CreateTranslation(delta));
     }
 
-    public static BoundingRectangle Rotate(this VertexArray vertexArray, Vector2 rotationCenter, float theta)
+    public static BoundingRectangle Rotate(this Vector2[] vertexArray, Vector2 rotationCenter, float theta)
     {
         //Exit early if vertex array is empty
         if (vertexArray.Length == 0)
@@ -326,7 +340,7 @@ public static class VertexArrayExtensions
         return Transform(vertexArray, Matrix3x2.CreateRotation(theta, rotationCenter));
     }
 
-    public static BoundingRectangle Scale(this VertexArray vertexArray, Vector2 scaleCenter, Vector2 delta)
+    public static BoundingRectangle Scale(this Vector2[] vertexArray, Vector2 scaleCenter, Vector2 delta)
     {
         //Exit early if vertex array is empty
         if (vertexArray.Length == 0)
@@ -337,7 +351,7 @@ public static class VertexArrayExtensions
         return Transform(vertexArray, Matrix3x2.CreateScale(delta, scaleCenter));
     }
 
-    public static BoundingRectangle Skew(this VertexArray vertexArray, Vector2 delta)
+    public static BoundingRectangle Skew(this Vector2[] vertexArray, Vector2 delta)
     {
         //Exit early if vertex array is empty
         if (vertexArray.Length == 0)
@@ -348,5 +362,28 @@ public static class VertexArrayExtensions
         return Transform(vertexArray, new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0));
     }
 
+
     #endregion
+
+
+    public static bool AreEqual(this Vector2[] lhs, Vector2[] rhs)
+    {
+        if (lhs.Length != rhs.Length)
+        {
+            return false;
+        }
+
+        Span<Vector2> lhsVertices = lhs;
+        Span<Vector2> rhsVertices = rhs;
+        for (var i = 0; i < lhsVertices.Length; i++)
+        {
+            var delta = lhsVertices[i] - rhsVertices[i];
+            if (Math.Abs(delta.X) + Math.Abs(delta.Y) > Constants.Tolerance)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

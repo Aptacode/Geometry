@@ -38,7 +38,7 @@ public sealed class Ellipse : Primitive
         }
     }
 
-    public Vector2 Position => Vertices[0];
+    public Vector2 Position { get; set; }
 
     private bool _updateFoci = true;
     private (Vector2, Vector2) _foci;
@@ -63,10 +63,9 @@ public sealed class Ellipse : Primitive
 
     #region Construction
 
-    private Ellipse(VertexArray vertexArray, BoundingRectangle boundingRectangle, Vector2 radii, float rotation) : base(
-        vertexArray,
-        boundingRectangle)
+    private Ellipse(Vector2 position, BoundingRectangle boundingRectangle, Vector2 radii, float rotation) : base(boundingRectangle)
     {
+        Position = position;
         Radii = radii;
         Rotation = rotation;
     }
@@ -75,18 +74,16 @@ public sealed class Ellipse : Primitive
     {
         var position = new Vector2(x, y);
         var radii = new Vector2(a, b);
-        var vertexArray = VertexArray.Create(position);
         var boundingRectangle = EllipseExtensions.GetBoundingRectangle(position, radii, rotation);
 
-        return new Ellipse(vertexArray, boundingRectangle, radii, rotation);
+        return new Ellipse(position, boundingRectangle, radii, rotation);
     }
 
     public static Ellipse Create(Vector2 position, Vector2 radii, float rotation)
     {
-        var vertexArray = VertexArray.Create(position);
         var boundingRectangle = EllipseExtensions.GetBoundingRectangle(position, radii, rotation);
 
-        return new Ellipse(vertexArray, boundingRectangle, radii, rotation);
+        return new Ellipse(position, boundingRectangle, radii, rotation);
     }
 
     public static Ellipse Create(Vector2 position, float radius)
@@ -169,7 +166,7 @@ public sealed class Ellipse : Primitive
 
     public override Ellipse Translate(Vector2 delta)
     {
-        Vertices.Translate(delta);
+        Position += delta;
         BoundingRectangle = BoundingRectangle.Translate(delta);
         _updateFoci = _updateStandardForm = true;
         return this;
@@ -213,6 +210,14 @@ public sealed class Ellipse : Primitive
 
         return this;
     }
+
+    public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
+    {
+        //Todo
+
+        return this;
+    }
+
 
     #endregion
 

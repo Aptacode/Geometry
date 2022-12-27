@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
@@ -11,14 +12,16 @@ public sealed class PolyLine : Primitive
 {
     public override string ToString()
     {
-        return $"PolyLine {Vertices}";
+        return $"PolyLine {Vertices.Print()}";
     }
+
+    public Vector2[] Vertices { get; set; }
 
     #region IEquatable
 
     public override bool Equals(Primitive? other)
     {
-        return other != null && other is PolyLine otherPolyline && Vertices.Equals(otherPolyline.Vertices);
+        return other != null && other is PolyLine otherPolyline && Vertices.AreEqual(otherPolyline.Vertices);
     }
 
     public override int GetHashCode()
@@ -84,8 +87,9 @@ public sealed class PolyLine : Primitive
 
     #region Construction
 
-    private PolyLine(VertexArray vertices, BoundingRectangle boundingRectangle) : base(vertices, boundingRectangle)
+    private PolyLine(Vector2[] vertices, BoundingRectangle boundingRectangle) : base(boundingRectangle)
     {
+        Vertices = vertices;
         _lineSegments = vertices.Length switch
         {
             0 => new (Vector2 P1, Vector2 P2)[0], //If no verticies are given there will be no linesegments
@@ -102,7 +106,7 @@ public sealed class PolyLine : Primitive
             return Zero;
         }
 
-        var vertexArray = VertexArray.Create(points);
+        var vertexArray = points.FromPoints();
         return new PolyLine(vertexArray, vertexArray.ToBoundingRectangle());
     }
 
@@ -110,7 +114,7 @@ public sealed class PolyLine : Primitive
 
     public static PolyLine Create(params Vector2[] points)
     {
-        var vertexArray = VertexArray.Create(points);
+        var vertexArray = points.ToArray();
         return new PolyLine(vertexArray, vertexArray.ToBoundingRectangle());
     }
 
@@ -136,7 +140,7 @@ public sealed class PolyLine : Primitive
             return;
         }
 
-        Span<Vector2> vertexArrayAsSpan = Vertices.Vertices;
+        Span<Vector2> vertexArrayAsSpan = Vertices;
         //Get the first vertex
         var lastVertex = vertexArrayAsSpan[0];
         //Create a line segment for each vertex neighbour pair
@@ -149,45 +153,45 @@ public sealed class PolyLine : Primitive
             lastVertex = nextVertex; //Update the last vertex
         }
     }
-
-    public override PolyLine Translate(Vector2 delta)
+    public override Primitive Translate(Vector2 delta)
     {
-        base.Translate(delta);
+        BoundingRectangle = Vertices.Translate(delta);
         _updateLineSegments = true;
         return this;
     }
 
-    public override PolyLine ScaleAboutCenter(Vector2 delta)
+    public override Primitive Rotate(float theta)
     {
-        base.ScaleAboutCenter(delta);
+        var center = BoundingRectangle.Center;
+        BoundingRectangle = Vertices.Rotate(center, theta);
+        _updateLineSegments = true;
+        return this;
+    }
+
+    public override Primitive Rotate(Vector2 rotationCenter, float theta)
+    {
+        BoundingRectangle = Vertices.Rotate(rotationCenter, theta);
+        _updateLineSegments = true;
+        return this;
+    }
+
+    public override Primitive ScaleAboutCenter(Vector2 delta)
+    {
+        BoundingRectangle = Vertices.Scale(BoundingRectangle.Center, delta);
         _updateLineSegments = true;
         return this;
     }
 
     public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
     {
-        base.Scale(scaleCenter, delta);
+        BoundingRectangle = Vertices.Scale(scaleCenter, delta);
         _updateLineSegments = true;
         return this;
     }
 
-    public override PolyLine Rotate(float theta)
+    public override Primitive Skew(Vector2 delta)
     {
-        base.Rotate(theta);
-        _updateLineSegments = true;
-        return this;
-    }
-
-    public override PolyLine Rotate(Vector2 rotationCenter, float theta)
-    {
-        base.Rotate(rotationCenter, theta);
-        _updateLineSegments = true;
-        return this;
-    }
-
-    public override PolyLine Skew(Vector2 delta)
-    {
-        base.Skew(delta);
+        BoundingRectangle = Vertices.Skew(delta);
         _updateLineSegments = true;
         return this;
     }

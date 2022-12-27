@@ -10,13 +10,13 @@ public sealed class Point : Primitive
 {
     #region Properties
 
-    public Vector2 Position => Vertices[0];
+    public Vector2 Position { get; set; }
 
     #endregion
 
     public override string ToString()
     {
-        return $"Point {Vertices}";
+        return $"Point ({Position.X},{Position.Y})";
     }
 
     #region IEquatable
@@ -75,8 +75,9 @@ public sealed class Point : Primitive
 
     #region Construction
 
-    private Point(VertexArray vertexArray, BoundingRectangle boundingRectangle) : base(vertexArray, boundingRectangle)
+    private Point(Vector2 position, BoundingRectangle boundingRectangle) : base(boundingRectangle)
     {
+        Position = position;
     }
 
     public static Point Create(float x, float y)
@@ -86,12 +87,45 @@ public sealed class Point : Primitive
 
     public static Point Create(Vector2 position)
     {
-        return new Point(VertexArray.Create(position), new BoundingRectangle
+        return new Point(position, new BoundingRectangle
         {
             BottomLeft = position,
             TopRight = position
         });
     }
+
+    public override Primitive Translate(Vector2 delta)
+    {
+        Position += delta;
+        BoundingRectangle = BoundingRectangle.Translate(delta);
+        return this;
+    }
+
+    public override Primitive Rotate(float theta)
+    {
+        return this;
+    }
+
+    public override Primitive Rotate(Vector2 rotationCenter, float theta)
+    {
+        return this;
+    }
+
+    public override Primitive ScaleAboutCenter(Vector2 delta)
+    {
+        return this;
+    }
+
+    public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
+    {
+        return this;
+    }
+
+    public override Primitive Skew(Vector2 delta)
+    {
+        return this;
+    }
+
 
     public static Point Zero => Create(Vector2.Zero);
     public static Point Unit => Create(Vector2.One);
