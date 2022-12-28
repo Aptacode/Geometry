@@ -131,7 +131,7 @@ public static class LineSegmentCollisionDetectionMethods
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IntersectsCircle(this (Vector2 P1, Vector2 P2) lineSegment, Vector2 center, float radius)
+    public static bool IntersectsCircleB(this (Vector2 P1, Vector2 P2) lineSegment, Vector2 center, float radius)
     {
         //Check if the end points of the line segment are inside the circle
         if (IsPointInsideCircle(center, radius, lineSegment.P1) ||
@@ -151,5 +151,41 @@ public static class LineSegmentCollisionDetectionMethods
                 closestY); //The point of intersection of a line from the center of the circle perpendicular to the line segment (possibly the ray) with the line segment (or ray).
         return (lineSegment.P1, lineSegment.P2).Intersects(closestPoint) &&
                IsPointInsideCircle(center, radius, closestPoint);
+    }
+
+    public static bool IntersectsCircle(this (Vector2 P1, Vector2 P2) lineSegment, Vector2 center, float radius)
+    {
+        var (A, B) = lineSegment;
+        var C = center;
+
+        // Compute vectors AC and AB
+        var AC = C - A;
+        var AB = B - A;
+
+        // Get point D by taking the projection of AC onto AB then adding the offset of A
+        var D = proj(AC, AB) + A;
+
+        var AD = D - A;
+        // D might not be on AB so calculate k of D down AB (aka solve AD = k * AB)
+        // We can use either component, but choose larger value to reduce the chance of dividing by zero
+        var k = Math.Abs(AB.X) > Math.Abs(AB.Y) ? AD.X / AB.X : AD.Y / AB.Y;
+
+        // Check if D is off either end of the line segment
+        if (k <= 0.0)
+        {
+            return Math.Sqrt(Vector2.Dot(AC, AC)) <= radius;
+        }
+        else if (k >= 1.0)
+        {
+            var CB = C - B;
+            return Math.Sqrt(Vector2.Dot(CB, CB)) <= radius;
+        }
+        var CD = C - D;
+        return Math.Sqrt(Vector2.Dot(CD, CD)) <= radius;
+    }
+
+    public static Vector2 proj(Vector2 a, Vector2 b)
+    {
+        return Vector2.Dot(a, b) / Vector2.Dot(b, b) * b;
     }
 }

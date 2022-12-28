@@ -9,9 +9,7 @@ public class EllipseCenterScaleTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
-        new object[] { Ellipse.Create(Vector2.Zero, 1), Vector2.One, Ellipse.Create(Vector2.Zero, 1) },
-        new object[]
-            { Ellipse.Create(Vector2.Zero, 1), new Vector2(2, 2), Ellipse.Create(Vector2.Zero, 2) }
+        new object[] { new Circle(Vector2.Zero, 1), Vector2.One, new Circle(Vector2.Zero, 1) },
     };
 
     public IEnumerator<object[]> GetEnumerator()

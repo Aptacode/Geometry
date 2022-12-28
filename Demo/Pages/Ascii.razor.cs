@@ -51,7 +51,7 @@ public class AsciiBase : ComponentBase
             input = input.Replace(" ", "");
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
-            primitive = Ellipse.Create(parameters[0], parameters[1], parameters[2], parameters[3], parameters[4]);
+            primitive = new Circle(parameters[0], parameters[1], parameters[2]);
         }
         else if (input.Contains("polygon"))
         {
@@ -59,7 +59,7 @@ public class AsciiBase : ComponentBase
             input = input.Replace(" ", "");
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
-            primitive = Polygon.Create(parameters.ToArray());
+            primitive = new Polygon(parameters.ToArray());
         }
         else if (input.Contains("polyline"))
         {
@@ -67,7 +67,7 @@ public class AsciiBase : ComponentBase
             input = input.Replace(" ", "");
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
-            primitive = PolyLine.Create(parameters.ToArray());
+            primitive = new PolyLine(parameters.ToArray());
         }
         else if (input.Contains("point"))
         {
@@ -75,7 +75,7 @@ public class AsciiBase : ComponentBase
             input = input.Replace(" ", "");
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
-            primitive = Point.Create(parameters[0], parameters[1]);
+            primitive = new Point(parameters[0], parameters[1]);
         }
 
         if (primitive != null)

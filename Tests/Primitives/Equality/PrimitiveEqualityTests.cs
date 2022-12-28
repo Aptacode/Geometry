@@ -14,17 +14,17 @@ public class PrimitiveEqualityTests
     {
         //Arrange
         //Act
-        var equalityOperatorResult = p1 == p2;
-        var inequalityOperatorResult = p1 != p2;
 
         //Assert
         if (p1 != null)
         {
-            var equalsMethodResult = p1.Equals(p2);
+            var equalsMethodResult = p1.AreEqual(p2);
             Assert.Equal(areEqual, equalsMethodResult);
         }
-
-        Assert.Equal(areEqual, equalityOperatorResult);
-        Assert.Equal(!areEqual, inequalityOperatorResult);
+        else
+        {
+            var equalsMethodResult = p2.AreEqual(p1);
+            Assert.Equal(areEqual, equalsMethodResult);
+        }
     }
 }

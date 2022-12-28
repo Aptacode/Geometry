@@ -16,17 +16,17 @@ public class PointCollisionBenchmarks
     public IEnumerable<object[]> CollidingPrimitives()
     {
         yield return new object[] { Point.Zero, Point.Zero };
-        yield return new object[] { Point.Zero, Ellipse.Unit };
+        yield return new object[] { Point.Zero, Circle.Unit };
         yield return new object[] { Point.Zero, Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One) };
-        yield return new object[] { Point.Zero, PolyLine.Create(0, 0, 1, 1) };
+        yield return new object[] { Point.Zero, new PolyLine(0, 0, 1, 1) };
     }
 
     public IEnumerable<object[]> NonCollidingPrimitives()
     {
-        yield return new object[] { Point.Create(10, 10), Point.Zero };
-        yield return new object[] { Point.Create(10, 10), Ellipse.Unit };
-        yield return new object[] { Point.Create(10, 10), Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One) };
-        yield return new object[] { Point.Create(10, 10), PolyLine.Create(0, 0, 1, 1) };
+        yield return new object[] { new Point(10, 10), Point.Zero };
+        yield return new object[] { new Point(10, 10), Circle.Unit };
+        yield return new object[] { new Point(10, 10), Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One) };
+        yield return new object[] { new Point(10, 10), new PolyLine(0, 0, 1, 1) };
     }
 
     [Benchmark]

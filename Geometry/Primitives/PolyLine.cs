@@ -3,7 +3,6 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
@@ -19,14 +18,26 @@ public sealed class PolyLine : Primitive
 
     #region IEquatable
 
-    public override bool Equals(Primitive? other)
+
+    public override Primitive Transform(Matrix3x2 matrix)
     {
-        return other != null && other is PolyLine otherPolyline && Vertices.AreEqual(otherPolyline.Vertices);
+        for(int i = 0; i < Vertices.Length; i++)
+        {
+            Vertices[i] = Vector2.Transform(Vertices[i], matrix);
+        }
+        return this;
     }
 
-    public override int GetHashCode()
+    public override Primitive Copy()
     {
-        return ToString().GetHashCode();
+        var copy = new Vector2[Vertices.Length];
+        Vertices.CopyTo(copy,0);
+        return new PolyLine(copy);
+    }
+
+    public override bool AreEqual(Primitive other)
+    {
+        return other != null && other is PolyLine otherPolyline && Vertices.AreEqual(otherPolyline.Vertices);
     }
 
     #endregion
@@ -49,6 +60,24 @@ public sealed class PolyLine : Primitive
         }
     }
 
+    public override Vector2 GetCentroid()
+    {
+        if(Vertices.Length == 0)
+        {
+            return Vector2.Zero;
+        }
+
+        Span<Vector2> verticesAsSpan = Vertices;
+        Vector2 v = verticesAsSpan[0];
+
+        for (int i = 1; i < verticesAsSpan.Length; i++)
+        {
+            v += verticesAsSpan[i];
+        }
+
+        return v / verticesAsSpan.Length;
+    }
+
     #endregion
 
     #region Collision Detection
@@ -63,7 +92,7 @@ public sealed class PolyLine : Primitive
         return PrimitiveCollisionDetectionMethods.CollidesWith(p, this);
     }
 
-    public override bool CollidesWith(Ellipse p)
+    public override bool CollidesWith(Circle p)
     {
         return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
     }
@@ -71,11 +100,6 @@ public sealed class PolyLine : Primitive
     public override bool CollidesWith(PolyLine p)
     {
         return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
-    }
-
-    public override bool CollidesWith(BoundingRectangle p)
-    {
-        return p.CollidesWith(this);
     }
 
     public override bool CollidesWith(Polygon p)
@@ -87,7 +111,7 @@ public sealed class PolyLine : Primitive
 
     #region Construction
 
-    private PolyLine(Vector2[] vertices, BoundingRectangle boundingRectangle) : base(boundingRectangle)
+    public PolyLine(Vector2[] vertices)
     {
         Vertices = vertices;
         _lineSegments = vertices.Length switch
@@ -99,15 +123,16 @@ public sealed class PolyLine : Primitive
         };
     }
 
-    public static PolyLine Create(params float[] points)
+    public PolyLine(params float[] points)
     {
-        if (points.Length < 2)
+        Vertices = points.FromPoints();
+        _lineSegments = Vertices.Length switch
         {
-            return Zero;
-        }
-
-        var vertexArray = points.FromPoints();
-        return new PolyLine(vertexArray, vertexArray.ToBoundingRectangle());
+            0 => new (Vector2 P1, Vector2 P2)[0], //If no verticies are given there will be no linesegments
+            1 => new (Vector2 P1, Vector2 P2)[1], //If one vertex is given make one linesegment with length 0
+            _ => new (Vector2 P1, Vector2 P2)[Vertices.Length -
+                                              1] //If more then 1 vertex is given create n-1 line segments
+        };
     }
 
     public static readonly PolyLine Zero = Create(Vector2.Zero, Vector2.Zero);
@@ -115,7 +140,7 @@ public sealed class PolyLine : Primitive
     public static PolyLine Create(params Vector2[] points)
     {
         var vertexArray = points.ToArray();
-        return new PolyLine(vertexArray, vertexArray.ToBoundingRectangle());
+        return new PolyLine(vertexArray);
     }
 
     #endregion
@@ -153,45 +178,46 @@ public sealed class PolyLine : Primitive
             lastVertex = nextVertex; //Update the last vertex
         }
     }
-    public override Primitive Translate(Vector2 delta)
+    public override PolyLine Translate(Vector2 delta)
     {
-        BoundingRectangle = Vertices.Translate(delta);
+        Vertices.Translate(delta);
         _updateLineSegments = true;
         return this;
     }
 
-    public override Primitive Rotate(float theta)
+    public override PolyLine Rotate(float theta)
     {
-        var center = BoundingRectangle.Center;
-        BoundingRectangle = Vertices.Rotate(center, theta);
+        var center = GetCentroid();
+        Vertices.Rotate(center, theta);
         _updateLineSegments = true;
         return this;
     }
 
-    public override Primitive Rotate(Vector2 rotationCenter, float theta)
+    public override PolyLine Rotate(Vector2 rotationCenter, float theta)
     {
-        BoundingRectangle = Vertices.Rotate(rotationCenter, theta);
+        Vertices.Rotate(rotationCenter, theta);
         _updateLineSegments = true;
         return this;
     }
 
-    public override Primitive ScaleAboutCenter(Vector2 delta)
+    public override PolyLine ScaleAboutCenter(Vector2 delta)
     {
-        BoundingRectangle = Vertices.Scale(BoundingRectangle.Center, delta);
+        var center = GetCentroid();
+        Vertices.Scale(center, delta);
         _updateLineSegments = true;
         return this;
     }
 
-    public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
+    public override PolyLine Scale(Vector2 scaleCenter, Vector2 delta)
     {
-        BoundingRectangle = Vertices.Scale(scaleCenter, delta);
+        Vertices.Scale(scaleCenter, delta);
         _updateLineSegments = true;
         return this;
     }
 
-    public override Primitive Skew(Vector2 delta)
+    public override PolyLine Skew(Vector2 delta)
     {
-        BoundingRectangle = Vertices.Skew(delta);
+        Vertices.Skew(delta);
         _updateLineSegments = true;
         return this;
     }

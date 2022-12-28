@@ -8,13 +8,9 @@ public class EllipseEqualityTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
-        new object[] { Ellipse.Create(0, 0, 1, 1, 0), Ellipse.Create(0, 0, 1, 1, 0), true },
-        new object[] { Ellipse.Create(0, 0, 1, 1, 0), Ellipse.Create(1, 1, 1, 1, 0), false },
-        new object[] { Ellipse.Create(0, 0, 1, 1, 0), Ellipse.Create(0, 0, 2, 2, 0), false },
-        new object[] { Ellipse.Create(0, 0, 1, 2, 0), Ellipse.Create(0, 0, 1, 2, 1), false },
-        new object[] { Ellipse.Create(0, 0, 1, 2, 0), null, false },
-        new object[] { null, Ellipse.Create(0, 0, 1, 2, 0), false },
-        new object[] { null, null, true }
+        new object[] { new Circle(0, 0, 1), new Circle(0, 0, 1), true },
+        new object[] { new Circle(0, 0, 1), new Circle(1, 1, 1), false },
+        new object[] { new Circle(0, 0, 1), new Circle(0, 0, 2), false },
     };
 
     public IEnumerator<object[]> GetEnumerator()

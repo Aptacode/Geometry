@@ -9,20 +9,6 @@ namespace Aptacode.Geometry.Tests;
 public class UnitTests
 {
     [Fact]
-    public void QuarticHasRealRoots_Test()
-    {
-        var q0 = 1;
-        var q1 = 1;
-        var q2 = 1;
-        var q3 = 1;
-        var q4 = 1;
-
-        var sut = EllipseExtensions.QuarticHasRealRoots(q0, q1, q2, q3, q4);
-
-        Assert.False(sut);
-    }
-
-    [Fact]
     public void Perp_Test()
     {
         var a = new Vector2(6, 12);

@@ -1,15 +1,22 @@
 ﻿using System.Numerics;
-using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Primitives;
-using Aptacode.Geometry.Tests.Collision.BoundingRectangleTestData;
 using Aptacode.Geometry.Tests.Collision.PointCollisionTestData;
 using Aptacode.Geometry.Tests.Collision.PrimitiveCollisionTestData;
 using Xunit;
+using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace Aptacode.Geometry.Tests.Collision;
 
 public class Collision_Tests
 {
+    private readonly ITestOutputHelper testOutputHelper;
+
+    public Collision_Tests(ITestOutputHelper testOutputHelper)
+    {
+        this.testOutputHelper = testOutputHelper;
+    }
+
     [Theory]
     [ClassData(typeof(PointPrimitiveCollisionTestDataGenerator))]
     [ClassData(typeof(EllipsePrimitiveCollisionTestDataGenerator))]
@@ -18,13 +25,13 @@ public class Collision_Tests
     public void PrimitiveCollidesWithPrimitive(Primitive p1, Primitive p2, bool collides)
     {
         //Arrange
-
+        testOutputHelper.WriteLine($"{p1} - {p2}: {collides}");
         //Act
         var collidesWithPrimitiveResult = p1.CollidesWithPrimitive(p2);
         var collidesWithResult = p2 switch
         {
             Point primitive => p1.CollidesWith(primitive),
-            Ellipse primitive => p1.CollidesWith(primitive),
+            Circle primitive => p1.CollidesWith(primitive),
             Polygon primitive => p1.CollidesWith(primitive),
             PolyLine primitive => p1.CollidesWith(primitive),
             _ => false
@@ -44,25 +51,10 @@ public class Collision_Tests
     public void PrimitiveCollidesWithVector2(Primitive p1, Vector2 p2, bool collides)
     {
         //Arrange
+        testOutputHelper.WriteLine($"{p1} - ({p2.X},{p2.Y}): {collides}");
 
         //Act
         var sut = p1.CollidesWith(p2);
-
-        //Assert
-        Assert.Equal(collides, sut);
-    }
-
-    [Theory]
-    [ClassData(typeof(PointBoundingRectangleCollisionTestDataGenerator))]
-    [ClassData(typeof(EllipseBoundingRectangleCollisionTestDataGenerator))]
-    [ClassData(typeof(PolygonBoundingRectangleCollisionTestDataGenerator))]
-    [ClassData(typeof(PolygonBoundingRectangleCollisionTestDataGenerator))]
-    public void PrimitiveCollidesWithBoundingRectangle(Primitive p1, BoundingRectangle rectangle, bool collides)
-    {
-        //Arrange
-
-        //Act
-        var sut = p1.CollidesWith(rectangle);
 
         //Assert
         Assert.Equal(collides, sut);

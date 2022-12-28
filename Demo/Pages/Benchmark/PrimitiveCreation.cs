@@ -13,7 +13,7 @@ public class PrimitiveCreation<T> : ProfileFunction where T : Primitive
         var type = typeof(T);
         _primitiveName = type.Name;
 
-        if (type == typeof(Ellipse))
+        if (type == typeof(Circle))
         {
             _createPrimitive = r => ProfileHelpers.CreateEllipse(r) as T;
         }

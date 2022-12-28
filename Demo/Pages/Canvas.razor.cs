@@ -38,11 +38,11 @@ public class CanvasBase : ComponentBase
             input = input.Replace(" ", "");
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
-            var ellipse = Ellipse.Create(parameters[0], parameters[1], parameters[2], parameters[3], parameters[4]);
+            var ellipse = new Circle(parameters[0], parameters[1], parameters[2]);
 
             CanvasRef.Ellipse(ellipse.Position.X, (int)ellipse.Position.Y,
-                ellipse.Radii.X,
-                ellipse.Radii.Y, ellipse.Rotation, 0, 2.0f * (float)Math.PI);
+                ellipse.Radius,
+                ellipse.Radius, 0, 0, 2.0f * (float)Math.PI);
         }
         else if (input.Contains("polygon"))
         {
@@ -50,7 +50,7 @@ public class CanvasBase : ComponentBase
             input = input.Replace(" ", "");
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
-            var polygon = Polygon.Create(parameters.ToArray());
+            var polygon = new Polygon(parameters.ToArray());
             var vertices = new Vector2[polygon.Vertices.Length];
             for (var i = 0; i < polygon.Vertices.Length; i++)
             {
@@ -65,7 +65,7 @@ public class CanvasBase : ComponentBase
             input = input.Replace(" ", "");
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
-            var polyline = PolyLine.Create(parameters.ToArray());
+            var polyline = new PolyLine(parameters.ToArray());
 
             var vertices = new Vector2[polyline.Vertices.Length];
             for (var i = 0; i < polyline.Vertices.Length; i++)
@@ -81,7 +81,7 @@ public class CanvasBase : ComponentBase
             input = input.Replace(" ", "");
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
-            var point = Point.Create(parameters[0], parameters[1]);
+            var point = new Point(parameters[0], parameters[1]);
 
             CanvasRef.Ellipse(point.Position.X, point.Position.Y,
                 1, 1, 0, 0, 2 * (float)Math.PI);

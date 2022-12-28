@@ -9,25 +9,10 @@ public class PolylinePrimitiveCollisionTestDataGenerator : IEnumerable<object[]>
 {
     private readonly List<object[]> _data = new()
     {
-        //Ellipse PolyLine
+        //Circle PolyLine
         new object[]
         {
-            Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f),
-            PolyLine.Create(new Vector2(4, 5), new Vector2(6, 5)), true
-        },
-        new object[]
-        {
-            Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f),
-            PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7)), true
-        },
-        new object[]
-        {
-            Ellipse.Create(new Vector2(5, 5), new Vector2(3, 2), 0.0f),
-            PolyLine.Create(new Vector2(3, 3), new Vector2(7, 7)), true
-        },
-        new object[]
-        {
-            Ellipse.Create(Vector2.Zero, Vector2.One, 0.0f), PolyLine.Create(new Vector2(2, 2), new Vector2(3, 3)),
+            new Circle(Vector2.Zero, 1), PolyLine.Create(new Vector2(2, 2), new Vector2(3, 3)),
             false
         },
 

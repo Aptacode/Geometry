@@ -14,41 +14,41 @@ public class PolygonVector2CollisionTestDataGenerator : IEnumerable<object[]>
         new object[] { Polygon.Rectangle.FromTwoPoints(Vector2.Zero, Vector2.One), new Vector2(2, 2), false },
         new object[] { Polygon.Rectangle.FromTwoPoints(new Vector2(10, 10), new Vector2(20, 20)), Vector2.Zero, false },
         new object[]
-            { Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), Vector2.Zero, false },
+            { new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), Vector2.Zero, false },
         new object[]
         {
-            Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(14, 15), false
+            new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(14, 15), false
         },
         new object[]
         {
-            Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(15, 15), true
+            new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(15, 15), true
         },
         new object[]
         {
-            Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(16, 15), true
+            new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(16, 15), true
         },
         new object[]
         {
-            Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(19, 15), true
+            new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(19, 15), true
         },
         new object[]
         {
-            Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(20, 15), true
+            new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(20, 15), true
         },
         new object[]
         {
-            Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(21, 15), false
+            new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(21, 15), false
         },
         new object[]
         {
-            Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(15, 9), false
+            new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(15, 9), false
         },
         new object[]
         {
-            Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(15, 10), true
+            new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(15, 10), true
         },
         new object[]
-            { Polygon.Create(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(15, 11), true }
+            { new Polygon(new Vector2(10, 10), new Vector2(20, 20), new Vector2(20, 10)), new Vector2(15, 11), true }
     };
 
     public IEnumerator<object[]> GetEnumerator()

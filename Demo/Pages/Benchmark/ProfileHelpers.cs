@@ -5,15 +5,15 @@ namespace Aptacode.Geometry.Demo.Pages.Benchmark;
 
 public static class ProfileHelpers
 {
-    public static Ellipse CreateEllipse(Random r)
+    public static Circle CreateEllipse(Random r)
     {
-        return Ellipse.Create(r.Next(), r.Next(), r.Next(), r.Next(), r.Next());
+        return new Circle(r.Next(), r.Next(), r.Next());
     }
 
 
     public static Point CreatePoint(Random r)
     {
-        return Point.Create(r.Next(), r.Next());
+        return new Point(r.Next(), r.Next());
     }
 
 
@@ -25,7 +25,7 @@ public static class ProfileHelpers
             points[i] = new Vector2(r.Next(), r.Next());
         }
 
-        return Polygon.Create(points);
+        return new Polygon(points);
     }
 
     public static PolyLine CreatePolyline(Random r)

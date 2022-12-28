@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Collision.Rectangles;
 using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
@@ -18,16 +16,27 @@ public sealed class Polygon : Primitive
     public Vector2[] Vertices { get; set; }
 
     #region IEquatable
-
-    public override bool Equals(Primitive? other)
+    public override Polygon Transform(Matrix3x2 matrix)
     {
-        return other != null && other is Polygon otherPolygon && Vertices.AreEqual(otherPolygon.Vertices);
+        for (int i = 0; i < Vertices.Length; i++)
+        {
+            Vertices[i] = Vector2.Transform(Vertices[i], matrix);
+        }
+        return this;
     }
 
-    public override int GetHashCode()
+    public override Polygon Copy()
     {
-        return ToString().GetHashCode();
+        var copy = new Vector2[Vertices.Length];
+        Vertices.CopyTo(copy, 0);
+        return new Polygon(copy);
     }
+
+    public override bool AreEqual(Primitive other)
+    {
+        return other != null && other is Polygon otherPolyline && Vertices.AreEqual(otherPolyline.Vertices);
+    }
+
 
     #endregion
 
@@ -49,6 +58,28 @@ public sealed class Polygon : Primitive
         }
     }
 
+    public override Vector2 GetCentroid()
+    {
+        float accumulatedArea = 0.0f;
+        float centerX = 0.0f;
+        float centerY = 0.0f;
+
+        Span<Vector2> verticesAsSpan = Vertices;
+        for (int i = 0, j = verticesAsSpan.Length - 1; i< verticesAsSpan.Length; j = i++)
+        {
+            float temp = verticesAsSpan[i].X * verticesAsSpan[j].Y - verticesAsSpan[j].X * verticesAsSpan[i].Y;
+            accumulatedArea += temp;
+            centerX += (verticesAsSpan[i].X + verticesAsSpan[j].X) * temp;
+            centerY += (verticesAsSpan[i].Y + verticesAsSpan[j].Y) * temp;
+        }
+
+        if (Math.Abs(accumulatedArea) < 1E-7f)
+            return Vector2.Zero;  // Avoid division by zero
+
+        accumulatedArea *= 3f;
+        return new Vector2(centerX / accumulatedArea, centerY / accumulatedArea);
+    }
+
     #endregion
 
     #region Collision Detection
@@ -63,7 +94,7 @@ public sealed class Polygon : Primitive
         return PrimitiveCollisionDetectionMethods.CollidesWith(p, this);
     }
 
-    public override bool CollidesWith(Ellipse p)
+    public override bool CollidesWith(Circle p)
     {
         return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
     }
@@ -71,11 +102,6 @@ public sealed class Polygon : Primitive
     public override bool CollidesWith(PolyLine p)
     {
         return PrimitiveCollisionDetectionMethods.CollidesWith(p, this);
-    }
-
-    public override bool CollidesWith(BoundingRectangle p)
-    {
-        return p.CollidesWith(this);
     }
 
     public override bool CollidesWith(Polygon p)
@@ -87,24 +113,16 @@ public sealed class Polygon : Primitive
 
     #region Construction
 
-    private Polygon(Vector2[] vertices, BoundingRectangle boundingRectangle) : base(boundingRectangle)
+    public Polygon(params Vector2[] vertices)
     {
         Vertices = vertices;
         _edges = new (Vector2 P1, Vector2 P2)[vertices.Length];
-    }
-
-    public static Polygon Create(params Vector2[] vertices)
+    }    
+    
+    public Polygon(params float[] vertices)
     {
-        var vertexArray = vertices.ToArray();
-        var boundingRectangle = vertexArray.ToBoundingRectangle();
-        return new Polygon(vertexArray, boundingRectangle);
-    }
-
-    public static Polygon Create(params float[] points)
-    {
-        var vertexArray = points.FromPoints();
-        var boundingRectangle = vertexArray.ToBoundingRectangle();
-        return new Polygon(vertexArray, boundingRectangle);
+        Vertices = vertices.FromPoints();
+        _edges = new (Vector2 P1, Vector2 P2)[vertices.Length];
     }
 
     public static class Rectangle
@@ -127,8 +145,8 @@ public sealed class Polygon : Primitive
                 maxY = a.Y;
             }
 
-            return Create(new Vector2(minX, minY), new Vector2(minX, maxY), new Vector2(maxX, maxY),
-                new Vector2(maxX, minY));
+            return new Polygon(new Vector2[] { new Vector2(minX, minY), new Vector2(minX, maxY), new Vector2(maxX, maxY),
+                new Vector2(maxX, minY) });
         }
     }
 
@@ -156,45 +174,46 @@ public sealed class Polygon : Primitive
         _edges[^1] = new ValueTuple<Vector2, Vector2>(lastVertex, Vertices[0]);
     }
 
-    public override Primitive Translate(Vector2 delta)
+    public override Polygon Translate(Vector2 delta)
     {
-        BoundingRectangle = Vertices.Translate(delta);
+        Vertices.Translate(delta);
         _updateEdges = true;
         return this;
     }
 
-    public override Primitive Rotate(float theta)
+    public override Polygon Rotate(float theta)
     {
-        var center = BoundingRectangle.Center;
-        BoundingRectangle = Vertices.Rotate(center, theta);
+        var center = GetCentroid();
+        Vertices.Rotate(center, theta);
         _updateEdges = true;
         return this;
     }
 
-    public override Primitive Rotate(Vector2 rotationCenter, float theta)
+    public override Polygon Rotate(Vector2 rotationCenter, float theta)
     {
-        BoundingRectangle = Vertices.Rotate(rotationCenter, theta);
+        Vertices.Rotate(rotationCenter, theta);
         _updateEdges = true;
         return this;
     }
 
-    public override Primitive ScaleAboutCenter(Vector2 delta)
+    public override Polygon ScaleAboutCenter(Vector2 delta)
     {
-        BoundingRectangle = Vertices.Scale(BoundingRectangle.Center, delta);
+        var center = GetCentroid();
+        Vertices.Scale(center, delta);
         _updateEdges = true;
         return this;
     }
 
-    public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
+    public override Polygon Scale(Vector2 scaleCenter, Vector2 delta)
     {
-        BoundingRectangle = Vertices.Scale(scaleCenter, delta);
+        Vertices.Scale(scaleCenter, delta);
         _updateEdges = true;
         return this;
     }
 
-    public override Primitive Skew(Vector2 delta)
+    public override Polygon Skew(Vector2 delta)
     {
-        BoundingRectangle = Vertices.Skew(delta);
+        Vertices.Skew(delta);
         _updateEdges = true;
         return this;
     }

@@ -19,12 +19,6 @@ public static class Vector2CollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this PolyLine p2, Vector2 p1)
     {
-        //Bounding rectangle early escape
-        if (!p2.BoundingRectangle.CollidesWith(p1))
-        {
-            return false;
-        }
-
         Span<(Vector2 P1, Vector2 P2)> lineSegmentsAsSpan = p2.LineSegments;
         for (var i = 0; i < lineSegmentsAsSpan.Length; i++)
         {
@@ -40,12 +34,6 @@ public static class Vector2CollisionDetectionMethods
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CollidesWith(this Polygon p2, Vector2 p1)
     {
-        //Bounding rectangle early escape
-        if (!p2.BoundingRectangle.CollidesWith(p1))
-        {
-            return false;
-        }
-
         var collision = false;
         var edges = p2.Edges;
         var point = p1;
@@ -71,27 +59,10 @@ public static class Vector2CollisionDetectionMethods
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool CollidesWith(this Ellipse p2, Vector2 p1)
+    public static bool CollidesWith(this Circle p2, Vector2 p1)
     {
-        //Bounding rectangle early escape
-        if (!p2.BoundingRectangle.CollidesWith(p1))
-        {
-            return false;
-        }
+        return (p2.Position - p1).Length() <= p2.Radius;
 
-        var f1dist = (p2.Foci.Item1 - p1).Length();
-        var f2dist = (p2.Foci.Item2 - p1).Length();
-        if (p2.Radii.X >= p2.Radii.Y) //X is the major axis
-        {
-            return f1dist + f2dist <= 2 * p2.Radii.X;
-        }
-
-        if (p2.Radii.Y > p2.Radii.X) //Y is the major axis
-        {
-            return f1dist + f2dist <= 2 * p2.Radii.Y;
-        }
-
-        return false;
     }
 
     #endregion

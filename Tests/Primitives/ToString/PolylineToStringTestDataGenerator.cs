@@ -9,7 +9,7 @@ public class PolylineToStringTestDataGenerator : IEnumerable<object[]>
     private readonly List<object[]> _data = new()
     {
         new object[] { PolyLine.Zero, "PolyLine (0,0), (0,0)" },
-        new object[] { PolyLine.Create(0, 0, 1, 1), "PolyLine (0,0), (1,1)" }
+        new object[] { new PolyLine(0, 0, 1, 1), "PolyLine (0,0), (1,1)" }
     };
 
     public IEnumerator<object[]> GetEnumerator()

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Aptacode.Geometry.Collision.Rectangles;
 
 namespace Aptacode.Geometry.Vertices;
 
@@ -218,12 +217,12 @@ public static class VertexArrayExtensions
         return clockwiseArray;
     }
 
-    public static BoundingRectangle ToBoundingRectangle(this Vector2[] vertexArray)
+    public static (float,float,float,float) ToBoundingRectangle(this Vector2[] vertexArray)
     {
         //Exit early if vertex array is empty
         if (vertexArray.Length == 0)
         {
-            return BoundingRectangle.Zero;
+            return (0, 0, 0, 0);
         }
 
         Span<Vector2> vertexArrayAsSpan = vertexArray;
@@ -261,16 +260,12 @@ public static class VertexArrayExtensions
             }
         }
 
-        return new BoundingRectangle
-        {
-            BottomLeft = new Vector2(minX, minY),
-            TopRight = new Vector2(maxX, maxY)
-        };
+        return new(minX, minY, maxX, maxY);
     }
 
     #region Transformation
 
-    public static BoundingRectangle Transform(this Vector2[] vertexArray, Matrix3x2 transformationMatrix)
+    public static void Transform(this Vector2[] vertexArray, Matrix3x2 transformationMatrix)
     {
         Span<Vector2> vertexArrayAsSpan = vertexArray;
 
@@ -278,88 +273,31 @@ public static class VertexArrayExtensions
         var first = vertexArrayAsSpan[0];
         vertexArray[0] = first = Vector2.Transform(first, transformationMatrix);
 
-        //Set min / max values to the first vertex
-        var minX = first.X;
-        var maxX = first.X;
-        var minY = first.Y;
-        var maxY = first.Y;
-
         for (var i = 1; i < vertexArray.Length; i++)
         {
             //Transform vertex
-            var vertex = Vector2.Transform(vertexArrayAsSpan[i], transformationMatrix);
-            vertexArrayAsSpan[i] = vertex;
-
-            //update min / max X values
-            if (vertex.X < minX)
-            {
-                minX = vertex.X;
-            }
-            else if (vertex.X > maxX)
-            {
-                maxX = vertex.X;
-            }
-
-            //update min / max Y values
-            if (vertex.Y < minY)
-            {
-                minY = vertex.Y;
-            }
-            else if (vertex.Y > maxY)
-            {
-                maxY = vertex.Y;
-            }
+            vertexArrayAsSpan[i] = Vector2.Transform(vertexArrayAsSpan[i], transformationMatrix);
         }
-
-        return new BoundingRectangle
-        {
-            BottomLeft = new Vector2(minX, minY),
-            TopRight = new Vector2(maxX, maxY)
-        };
     }
 
-    public static BoundingRectangle Translate(this Vector2[] vertexArray, Vector2 delta)
+    public static void Translate(this Vector2[] vertexArray, Vector2 delta)
     {
-        //Exit early if vertex array is empty
-        if (vertexArray.Length == 0)
-        {
-            return BoundingRectangle.Zero;
-        }
-
-        return Transform(vertexArray, Matrix3x2.CreateTranslation(delta));
+        Transform(vertexArray, Matrix3x2.CreateTranslation(delta));
     }
 
-    public static BoundingRectangle Rotate(this Vector2[] vertexArray, Vector2 rotationCenter, float theta)
+    public static void Rotate(this Vector2[] vertexArray, Vector2 rotationCenter, float theta)
     {
-        //Exit early if vertex array is empty
-        if (vertexArray.Length == 0)
-        {
-            return BoundingRectangle.Zero;
-        }
-
-        return Transform(vertexArray, Matrix3x2.CreateRotation(theta, rotationCenter));
+        Transform(vertexArray, Matrix3x2.CreateRotation(theta, rotationCenter));
     }
 
-    public static BoundingRectangle Scale(this Vector2[] vertexArray, Vector2 scaleCenter, Vector2 delta)
+    public static void Scale(this Vector2[] vertexArray, Vector2 scaleCenter, Vector2 delta)
     {
-        //Exit early if vertex array is empty
-        if (vertexArray.Length == 0)
-        {
-            return BoundingRectangle.Zero;
-        }
-
-        return Transform(vertexArray, Matrix3x2.CreateScale(delta, scaleCenter));
+        Transform(vertexArray, Matrix3x2.CreateScale(delta, scaleCenter));
     }
 
-    public static BoundingRectangle Skew(this Vector2[] vertexArray, Vector2 delta)
+    public static void Skew(this Vector2[] vertexArray, Vector2 delta)
     {
-        //Exit early if vertex array is empty
-        if (vertexArray.Length == 0)
-        {
-            return BoundingRectangle.Zero;
-        }
-
-        return Transform(vertexArray, new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0));
+        Transform(vertexArray, new Matrix3x2(1, delta.Y, delta.X, 1, 0, 0));
     }
 
 

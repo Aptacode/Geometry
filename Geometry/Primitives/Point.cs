@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using Aptacode.Geometry.Collision;
-using Aptacode.Geometry.Collision.Rectangles;
-using Aptacode.Geometry.Vertices;
 
 namespace Aptacode.Geometry.Primitives;
 
@@ -11,17 +9,25 @@ public sealed class Point : Primitive
     #region Properties
 
     public Vector2 Position { get; set; }
+    public override Vector2 GetCentroid()
+    {
+        return Position;
+    }
 
     #endregion
 
-    public override string ToString()
-    {
-        return $"Point ({Position.X},{Position.Y})";
-    }
-
+    public override string ToString() => $"Point ({Position.X},{Position.Y})";
     #region IEquatable
 
-    public override bool Equals(Primitive? other)
+    public override Point Transform(Matrix3x2 matrix)
+    {
+        Position = Vector2.Transform(Position, matrix);
+        return this;
+    }
+
+    public override Point Copy() => new(Position);
+
+    public override bool AreEqual(Primitive other)
     {
         if (other == null || other is not Point otherPoint)
         {
@@ -30,11 +36,6 @@ public sealed class Point : Primitive
 
         return Math.Abs(Position.X - otherPoint.Position.X) < Constants.Tolerance &&
                Math.Abs(Position.Y - otherPoint.Position.Y) < Constants.Tolerance;
-    }
-
-    public override int GetHashCode()
-    {
-        return ToString().GetHashCode();
     }
 
     #endregion
@@ -51,7 +52,7 @@ public sealed class Point : Primitive
         return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
     }
 
-    public override bool CollidesWith(Ellipse p)
+    public override bool CollidesWith(Circle p)
     {
         return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
     }
@@ -59,11 +60,6 @@ public sealed class Point : Primitive
     public override bool CollidesWith(PolyLine p)
     {
         return PrimitiveCollisionDetectionMethods.CollidesWith(this, p);
-    }
-
-    public override bool CollidesWith(BoundingRectangle p)
-    {
-        return p.CollidesWith(this);
     }
 
     public override bool CollidesWith(Polygon p)
@@ -75,60 +71,48 @@ public sealed class Point : Primitive
 
     #region Construction
 
-    private Point(Vector2 position, BoundingRectangle boundingRectangle) : base(boundingRectangle)
+    public Point(Vector2 position)
     {
         Position = position;
     }
-
-    public static Point Create(float x, float y)
+    public Point(float x, float y)
     {
-        return Create(new Vector2(x, y));
+        Position = new Vector2(x,y);
     }
 
-    public static Point Create(Vector2 position)
-    {
-        return new Point(position, new BoundingRectangle
-        {
-            BottomLeft = position,
-            TopRight = position
-        });
-    }
-
-    public override Primitive Translate(Vector2 delta)
+    public override Point Translate(Vector2 delta)
     {
         Position += delta;
-        BoundingRectangle = BoundingRectangle.Translate(delta);
         return this;
     }
 
-    public override Primitive Rotate(float theta)
+    public override Point Rotate(float theta)
     {
         return this;
     }
 
-    public override Primitive Rotate(Vector2 rotationCenter, float theta)
+    public override Point Rotate(Vector2 rotationCenter, float theta)
     {
         return this;
     }
 
-    public override Primitive ScaleAboutCenter(Vector2 delta)
+    public override Point ScaleAboutCenter(Vector2 delta)
     {
         return this;
     }
 
-    public override Primitive Scale(Vector2 scaleCenter, Vector2 delta)
+    public override Point Scale(Vector2 scaleCenter, Vector2 delta)
     {
         return this;
     }
 
-    public override Primitive Skew(Vector2 delta)
+    public override Point Skew(Vector2 delta)
     {
         return this;
     }
 
-
-    public static Point Zero => Create(Vector2.Zero);
-    public static Point Unit => Create(Vector2.One);
+    public static Point Zero => new(Vector2.Zero);
+    public static Point Unit => new(Vector2.One);
 
     #endregion
 }
