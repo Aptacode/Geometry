@@ -51,10 +51,12 @@ public class CanvasBase : ComponentBase
             var parameters = input.Split(",").Select(float.Parse).ToList();
 
             var polygon = new Polygon(parameters.ToArray());
-            var vertices = new Vector2[polygon.Vertices.Length];
+            var vertices = new double[polygon.Vertices.Length * 2];
+            var index = 0;
             for (var i = 0; i < polygon.Vertices.Length; i++)
             {
-                vertices[i] = polygon.Vertices[i];
+                vertices[index++] = polygon.Vertices[i].X;
+                vertices[index++] = polygon.Vertices[i].Y;
             }
 
             CanvasRef.Polygon(vertices);
@@ -67,10 +69,12 @@ public class CanvasBase : ComponentBase
 
             var polyline = new PolyLine(parameters.ToArray());
 
-            var vertices = new Vector2[polyline.Vertices.Length];
+            var vertices = new double[polyline.Vertices.Length*2];
+            var index = 0;
             for (var i = 0; i < polyline.Vertices.Length; i++)
             {
-                vertices[i] = polyline.Vertices[i];
+                vertices[index++] = polyline.Vertices[i].X;
+                vertices[index++] = polyline.Vertices[i].Y;
             }
 
             CanvasRef.PolyLine(vertices);

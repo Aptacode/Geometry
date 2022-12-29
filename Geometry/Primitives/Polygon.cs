@@ -40,7 +40,7 @@ public sealed class Polygon : Primitive
     {
         for(int i = 0; i < Vertices.Length; i++)
         {
-            destination.Vertices[i] = Vector2.Transform(destination.Vertices[i], matrix);
+            destination.Vertices[i] = Vector2.Transform(Vertices[i], matrix);
         }
 
         destination._updateEdges = true;
