@@ -42,7 +42,6 @@ public abstract class Primitive
     public abstract Primitive Rotate(Vector2 rotationCenter, float theta);
 
     public abstract Primitive ScaleAboutCenter(Vector2 delta);
-
     public abstract Primitive Scale(Vector2 scaleCenter, Vector2 delta);
     public abstract Primitive Skew(Vector2 delta);
 

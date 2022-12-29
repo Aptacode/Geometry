@@ -31,6 +31,20 @@ public sealed class Polygon : Primitive
         Vertices.CopyTo(copy, 0);
         return new Polygon(copy);
     }
+    public void CopyTo(Polygon destination)
+    {
+        Vertices.CopyTo(destination.Vertices, 0);
+        _updateEdges = true;
+    }
+    public void CopyAndTransformTo(Polygon destination, Matrix3x2 matrix)
+    {
+        for(int i = 0; i < Vertices.Length; i++)
+        {
+            destination.Vertices[i] = Vector2.Transform(destination.Vertices[i], matrix);
+        }
+
+        _updateEdges = true;
+    }
 
     public override bool AreEqual(Primitive other)
     {

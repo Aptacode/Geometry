@@ -19,7 +19,7 @@ public sealed class PolyLine : Primitive
     #region IEquatable
 
 
-    public override Primitive Transform(Matrix3x2 matrix)
+    public override PolyLine Transform(Matrix3x2 matrix)
     {
         for(int i = 0; i < Vertices.Length; i++)
         {
@@ -28,11 +28,26 @@ public sealed class PolyLine : Primitive
         return this;
     }
 
-    public override Primitive Copy()
+    public override PolyLine Copy()
     {
         var copy = new Vector2[Vertices.Length];
         Vertices.CopyTo(copy,0);
         return new PolyLine(copy);
+    }
+
+    public void CopyTo(Polygon destination)
+    {
+        Vertices.CopyTo(destination.Vertices, 0);
+        _updateLineSegments = true;
+    }
+    public void CopyAndTransformTo(Polygon destination, Matrix3x2 matrix)
+    {
+        for (int i = 0; i < Vertices.Length; i++)
+        {
+            destination.Vertices[i] = Vector2.Transform(destination.Vertices[i], matrix);
+        }
+
+        _updateLineSegments = true;
     }
 
     public override bool AreEqual(Primitive other)

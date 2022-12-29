@@ -8,8 +8,8 @@ public sealed class Circle : Primitive
 {
     #region Properties
 
-    public float Radius { get; }
-    public Vector2 Position { get; set; }
+    public float Radius { get; protected set; }
+    public Vector2 Position { get; protected set; }
     public override Vector2 GetCentroid() => Position;
 
     #endregion
@@ -27,8 +27,8 @@ public sealed class Circle : Primitive
         Radius = radius;
     }
 
-    public static Circle Zero => new Circle(Vector2.Zero, 0.0f);
-    public static Circle Unit => new Circle(Vector2.Zero, 1.0f);
+    public static Circle Zero => new(Vector2.Zero, 0.0f);
+    public static Circle Unit => new(Vector2.Zero, 1.0f);
 
     #endregion
     public override string ToString()
@@ -111,6 +111,12 @@ public sealed class Circle : Primitive
     public override Circle Copy()
     {
         return new Circle(Position, Radius);
+    }
+
+    public void CopyTo(Circle destination)
+    {
+        destination.Position = Position;
+        destination.Radius = Radius;
     }
 
     public override bool AreEqual(Primitive other)

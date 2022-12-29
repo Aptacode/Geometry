@@ -26,6 +26,10 @@ public sealed class Point : Primitive
     }
 
     public override Point Copy() => new(Position);
+    public void CopyTo(Point destination)
+    {
+        destination.Position = Position;
+    }
 
     public override bool AreEqual(Primitive other)
     {
