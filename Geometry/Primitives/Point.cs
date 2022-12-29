@@ -30,6 +30,10 @@ public sealed class Point : Primitive
     {
         destination.Position = Position;
     }
+    public void CopyAndTransformTo(Point destination, Matrix3x2 matrix)
+    {
+        destination.Position = Vector2.Transform(Position, matrix);
+    }
 
     public override bool AreEqual(Primitive other)
     {

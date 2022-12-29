@@ -34,7 +34,7 @@ public sealed class Polygon : Primitive
     public void CopyTo(Polygon destination)
     {
         Vertices.CopyTo(destination.Vertices, 0);
-        _updateEdges = true;
+        destination._updateEdges = true;
     }
     public void CopyAndTransformTo(Polygon destination, Matrix3x2 matrix)
     {
@@ -43,14 +43,13 @@ public sealed class Polygon : Primitive
             destination.Vertices[i] = Vector2.Transform(destination.Vertices[i], matrix);
         }
 
-        _updateEdges = true;
+        destination._updateEdges = true;
     }
 
     public override bool AreEqual(Primitive other)
     {
         return other != null && other is Polygon otherPolyline && Vertices.AreEqual(otherPolyline.Vertices);
     }
-
 
     #endregion
 

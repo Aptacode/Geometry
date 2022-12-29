@@ -35,19 +35,19 @@ public sealed class PolyLine : Primitive
         return new PolyLine(copy);
     }
 
-    public void CopyTo(Polygon destination)
+    public void CopyTo(PolyLine destination)
     {
         Vertices.CopyTo(destination.Vertices, 0);
-        _updateLineSegments = true;
+        destination._updateLineSegments = true;
     }
-    public void CopyAndTransformTo(Polygon destination, Matrix3x2 matrix)
+    public void CopyAndTransformTo(PolyLine destination, Matrix3x2 matrix)
     {
         for (int i = 0; i < Vertices.Length; i++)
         {
             destination.Vertices[i] = Vector2.Transform(destination.Vertices[i], matrix);
         }
 
-        _updateLineSegments = true;
+        destination._updateLineSegments = true;
     }
 
     public override bool AreEqual(Primitive other)

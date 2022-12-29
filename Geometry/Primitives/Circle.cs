@@ -118,6 +118,11 @@ public sealed class Circle : Primitive
         destination.Position = Position;
         destination.Radius = Radius;
     }
+    public void CopyAndTransformTo(Circle destination, Matrix3x2 matrix)
+    {
+        destination.Position = Vector2.Transform(Position, matrix);
+        destination.Radius = Radius;
+    }
 
     public override bool AreEqual(Primitive other)
     {
