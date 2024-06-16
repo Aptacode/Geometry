@@ -1,3 +1,6 @@
+
+### This library is currently being improved and ported over to [DsaDotnet](https://github.com/Timmoth/DsaDotnet) If you would like to get involved please reach out! 
+
 <p align="center">
    <div style="width:640;height:320">
        <img style="width: inherit" src="https://raw.githubusercontent.com/Aptacode/Geometry/main/Resources/Images/Banner.png">
@@ -12,7 +15,3 @@
 ![last commit](https://img.shields.io/github/last-commit/Aptacode/Geometry?style=flat&cacheSeconds=86000&color=brightgreen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
-
-# Geometry
-
-## Getting Started
